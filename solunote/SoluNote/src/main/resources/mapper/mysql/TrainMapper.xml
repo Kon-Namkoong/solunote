@@ -356,7 +356,7 @@
       	WHERE model_id = #{modelId}
     </select>
 
-	<insert id="insertTrainServerData" parameterType="com.vol.solunote.batch.train.vo.TrainServerDataVo">
+	<insert id="insertTrainServerData" parameterType="com.vol.solunote.model.vo.train.TrainServerDataVo">
         insert TB_CS_TRAIN_SERVER (
         	data_id
         	, test_yn
@@ -376,7 +376,7 @@
         delete from TB_CS_TRAIN_SERVER
     </delete>
     
-    <select id="selectTrainServerData" parameterType="com.vol.solunote.batch.train.vo.TrainServerDataVo" resultType="com.vol.solunote.batch.train.vo.TrainServerDataVo">
+    <select id="selectTrainServerData" parameterType="com.vol.solunote.model.vo.train.TrainServerDataVo" resultType="com.vol.solunote.model.vo.train.TrainServerDataVo">
         select 
         	data_id as dataId
         	, test_yn as testYn
@@ -429,7 +429,7 @@
         where data_id = #{dataId}
     </delete>
     
-   <select id="readTrainServerAndTrans" resultType="com.vol.solunote.batch.train.vo.TrainCompareVo">
+   <select id="readTrainServerAndTrans" resultType="com.vol.solunote.model.vo.train.TrainCompareVo">
 		select
                 s.data_id as dataId
                 , s.test_yn as testYn
@@ -447,7 +447,7 @@
         order by s.data_id
     </select>
     
-    <update id="updateTransServerMode" parameterType="com.vol.solunote.batch.train.vo.TrainCompareVo">
+    <update id="updateTransServerMode" parameterType="com.vol.solunote.model.vo.train.TrainCompareVo">
     	update TB_CS_TRAIN_SERVER
     	set t_use_yn = #{tUseYn}
     		, t_duration = #{tDuration}
@@ -457,7 +457,7 @@
 		WHERE data_id = #{dataId}
     </update>
     
-     <select id="readTrainServerNoneExists" resultType="com.vol.solunote.batch.train.vo.TrainCompareVo">
+     <select id="readTrainServerNoneExists" resultType="com.vol.solunote.model.vo.train.TrainCompareVo">
 		select
                 s.data_id as dataId
                 , s.test_yn as testYn
@@ -475,7 +475,7 @@
         order by s.data_id
     </select>
         
-   <select id="readTrainServerAndTestTrans" resultType="com.vol.solunote.batch.train.vo.TrainCompareVo">
+   <select id="readTrainServerAndTestTrans" resultType="com.vol.solunote.model.vo.train.TrainCompareVo">
 		select
                 s.data_id as dataId
                 , s.test_yn as testYn

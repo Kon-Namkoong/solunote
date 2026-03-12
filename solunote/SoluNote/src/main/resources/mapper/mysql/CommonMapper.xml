@@ -3,9 +3,9 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.vol.solunote.comm.mapper.CommonMapper">
+<mapper namespace="com.vol.solunote.mapper.comm.CommonMapper">
     
-    <resultMap id="domainInfo" type="com.vol.solunote.comm.vo.DomainVo">
+    <resultMap id="domainInfo" type="com.vol.solunote.model.vo.comm.DomainVo">
 	    <result property="seq" column="SEQ" javaType="int" />
 	    <result property="domainCode" column="TC_DOMAIN_CODE" javaType="java.lang.String" />
 	    <result property="domainName" column="TC_DOMAIN_NAME" javaType="java.lang.String" />
@@ -69,7 +69,5 @@
 		<if test='offsetPageable != null and getlist == 1 ' >
        		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
         </if>
-    </select>
-
-       
+    </select>      
 </mapper>

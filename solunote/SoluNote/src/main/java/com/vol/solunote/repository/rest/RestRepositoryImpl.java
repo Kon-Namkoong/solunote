@@ -11,6 +11,7 @@ import com.vol.solunote.model.vo.rest.RestUserVo;
 import com.vol.solunote.model.vo.rest.STTResultVo;
 
 import org.springframework.stereotype.Repository;
+
 @Repository
 public class RestRepositoryImpl implements RestRepository {
 
