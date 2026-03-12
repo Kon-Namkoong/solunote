@@ -1,0 +1,13 @@
+<div id="summary3">
+    <ul th:each="block : ${summary.blocks}">
+        <h3 class="sum_title">
+            <span class="sum_time btm_grp_summary editable" contenteditable="true" spellcheck="false" th:text="${block['time']}">00:00~03:11</span>
+            <div class="sum_subject btm_grp_summary editable" contenteditable="true" spellcheck="false" th:text="${block['subject']}"></div>
+        </h3>
+        <!-- 세부내용 리스트 출력 -->
+        <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+            <li class="more-than-one" th:each="detail : ${block['detailed']}" th:text="${detail}">세부내용</li>
+        </div>
+    </ul>
+</div>
+ 

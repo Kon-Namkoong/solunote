@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vol.solunote.mapper.tts.TtsMapper">
+    <insert id ="saveAudio" parameterType="Map" useGeneratedKeys="true" keyProperty="SEQ">
+    	INSERT INTO TB_CS_TTS_KEYWORD (
+    	keyword_text,
+    	keyword_sound,
+    	keyword_detail,
+    	tts_text,
+    	tts_pronounce,
+    	time_duration_ms,
+    	file_org_nm,
+    	file_new_nm,
+    	file_size_bytes,
+    	TC_USER_SEQ 	
+    	) VALUES (
+		#{keyword},
+		#{speech},
+		#{detail},
+		#{keywordText},
+		#{pronounceText},
+		#{timeDurationStr},
+		#{orgnm},
+		#{newnm},
+		#{fileSizeBytes},
+		#{tcUserSeq}		
+    	)
+    </insert>    
+    <insert id ="crateTitle" parameterType="Map" useGeneratedKeys="true" keyProperty="SEQ">
+    	INSERT INTO TB_CS_TTS (
+		subject,
+    	TC_USER_SEQ 	
+    	) VALUES (
+		#{title},
+		#{tcUserSeq}		
+    	)
+    </insert>     
+    <update id="updateAudio" parameterType="Map"   > 
+        UPDATE TB_CS_TTS_KEYWORD
+        SET tts_seq = #{titleSeq}
+		WHERE SEQ = #{seq}
+    </update>  
+    <select id="getAudioInfo" parameterType="Map" resultType="Map">
+		select 
+        	SEQ as seq
+        	, tts_seq as  ttsSeq
+        	, keyword_text	as keywordText
+        	, keyword_sound	as keywordSound
+        	, tts_text		as ttsText
+        	, time_duration_ms	as timeDurationMs
+        	, TC_USER_SEQ		as tcUserSeq
+        	, file_new_nm		as newnm
+        	, status		
+        from TB_CS_TTS_KEYWORD
+        where SEQ = #{seq}
+    </select> 
+    <update id="updateTts" parameterType="Map">
+        update TB_CS_TTS_KEYWORD 
+		<set>
+        	<if test='sttStartedAt != null'>
+        		, stt_started_at = #{sttStartedAt}
+        	</if>
+        	<if test='sttDuration != null'>
+        		, stt_duration = #{sttDuration}
+        	</if>
+        	<if test='errorMessage != null'>
+        		, error_message = #{errorMessage}
+        	</if>
+        	<if test='reliability != null'>
+        		, reliability = #{reliability}
+        	</if>
+        	<if test='channelCount != null'>
+        		, channel_count = #{channelCount}
+        	</if>
+        	<if test='fileStereoPrefix != null'>
+        		, file_stereo_prefix = #{fileStereoPrefix}
+        	</if>
+		</set>
+        where seq = #{seq}
+    </update>   
+	<select id="getList" resultType="Map">
+	    SELECT 
+	        ss.SEQ AS seq,
+	        ss.subject,
+	        DATE_FORMAT(ss.created_at, '%Y-%m-%d %H:%i') AS createdAt,
+	        DATE_FORMAT(ss.updated_at, '%Y-%m-%d %H:%i') AS updatedAt,
+	        DATE_FORMAT(ss.deleted_at, '%Y-%m-%d %H:%i') AS deletedAt,
+	        DATE_FORMAT(ss.trashed_at, '%Y-%m-%d %H:%i') AS trashedAt,
+	        ss.click_least_once AS clickLeastOnce,
+	        (
+	            SELECT COUNT(s.SEQ)
+	            FROM TB_CS_TTS s 
+	            WHERE s.seq > 0
+	            AND s.created_at BETWEEN STR_TO_DATE(#{searchStartDate}, '%Y-%m-%d') AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY)
+	            <if test='activeMenu == 1'>
+	                AND s.deleted_at IS NULL AND s.trashed_at IS NULL
+	            </if>
+	            <if test='activeMenu == 4'>
+	                AND s.deleted_at IS NULL AND s.trashed_at IS NOT NULL
+	            </if>
+	            <if test='keyword != null and keyword != ""'>
+	                AND (s.subject LIKE CONCAT('%', #{keyword}, '%'))
+	            </if>      
+				<if test='seq != null'>
+					AND s.seq = #{seq}
+				</if>	              
+	        ) AS hiddenCount,
+	        (
+	            SELECT SUM(ctk.time_duration_ms)
+	            FROM TB_CS_TTS_KEYWORD ctk
+	            WHERE ctk.tts_seq = ss.seq  
+	        ) AS timeDurationFormatted,
+	        (
+	            SELECT AVG(ctk.reliability)
+	            FROM TB_CS_TTS_KEYWORD ctk
+	            WHERE ctk.tts_seq = ss.seq  
+	        ) AS reliability,
+	        (
+	            SELECT COUNT(*)
+	            FROM TB_CS_TRANSCRIPTION ctr
+	            JOIN TB_CS_TTS_KEYWORD ctk ON ctr.tts_seq = ctk.SEQ
+	            WHERE ctr.train_text IS NOT NULL 
+	            AND ctr.train_text != ''
+	            AND ctk.tts_seq = ss.seq 
+	        ) AS trainTextCount    	    
+	    FROM 
+	        TB_CS_TTS ss
+	    WHERE 
+	        ss.seq > 0
+	    AND ss.created_at BETWEEN STR_TO_DATE(#{searchStartDate}, '%Y-%m-%d') AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY)
+	    <if test='activeMenu == 1'>
+	        AND ss.deleted_at IS NULL AND ss.trashed_at IS NULL
+	    </if>
+	    <if test='activeMenu == 4'>
+	        AND ss.deleted_at IS NULL AND ss.trashed_at IS NOT NULL
+	    </if>
+	    <if test='keyword != null and keyword != ""'>
+	        AND (ss.subject LIKE CONCAT('%', #{keyword}, '%'))
+	    </if>
+		<if test='seq != null'>
+			AND ss.seq = #{seq}
+		</if>	    			    
+	    ORDER BY 
+	        ss.created_at DESC
+	    <if test='offsetPageable != null'>
+	        LIMIT #{offsetPageable.offset}, #{offsetPageable.pageSize}
+	    </if>		        
+	</select>  
+    <update id="clickLeastOnce" >
+    	update TB_CS_TTS
+    	set click_least_once = 1
+    	where seq = #{seq}
+    </update>
+    <select id="searchList" resultType="Map">
+	    SELECT 
+			SEQ AS seq
+			,keyword_text AS keywordText
+			,tts_text AS ttsText
+			,file_new_nm AS newnm
+		FROM TB_CS_TTS_KEYWORD
+		WHERE tts_seq = #{seq}
+    </select>
+	<update id="updateTtsList" >
+	    UPDATE TB_CS_TTS
+	    <set>
+	        <if test="type == 'trash'">
+	            trashed_at = CURRENT_TIMESTAMP
+	        </if>
+	        <if test="type == 'rollback'">
+	            trashed_at = NULL
+	        </if>
+	        <if test="type == 'delete'">
+	            deleted_at = CURRENT_TIMESTAMP
+	        </if>
+	    </set>
+	    WHERE seq = #{seq}
+	</update>   
+	<update id="updateKeywordDate" >
+		UPDATE TB_CS_TTS_KEYWORD
+	    <set>
+	        <if test="type == 'trash'">
+	            trashed_at = CURRENT_TIMESTAMP
+	        </if>
+	        <if test="type == 'rollback'">
+	            trashed_at = NULL
+	        </if>
+	        <if test="type == 'delete'">
+	            deleted_at = CURRENT_TIMESTAMP
+	        </if>
+	    </set>
+		WHERE SEQ in
+		 <foreach collection="keywordSeq" item="item" index="index" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+    </update>	                            
+</mapper>

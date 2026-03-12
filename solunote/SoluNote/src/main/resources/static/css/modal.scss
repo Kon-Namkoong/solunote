@@ -1,0 +1,960 @@
+.modal_wrap {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: none;
+
+	&.active {
+		display: block;
+
+	}
+
+	.inner_grid {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 999;
+	}
+
+	.modal_bx {
+		z-index: 1000;
+		width: 600px;
+		padding: 30px;
+		background: #fff;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		box-shadow: 5px 5px 10px #00000029;
+		border-radius: 20px;
+
+		&.cm {
+			width: 400px;
+
+		}
+
+		&.recordMode {
+
+			.btn_grid {
+				button.fn_upld {
+					display: none;
+
+				}
+			}
+
+			.itrc_grp {
+
+
+				.innerGuide {
+					$xs: 60px;
+
+					transform: translateX(-100%); // SCSS 변수로 translateX 적용
+					transition: all ease .6s;
+
+
+					.upload_grid,
+					.lang_select {
+						padding: 20px 0;
+						height: 100px;
+						transition: all ease .3s;
+						opacity: 0;
+
+					}
+
+				}
+
+			}
+
+
+			.lang_select {
+				height: 0;
+				padding: 0;
+				transition: all ease .6s;
+				opacity: 0;
+
+			}
+
+
+
+
+			&.recordStart {
+
+				.record_time,
+				.record_utilbx {
+					display: flex;
+
+				}
+
+				.rectxt#rectxt {
+					&:before {
+						display: inline-block;
+						content: "";
+						width: 10px;
+						height: 10px;
+						background: #ff0000;
+						border-radius: 50%;
+						margin-right: 2px;
+						top: -2px;
+						animation: recpulse 1.3s infinite alternate;
+						transform-origin: center;
+
+					}
+
+					@keyframes recpulse {
+						0% {
+							transform: scale(0.6);
+							/* 5px 크기 */
+						}
+
+						100% {
+							transform: scale(0.8);
+							/* 12px 크기 */
+						}
+					}
+
+
+
+				}
+
+			}
+
+			&.recordPause {
+				.rectxt#rectxt {
+					&:before {
+						content: "";
+						width: 3px;
+						/* 폭 좁게 조정 */
+						height: 10px;
+						/* 원래 높이 */
+						background: #000;
+						border-radius: 0;
+						/* 둥근 모서리 제거 */
+						transform: none;
+						/* 확대 축소 제거 */
+						margin-right: 12px;
+						animation: none;
+						/* 애니메이션 중지 */
+						display: inline-block;
+						box-shadow: 6px 0 0 0 #000;
+						transition: all ease .3s;
+					}
+
+
+
+
+				}
+
+
+
+			}
+
+			&.recordUploading,
+			&.recordSaving,
+			&.recordSaveEnd {
+				.contbx {
+
+					.record_bx {
+						display: none;
+
+					}
+
+				}
+
+
+			}
+
+			&.recordSaveEnd {
+				.contbx {
+
+					.record_save.active {
+						height: 50px;
+
+					}
+
+				}
+
+			}
+
+		}
+
+
+
+		.hds {
+			position: relative;
+			min-height: 24px;
+
+			.tit {
+				letter-spacing: 0px;
+				color: #000000;
+				font-size: 20px;
+				font-weight: bold;
+				line-height: 24px;
+			}
+
+		}
+
+		.clsbtn {
+			width: 24px;
+			height: 24px;
+			background: url(../images/cls.svg);
+			position: absolute;
+			right: 0;
+			top: 0;
+			z-index: 99;
+
+		}
+
+		.contbx {
+			margin-top: 20px;
+
+
+			p.desc {
+				line-height: 24px;
+				font-size: 14px;
+				color: #333;
+
+			}
+
+
+
+			.lang_select {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+
+				.guide_text {
+					font-size: 14px;
+					color: #555;
+				}
+
+				.sle_grid {
+					display: inline-flex;
+					align-items: center;
+
+					span {
+						font-size: 14px;
+						color: #555;
+
+						&+.sel_bx {
+							margin-left: 10px;
+						}
+					}
+
+					.sel_bx {
+						position: relative;
+
+						&:after {
+							content: "";
+							background: url(../images/down_arrow.svg);
+							position: absolute;
+							width: 16px;
+							top: 50%;
+							margin-top: -8px;
+							right: 8px;
+							height: 16px;
+							z-index: 1;
+						}
+
+
+						select {
+							min-width: 100px;
+							height: 30px;
+							line-height: 30px;
+							border: 1px solid #E0E0E0;
+							border-radius: 4px;
+							padding: 0 10px;
+							-webkit-appearance: none;
+							-moz-appearance: none;
+							appearance: none;
+
+							option {
+								font-size: 14px;
+								color: #555;
+
+
+							}
+
+
+						}
+
+
+
+
+
+					}
+
+
+				}
+
+
+
+
+
+			}
+
+			.itrc_grp {
+				overflow: hidden;
+				margin-top: 10px;
+
+				.innerGuide {
+					flex-direction: row;
+					display: flex;
+
+					&.recordMode {
+						transform: translateX(- calc(100% - 30px));
+
+					}
+
+
+				}
+
+
+			}
+
+
+			.upload_grid {
+				width: 100%;
+				background: #F2F4F7;
+				padding: 100px 0 50px 0;
+				border-radius: 10px;
+				position: relative;
+				text-align: center;
+				border: 2px solid transparent;
+				min-width: 540px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				&.dragover {
+					border: 2px solid #333;
+					box-sizing: border-box;
+
+
+				}
+
+				&.dropUploading,
+				&.clickUploading {
+					border: 2px solid #333;
+					padding-top: 50px;
+
+					p {
+						margin-top: 0;
+						color: #333;
+					}
+
+					//파일업로드중일경우 실시간 녹음 관련 UI숨김
+					button.uploadx,
+					button.fn_rcrd button.mic_setup {
+						display: none;
+
+					}
+
+
+				}
+
+
+
+				&+.btn_grid {
+					margin-top: 14px;
+
+				}
+
+				p {
+					text-align: center;
+					margin-top: 20px;
+					font-size: 12px;
+					color: #555;
+					line-height: 18px;
+				}
+
+
+				button.uploadx {
+					content: "";
+					position: absolute;
+					top: 50px;
+					left: 50%;
+					transform: translateX(-50%);
+					width: 50px;
+					height: 50px;
+					background: url(../images/upload.svg) no-repeat;
+					background-size: 100%;
+					cursor: pointer;
+
+					.circle {
+						position: absolute;
+						width: 50px;
+						height: 50px;
+						top: 0px;
+						left: 0px;
+						border-radius: 50%;
+						border: 2px solid transparent;
+						border-top-color: #0046FD;
+						opacity: 0;
+
+					}
+
+					@keyframes drawLine {
+						from {
+							transform: rotate(0deg);
+						}
+
+						to {
+							transform: rotate(360deg);
+						}
+					}
+
+					&:before {
+						content: "+";
+						position: absolute;
+						top: 50%;
+						width: 30px;
+						height: 30px;
+						left: 50%;
+						font-size: 40px;
+						line-height: 30px;
+						color: #0046FD;
+						opacity: 0;
+						transform: translate(-50%, -60%);
+
+					}
+
+
+					&:hover {
+						.circle {
+							opacity: 1;
+							//animation: drawCircle 2s linear forwards;
+							animation: drawLine 2s linear infinite;
+
+						}
+
+						// &:before {
+						// 	opacity: 1;
+						// 	transition: all ease .2s;
+						// }
+
+					}
+
+				}
+
+				input.upload-x {
+					display: none;
+
+				}
+
+
+			}
+
+			.record_grid,
+			.cmx_grid {
+
+				background: #F2F4F7;
+				min-width: 540px;
+				border-radius: 10px;
+				width: calc(100% + 60px);
+
+				.loader {
+					margin-bottom: 30px;
+
+				}
+
+
+				.record_bx {
+					display: flex;
+					width: 100%;
+					align-items: center;
+					padding: 10px 10px;
+
+					.toggleBtn {
+						flex: 1;
+						max-width: 40px;
+						height: 40px;
+						width: 40px;
+						background-image: url(../images/rec_icon.svg);
+						background-size: 40px;
+						background-position: center;
+						background-repeat: no-repeat;
+						cursor: pointer;
+
+						&.init {
+							background-image: url(../images/pause_icon.svg);
+
+						}
+
+						&.pause {
+							background-image: url(../images/rec_icon.svg);
+
+
+						}
+					}
+
+					.grpUi {
+						flex: 1;
+						padding: 0 0px 0 20px;
+						height: 100px;
+						overflow: hidden;
+						position: relative;
+
+
+						&:before {
+
+							content: '';
+							position: absolute;
+							top: 0;
+							left: 0;
+							width: 100%;
+							height: 100%;
+							background: linear-gradient(to right, rgba(242, 244, 247, 1), rgba(242, 244, 247, 0) 20%, rgba(242, 244, 247, 0) 70%, rgba(242, 244, 247, 1));
+							z-index: 2;
+
+						}
+
+
+
+						canvas {
+							position: relative;
+							width: 100%;
+
+
+
+
+						}
+
+
+					}
+
+
+
+				}
+
+				input#recsavetoMypc {
+					display: none;
+
+					&.active {
+
+						display: block;
+						border: 0;
+						height: 40px;
+						width: 260px;
+						border-radius: 4px;
+						border: 1px solid #333;
+						margin-bottom: 30px;
+						padding: 0 10px;
+						text-align: center;
+						margin-top: 5px;
+
+					}
+
+
+
+
+				}
+
+
+				.cm_loading {
+					align-items: center;
+					justify-content: center;
+					flex-direction: column;
+					padding: 50px 0;
+					&.active {
+						display: flex;
+						height: 300px;
+						width: 100%;
+
+					}
+					.loader {
+						margin: auto;
+						display: flex;
+
+					}
+
+					.cmMsgbx {
+						margin-top: 20px;
+						color: #555;
+						font-size: 14px;
+						line-height: 24px;
+						text-align: center;
+
+						span {
+							font-weight: bold;
+							font-size: 16px;
+						}
+
+					}
+
+
+				}
+
+
+
+
+
+				.record_save {
+					display: none;
+					align-items: center;
+					justify-content: center;
+					flex-direction: column;
+					padding: 50px 0;
+
+
+					&.active {
+						display: flex;
+						height: 300px;
+						width: 100%;
+
+					}
+
+					.savingTime,
+					.uploadMmsgbx {
+						color: #555;
+						font-size: 14px;
+						line-height: 24px;
+						text-align: center;
+
+						span {
+							font-weight: bold;
+							font-size: 16px;
+						}
+					}
+
+					.savingPcBtn {
+						display: none;
+
+						&:before {
+							display: none;
+
+						}
+
+						&.active {
+							display: block;
+
+						}
+
+					}
+
+
+
+				}
+
+			}
+
+
+
+
+
+		}
+
+		.cmBtngrid {
+			margin-top: 30px;
+			display: flex;
+			justify-content: flex-end;
+
+		}
+
+		.btn_grid {
+			margin-top: 14px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+
+		}
+
+		button.mdBtn {
+			padding: 8px 12px;
+			font-size: 14px;
+			color: #555;
+			border: 1px solid #D2D2D2;
+			border-radius: 4px;
+			display: flex;
+			align-items: center;
+			background: #fff;
+
+			&.cm {
+				&:before {
+					display: none;
+
+				}
+
+				&.postive {
+					background: #0080bc;
+					color: #fff;
+					border-color: #0080bc;
+
+					&:hover {
+						border-color: #0080bc;
+
+					}
+
+				}
+
+
+
+				&+button {
+					margin-left: 5px;
+
+				}
+
+			}
+
+
+
+			&:hover {
+				transition: all ease .3s;
+				border: 1px solid #333;
+
+
+			}
+
+			&+button {
+				margin-left: 10px;
+
+			}
+
+			&:before {
+				display: inline-block;
+				content: "";
+				width: 16px;
+				height: 16px;
+				margin-right: 10px;
+				background-position: center;
+				background-size: 100%;
+				background-repeat: no-repeat;
+				z-index: 1;
+
+			}
+
+
+			&.fn_upld:before {
+				background-image: url(../images/source_upload_icon.svg);
+			}
+
+			&.fn_rcrd:before {
+				background-image: url(../images/source_voice_icon.svg);
+
+
+			}
+
+			&.fn_rcrd {
+				span {
+					position: relative;
+
+					z-index: 1;
+				}
+
+				&.recordReady {
+					position: relative;
+
+					&:after {
+						position: absolute;
+						top: 0;
+						left: 0;
+						width: 0;
+						height: 100%;
+						content: "";
+						background: #0046FD;
+
+
+					}
+
+
+					&:hover {
+						color: #fff;
+						border: 1px solid #0046FD;
+						transition: all ease .3s;
+						z-index: 1;
+
+						&:before {
+
+							filter: invert(1) sepia(1) saturate(5) hue-rotate(180deg);
+							/* 필터를 통해 색상 조정 */
+
+						}
+
+
+						&:after {
+							transition: all ease .3s;
+							width: 100%;
+							z-index: 0;
+
+						}
+					}
+
+
+					&.recordStart {
+						display: none;
+
+					}
+
+
+				}
+			}
+
+
+
+		}
+
+		button.mic_setup {
+
+			font-size: 14px;
+			color: #555;
+			display: flex;
+			align-items: center;
+			position: absolute;
+			right: 30px;
+			background: #fff;
+
+
+
+
+			&:after {
+				display: inline-block;
+				content: "";
+				margin-left: 4px;
+				width: 16px;
+				height: 16px;
+				background-position: center;
+				background-size: 100%;
+				background-repeat: no-repeat;
+				background-image: url(../images/menudown.svg);
+
+			}
+
+			&.active {
+
+				&:after {
+					transform: rotate(180deg);
+				}
+
+
+			}
+
+			&.hidden {
+				display: none;
+
+			}
+
+
+		}
+
+		.mic_settingbx {
+			margin: 0;
+			padding: 0;
+			width: calc(100% + 60px);
+			position: relative;
+			left: -30px;
+			border-top: 0px solid #F2F4F7;
+			height: 0;
+			overflow: hidden;
+			transition: all ease-out .4s;
+
+			&.active {
+				height: auto;
+				border-top: 1px solid #F2F4F7;
+				margin-top: 20px;
+				padding-top: 20px;
+				transition: all ease-out .4s;
+
+			}
+
+			.micInput_select {
+				text-align: center;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				select {
+					padding: 10px 8px;
+					border: 1px solid #E0E0E0;
+					border-radius: 4px;
+
+				}
+
+
+			}
+
+			.mic_guidetext {
+				margin-top: 20px;
+
+				text-align: center;
+
+				font-size: 14px;
+				color: #555;
+			}
+		}
+
+
+
+		.record_time {
+			display: none;
+			flex-direction: column;
+			justify-content: center;
+			width: 100%;
+			text-align: center;
+			margin-top: 30px;
+
+			.rectxt {
+				font-size: #555;
+				font-size: 14px;
+
+
+			}
+
+			.recTime {
+				margin-top: 4px;
+				font-size: 26px;
+				color: #333;
+				font-weight: bold;
+				opacity: 1;
+
+				&.active {
+					opacity: 1;
+
+
+				}
+
+			}
+
+
+
+
+		}
+
+		.record_utilbx {
+			margin-top: 44px;
+			display: none;
+
+			button.mdBtn {
+				&:before {
+					display: none;
+
+				}
+
+			}
+
+
+
+		}
+
+
+
+		.utilbx {
+			margin-top: 14px;
+			width: 100%;
+			position: relative;
+
+
+
+
+		}
+
+	}
+
+
+
+
+
+
+}

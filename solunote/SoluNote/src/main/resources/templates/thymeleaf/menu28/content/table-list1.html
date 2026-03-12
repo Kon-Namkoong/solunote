@@ -1,0 +1,22 @@
+<tr class="page-data-row page_link" th:each="item, stat : ${cPages.content}" th:attr="data-seq=${item.seq}, data-name=${item.subject}">
+	<td class="check-box" th:style="${item.clickLeastOnce == 1 ? 'width: 3%' : 'color: #0064fd; width: 3%'}">
+		<span>
+			<img class="unchecked" th:src="@{/images/checck.svg}">
+			<img class="checked" th:src="@{/images/checck_on.svg}">
+		</span>
+	</td>
+	<td  th:style="${item.clickLeastOnce == 1 ? 'width: 5%' : 'color: #0064fd; width: 5%'}" th:text="${stat.count + (cPages.number - 1) * cPages.size}"></td>
+	<td  class="align_left" th:style="${item.clickLeastOnce == 1 ? 'width: 40%' : 'color: #0064fd; width: 40%'}" th:utext="${item.subject}"></a></td>
+	 <td  th:style="${item.clickLeastOnce == 1 ? 'width: 5%' : 'color: #0064fd; width: 5%'}" th:utext="${item.reliability}"></td>
+	 <td  th:style="${item.clickLeastOnce == 1 ? 'width: 5%' : 'color: #0064fd; width: 5%'}" th:utext="${item.trainTextCount}"></td>
+	 <td  th:style="${item.clickLeastOnce == 1 ? 'width: 10%' : 'color: #0064fd; width: 10%'}" th:text="${item.timeDurationFormatted}"></td>
+	 <td  th:style="${item.clickLeastOnce == 1 ? 'width: 16%' : 'color: #0064fd; width: 16%'}" th:utext="${item.createdAt}"></td>
+	 <td  th:style="${item.clickLeastOnce == 1 ? 'width: 16%' : 'color: #0064fd; width: 16%'}" th:utext="${item.updatedAt}"></td>
+</tr>
+<tr th:if="${cPages.isEmpty() == true}" class="page-data-row">
+   <td colspan="9" >데이터가 없습니다.</td>
+</tr>
+<input type="hidden" id="hiddenCount" th:value="${hiddenCount}"></input>
+<input type="hidden" id="hiddenPageSize" th:value="${cPages.pageable.pageSize}"></input>
+
+ 	

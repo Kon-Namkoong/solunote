@@ -1,0 +1,114 @@
+<!-- 공통 고정 타이틀 및 검색 -->
+<div id = "tablePage">
+	<div class="content_tit fullMeeting_tit">
+	    <div class="title">
+	        <h2 th:text="${#messages.msg('sideMenu.confing.subMenu4')}">파일관리</h2>
+	    </div>     	    	    	    	    	     
+	    <div th:replace="thymeleaf/menu27/head_search :: headSearchFragment"></div>  
+	</div>
+	<!-- //공통 고정 타이틀 및 검색 -->
+	
+	<!-- 전체 회의록 -->
+	<div class="content_desc content_fullMeeting">
+	
+		<div th:replace="thymeleaf/menu27/page_button :: pageButtonFragment"></div> 
+
+	    <div class="table_content">
+            <table class="table_title">
+                <thead>
+                    <tr style="height: 40px; background-color: #F2F4F7;">
+                        <th style="width: 2%;">
+                            <span class="all check-box">
+	                            <img class="unchecked" th:src="@{/images/checck.svg}"/>
+	                            <img class="checked" th:src="@{/images/checck_on.svg}"/>
+                            </span>
+                        </th>
+                        <th style="width: 18%;"><span th:text="${#messages.msg('menu27.content2.th1')}">설정제목</span></th>
+                        <th style="width: 18%;"><span th:text="${#messages.msg('menu27.content2.th2')}">설정내용</span></th>
+                        <th style="width: 18%;"><span th:text="${#messages.msg('menu27.content2.th3')}">상세내용</span></th>
+                        <th style="width: 5%;"><span th:text="${#messages.msg('menu27.content2.th4')}">사용여부</span></th>
+                        <th style="width: 8%;"><span th:text="${#messages.msg('menu27.content2.th5')}">등록일</span></th>
+                        <th style="width: 8%;"><span th:text="${#messages.msg('menu27.content2.th6')}">수정일</span></th>
+                    </tr>
+                </thead>
+            </table>	        
+	        <div class="tbl_scroll">
+	            <table>
+	                <tbody id="tableRow">
+	                </tbody>
+	            </table>	            
+	            <div th:replace="fragments/page_indicator :: pageIndicatorFragment"></div>	           
+	        </div>
+	    </div>
+	</div>
+</div>
+ <!-- //전체 회의록 -->
+ 
+ <div id ="settingReg" style="display : none;">
+        <div class="common_content">
+            <!-- 공통 고정 타이틀 및 검색 -->
+            <div class="content_tit trainingDetail_tit content_detail_tit">
+                <div class="title">
+                    <a class="back_btn"><img th:src="@{/images/back_btn.svg}"></a>
+                    <h2 th:text="${#messages.msg('menu27.content2.h2')}">파일관리 설정</h2>
+                </div>
+            </div>
+            <!-- //공통 고정 타이틀 및 검색 -->
+
+            <!-- 파일관리 설정 등록 -->
+            <div class="content_desc accountDetail_desc">
+                <div class="tbl_btns accountDetail_btns">
+                    <div class="tbl_right">
+                        <button class="upload_btn" id="btn_regSetting" th:text="${#messages.msg('menu21.page_button.btn1')}">등록</button>
+                    </div>
+                </div>
+                <div class="table_content tbl_accountDetail">
+                    <table class="fileDetail_td">
+						<tbody>
+                            <tr>
+                                <th>[[${#messages.msg('menu27.content2.Res1')}]]<span>*</span></th>
+                                <td>
+                                    <div class="input_container">
+                                        <input type="text" th:placeholder="${#messages.msg('menu27.content2.Res.placeholder1')}" id="settingTitle">
+                                        <span class="guide_msg" id="checkTitle"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>[[${#messages.msg('menu27.content2.Res2')}]]<span>*</span></th>
+                                <td>
+                                    <div class="input_container">
+                                        <input type="text" th:placeholder="${#messages.msg('menu27.content2.Res.placeholder2')}" autocomplete='off'  id="settingValue">
+                                        <span class="guide_msg" id="checkValue"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>[[${#messages.msg('menu27.content2.Res3')}]]<span></span></th>
+                                <td>
+                                    <div class="input_container" >
+                                        <input type="text" th:placeholder="${#messages.msg('menu27.content2.Res.placeholder3')}"  id="settingDetail">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>[[${#messages.msg('menu27.content2.Res4')}]]<span>*</span></th>
+                                <td>
+                                    <div class="select-container">
+                                        <select name="search" class="custom-select" id="settingUseYn">
+                                            <option value="Y">O</option>
+                                            <option value="N">X</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- //파일관리 설정 등록 -->
+
+
+        </div>
+</div>	

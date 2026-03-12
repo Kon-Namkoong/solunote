@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.vol.solunote.mapper.server.ServerMapper">
+
+    <resultMap id="ServerInfo" type="serverVo">
+        <result property="seq" column="SEQ" javaType="int" />
+        <result property="svrNick" column="TC_SVRNICK" javaType="java.lang.String" />
+        <result property="svrIp" column="TC_SVRIP" javaType="java.lang.String" />
+        <result property="svrPort" column="TC_SVRPORT" javaType="int" />
+        <result property="svrChannel" column="TC_SVRCHANNEL" javaType="int" />
+        <result property="svrGroup" column="TC_SVRGROUP" javaType="int" />
+        <result property="wavfileDays" column="TC_WAVFILE_DAYS" javaType="int" />
+        <result property="mp3fileDays" column="TC_MP3FILE_DAYS" javaType="int" />
+        <result property="useYn" column="TC_USEYN" javaType="int" />
+        <result property="regDate" column="TC_REGDATE" javaType="java.lang.String" />
+    </resultMap>
+    
+    <resultMap id="agentInfo" type="agentVo">
+        <result property="seq" column="SEQ" javaType="int" />
+        <result property="agentId" column="TC_AGENT_ID" javaType="java.lang.String" />
+        <result property="agentName" column="TC_AGENT_NAME" javaType="java.lang.String" />
+        <result property="agentExtno" column="TC_AGENT_EXTNO" javaType="java.lang.String" />
+        <result property="agentIp" column="TC_AGENT_IP" javaType="java.lang.String" />
+        <result property="agentEmail" column="TC_AGENT_EMAIL" javaType="java.lang.String" />
+        <result property="agentPhoneno" column="TC_AGENT_PHONENO" javaType="java.lang.String" />
+        <result property="regDate" column="TC_REGDATE" javaType="java.lang.String" />
+        <result property="upDate" column="TC_UPDATE" javaType="java.lang.String" />
+    </resultMap>
+    
+    <resultMap id = "domainInfo" type="serverDomainVo">
+        <result property="seq" column="SEQ" javaType="int" />
+        <result property="domainCode" column="TC_DOMAIN_CODE" javaType="java.lang.String" />
+        <result property="domainName" column="TC_DOMAIN_NAME" javaType="java.lang.String" />
+        <result property="domainExplain" column="TC_DOMAIN_EXPLAIN" javaType="java.lang.String" />
+        <result property="userSeq" column="TC_USER_SEQ" javaType="int" />
+        <result property="userId" column="TC_ID" javaType="String" />
+        <result property="userName" column="TC_USER_NAME" javaType="java.lang.String" />
+        <result property="useYn" column="TC_USEYN" javaType="java.lang.String" />
+        <result property="regDate" column="TC_REGDATE" javaType="java.lang.String" />
+    </resultMap>    
+    
+    <select id="selectServerList" resultMap="ServerInfo">
+        SELECT * FROM TB_CS_INFO_SVR
+    </select>    
+    
+    <update id = "updateServer" parameterType = "Map">
+        UPDATE TB_CS_INFO_SVR
+        SET TC_SVRNICK = #{svrNick}, TC_WAVFILE_DAYS = #{wavfileDays}, TC_MP3FILE_DAYS= #{mp3fileDays}, TC_USEYN = #{useYn} 
+        WHERE SEQ = #{seq}
+    </update>
+    
+    <select id="checkServerInfo" resultType="int">
+        CALL fn_web_popup_173_is_server( #{seq}, #{svrNick})
+    </select>
+    
+    <update id="updateAgent" parameterType = "Map">
+        UPDATE TB_CS_INFO_AGENT
+        SET TC_AGENT_NAME = #{agentName}, TC_AGENT_EXTNO = #{agentExtno}, TC_AGENT_EMAIL= #{agentEmail}, TC_AGENT_PHONENO = #{agentPhoneno} 
+        WHERE SEQ = #{seq}
+    </update>  
+    
+    <insert id="insertAgent" parameterType = "Map">
+        INSERT INTO TB_CS_INFO_AGENT (TC_AGENT_ID, TC_AGENT_NAME, TC_AGENT_EXTNO, TC_AGENT_PHONENO, TC_AGENT_EMAIL )
+        VALUES (#{agentId}, #{agentName}, #{agentExtno}, #{agentPhoneno}, #{agentEmail})
+    </insert>
+    
+    <select id = "findAgentInfo" resultMap="agentInfo">
+        SELECT * FROM TB_CS_INFO_AGENT WHERE SEQ = #{seq}
+    </select>
+    
+    <delete id="deleteAgent" parameterType = "int"> 
+        DELETE FROM TB_CS_INFO_AGENT 
+        WHERE SEQ = #{seq} 
+    </delete>
+    
+    <delete id="deleteDomain" parameterType = "int"> 
+        DELETE FROM TB_CS_INFO_DOMAIN 
+        WHERE SEQ = #{seq} 
+    </delete>
+    
+    <select id="checkDomain" resultType="int">
+        SELECT COUNT(*)
+        FROM TB_CS_INFO_DOMAIN 
+        WHERE TC_DOMAIN_CODE = #{code} AND SEQ != #{seq}
+    </select>
+    
+    <insert id="insertDomain" parameterType = "Map">
+        CALL fn_web_popup_174_domain_info_insert(#{domainCode}, #{domainName}, #{domainExplain}, #{userSeq}, #{useYn})
+    </insert>
+    
+    <update id="updateDomain" parameterType = "Map">
+        UPDATE TB_CS_INFO_DOMAIN 
+        SET TC_DOMAIN_CODE = #{domainCode}, TC_DOMAIN_NAME = #{domainName}, TC_DOMAIN_EXPLAIN = #{domainExplain}, TC_USEYN = #{useYn}
+        WHERE SEQ = #{seq}    
+    </update>  
+    
+    <select id="findDomainInfo" resultMap="domainInfo" >
+        CALL fn_web_popup_174_domain_info(#{seq})
+    </select>                      
+        
+</mapper>

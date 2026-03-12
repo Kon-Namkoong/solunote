@@ -1,0 +1,263 @@
+@charset "utf-8";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    overflow-y: hidden;
+    height: 100%;
+    overflow-x: auto;
+}
+
+body,
+input,
+select,
+textarea,
+button,
+label {
+    font-size: 14px;
+    font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
+    color: #333333;
+}
+
+ul,
+ol,
+li {
+    list-style: none;
+}
+
+table {
+    border-spacing: 0;
+    border: 0;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table td {
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+img,
+fieldset,
+abbr {
+    border: 0;
+}
+
+button {
+    border: 0;
+    cursor: pointer
+}
+
+address,
+caption,
+cite,
+code,
+em {
+    font-style: normal;
+    font-weight: normal;
+}
+
+img,
+input,
+select,
+textarea,
+button,
+label {
+    vertical-align: middle;
+}
+
+label {
+    margin-right: 8px;
+}
+
+caption,
+legend {
+    width: 1px;
+    height: 1px;
+    margin-top: -1px;
+    line-height: 1px;
+    text-indent: -9999px;
+    overflow: hidden;
+}
+
+header,
+section,
+nav,
+hgroup,
+footer,
+aside,
+article,
+figure {
+    display: block;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 400;
+    src: url(../font/Pretendard-Regular.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    src: url(../font/Pretendard-Medium.woff) format('woff');
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 700;
+    src: url(../font/Pretendard-Bold.woff) format('woff');
+}
+
+/* wrap */
+.over_wrap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    min-width: 1440px;
+    height: calc(100% - 60px);
+}
+
+
+.top_btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+}
+
+.top_btn a {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0px 5px 10px #00000029;
+}
+
+
+
+i.i_color_01 {
+    background-color: #0080bc;
+    font-size : 12px;
+}
+
+i.i_color_02 {
+    background-color: #0593A2;
+    font-size : 12px;
+}
+
+i.i_color_03 {
+    background-color: #4C9E2D;
+    font-size : 12px;
+}
+
+i.i_color_04 {
+    background-color: #F6C142;
+    font-size : 12px;
+}
+
+i.i_color_05 {
+    background-color: #EE742F;
+    font-size : 12px;
+}
+
+i.i_color_06 {
+    background-color: #EB3223;
+    font-size : 12px;
+}
+
+i.i_color_07 {
+    background-color: #F2059F;
+    font-size : 12px;
+}
+
+i.i_color_08 {
+    background-color: #644BCB;
+    font-size : 12px;
+}
+
+i.i_color_09 {
+    background-color: #3A96FD;
+    font-size : 12px;
+}
+
+i.i_color_10 {
+    background-color: #191919;
+    font-size : 12px;
+}
+
+i.i_color_11 {
+    background-color: #ffb6c1;
+    font-size : 12px;
+}
+
+i.i_color_12 {
+    background-color: #ffa07a;
+    font-size : 12px;
+}
+
+i.i_color_13 {
+    background-color: #20b2aa;
+    font-size : 12px;
+}
+
+i.i_color_14 {
+    background-color: #87cefa;
+    font-size : 12px;
+}
+
+i.i_color_15 {
+    background-color: #32cd32;
+    font-size : 12px;
+}
+
+i.i_color_16 {
+    background-color: #ba55d3;
+    font-size : 12px;
+}
+
+i.i_color_17 {
+    background-color: #00fa9a;
+    font-size : 12px;
+}
+
+i.i_color_18 {
+    background-color: #ffe4e1;
+    font-size : 12px;
+}
+
+i.i_color_19 {
+    background-color: #da70d6;
+    font-size : 12px;
+}
+
+i.i_color_20 {
+    background-color: #afeeee;
+    font-size : 12px;
+}
+
+
+

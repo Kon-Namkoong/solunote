@@ -1,0 +1,448 @@
+@charset "UTF-8";
+.login_wrap {
+  overflow: auto;
+  min-width: 1200px;
+  max-width: 1900px;
+  padding: 40px;
+}
+.login_wrap .inner_grid {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  height: calc(100vh - 80px);
+  border-radius: 60px;
+  background: #eceff1;
+  justify-content: space-between;
+}
+.login_wrap .inner_grid .leftbx {
+  position: relative;
+  margin-left: 140px;
+  padding-top: 140px;
+}
+@media all and (max-width: 1600px) {
+  .login_wrap .inner_grid .leftbx {
+    margin-left: 80px;
+  }
+}
+.login_wrap .inner_grid .leftbx p {
+  font-size: 30px;
+  line-height: 41px;
+  letter-spacing: -.75px;
+  color: #333;
+}
+.login_wrap .inner_grid .leftbx p span {
+  font-weight: bold;
+}
+@media all and (max-width: 1600px) {
+  .login_wrap .inner_grid .leftbx p {
+    transition: all ease .4s;
+    transform: scale(0.9);
+    transform-origin: left;
+  }
+}
+@media all and (max-width: 1300px) {
+  .login_wrap .inner_grid .leftbx p {
+    transform: scale(0.8);
+  }
+}
+.login_wrap .inner_grid .leftbx p + .solunote-logo {
+  margin-top: 30px;
+}
+.login_wrap .inner_grid .leftbx .lg-start {
+  font-size: 20px;
+  position: absolute;
+  z-index: 2;
+  bottom: 140px;
+  left: 0;
+  width: 240px;
+  height: 70px;
+  cursor: pointer;
+  color: #fff;
+  border: 0;
+  border-radius: 40px;
+  background: transparent linear-gradient(106deg, #0046fd 0%, #4bb5cb 100%) 0 0 no-repeat padding-box;
+}
+.login_wrap .inner_grid .leftbx .lg-start:hover {
+  transition: all ease .3s;
+  background: transparent linear-gradient(0deg, #0046fd 0%, #0046fd 100%) 0 0 no-repeat padding-box;
+}
+.login_wrap .inner_grid .leftbx .lg-start.active {
+  width: 70px;
+  height: 70px;
+  transition: all ease .7s;
+  background: transparent linear-gradient(0deg, #fff 0%, #fff 100%) 0 0 no-repeat padding-box;
+}
+.login_wrap .inner_grid .leftbx .lg-start.active:after {
+  transition: all ease .3s;
+  opacity: 0;
+}
+.login_wrap .inner_grid .leftbx .lg-start.active:before {
+  right: -40px;
+  width: 80px;
+  transition: all ease .4s;
+  transition-delay: .1s;
+  opacity: 1;
+}
+.login_wrap .inner_grid .leftbx .lg-start.active span {
+  font-size: 0;
+  width: 0;
+}
+.login_wrap .inner_grid .leftbx .lg-start:before {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 0;
+  height: 30px;
+  margin-top: -15px;
+  content: '';
+  opacity: 0;
+  background: url(../../images/lg-clickarr.png);
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: 80px 30px;
+}
+.login_wrap .inner_grid .leftbx .lg-start:after {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: '';
+  opacity: .15;
+  border-radius: 30px;
+  box-shadow: 10px 10px 30px 5px black;
+  filter: blur(10px);
+}
+.login_wrap .inner_grid .rightbx {
+  position: relative;
+  top: 50%;
+  width: 920px;
+  height: 466px;
+  margin-right: 120px;
+  transform: translateY(-50%);
+}
+@media all and (max-width: 1600px) {
+  .login_wrap .inner_grid .rightbx {
+    margin-right: 80px;
+  }
+}
+.login_wrap .inner_grid .rightbx.vsx:before {
+  top: 145px;
+  transition: all linear .4s;
+  animation: rotateSquare 5s linear infinite;
+  opacity: 1;
+}
+.login_wrap .inner_grid .rightbx:before {
+  position: absolute;
+  z-index: 3;
+  top: 155px;
+  right: 55%;
+  width: 237px;
+  height: 237px;
+  content: '';
+  transform: translateX(-50%);
+  transform-origin: center;
+  /* 중심축 기준 회전 */
+  opacity: 0;
+  background: url(../../images/lg_ctarrow.png);
+  background-position: center;
+  background-size: 100%;
+}
+@media all and (max-width: 1600px) {
+  .login_wrap .inner_grid .rightbx:before {
+    top: 120px;
+    right: initial;
+    right: 40%;
+    width: 188px;
+    height: 188px;
+    transform: translateX(-50%);
+  }
+}
+@keyframes rotateSquare {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.login_wrap .inner_grid .rightbx .bx01 {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: 450px;
+  height: 266px;
+  border-radius: 20px;
+  background: url(../../images/lg_upload.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+@media all and (max-width: 1280px) {
+  .login_wrap .inner_grid .rightbx .bx01 {
+    left: -50px;
+  }
+}
+.login_wrap .inner_grid .rightbx .bx02 {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  bottom: 0;
+  width: 600px;
+  height: 346px;
+  border-radius: 20px;
+  background: url(../../images/lg_dt.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  box-shadow: 10px 10px 30px 5px rgba(0, 0, 0, 0.1);
+}
+.login_wrap .inner_grid .rightbx .bx02:after {
+  position: absolute;
+  top: -50px;
+  right: 0;
+  width: 160px;
+  height: 34px;
+  content: '';
+  background: url(../../images/lg_solunote.png);
+  background-size: 100%;
+}
+@media all and (max-width: 1600px) {
+  .login_wrap .inner_grid .rightbx .bx02 {
+    width: 480px;
+    height: 276px;
+  }
+  .login_wrap .inner_grid .rightbx .bx02:after {
+    top: -45px;
+    width: 128px;
+    height: 27px;
+  }
+}
+.login_wrap .inner_grid .rightbx .beforebx {
+  opacity: 1;
+}
+.login_wrap .inner_grid .rightbx .afterbx {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  right: 120px;
+  width: 520px;
+  height: 680px;
+  height: calc(100vh - 260px);
+  transform: translateX(100%) translateY(-50%);
+  opacity: 0;
+  border-radius: 20px;
+  background: #fff 0 0 no-repeat padding-box;
+}
+@media all and (max-width: 1600px) {
+  .login_wrap .inner_grid .rightbx .afterbx {
+    right: 0;
+  }
+}
+.login_wrap .inner_grid .rightbx .loginwrap {
+  display: flex;
+  flex-direction: column;
+  padding: 70px 0;
+  justify-content: flex-start;
+}
+.login_wrap .inner_grid .rightbx .loginwrap .logobx {
+  display: flex;
+  width: 180px;
+  height: 40px;
+  align-self: center;
+}
+.login_wrap .inner_grid .rightbx .loginwrap .logobx img {
+  width: 100%;
+}
+.login_wrap .inner_grid .rightbx .loginwrap .lgbtn {
+  font-size: 20px;
+  position: absolute;
+  bottom: 80px;
+  display: flex;
+  width: 400px;
+  height: 60px;
+  opacity: 1;
+  color: #fff;
+  border: 0;
+  border-radius: 30px;
+  background: transparent linear-gradient(99deg, #0046fd 0%, #4bb5cb 100%) 0 0 no-repeat padding-box;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+}
+.login_wrap .inner_grid .rightbx .loginwrap .lgbtn:hover {
+  background: transparent linear-gradient(0deg, #0046fd 0%, #0046fd 100%) 0 0 no-repeat padding-box;
+}
+.login_wrap .inner_grid .rightbx.active {
+  transition: all ease .3s;
+}
+.login_wrap .inner_grid .rightbx.active:before {
+  transition: all ease .3s;
+  opacity: 0;
+}
+.login_wrap .inner_grid .rightbx.active .beforebx {
+  transition: all ease .3s;
+  opacity: 0;
+}
+.login_wrap .inner_grid .rightbx.active .afterbx {
+  transition: all ease-out .6s;
+  transform: translateX(0%) translateY(-50%);
+  opacity: 1;
+}
+
+@keyframes float1 {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-10px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes float2 {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.01);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+.solunote-logo {
+  width: 532px;
+  height: 84px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-size: 532px 84px;
+}
+@media all and (max-width: 1600px) {
+  .solunote-logo {
+    transition: all ease .4s;
+    transform: scale(0.8);
+    transform-origin: left;
+  }
+}
+@media all and (max-width: 1300px) {
+  .solunote-logo {
+    transform: scale(0.7);
+  }
+}
+
+.iptgrp {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin-top: 32px;
+  gap: 10px;
+  align-self: center;
+}
+
+.iptbx {
+  line-height: 56px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
+  border: 0;
+  border-radius: 4px;
+}
+.iptbx button.rstbtn {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 10px;
+  display: none;
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  background-color: transparent;
+  background-image: url(../../images/ipt-rst.png);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.iptbx button.rstbtn.visible {
+  display: block;
+}
+.iptbx button.visiblepwd {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  background-color: transparent;
+  background-image: url(../../images/lg_psw_visible_none.png);
+  background-repeat: no-repeat;
+  background-size: 24px;
+}
+.iptbx button.visiblepwd.visible {
+  background-image: url(../../images/lg_psw_visible_show.png);
+}
+.iptbx input {
+  line-height: auto;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 100%;
+  height: 54px;
+  padding: 0 0 0 15px;
+  padding-left: 15px;
+  border: 0;
+  border-bottom: 2px solid #f5f5f8;
+  border-radius: 4px;
+  outline: none;
+  background: #f5f5f8;
+}
+.iptbx input:hover input {
+  border-bottom: 2px solid #e8f0fe;
+  background: #e8f0fe;
+}
+.iptbx input:focus {
+  border-bottom: 2px solid #666;
+  border-radius: 4px 4px 0 0;
+  background: #e8f0fe;
+  z-index: 2;
+}
+
+.chkbx {
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+}
+.chkbx input[type='checkbox'] {
+  display: none;
+  outline: none;
+}
+.chkbx input[type='checkbox'] + label {
+  font-size: 14px;
+  position: relative;
+  cursor: pointer;
+  color: #666;
+}
+.chkbx input[type='checkbox'] + label:before {
+  position: relative;
+  top: 2px;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-right: 6px;
+  content: '';
+  border-radius: 2px;
+  background-image: url("../../images/lg_chk_off.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 14px;
+}
+.chkbx input[type='checkbox']:checked + label:before {
+  background-image: url("../../images/lg_chk_on.svg");
+}
+
+/*# sourceMappingURL=login.css.map */

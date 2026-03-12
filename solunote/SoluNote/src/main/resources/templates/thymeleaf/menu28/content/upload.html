@@ -1,0 +1,58 @@
+<div class="modal_wrap" id="keywordFile"  th:fragment="uploadFileFragment">
+    <div class="inner_grid">
+      <div class="modal_bx" >
+        <div class="hds" >
+              <div class="tit">
+		        <div id="modal_title"  th:text="${#messages.msg('menu28.upload.upload.title')}"></div>
+    		  </div>
+          <button class="clsbtn" id="keywordFileClose" ></button>
+        </div>
+
+        <div class="contbx">
+          <div class="lang_select">
+            <div class="guide_text" th:text="${#messages.msg('menu28.upload.upload.register')}">업로드하실 파일을 첨부하세요.(최대 150분 길이 / mp3,mp4,wav,ogg 파일 지원) </div>
+<!--             <div class="sle_grid">
+              <span>언어</span>
+              <div class="sel_bx">
+                <select>
+                  <option value="">한국어</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+            </div> -->
+          </div>                     
+          <div class="itrc_grp">
+            <div class="innerGuide">  
+              <div class="cmx_grid record_save">
+                <div class="cm_loading" >
+                  <div class="loader">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                  <p class="cmMsgbx"></p>
+                </div>
+              </div>            
+            </div>
+          </div>
+          
+        </div>
+        <div id="keywordInputGroup">
+	        <input class = "uploadFileInput" id="uploadTextInput" readonly></input>
+	        <input style = "display :none" type="file" id="keywordInputHidden" accept=".xls, .xlsx, .csv"  />
+	        <button class = "uploadFileButton" th:text="${#messages.msg('button.trian.file.upload.find')}" id="uploadFile">파일 찾기</button>
+        </div>
+        <div class="btn_grid total">
+          <button class="mdBtn fn_upld" th:text="${#messages.msg('button.meeting.file.upload')}" id="keywordSubmit"></button>
+        </div>
+      </div>
+    </div>
+  </div>   

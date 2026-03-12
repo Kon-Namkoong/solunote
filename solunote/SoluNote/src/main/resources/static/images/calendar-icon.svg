@@ -1,0 +1,12 @@
+<svg id="캘린더아이콘" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <rect id="사각형_411" data-name="사각형 411" width="20" height="20" fill="none"/>
+  <g id="달력아이콘" transform="translate(-236 -40)">
+    <g id="사각형_644" data-name="사각형 644" transform="translate(238 45)" fill="none" stroke="#999" stroke-width="1">
+      <rect width="16" height="13" stroke="none"/>
+      <rect x="0.5" y="0.5" width="15" height="12" fill="none"/>
+    </g>
+    <rect id="사각형_645" data-name="사각형 645" width="1" height="3" transform="translate(242 42)" fill="#999"/>
+    <rect id="사각형_646" data-name="사각형 646" width="1" height="3" transform="translate(249 42)" fill="#999"/>
+    <path id="체크" d="M1162.911,415.331l2.555,2.644,4.631-4.791" transform="translate(-920.411 -364.564)" fill="none" stroke="#999" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.4"/>
+  </g>
+</svg>

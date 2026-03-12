@@ -1,0 +1,9 @@
+20:48:45.132 INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.vol.solunote.SoluNoteApplicationTests]: SoluNoteApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+20:48:45.316 INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.vol.solunote.SoluNoteApplication for test class com.vol.solunote.SoluNoteApplicationTests
+20:48:45.526 INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to context in which it is running
+20:54:49.251 INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.vol.solunote.SoluNoteApplicationTests]: SoluNoteApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+20:54:49.445 INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.vol.solunote.SoluNoteApplication for test class com.vol.solunote.SoluNoteApplicationTests
+20:54:49.630 INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to context in which it is running
+21:00:32.921 INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.vol.solunote.SoluNoteApplicationTests]: SoluNoteApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+21:00:33.099 INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.vol.solunote.SoluNoteApplication for test class com.vol.solunote.SoluNoteApplicationTests
+21:00:33.291 INFO  o.s.b.d.r.RestartApplicationListener - Restart disabled due to context in which it is running

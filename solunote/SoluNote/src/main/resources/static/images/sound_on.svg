@@ -1,0 +1,6 @@
+<svg id="default" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <rect id="버튼영역" width="20" height="20" fill="none"/>
+  <path id="패스_3218" data-name="패스 3218" d="M9.868,4V18L6.5,14.5H2v-7H6.5Z" transform="translate(0.601 -1)" fill="#333"/>
+  <path id="패스_3219" data-name="패스 3219" d="M25,4.687l-1.132.9a7.842,7.842,0,0,1,3.185,6.105,7.843,7.843,0,0,1-3.185,6.105L25,18.687a8.972,8.972,0,0,0,3.668-7A8.969,8.969,0,0,0,25,4.687Z" transform="translate(-11.266 -1.687)" fill="#333"/>
+  <path id="패스_3221" data-name="패스 3221" d="M19.259,10.376l-.986.881a3.451,3.451,0,0,1,0,5.239l.986.88a4.6,4.6,0,0,0,0-7Z" transform="translate(-6.671 -3.976)" fill="#333"/>
+</svg>

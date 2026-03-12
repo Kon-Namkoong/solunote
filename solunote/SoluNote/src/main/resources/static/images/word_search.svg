@@ -1,0 +1,6 @@
+<svg id="단어검색" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="default">
+    <rect id="버튼영역" width="24" height="24" rx="4" fill="none"/>
+    <path id="아이콘" d="M15.915,15.489l-4.361-4.361a6.646,6.646,0,1,0-.426.426l4.361,4.361a.3.3,0,0,0,.426-.426Zm-9.25-2.8A6.025,6.025,0,1,1,12.69,6.665,6.032,6.032,0,0,1,6.665,12.69Z" transform="translate(4 4)" fill="#333" stroke="#333" stroke-width="1"/>
+  </g>
+</svg>

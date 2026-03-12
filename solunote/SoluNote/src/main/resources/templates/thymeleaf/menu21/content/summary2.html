@@ -1,0 +1,21 @@
+<div id="summary2" >
+	 <ul>
+	     <h3 class="sum_subject">주제</h3>
+	     <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+	     	<li class="more-than-one" th:each="item : ${summary.subject}" th:text="${item}"></li>
+	     <div>	
+	 </ul>									
+	 <ul>
+	     <h3 class="sum_detailed">세부요약</h3>
+	     <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+	     	<li class="more-than-one" th:each="item : ${summary.detailed}" th:text="${item}"></li>
+	     </div> 							        
+	 </ul>						   					    						    						
+	 <ul>
+	     <h3 class="sum_keyword">키워드</h3>
+	     <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+	     	<li class="more-than-one" th:each="item : ${summary.keyword}" th:text="${item}"></li>
+	     </div>						        
+	 </ul>
+</div>
+ 

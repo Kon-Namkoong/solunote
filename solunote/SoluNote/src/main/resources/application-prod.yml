@@ -1,0 +1,57 @@
+file:
+  upload:
+    extension:
+      wav: wav|aif|mp3|mid|mp2|wam|ogg|m4a|aac
+      train: doc|docx|hwp|pdf|txt
+    path:
+      train: /home/upload/train
+      test: /home/upload1/test
+      meet: /home/upload2/meet
+      temp: /home/upload2/temp
+spring:
+  servlet:
+    multipart:
+      location: /tmp
+  datasource:
+    hikari:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      jdbc-url: jdbc:mysql://192.168.0.233:3307/SGSAS?serverTimezone=UTC
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      jdbc-url: jdbc:log4jdbc:mysql://db:3306/MEETING?serverTimezone=UTC
+      password: meet_pass
+      username: meet_user
+stt:
+  service:
+    manager:
+      ip: localhost
+      port: 8988
+      use: false
+  url: http://10.1.1.11:8987/was/stt_diarization_comp
+summary:
+  url: http://summarize:8000/summarize
+  url2: http://summarize:8000/summarize2
+  url3: http://summarize:8000/summarize3
+train:
+#  url: http://whisper_train_server:8000/
+  url: http://10.1.1.15:8989
+  project_id: 65b9e87b4d6802690a6ebfe6
+ffmpeg:
+  ffmpeg:
+    path: /usr/bin/ffmpeg
+  ffprobe:
+    path : /usr/bin/ffprobe
+task:
+  sound:
+    train:
+      max: 7
+    test:
+      max: 3
+    no_data_sleep: 60
+    urls: >
+        http://10.1.1.11:8987/was/stt_diarization_comp,
+        http://10.1.1.12:8987/was/stt_diarization_comp,
+        http://10.1.1.13:8987/was/stt_diarization_comp,
+        http://10.1.1.14:8987/was/stt_diarization_comp
+  summary:
+    max: 3
+    no_data_sleep: 60

@@ -1,0 +1,15 @@
+<svg id="프로필아이콘" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="clip-path">
+      <circle id="타원_97" data-name="타원 97" cx="12" cy="12" r="12"/>
+    </clipPath>
+  </defs>
+  <circle id="타원_96" data-name="타원 96" cx="12" cy="12" r="12" fill="#7b9cc6"/>
+  <g id="그룹_75645" data-name="그룹 75645">
+    <g id="그룹_75644" data-name="그룹 75644">
+      <g id="그룹_75643" data-name="그룹 75643" clip-path="url(#clip-path)">
+        <path id="패스_3217" data-name="패스 3217" d="M17.3,11.975a3.975,3.975,0,1,0-3.975,3.975A3.953,3.953,0,0,0,17.3,11.975Zm-12,10.05V26H21.275V22.025c0-2.7-5.325-3.975-8.025-3.975S5.3,19.325,5.3,22.025Z" transform="translate(-1.325 -2)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>

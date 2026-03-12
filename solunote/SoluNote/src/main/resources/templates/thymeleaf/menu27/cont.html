@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout/default}">
+	<head>
+	      <meta charset="UTF-8" />
+	      <title>환경설정</title>
+	      <th:block layout:fragment="script">
+	          <script type="text/javascript" th:src="@{/js/menu27/menu27.js}"></script>
+	          <script type="text/javascript" th:src="@{/js/menu27/menu27-several.js}"></script>
+	      </th:block>
+	</head>
+	<body>
+    	<!-- content -->
+    	<div layout:fragment="content" class="common_content">
+    		<div th:if="${liveMenu == 1 or liveMenu == 2}" th:include="thymeleaf/menu27/content/table-content1"></div>    	
+    		<div th:if="${liveMenu == 3}" th:include="thymeleaf/menu27/content/user-register-change"></div>
+			<div th:if="${liveMenu == 4}" th:include="thymeleaf/menu27/content/table-content4"></div>
+    	</div>
+	</body>
+</html>

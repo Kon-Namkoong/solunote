@@ -1,0 +1,88 @@
+<div class="content_tit">
+  <div class="title">
+    <h2 th:text="${#messages.msg('menu22.title')}">대시보드</h2>
+  </div>
+  <div class="search">
+    <div class="date">
+      <div class="date-input-container">
+        <input type="text" class="custom-date-input start-date" 
+               th:placeholder="${#messages.msg('searchDate.placeholder1')}" 
+               required aria-required="true" id="searchStartDate"  
+               th:value="${search.searchStartDate}">
+      </div>
+      <span>~</span>
+      <div class="date-input-container">
+        <input type="text" class="custom-date-input end-date" 
+               th:placeholder="${#messages.msg('searchDate.placeholder2')}" 
+               required aria-required="true" id="searchEndDate" 
+               th:value="${search.searchEndDate}">
+      </div>
+    </div>
+    <div class="date_button">
+      <button id="searchDateDay" th:text="${#messages.msg('searchDate.day')}">일간</button>
+      <button id="searchDateWeek" th:text="${#messages.msg('searchDate.week')}">주간</button>
+      <button id="searchDateMonth" th:text="${#messages.msg('searchDate.month')}">월간</button>
+    </div>
+  </div>
+</div>
+<div class="content_desc content_dashboard">
+  <div class="dashboard_tit">
+    <h3 id="changeH3" th:text="${#messages.msg('menu22.content.h3')}">주간 이용현황</h3>
+    <p>
+      <span th:text="${#messages.msg('menu22.content.p1')}">현재</span>
+      <strong th:text="${activeSessionCnt}">8</strong>
+      <span th:text="${#messages.msg('menu22.content.p1.strong')}">명</span>
+      <span th:text="${#messages.msg('menu22.content.p1.span')}">(최근 30분 이내 사용자)</span>
+    </p>
+    <p>
+      <span th:text="${#messages.msg('menu22.content.p2')}">현재</span>
+      <strong th:text="${processingFileCnt}">3</strong> 
+      <span th:text="${#messages.msg('menu22.content.p2.strong')}">건</span>
+      <span th:text="${#messages.msg('menu22.content.p2.span')}">(파일처리 중)</span>
+    </p>
+  </div>
+  <div class="dashboard_cont">
+    <ul class="dash_num">
+      <li>
+        <span><img th:src="@{/images/dash_icon01.svg}" alt="사용자 아이콘"></span>
+        <div>
+          <em th:text="${#messages.msg('menu22.content.em1')}">사용자 수</em>
+          <p><strong id="userCnt">32</strong> <span th:text="${#messages.msg('menu22.content.em1.p')}">명</span></p>
+        </div>
+      </li>
+      <li>
+        <span><img th:src="@{/images/dash_icon02.svg}" alt="회의 아이콘"></span>
+        <div>
+          <em th:text="${#messages.msg('menu22.content.em2')}">회의 등록 건수</em>
+          <p><strong id="meetingCount">56</strong> <span th:text="${#messages.msg('menu22.content.em2.p')}">건</span></p>
+        </div>
+      </li>
+      <li>
+        <span><img th:src="@{/images/dash_icon03.svg}" alt="시간 아이콘"></span>
+        <div>
+          <em th:text="${#messages.msg('menu22.content.em3')}">평균 회의 시간</em>
+          <p><strong id="avgMeetingTimeDurationMs">00:26:04</strong></p>
+        </div>
+      </li>
+      <li>
+        <span><img th:src="@{/images/dash_icon04.svg}" alt="용량 아이콘"></span>
+        <div>
+          <em th:text="${#messages.msg('menu22.content.em4')}">기간 누적 용량</em>
+          <p><strong id="avgFileSizeValue">28.6</strong><em id="avgFileSizeFormat">GB</em></p>
+        </div>
+      </li>
+    </ul>
+    <div class="dash_tab">
+      <div class="tab_menu">
+        <ul class="tabs">
+          <input type="hidden" id="countUser" th:value="${countUser}"/>          
+          <li class="tab user-cnt-btn active" data-tab="1" th:text="${#messages.msg('menu22.content.li1')}">사용자 수</li>
+          <li class="tab file-cnt-btn" data-tab="2" th:text="${#messages.msg('menu22.content.li2')}">회의 등록 건수</li>
+        </ul>
+      </div>
+      <div class="tab_items" id="chart-content">    
+          <canvas id="charts" class="loading-canvas"></canvas>
+      </div>
+    </div>
+  </div>
+</div>

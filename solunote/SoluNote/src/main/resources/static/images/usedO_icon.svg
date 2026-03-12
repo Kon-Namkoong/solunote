@@ -1,0 +1,9 @@
+<svg id="사용제외" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="O" transform="translate(-1132 -12)">
+    <rect id="버튼영역형" width="16" height="16" transform="translate(1132 12)" fill="none" opacity="0.2"/>
+    <g id="타원_107" data-name="타원 107" transform="translate(1134 14)" fill="#fff" stroke="#555" stroke-width="1.4">
+      <circle cx="6" cy="6" r="6" stroke="none"/>
+      <circle cx="6" cy="6" r="5.3" fill="none"/>
+    </g>
+  </g>
+</svg>

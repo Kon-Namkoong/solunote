@@ -1,0 +1,11 @@
+<svg id="다운로드" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="default">
+    <rect id="버튼영역" width="24" height="24" rx="4" fill="none"/>
+    <g id="그룹_75647" data-name="그룹 75647" transform="translate(5 5)">
+      <path id="패스_2754" data-name="패스 2754" d="M15.767,336a.236.236,0,0,0-.233.238v1.9A1.651,1.651,0,0,1,13.9,339.8H2.1a1.651,1.651,0,0,1-1.633-1.664v-1.9A.236.236,0,0,0,.233,336a.236.236,0,0,0-.233.238v1.9a2.122,2.122,0,0,0,2.1,2.14H13.9a2.122,2.122,0,0,0,2.1-2.14v-1.9A.236.236,0,0,0,15.767,336Z" transform="translate(-1 -325.299)" fill="#333" stroke="#333" stroke-width="1"/>
+      <rect id="사각형_682" data-name="사각형 682" width="1" height="6.052" rx="0.5" transform="translate(2.7 6.707) rotate(-45)" fill="#333" stroke="#333" stroke-width="0.5"/>
+      <rect id="사각형_683" data-name="사각형 683" width="1" height="6.052" rx="0.5" transform="translate(7.007 10.986) rotate(-135)" fill="#333" stroke="#333" stroke-width="0.5"/>
+      <rect id="사각형_681" data-name="사각형 681" width="1" height="11" rx="0.5" transform="translate(6.5 -1)" fill="#333" stroke="#333" stroke-width="0.5"/>
+    </g>
+  </g>
+</svg>

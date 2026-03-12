@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <g id="녹음일시정지" transform="translate(-1627 -232)">
+    <g id="테두리" transform="translate(1627 232)" fill="none" stroke="#c9c9c9" stroke-width="1">
+      <rect width="50" height="50" rx="25" stroke="none"/>
+      <rect x="0.5" y="0.5" width="49" height="49" rx="24.5" fill="none"/>
+    </g>
+    <rect id="사각형_687" data-name="사각형 687" width="7" height="22" rx="2" transform="translate(1643 246)" fill="#191919"/>
+    <rect id="사각형_688" data-name="사각형 688" width="7" height="22" rx="2" transform="translate(1654 246)" fill="#191919"/>
+  </g>
+</svg>

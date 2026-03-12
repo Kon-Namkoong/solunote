@@ -1,0 +1,71 @@
+db:
+  company: steel
+file:
+  upload:
+    extension:
+      wav: wav|aif|mp3|mid|mp2|wam|ogg|m4a|aac
+      train: doc|docx|hwp|pdf|txt
+    path:
+      train: /home/solugate/meetdev/sgsas_train/upload/train
+      test: /home/solugate/meetdev/sgsas_train/upload/test
+      meet: /home/solugate/meetdev/sgsas_train/upload/meet
+      temp: /home/solugate/meetdev/sgsas_train/upload/temp
+      tts:  /home/solugate/meetdev/sgsas_train/upload/tts
+spring:
+  servlet:
+    multipart:
+#      enabled: true
+#      file-size-threshold: 1MB
+      location: /tmp
+#      max-file-size: 100000000
+#      max-request-size: 100000000
+  datasource:
+    hikari:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      jdbc-url: jdbc:mysql://192.168.0.233:3307/SGSAS?serverTimezone=UTC
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      jdbc-url: jdbc:log4jdbc:mysql://steeldb:3306/MEETING?serverTimezone=UTC
+      password: meet_pass
+      username: meet_user
+stt:
+  service:
+    manager:
+      ip: localhost
+      port: 8988
+      use: false
+#  url: http://192.168.0.252:9187/was/stt_diarization
+  url: http://121.78.145.5:8987/was/stt_diarization
+  multi-lang: true
+tts:
+  url: http://121.78.145.5:8081    
+summary:
+  url: http://121.78.145.5:7100/summ/text?filename=asd&type=
+  url2: http://121.78.145.5:7100/summ/result?summId=
+train:
+  enable: true
+  url: http://121.78.145.5:8989
+  project_id: 692e7c6048333415e23cded9         
+ffmpeg:
+  ffmpeg:
+    path: /usr/bin/ffmpeg
+  ffprobe:
+    path : /usr/bin/ffprobe
+task:
+  sound:
+    train:
+      max: 1
+    test:
+      max: 1
+    no_data_sleep: 60
+    urls: >
+        http://192.168.0.249:8987/was/stt_diarization_comp
+  summary:
+    max: 3  
+    no_data_sleep: 60
+service:
+  class:
+    commonService: CommonSteelService
+    menu21Service: Menu21SteelService
+    menu23Service: Menu23SteelService
+    menu24Service: Menu24SteelService
+    menu25Service: Menu25SteelService

@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vol.solunote.mapper.train.TrainMapper">
+
+    <select id="getSchedule" resultType="trainVo">
+    <![CDATA[
+		select
+			sch.seq
+			, sch.start_time	AS startTime
+			, tr.status
+		FROM TB_CS_TRAIN_SCHEDULE sch
+		LEFT JOIN TB_CS_TRAIN tr ON sch.seq = tr.schedule_seq
+	    WHERE sch.start_time BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -1 MONTH), '%Y-%m-%d %H:%i') AND  DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
+        order by sch.start_time
+    ]]>
+    </select>
+    
+    <select id="getTrainData" resultType="trainVo">
+	    SELECT 
+			SEQ				AS seq
+			, NAME
+			, model_id		AS modelId
+			, data_cnt		AS dataCnt
+			, requested_at	AS requestedAt
+			, started_at	as startecAt
+			, ended_at		as endedAt
+			, duration
+			, status
+			, is_success    as isSuccess
+			, cer
+			, wer
+			, detail
+		FROM TB_CS_TRAIN
+		WHERE requested_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+		<if test='search.searchText != null and search.searchText != ""'>
+			<![CDATA[
+			AND status < #{search.searchText}
+			]]>
+		</if>
+        order by requested_at desc
+        <if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>
+    
+	<insert id="insertTrain" parameterType="trainVo">
+        insert TB_CS_TRAIN (
+        	schedule_seq
+        	, name
+        	, model_id
+        	, data_cnt
+        	, requested_at
+        	, status
+        ) value(
+        	#{scheduleSeq}
+        	, #{name}
+        	, #{modelId}
+        	, #{dataCnt}
+        	, CURRENT_TIMESTAMP
+        	, #{status}
+        )
+    </insert>
+    
+    
+    <update id="updateTransPairModel" parameterType="trainVo">
+    	update TB_CS_TRANS_PAIR
+    	set model_id = #{modelId}
+		WHERE model_id IS NOT NULL AND model_id = ''   
+    </update>
+    
+    <update id="updateTestTransPairModel" parameterType="trainVo">
+    	update TB_CS_TEST_TRANS_PAIR
+    	set model_id = #{modelId}
+		WHERE model_id IS NOT NULL AND model_id = ''   
+    </update>
+    
+     <select id="getTransPairCount" resultType="int">
+       SELECT SUM(a.cnt) FROM (
+			SELECT COUNT(*) AS cnt
+			FROM TB_CS_TRANS_PAIR
+			WHERE model_id IS NOT NULL AND model_id = ''
+		union
+			SELECT  COUNT(*) AS cnt
+			FROM TB_CS_TEST_TRANS_PAIR
+			WHERE model_id IS NOT NULL AND model_id = ''
+		) a
+    </select>
+    
+    
+    <update id="updateTrainData" parameterType="trainVo">
+    	update TB_CS_TRAIN
+    	set started_at = #{startedAt}
+    		, ended_at = #{endedAt}
+    		, duration = #{duration}
+    		, status = #{status}
+    		, is_success = #{isSuccess}
+    		, cer = #{cer}
+    		, wer = #{wer}
+    		, detail = #{detail}
+		WHERE seq = #{seq}
+    </update>
+    
+    
+        
+	<insert id="insertTrainResult" parameterType="trainResultVo">
+        insert TB_CS_TRAIN_RESULT (
+			model_id
+			, data_id
+			, cer
+			, wer
+			, entire_char
+			, entire_word
+			, error_char
+			, error_word
+			, train_text
+			, stt_text
+        ) value(
+			#{modelId}
+			, #{dataId}
+			, #{cer}
+			, #{wer}
+			, #{entireChar}
+			, #{entireWord}
+			, #{errorChar}
+			, #{errorWord}
+			, #{trainText}
+			, #{sttText}
+		)
+    </insert>
+        
+	<insert id="insertTrainResultXXXXx" parameterType="trainResultVo">
+        insert TB_CS_TRAIN_RESULT (
+			model_id
+			, data_id
+			, cer
+			, wer
+			, entire_char
+			, entire_word
+			, error_char
+			, error_word
+			, train_text
+			, stt_text
+        ) value(
+			#{modelId}
+			, #{dataId}
+			, #{cer}
+			, #{wer}
+			, #{entireChar}
+			, #{entireWord}
+			, #{errorChar}
+			, #{errorWord}
+			, #{trainText}
+			, #{sttText}
+        ) on duplicate key update 
+			cer   = #{cer}
+			, wer   = #{wer}
+			, entire_char   = #{entireChar}
+			, entire_word   = #{entireWord}
+			, error_char    = #{errorChar}
+			, error_word    = #{errorWord}
+			, train_text    = #{trainText}
+			, stt_text      = #{sttText}
+    </insert>
+        
+	<insert id="insertTrainResultFull" parameterType="trainResultVo">
+        insert TB_CS_TRAIN_RESULT_FULL (
+			model_id
+			, data_id
+			, cer
+			, wer
+			, entire_char
+			, entire_word
+			, error_char
+			, error_word
+			, train_text
+			, stt_text
+        ) value(
+			#{modelId}
+			, #{dataId}
+			, #{cer}
+			, #{wer}
+			, #{entireChar}
+			, #{entireWord}
+			, #{errorChar}
+			, #{errorWord}
+			, #{trainText}
+			, #{sttText}
+		)
+    </insert>
+    
+    <update id="updateTrainSchedule" parameterType="trainVo">
+    	update TB_CS_TRAIN_SCHEDULE
+    	set status = #{status}
+		WHERE seq = #{seq}
+    </update>
+
+    <insert id ="listAdd">
+    	INSERT INTO TB_CS_TRAIN_SCHEDULE (
+    	start_time
+    	) VALUES (
+		#{startTime}
+    	)
+    </insert>
+
+ 	<select id="checkdata" resultType="int">
+     	SELECT EXISTS (
+    	SELECT * FROM TB_CS_TRAIN_SCHEDULE
+    	WHERE start_time = #{startTime})
+    </select>
+
+    <select id="getList" resultType="trainVo">
+		select ts.SEQ AS seq
+				, ts.start_time as startTime
+				, ts.created_at as	createdAt
+				, tt.started_at AS startedAt
+				, tt.ended_at AS endedAt
+				, tt.is_success as isSuccess
+				, tt.status as status
+				,(
+					SELECT count(tsc.seq) 
+					FROM TB_CS_TRAIN_SCHEDULE tsc
+					LEFT JOIN TB_CS_TRAIN ttc ON   tsc.SEQ = ttc.schedule_seq
+					<where>
+						<if test='search != null and search.searchStartDate != null'>
+	      					tsc.created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+						</if>
+	      				<if test='seq != null'>
+							AND tsc.seq = #{seq}
+						</if>
+                    <if test='isSuccess != null and  isSuccess !=100'>
+                        AND ttc.is_success = #{isSuccess}
+                    </if>						
+					</where>
+				) AS hiddenCount				 		
+      	from TB_CS_TRAIN_SCHEDULE ts
+      	LEFT JOIN TB_CS_TRAIN tt ON   ts.SEQ = tt.schedule_seq
+      	<where>
+	      	<if test='search != null and search.searchStartDate != null'>
+		      	ts.created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+	      	</if>
+	      	<if test='seq != null'>
+				AND ts.seq = #{seq}
+			</if>
+	        <if test='isSuccess != null and isSuccess !=100'>
+	            AND tt.is_success = #{isSuccess}
+	        </if>			
+      	</where>
+      	order by startTime DESC
+      	<if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>      	
+    </select>
+
+    <select id="requestList" resultType="trainVo">
+		select SEQ AS seq
+				, name
+				, model_id AS modelId
+				, started_at AS startedAt
+				, ended_at AS endedAt
+				, (CONVERT(duration, SIGNED)) AS duration
+				, status
+				, is_success as isSuccess
+				, cer
+				, wer
+				, '' AS detail
+				, created_at as	createdAt
+				, updated_at as	updatedAt
+				,(
+					SELECT count(tra.seq) 
+					FROM TB_CS_TRAIN tra
+					<where>
+						<if test='search != null and search.searchStartDate != null'>
+							and tra.created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )	
+						</if>
+						<if test='seq != null'>
+							and tra.seq = #{seq}
+						</if>
+					</where>
+				) AS hiddenCount				 
+      	from TB_CS_TRAIN
+      	<where>
+			<if test='search != null and search.searchStartDate != null'>
+      			 and created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )	
+			</if>
+			<if test='seq != null'>
+				and seq = #{seq}
+			</if>
+		</where>
+      	order by requested_at DESC
+      	<if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>     
+
+    <select id="getTrainResultList" resultType="Map">
+		SELECT 
+		   re. data_id   AS dataId
+		   , te.division As division
+		   , re.cer
+		   , re.entire_char as entireChar
+		   , re.error_char  as errorChar
+		   , re.train_text AS trainText
+		   , re.stt_text AS sttText
+		   , tr.SEQ AS seq
+		   , tr.start
+		   , tr.end
+		   , tr.reliability
+		   , tr.test_seq AS testSeq
+		   , te.file_org_nm   AS fileOrgNm
+		   , te.file_new_nm   AS fileNewNm
+		   , te.subject as subject
+		   ,(
+		   		SELECT count(reh.data_id) 
+				 FROM TB_CS_TRAIN_RESULT reh
+				 JOIN TB_CS_TEST_TRANS trh ON reh.data_id = trh.data_id
+				 JOIN TB_CS_TEST teh ON teh.seq != -1 AND trh.test_seq = teh.seq
+				 WHERE reh.model_id = #{modelId}
+			) AS hiddenCount			   
+		FROM TB_CS_TRAIN_RESULT re
+		JOIN TB_CS_TEST_TRANS tr ON re.data_id = tr.data_id
+		JOIN TB_CS_TEST te ON te.seq != -1 AND tr.test_seq = te.SEQ
+		WHERE re.model_id = #{modelId}
+		<if test='orderby =="fileNewNm" '>
+			order by te.file_new_nm desc
+		</if>
+		<if test='orderby =="pct" '>
+			order by re.cer desc
+		</if>						
+		<if test='orderby == "recent"'>
+		    order by te.created_at desc
+		</if>		
+      	<if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>					
+    </select>
+
+    <delete id="excludeTrans" parameterType="Integer">
+		DELETE FROM TB_CS_TRAIN_SCHEDULE 
+		WHERE seq in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+    </delete>
+
+    <select id="getTrainList" resultType="Map">
+		select SEQ AS seq
+				, name
+				, model_id   AS modelId
+				, is_success as isSuccess
+				, detail
+				, status
+      	from TB_CS_TRAIN
+      	WHERE model_id = #{modelId}
+    </select>
+
+	<insert id="insertTrainServerData" parameterType="com.vol.solunote.batch.train.vo.TrainServerDataVo">
+        insert TB_CS_TRAIN_SERVER (
+        	data_id
+        	, test_yn
+        	, use_yn
+        	, duration
+        	, train_text
+        ) value(
+        	#{dataId}
+        	, #{testYn}
+        	, #{useYn}
+        	, #{duration}
+        	, #{trainText}
+        )
+    </insert>
+    
+    <delete id="deleteAllTrainServerData">
+        delete from TB_CS_TRAIN_SERVER
+    </delete>
+    
+    <select id="selectTrainServerData" parameterType="com.vol.solunote.batch.train.vo.TrainServerDataVo" resultType="com.vol.solunote.batch.train.vo.TrainServerDataVo">
+        select 
+        	data_id as dataId
+        	, test_yn as testYn
+        	, use_yn as useYn
+        	, duration
+        	, train_text as trainText
+        from TB_CS_TRAIN_SERVER
+        where test_yn = #{testYn}
+        order by data_id
+    </select>
+    
+    
+   <select id="getAllTranscriptionList" resultType="transcriptionVo">
+         select SEQ
+				, start
+				, end
+				, reliability
+				, stt_text	as sttText
+				, train_text	as trainText
+				, data_id   AS dataId
+				, use_yn    as useYn
+      	from TB_CS_TRANSCRIPTION
+      	where data_id is not null and data_id != ''
+      	order by data_id
+    </select>
+        
+    
+   <select id="getAllTestTransList" resultType="transcriptionVo">
+         select SEQ
+				, start
+				, end
+				, reliability
+				, trim(IF(train_text IS NULL or train_text = '', stt_text, train_text))    as trainText
+				, data_id   AS dataId
+				, use_yn    as useYn
+      	from TB_CS_TEST_TRANS
+      	where data_id is not null and data_id != ''
+      	order by data_id
+    </select>
+        
+        
+    <delete id="deleteTransPair" parameterType="Map" >
+        delete from TB_CS_TRANS_PAIR
+        where data_id = #{dataId}
+    </delete>
+    
+    
+    <delete id="deleteTestPair" parameterType="Map" >
+        delete from TB_CS_TRANS_PAIR
+        where data_id = #{dataId}
+    </delete>
+    
+   <select id="readTrainServerAndTrans" resultType="com.vol.solunote.batch.train.vo.TrainCompareVo">
+		select
+                s.data_id as dataId
+                , s.test_yn as testYn
+                , s.use_yn as useYn
+                , s.duration as duration
+                , s.train_text as trainText
+                , t.use_yn as tUseYn
+                , round((t.end - t.start), 2) as tDuration
+                , t.train_text as tTrainText
+                , t.sound_seq as tRelSeq
+                , 'E' AS mode
+        from TB_CS_TRAIN_SERVER s
+        join TB_CS_TRANSCRIPTION t on s.data_id = t.data_id
+        where s.test_yn = 'N'
+        order by s.data_id
+    </select>
+    
+    <update id="updateTransServerMode" parameterType="com.vol.solunote.batch.train.vo.TrainCompareVo">
+    	update TB_CS_TRAIN_SERVER
+    	set t_use_yn = #{tUseYn}
+    		, t_duration = #{tDuration}
+    		, t_train_text = #{tTrainText}
+    		, mode = #{mode}
+    		, rel_seq = #{tRelSeq}
+		WHERE data_id = #{dataId}
+    </update>
+    
+     <select id="readTrainServerNoneExists" resultType="com.vol.solunote.batch.train.vo.TrainCompareVo">
+		select
+                s.data_id as dataId
+                , s.test_yn as testYn
+                , s.use_yn as useYn
+                , s.duration as duration
+                , s.train_text as trainText
+                , s.t_use_yn as tUseYn
+                , s.t_duration as tDuration
+                , s.t_train_text as tTrainText
+                , 'E' AS mode
+        from TB_CS_TRAIN_SERVER s
+        where s.rel_seq = -1
+        and s.mode = 'E'
+        and s.use_yn = 'Y'
+        order by s.data_id
+    </select>
+        
+   <select id="readTrainServerAndTestTrans" resultType="com.vol.solunote.batch.train.vo.TrainCompareVo">
+		select
+                s.data_id as dataId
+                , s.test_yn as testYn
+                , s.use_yn as useYn
+                , s.duration as duration
+                , s.train_text as trainText
+                , t.use_yn as tUseYn
+                , round((t.end - t.start), 2) as tDuration
+              	, trim(IF(t.train_text IS NULL or t.train_text = '', t.stt_text, t.train_text))    as tTrainText
+                , t.use_yn as tUseYn
+                , t.test_seq as tRelSeq
+                , 'E' AS mode
+        from TB_CS_TRAIN_SERVER s
+        join TB_CS_TEST_TRANS t on s.data_id = t.data_id
+        where s.test_yn = 'Y'
+        order by s.data_id
+    </select>
+                             
+</mapper>

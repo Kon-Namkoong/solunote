@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="_" data-name="&gt;" transform="translate(20) rotate(90)">
+    <g id="default" transform="translate(394 30) rotate(180)">
+      <rect id="버튼영역" width="20" height="20" rx="2" transform="translate(374 10)" fill="none" opacity="0.3"/>
+      <path id="패스_3315" data-name="패스 3315" d="M6,0a6,6,0,0,1,6,6h2L11.333,8.66,8.667,6h2A4.689,4.689,0,1,0,9.293,9.293l.947.947A6,6,0,1,1,6,0Z" transform="translate(378 14.2)" fill="#555"/>
+    </g>
+  </g>
+</svg>

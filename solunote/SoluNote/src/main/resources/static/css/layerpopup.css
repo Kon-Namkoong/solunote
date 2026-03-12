@@ -1,0 +1,346 @@
+/* 회원정보 레이어 팝업 */
+
+header .header_wrap>div.admin_popup {
+    position: absolute;
+    right: 20px;
+    top: 52px;
+    background-color: #fff;
+    box-shadow: 1px 1px 7px #00000027;
+    border-radius: 10px;
+    width: 220px;
+    display: none;
+}
+
+.ad_pop_wrap {
+    text-align: center;
+    width: 100%;
+}
+
+.ad_pop_name {
+    padding: 20px 0 10px;
+}
+
+.ad_pop_name .name {
+    font-weight: bold;
+    color: #333;
+}
+
+.ad_pop_name .role {
+    font-size: 12px;
+    color: #999;
+}
+
+.ad_pop_email {
+    font-size: 12px;
+    color: #888;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ebebeb;
+}
+
+.ad_pop_btn a {
+    color: #000;
+    display: block;
+    padding: 12px 0;
+    text-align: center;
+    font-size: 14px;
+}
+
+
+
+/* 레이어 공통 */
+
+.layer_popup {
+    padding: 20px;
+    border: 1px solid #c0c0c0;
+    border-radius: 4px;
+    box-shadow: 1px 1px 7px #00000027;
+    background-color: #fff;
+    position: absolute;
+}
+
+.popup_tit {
+    display: flex;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ebebeb;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.popup_tit span.title {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.popup_tit button.close_btn {
+    background-image: url(../images/close_icon.svg);
+    background-repeat: no-repeat;
+    background-size: 20px;
+    width: 20px;
+    height: 20px;
+    background-color: inherit;
+}
+
+
+
+/* 회의록 상세 - 다운로드 팝업 */
+
+.download_popup {
+    width: 220px;
+    right: 20px;
+    top: 120px;
+    display: none;
+    position: absolute; /* 또는 fixed */
+    z-index: 999;
+}
+
+
+.popup_cont .popup_cont_grid {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.popup_cont .popup_cont_grid .pop_chk {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.popup_cont .popup_cont_grid .pop_chk .check_label {
+    margin-left: 7px;
+}
+
+.popup_cont .popup_cont_grid .select-container select {
+    height: 32px;
+    border: 1px solid #DDDDDD;
+    color: #555;
+    padding: 0 10px;
+    border-radius: 4px;
+}
+
+.popuup_wrap .popup_btn button {
+    background-color: #0080bc;
+    width: 100%;
+    color: #fff;
+    border-radius: 4px;
+    padding: 8px 0;
+    border: 1px solid #0080bc;
+}
+
+
+
+/* 회의록 상세 - 단어검색 팝업 */
+
+.search_popup {
+    width: 400px;
+    right: 53px;
+    top: 120px;
+    display: none;
+}
+
+.search_popup .popup_cont .popup_cont_grid {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.search_popup .popuup_wrap .popup_btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.search_popup .popuup_wrap .popup_btn button {
+    width: 49%;
+}
+
+.popuup_wrap .popup_btn button.line {
+    background-color: #fff;
+    border: 1px solid #D2D2D2;
+    color: #555555;
+}
+
+.popup_cont_grid .search_input {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
+    width: 100%;
+}
+
+
+.change_input {
+    width: 100%;
+}
+
+.popup_cont_grid .input_bx {
+    background-color: #F5F5F8;
+    padding: 8px 5px;
+    padding-left: 10px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 32px;
+}
+
+.popup_cont_grid .input_bx input {
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.popup_cont_grid .input_bx.search_box {
+    width: 81%;
+}
+
+.search_box .U_and_D {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.search_box .U_and_D span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    background-position: center center;
+}
+
+.search_box .U_and_D .page {
+    width: auto;
+    line-height: 1.5;
+    color: #999999;
+    margin-right: 8px;
+}
+
+.search_box .U_and_D .up_click {
+    background-image: url(../images/up_search.svg);
+}
+
+.search_box .U_and_D .down_click {
+    background-image: url(../images/down_search.svg);
+}
+
+
+.popup_cont_grid .search_input button.search_btn {
+    border-radius: 4px;
+    background: none;
+    padding: 8px 18px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #3B3B3B;
+    margin-left: 6px;
+}
+
+.popup_cont_grid .search_input .search_box {
+    padding-left: 0;
+}
+
+.popup_cont_grid .search_input .search_box input {
+    background: url(../images/icon-search.svg) no-repeat;
+    background-position: center left;
+    background-position-x: 5px;
+    padding-left: 30px;
+    width: 68%;
+}
+
+
+.popup_cont_grid .change_input {
+    margin-top: 20px;
+}
+
+.popup_cont_grid .change_input .change_tit {
+    margin-bottom: 10px;
+}
+
+
+
+/* 참석자 변경 팝업 */
+.attend_popup {
+    width: 240px;
+    left: 70px;
+    top: 73px;
+    z-index: 3;
+    display: none;
+}
+
+.attend_popup .popup_btn {
+    padding-top: 10px;
+}
+
+.attend_popup .popup_cont .popup_cont_grid {
+    margin: 10px 0;
+}
+
+.radio-input {
+    display: none;
+}
+
+.popup_cont .popup_cont_grid .pop_chk label {
+    margin: 0;
+}
+
+.attend_popup .pop_chk .check-box .unchecked {
+    display: inline;
+}
+
+.attend_popup .pop_chk .check-box .checked {
+    display: none;
+}
+
+.radio-input:checked+.check-box .unchecked {
+    display: none;
+}
+
+.radio-input:checked+.check-box .checked {
+    display: inline;
+}
+
+.attend_list {
+    height: 122px;
+    overflow: hidden;
+    padding: 10px 0;
+}
+
+.attend_list ul {
+    padding-right: 5px;
+    overflow-y: scroll;
+    height: 100%;
+    margin-right: 2px;
+}
+
+.attend_list ul li {
+    padding: 10px;
+}
+
+.attend_list ul li.active {
+    background-color: #ededed;
+    border-radius: 4px;
+    font-weight: bold;
+    background-image: url(../images/check_icon.svg);
+    background-repeat: no-repeat;
+    background-position: calc(100% - 5px) center;
+    background-size: 20px;
+}
+
+.attend_popup .popup_cont .popup_cont_grid.attend_input {
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+.popup_cont_grid.attend_input .attend_box input {
+/*     background: url(../images/re_write.svg) no-repeat;
+    background-position: center right; */
+    padding-right: 30px;
+    width: 100%;
+}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <g id="플레이" transform="translate(-1617 -237)">
+    <rect id="bg" width="32" height="32" rx="16" transform="translate(1617 237)" fill="#f5f5f8"/>
+    <path id="플레이-2" data-name="플레이" d="M5.143,1.429a1,1,0,0,1,1.715,0l4.234,7.056A1,1,0,0,1,10.234,10H1.766A1,1,0,0,1,.909,8.486Z" transform="translate(1639 247) rotate(90)" fill="#191919"/>
+  </g>
+</svg>

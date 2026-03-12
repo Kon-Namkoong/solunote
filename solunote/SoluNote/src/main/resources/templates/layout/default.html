@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">K-NOTE</title>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+	<link id="contextPathHolder" th:data-contextPath="@{/}"/>
+	
+    <!-- 공통 헤더 조각 -->
+    <th:block th:replace="fragments/common_head"></th:block>
+</head>
+<body>
+    <!-- 헤더 -->
+    <header th:replace="fragments/header :: headerFragment"></header> 
+    <!-- 본문 내용 -->
+    <div class="over_wrap" id="wrap">
+        <aside sec:authorize="!@environment.acceptsProfiles('lite')" th:replace="fragments/side_menu :: sideMenuFragment"></aside>
+        <aside sec:authorize="@environment.acceptsProfiles('lite')" th:replace="fragments/side_menu_lite :: liteSideMenuFragment"></aside>
+        <!-- 개별 페이지의 콘텐츠와 상세 메뉴 -->
+        <div layout:fragment="content"></div>
+    </div>  
+    <div class="top_btn" style ="display : none">
+       <a><img th:src="@{/images/top.svg}"></a>
+   	</div>
+	<div th:replace="thymeleaf/menu21/content/upload :: uploadFragment"></div>  	
+</body>
+</html>

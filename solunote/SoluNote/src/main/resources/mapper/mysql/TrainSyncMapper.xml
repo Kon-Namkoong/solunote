@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vol.solunote.batch.train.mapper.TrainSyncMapper">
+                   
+	<insert id="insertTrainServerData" parameterType="com.vol.solunote.batch.train.vo.TrainServerDataVo">
+        insert TB_CS_TRAIN_SERVER (
+        	data_id
+        	, test_yn
+        	, use_yn
+        	, duration
+        	, train_text
+        ) value(
+        	#{dataId}
+        	, #{testYn}
+        	, #{useYn}
+        	, #{duration}
+        	, #{trainText}
+        )
+    </insert>
+    
+    <delete id="deleteAllTrainServerData">
+        delete from TB_CS_TRAIN_SERVER
+    </delete>
+    
+    <select id="selectTrainServerData" parameterType="com.vol.solunote.batch.train.vo.TrainServerDataVo" resultType="com.vol.solunote.batch.train.vo.TrainServerDataVo">
+        select 
+        	data_id as dataId
+        	, test_yn as testYn
+        	, use_yn as useYn
+        	, duration
+        	, train_text as trainText
+        from TB_CS_TRAIN_SERVER
+        where test_yn = #{testYn}
+        order by data_id
+    </select>
+    
+    
+   <select id="getAllTranscriptionList" resultType="transcriptionVo">
+         select SEQ
+				, start
+				, end
+				, reliability
+				, stt_text	as sttText
+				, train_text	as trainText
+				, data_id   AS dataId
+				, use_yn    as useYn
+      	from TB_CS_TRANSCRIPTION
+      	where data_id is not null and data_id != ''
+      	order by data_id
+    </select>
+        
+    
+   <select id="getAllTestTransList" resultType="transcriptionVo">
+         select SEQ
+				, start
+				, end
+				, reliability
+				, trim(IF(train_text IS NULL or train_text = '', stt_text, train_text))    as trainText
+				, data_id   AS dataId
+				, use_yn    as useYn
+      	from TB_CS_TEST_TRANS
+      	where data_id is not null and data_id != ''
+      	order by data_id
+    </select>
+        
+        
+    <delete id="deleteTransPair" parameterType="Map" >
+        delete from TB_CS_TRANS_PAIR
+        where data_id = #{dataId}
+    </delete>
+    
+    
+    <delete id="deleteTestPair" parameterType="Map" >
+        delete from TB_CS_TRANS_PAIR
+        where data_id = #{dataId}
+    </delete>
+    
+   <select id="readTrainServerAndTrans" resultType="com.vol.solunote.batch.train.vo.TrainCompareVo">
+		select
+                s.data_id as dataId
+                , s.test_yn as testYn
+                , s.use_yn as useYn
+                , s.duration as duration
+                , s.train_text as trainText
+                , t.use_yn as tUseYn
+                , round((t.end - t.start), 2) as tDuration
+                , t.train_text as tTrainText
+                , t.sound_seq as tRelSeq
+                , 'E' AS mode
+        from TB_CS_TRAIN_SERVER s
+        join TB_CS_TRANSCRIPTION t on s.data_id = t.data_id
+        where s.test_yn = 'N'
+        order by s.data_id
+    </select>
+    
+    <update id="updateTransServerMode" parameterType="com.vol.solunote.batch.train.vo.TrainCompareVo">
+    	update TB_CS_TRAIN_SERVER
+    	set t_use_yn = #{tUseYn}
+    		, t_duration = #{tDuration}
+    		, t_train_text = #{tTrainText}
+    		, mode = #{mode}
+    		, rel_seq = #{tRelSeq}
+		WHERE data_id = #{dataId}
+    </update>
+    
+     <select id="readTrainServerNoneExists" resultType="com.vol.solunote.batch.train.vo.TrainCompareVo">
+		select
+                s.data_id as dataId
+                , s.test_yn as testYn
+                , s.use_yn as useYn
+                , s.duration as duration
+                , s.train_text as trainText
+                , s.t_use_yn as tUseYn
+                , s.t_duration as tDuration
+                , s.t_train_text as tTrainText
+                , 'E' AS mode
+        from TB_CS_TRAIN_SERVER s
+        where s.rel_seq = -1
+        and s.mode = 'E'
+        and s.use_yn = 'Y'
+        order by s.data_id
+    </select>
+        
+   <select id="readTrainServerAndTestTrans" resultType="com.vol.solunote.batch.train.vo.TrainCompareVo">
+		select
+                s.data_id as dataId
+                , s.test_yn as testYn
+                , s.use_yn as useYn
+                , s.duration as duration
+                , s.train_text as trainText
+                , t.use_yn as tUseYn
+                , round((t.end - t.start), 2) as tDuration
+              	, trim(IF(t.train_text IS NULL or t.train_text = '', t.stt_text, t.train_text))    as tTrainText
+                , t.use_yn as tUseYn
+                , t.test_seq as tRelSeq
+                , 'E' AS mode
+        from TB_CS_TRAIN_SERVER s
+        join TB_CS_TEST_TRANS t on s.data_id = t.data_id
+        where s.test_yn = 'Y'
+        order by s.data_id
+    </select>
+        
+    
+</mapper>

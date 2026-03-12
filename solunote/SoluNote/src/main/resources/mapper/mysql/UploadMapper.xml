@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vol.solunote.mapper.upload.UploadMapper">
+
+    <select id="getUploadDirList" resultType="Map" >
+        select  seq 
+                , dir 
+                , use_yn AS useYn 
+                , DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') AS createdAt
+                , DATE_FORMAT(updated_at, '%Y-%m-%d %H:%i') as updatedAt
+                , category    
+                ,(
+                    SELECT count(tud.dir) 
+                    FROM TB_CS_UPLOAD_DIR tud    
+                ) AS hiddenCount                                 
+          from TB_CS_UPLOAD_DIR          
+          order by seq DESC     
+          <if test='offsetPageable != null'>
+               limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+         </if>                    
+    </select> 
+
+     <insert id="uploadDirRegister">
+        INSERT INTO TB_CS_UPLOAD_DIR (
+        dir, use_yn , category) 
+        VALUES (
+        #{uploadDir},#{uploadDirUseYn} ,#{uploadDirCategory});
+    </insert>    
+    
+    <select id="checkUploadDir" resultType="int">
+        SELECT COUNT(*) as CNT
+        FROM TB_CS_UPLOAD_DIR 
+        WHERE dir = #{uploadDir}
+    </select>   
+
+    <select id="uploadDirInfo" resultType="Map">
+		select 
+                dir 
+                , use_yn AS useYn
+                , category  		
+      	from TB_CS_UPLOAD_DIR 
+		where dir =    #{uploadDir}   		
+    </select> 
+    
+    <update id="trainChangeToN">
+		UPDATE TB_CS_UPLOAD_DIR
+		SET use_yn = 'N'
+		WHERE category = 'train'
+    </update>
+    
+    <update id="testChangeToN">
+		UPDATE TB_CS_UPLOAD_DIR
+		SET use_yn = 'N'
+		WHERE category = 'test'
+    </update>  
+    
+    <update id="changeToY"  > 
+		UPDATE TB_CS_UPLOAD_DIR
+      	SET use_yn = 'Y'	
+       WHERE dir = #{uploadDirChange}
+    </update>    
+    
+    <select id="getLastRead" parameterType="String" resultType="String">
+        select dir
+        from TB_CS_LAST_READ
+        where category = #{category}
+    </select>
+    
+    <insert id="createLastRead"  parameterType="Map">
+        insert TB_CS_LAST_READ (
+			category
+        	, dir
+        ) value (
+        	#{category}
+        	, #{dir}
+        ) on duplicate key update
+		    dir = #{dir}
+    </insert>
+                           
+</mapper>        

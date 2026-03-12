@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.vol.solunote.mapper.meeting.MeetingMapper">
+
+    <insert id="createMeet" parameterType="hashmap" useGeneratedKeys="true" keyProperty="seq">
+        insert TB_CS_MEETING (
+        	subject
+        	, lang
+        	, time_duration_ms
+        	, file_org_nm
+        	, file_new_nm
+        	, file_conv_nm
+        	, file_size_bytes
+        	, TC_USER_SEQ
+        	, error_message
+        	, upload_type
+        ) value (
+        	#{subject}
+        	, #{lang}
+        	, #{timeDurationStr}
+        	, #{orgnm}
+        	, #{newnm}
+        	, #{convnm}
+        	, #{fileSizeBytes}
+        	, #{tcUserSeq}
+        	, #{errorMessage}
+        	, #{type}
+        )
+    </insert>
+        
+    <insert id="createMeetApi" parameterType="Map" useGeneratedKeys="true" keyProperty="seq">
+        insert TB_CS_MEETING_API (
+        	  subject
+        	, time_duration_ms
+        	, file_org_nm
+        	, file_new_nm
+        	, file_conv_nm
+        	, file_size_bytes
+        	, TC_USER_SEQ
+        	, status
+        ) value (
+        	  #{subject}
+        	, #{timeDurationStr}
+        	, #{orgnm}
+        	, #{newnm}
+        	, #{convnm}
+        	, #{fileSizeBytes}
+        	, #{tcUserSeq}
+        	, '10'
+        )
+    </insert>
+    
+    <update id="updateMeetApi" parameterType="meetingVo">
+        update TB_CS_MEETING_API set
+        	  time_duration_ms = #{timeDurationMs}
+        	, meeting_seq = #{meetingSeq}
+        	, status = #{status}
+        	<if test='sttStartedAt != null'>
+        		, stt_started_at = #{sttStartedAt}
+        	</if>
+        	<if test='sttDuration != null'>
+        		, stt_duration = #{sttDuration}
+        	</if>
+        where seq = #{seq}
+    </update>
+    
+    <update id="updateMeetApiStatus" parameterType="meetingVo">
+        update TB_CS_MEETING_API set
+        	status = #{status}
+        where seq = #{seq}
+    </update>
+    
+    <update id="updateMeetApiForce" parameterType="meetingVo">
+        update TB_CS_MEETING_API_TEST set
+        	  time_duration_ms = #{timeDurationMs}
+        	, meeting_seq = #{meetingSeq}
+        	, status = #{status}
+        where seq = #{seq}
+    </update>
+    
+    <select id="getMeetApi" parameterType="meetingVo" resultType="meetingVo">
+        select 
+        	  SEQ				as seq
+        	, subject
+        	, time_duration_ms	as timeDurationMs
+        	, file_org_nm		as fileOrgNm
+        	, file_new_nm		as fileNewNm
+        	, file_size_bytes	as fileSizeBytes
+        	, TC_USER_SEQ		as tcUserSeq
+        	, status			as status
+        	, meeting_seq		as meetingSeq
+        from TB_CS_MEETING_API 
+        where 1 = 1
+        	<if test='status != null'>
+        		and status = #{status}
+        	</if>
+        	<if test='seq != -1'>
+        		and seq = #{seq}
+        	</if>
+        order by seq
+    </select>
+    
+    <select id="getMeetApiList" parameterType="Map" resultType="Map">
+        select
+            api.SEQ  as seq
+            , api.meeting_seq
+            , api.status
+            , api.subject
+            , DATE_FORMAT(api.created_at, '%Y-%m-%d %H:%i') as created_at
+            , DATE_FORMAT(tt.trashed_at, '%Y-%m-%d %H:%i') as trashed_at
+        	, DATE_FORMAT(tt.deleted_at, '%Y-%m-%d %H:%i') as deleted_at
+            , api.time_duration_ms
+            , api.file_org_nm
+            , api.file_new_nm
+            , api.file_conv_nm
+            , api.file_size_bytes
+            , (   	SELECT COUNT(*)
+					from TB_CS_MEETING_API apia
+					LEFT JOIN TB_CS_MEETING tta ON tta.SEQ = apia.meeting_seq
+					LEFT JOIN TB_CS_INFO_USER iua ON iua.seq = apia.tc_user_seq
+					WHERE 1 = 1
+					<if test='user.tclevel != 100'>
+						AND iua.tc_id = #{user.tcId}
+					</if>
+					<if test='search.searchText != null and search.searchText != ""'>
+						AND apia.subject LIKE concat('%', #{search.searchText}, '%') OR apia.file_org_nm LIKE concat('%', #{search.searchText}, '%')
+					</if>
+            ) as hiddenCount
+            , iu.tc_name
+            , iu.tc_id
+            , iu.TC_LEVEL
+        from TB_CS_MEETING_API api
+        LEFT JOIN TB_CS_MEETING tt ON tt.SEQ = api.meeting_seq
+        LEFT JOIN TB_CS_INFO_USER iu ON iu.seq = api.tc_user_seq
+     	WHERE 1 = 1
+		<if test='user.tclevel != 100'>
+			AND iu.tc_id = #{user.tcId}
+		</if>
+        <if test='search.searchText != null and search.searchText != ""'>
+			AND api.subject LIKE concat('%', #{search.searchText}, '%') OR api.file_org_nm LIKE concat('%', #{search.searchText}, '%')
+		</if>
+        order by api.created_at desc
+        <if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+       	</if>
+       	
+    </select>
+    
+    <select id="getMeetApiFromSeq" parameterType="meetingVo" resultType="meetingVo">
+        select 
+        	  SEQ				as seq
+        	, subject
+        	, time_duration_ms	as timeDurationMs
+        	, file_org_nm		as fileOrgNm
+        	, file_new_nm		as fileNewNm
+        	, file_conv_nm		as fileConvNm
+        	, file_size_bytes	as fileSizeBytes
+        	, TC_USER_SEQ		as tcUserSeq
+        	, status			as status
+        	, meeting_seq		as meetingSeq
+        from TB_CS_MEETING_API 
+        where 1 = 1
+        	<if test='status != null'>
+        		and status = #{status}
+        	</if>
+        	<if test='seq != -1'>
+        		and seq > #{seq}
+        	</if>
+        order by seq
+    </select>
+    
+    <select id="getMeetApiForce" parameterType="meetingVo" resultType="meetingVo">
+        select 
+        	  SEQ				as seq
+        	, subject
+        	, time_duration_ms	as timeDurationMs
+        	, file_org_nm		as fileOrgNm
+        	, file_new_nm		as fileNewNm
+        	, file_size_bytes	as fileSizeBytes
+        	, TC_USER_SEQ		as tcUserSeq
+        	, status			as status
+        	, meeting_seq		as meetingSeq
+        from TB_CS_MEETING_API_TEST 
+        where 1 = 1
+        	<if test='status != null'>
+        		and status = #{status}
+        	</if>
+        	<if test='seq != -1'>
+        		and seq > #{seq}
+        	</if>
+        order by seq
+    </select>
+
+    <insert id="createMeetResult">
+        insert TB_CS_MEETING_RESULT (start, end, text, meeting_speaker_id, MEETING_SEQ)
+        value(#{startDouble}, #{endDouble}, #{text}, #{meetingSpeakerId}, #{MEETING_SEQ});
+    </insert>
+
+    <select id="getListForTrash" resultType="meetingVo">
+        select tt.SEQ as seq
+        	, tt.remark
+        	, tt.subject
+        	, tt.lang
+        	, tt.created_at as createdAt
+        	, tt.updated_at as updatedAt
+        	, tt.deleted_at as deletedAt
+        	, tt.trashed_at as trashedAt
+        	, tt.time_duration_ms as timeDurationMs
+        	, tt.file_org_nm as fileOrgNm
+        	, tt.file_new_nm as fileNewNm
+			, iu.tc_name	as tcName	
+			, tt.upload_type as uploadType		        
+        	, (
+			        select count(distinct t.SEQ) from TB_CS_MEETING t
+			         LEFT JOIN TB_CS_INFO_USER iuu ON t.tc_user_seq = iuu.seq
+			        <if test='keyword != ""'>
+			            left join TB_CS_MEETING_RESULT TCMR on t.SEQ = TCMR.MEETING_SEQ
+			        </if>
+			        WHERE t.seq != -1 and t.deleted_at is null AND t.trashed_at is not null AND (t.created_at BETWEEN DATE(#{searchStartDate}) AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY ))
+			        AND t.error_message is null
+			        <if test='securityMember.member.userLevel != "100"'>
+			            AND t.TC_USER_SEQ = #{securityMember.member.username} 
+			        </if>
+	                <if test='category != ""'>
+	                    <choose>
+	                        <when test='category == "title"'>
+	                            AND (t.subject like CONCAT('%',#{keyword},'%')) 
+	                        </when>
+	                        <when test='category == "author"'>
+	                            AND (t.tc_name like CONCAT('%',#{keyword},'%')) 
+	                        </when>
+	                    </choose>
+	                </if>		        
+			        ) as hiddenCount
+        from TB_CS_MEETING tt
+        LEFT JOIN TB_CS_INFO_USER iu ON tt.tc_user_seq = iu.seq
+        <if test='keyword != ""'>
+            left join TB_CS_MEETING_RESULT tcm on tt.SEQ = tcm.MEETING_SEQ
+        </if>
+        WHERE tt.seq != -1 and tt.deleted_at is null AND tt.trashed_at is not null AND (tt.created_at BETWEEN DATE(#{searchStartDate}) AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY ))
+        AND tt.error_message is null
+        <if test='securityMember.member.userLevel != "100"'>
+            AND tt.TC_USER_SEQ = #{securityMember.member.username} 
+        </if>
+	    <if test='category != ""'>
+	        <choose>
+	            <when test='category == "title"'>
+	                AND (tt.subject like CONCAT('%',#{keyword},'%')) 
+	            </when>
+	            <when test='category == "author"'>
+	                AND (tt.tc_name like CONCAT('%',#{keyword},'%')) 
+	            </when>
+	        </choose>
+	    </if>
+	    group by tt.SEQ              
+        order by tt.created_at desc
+        <if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>
+
+    <select id="getList" resultType="meetingVo">
+        select tt.SEQ as seq
+        	, tt.remark
+        	, tt.subject
+        	, tt.lang
+        	, tt.created_at as createdAt
+        	, tt.updated_at as updatedAt
+        	, tt.deleted_at as deletedAt
+        	, tt.trashed_at as trashedAt
+        	, tt.time_duration_ms as timeDurationMs
+        	, tt.file_org_nm as fileOrgNm
+        	, tt.file_new_nm as fileNewNm
+        	, tt.error_message as errorMessage
+			, iu.tc_name as tcName
+			, tt.upload_type as uploadType
+            , (
+                      select count(distinct t.SEQ) from TB_CS_MEETING t
+                       LEFT JOIN TB_CS_INFO_USER iuu ON t.tc_user_seq = iuu.seq   
+				        <if test='keyword != ""'>
+				            left join TB_CS_MEETING_RESULT TCMR on t.SEQ = TCMR.MEETING_SEQ
+				        </if>
+				        <if test='activeMenu == 1'>
+				             WHERE t.seq != -1 and t.deleted_at is null AND t.trashed_at is null AND (t.created_at BETWEEN DATE(#{searchStartDate}) AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY ))
+				             AND t.error_message is null
+				        </if>   
+				        <if test='activeMenu == 2'>
+				             WHERE t.seq != -1 and t.deleted_at is null AND t.remark = 1 AND t.trashed_at is null AND (t.created_at BETWEEN DATE(#{searchStartDate}) AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY ))
+				             AND t.error_message is null
+				        </if>     				        
+                        <if test='securityMember.member.userLevel != "100"'>
+				            AND t.TC_USER_SEQ = #{securityMember.member.username} 
+				        </if>
+		                <if test='category != ""'>
+		                    <choose>
+		                        <when test='category == "title"'>
+		                            AND (t.subject like CONCAT('%',#{keyword},'%')) 
+		                        </when>
+		                        <when test='category == "author"'>
+		                            AND (iuu.tc_name like CONCAT('%',#{keyword},'%')) 
+		                        </when>
+		                    </choose>
+		                </if>
+				        ) as hiddenCount
+        from TB_CS_MEETING tt
+        LEFT JOIN TB_CS_INFO_USER iu ON tt.tc_user_seq = iu.seq
+        <if test='keyword != ""'>
+            left join TB_CS_MEETING_RESULT tcm on tt.SEQ = tcm.MEETING_SEQ
+        </if>
+        <if test='activeMenu == 1'>
+            WHERE tt.seq != -1 and tt.deleted_at is null AND tt.trashed_at is null AND (tt.created_at BETWEEN DATE(#{searchStartDate}) AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY ))
+            AND tt.error_message is null
+        </if>   
+        <if test='activeMenu == 2'>
+            WHERE tt.seq != -1 and tt.deleted_at is null AND tt.remark = 1 AND tt.trashed_at is null AND (tt.created_at BETWEEN DATE(#{searchStartDate}) AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY ))
+            AND tt.error_message is null
+        </if>                        
+ 		<if test='securityMember.member.userLevel != "100"'>
+            AND tt.TC_USER_SEQ = #{securityMember.member.username} 
+        </if>
+	    <if test='category != ""'>
+	        <choose>
+	            <when test='category == "title"'>
+	                AND (tt.subject like CONCAT('%',#{keyword},'%')) 
+	            </when>
+	            <when test='category == "author"'>
+	                AND (iu.tc_name like CONCAT('%',#{keyword},'%')) 
+	            </when>
+	        </choose>
+	    </if>
+	    group by tt.SEQ        
+        order by tt.created_at desc 
+        <if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>
+
+    <select id="getMeetBySEQ" resultType="Map">
+        select 
+        	SEQ
+        	, subject
+        	, DATE_FORMAT(created_at, '%Y.%m.%d %H:%i') as created_at
+        	, DATE_FORMAT(updated_at, '%Y.%m.%d %H:%i') as updated_at
+        	, DATE_FORMAT(deleted_at, '%Y.%m.%d %H:%i') as deleted_at
+        	, DATE_FORMAT(trashed_at, '%Y.%m.%d %H:%i') as trashed_at
+        	, time_duration_ms
+        	, ifnull(lang, '')     as lang
+        	, file_org_nm
+        	, file_new_nm
+        	, ifnull(summary, '') 	as summary
+        	, ifnull(summary2, '') 	as summary2
+        	, ifnull(summary3, '') 	as summary3
+        	, ifnull(summary_id, '') 	as summaryId
+        	, ifnull(summary_id2, '') 	as summaryId2
+        	, ifnull(summary_id3, '') 	as summaryId3
+        	, ifnull(summary_status, '') 	as summaryStatus
+        	, ifnull(summary_status2, '') 	as summaryStatus2
+        	, ifnull(summary_status3, '') 	as summaryStatus3			          	
+        from TB_CS_MEETING 
+        WHERE SEQ = #{seq}
+    </select>
+    
+    
+     <update id="updateMeeting" parameterType="Map">
+    	update TB_CS_MEETING
+    	<if test='"trash".equals(mode)'>
+			set trashed_at = CURRENT_TIMESTAMP
+    	</if>
+    	<if test='"rollback".equals(mode)'>
+			set trashed_at = NULL
+    	</if>
+    	where seq = #{seq}
+    </update>
+    
+    <select id="changedTransCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM TB_CS_TRANSCRIPTION
+		WHERE meeting_seq = #{seq}
+			AND ( use_yn = 'Y' 
+				OR data_id != ''
+				OR train_text IS NOT NULL )
+    </select>
+    
+     <delete id="deleteTrans" parameterType="Integer">
+		DELETE FROM TB_CS_TRANSCRIPTION 
+		WHERE meeting_seq = #{seq}
+    </delete>
+    
+     <delete id="deleteMeetingResult" parameterType="Integer">
+		DELETE FROM TB_CS_MEETING_RESULT 
+		WHERE meeting_seq = #{seq}
+    </delete>
+    
+    <delete id="deleteMeetingSpeaker" parameterType="Integer">
+		DELETE FROM tb_cs_meeting_speaker 
+		WHERE seq = #{seq}
+    </delete>
+    
+    <delete id="deleteMeetingApi" parameterType="Integer">
+		DELETE FROM TB_CS_MEETING_API 
+		WHERE meeting_seq = #{seq}
+    </delete>
+    
+    <select id="readMeetBySeq" parameterType="int" resultType="Map">
+        select 
+        	m.SEQ
+        	, m.file_org_nm
+        	, m.file_new_nm
+        	, m.file_conv_nm
+        	, m.subject
+        	, (
+                      select count(distinct t.SEQ)
+							  from TB_CS_TRANSCRIPTION t
+				           WHERE t.meeting_seq = #{seq}
+				        ) as tr_count				        
+        from TB_CS_MEETING m
+        WHERE m.SEQ = #{seq}
+    </select>
+    
+    <select id="getMeettingRemoveCandiate" parameterType="int" resultType="Map">
+    <![CDATA[
+        SELECT SEQ
+				, file_org_nm
+				, DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') as created_at
+				, DATE_FORMAT(updated_at, '%Y-%m-%d %H:%i') as updated_at
+				, DATE_FORMAT(deleted_at, '%Y-%m-%d %H:%i') as deleted_at
+				, DATE_FORMAT(trashed_at, '%Y-%m-%d %H:%i') as trashed_at
+				, file_new_nm
+				, file_conv_nm
+		FROM TB_CS_MEETING
+		WHERE  SEQ != -1
+			AND created_at < TIMESTAMP(DATE_SUB(NOW(), INTERVAL #{term} DAY ) )
+			AND deleted_at IS null
+		ORDER BY created_at 
+	]]>
+    </select>
+        
+    
+	<update id="summaryUpdate">
+	    UPDATE TB_CS_MEETING
+	    <set>
+	        <choose>
+	            <when test="summaryType == 1">
+	                summary = #{result}
+	            </when>
+	            <when test="summaryType == 2">
+	                summary2 = #{result}
+	            </when>
+	            <when test="summaryType == 3">
+	                summary3 = #{result}
+	            </when>	            
+	        </choose>
+	    </set>
+	    WHERE seq = #{seq}
+	</update>
+    
+    <update id="updateMeet" parameterType="Map">
+        update TB_CS_MEETING 
+		<set>
+        	<if test='sttStartedAt != null'>
+        		, stt_started_at = #{sttStartedAt}
+        	</if>
+        	<if test='sttDuration != null'>
+        		, stt_duration = #{sttDuration}
+        	</if>
+        	<if test='errorMessage != null'>
+        		, error_message = #{errorMessage}
+        	</if>
+        	<if test='reliability != null'>
+        		, reliability = #{reliability}
+        	</if>
+        	<if test='channelCount != null'>
+        		, channel_count = #{channelCount}
+        	</if>
+        	<if test='fileStereoPrefix != null'>
+        		, file_stereo_prefix = #{fileStereoPrefix}
+        	</if>
+		</set>
+        where seq = #{seq}
+    </update>   
+    
+    <update id="updateSummaryId" parameterType="hashmap" >      	
+	    UPDATE TB_CS_MEETING
+	    <set>
+	        <choose>
+	            <when test="summaryType == 1">
+		        	  summary_id = #{summId},
+					  summary_status = 'PENDING'
+	            </when>
+	            <when test="summaryType == 2">
+		        	  summary_id2 = #{summId},
+					  summary_status2 = 'PENDING'
+	            </when>
+	            <when test="summaryType == 3">
+		        	  summary_id3 = #{summId},
+					  summary_status3 = 'PENDING'
+	            </when>	            
+	        </choose>
+	    </set>
+	    WHERE seq = #{seq}      	      	
+    </update>
+    
+    
+    <update id="updateSummarySuccess" parameterType="hashmap" >
+	    UPDATE TB_CS_MEETING
+	    <set>
+	        <choose>
+	            <when test="summaryType == 1">
+		        	summary = #{summary},
+					summary_status = 'SUCCESS'
+	            </when>
+	            <when test="summaryType == 2">
+		        	summary2 = #{summary},
+					summary_status2 = 'SUCCESS'
+	            </when>
+	            <when test="summaryType == 3">
+		        	summary3 = #{summary},
+					summary_status3 = 'SUCCESS'
+	            </when>	            
+	        </choose>
+	    </set>
+	    WHERE seq = #{seq}        	
+      	
+    </update>
+    
+    <update id="updateSummaryStatus" parameterType="hashmap" >             
+	    UPDATE TB_CS_MEETING
+	    <set>
+	        <choose>
+	            <when test="summaryType == 1">
+					summary_status = #{status}
+	            </when>
+	            <when test="summaryType == 2">
+					summary_status2 = #{status}
+	            </when>
+	            <when test="summaryType == 3">
+					summary_status3 = #{status}
+	            </when>	            
+	        </choose>
+	    </set>
+	    WHERE seq = #{seq}         	
+    </update>
+    
+    
+    <update id="updateSummaryFAILUER" parameterType="hashmap" >             
+	    UPDATE TB_CS_MEETING
+	    <set>
+	        <choose>
+	            <when test="summaryType == 1">
+	            	summary = NULL,
+	            	summary_id = NULL,
+					summary_status = #{status}
+	            </when>
+	            <when test="summaryType == 2">
+	            	summary2 = NULL,
+	            	summary_id2 = NULL,
+					summary_status2 = #{status}
+	            </when>
+	            <when test="summaryType == 3">
+	            	summary3 = NULL,
+	            	summary_id3 = NULL,
+					summary_status3 = #{status}
+	            </when>	            
+	        </choose>
+	    </set>	    
+	    WHERE seq = #{seq}         	
+    </update>    
+
+    <select id="getMeetingList" resultType="soundBean">
+        <![CDATA[
+		select
+	       SEQ as seq
+	        , subject
+	        , created_at as createdAt
+	        , updated_at as updatedAt
+	        , deleted_at as deletedAt
+	        , trashed_at as trashedAt
+	        , time_duration_ms as timeDurationMs
+	        , file_org_nm as fileOrgNm
+	        , file_new_nm as fileNewNm
+	        , file_conv_nm as fileConvNm
+	        , remark
+	        , file_size_bytes as fileSizeBytes
+	        , TC_USER_SEQ as tcUserSeq
+		from TB_CS_MEETING
+		WHERE SEQ > 0
+		AND created_at BETWEEN str_to_date(#{startDate}, '%Y-%m-%d') AND DATE_ADD(#{endDate}, INTERVAL 1 DAY )
+		and SEQ >= #{from} and SEQ <= #{to}
+		AND deleted_at is null AND trashed_at is null
+		order by created_at
+		]]>
+    </select>    
+
+    <select id="fileCountGroupDate"  resultType="Map" >
+        select DATE_FORMAT(created_at, '%Y%m%d') as date, count(*) as count from TB_CS_MEETING
+        WHERE created_at BETWEEN #{startDate} and #{endDate}
+        group by DATE_FORMAT(created_at, '%Y%m%d');
+    </select>   
+    
+    <select id="analyticsAvgMeeting"  resultType="Map" >
+        select count(*) as count ,(sum(time_duration_ms)/ count(*)) as avgTimeDurationMs,(sum(file_size_bytes)) as avgFileSizeBytes from TB_CS_MEETING
+          WHERE created_at BETWEEN #{startDate} and #{endDate}
+    </select>     
+
+    <update id="changeMeetingInfo"  > 
+		UPDATE TB_CS_MEETING_CONFIG
+      	SET   
+				config_value = #{meetingValue}
+				, use_yn = #{meetingUseYn}
+				, detail = #{meetingDetail}	
+       WHERE config_name = #{meetingTitle}
+    </update>   
+
+    <delete id="deleteMeetingInfo" >
+		DELETE FROM TB_CS_MEETING_CONFIG 
+		WHERE config_name in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+    </delete>    
+
+    <select id="getSettingList" resultType="Map" >
+        select 
+                config_name  as configName
+                , config_value as    configValue
+                , use_yn AS useYn 
+                , detail
+                , DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') AS createdAt
+                , DATE_FORMAT(updated_at, '%Y-%m-%d %H:%i') as updatedAt    
+                ,(
+                    SELECT count(tmc.config_name) 
+                    FROM TB_CS_MEETING_CONFIG tmc   
+			        <where>			        
+			            <if test='useYn != null and useYn != ""'>
+			              AND  use_yn = #{useYn}
+			            </if>		
+			            <!-- searchType 및 searchKeyword 조건 -->
+			            <if test='searchType != null and searchType != "" and searchKeyword != null and searchKeyword != ""'>
+			                <choose>
+			                    <when test='searchType == "title"'>
+			                        AND tmc.config_name LIKE CONCAT('%', #{searchKeyword}, '%')
+			                    </when>
+			                    <when test='searchType == "content"'>
+			                        AND tmc.config_value LIKE CONCAT('%', #{searchKeyword}, '%')
+			                    </when>
+			                    <when test='searchType == "detail"'>
+			                        AND tmc.detail LIKE CONCAT('%', #{searchKeyword}, '%')
+			                    </when>
+			                </choose>
+			            </if>
+			        </where>                     
+                ) AS hiddenCount                                 
+          from TB_CS_MEETING_CONFIG             
+		<where>		
+		    <if test='useYn != null and useYn != ""'>
+		      AND  use_yn = #{useYn}
+		    </if>		
+		    <if test='searchType != null and searchType != "" and searchKeyword != null and searchKeyword != ""'>
+		        <choose>
+		            <when test='searchType == "title"'>
+		                AND config_name LIKE CONCAT('%', #{searchKeyword}, '%')
+		            </when>
+		            <when test='searchType == "content"'>
+		                AND config_value LIKE CONCAT('%', #{searchKeyword}, '%')
+		            </when>
+		            <when test='searchType == "detail"'>
+		                AND detail LIKE CONCAT('%', #{searchKeyword}, '%')
+		            </when>
+		        </choose>
+		    </if>
+		</where>                           
+          order by updatedAt DESC     
+          <if test='offsetPageable != null'>
+               limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>                    
+    </select>    
+
+    <insert id="settingRes">
+        INSERT INTO TB_CS_MEETING_CONFIG (
+        config_name, config_value, use_yn,detail ) 
+        VALUES (
+        #{settingTitle},#{settingValue},#{settingUseYn},#{settingDetail});
+    </insert>  
+      
+    <select id="checkSetting" resultType="int">
+        SELECT COUNT(*) as CNT
+        FROM TB_CS_MEETING_CONFIG 
+        WHERE config_name = #{settingTitle}
+    </select>    
+    
+    <select id="settingInfo" resultType="Map">
+		select 
+                config_name  as configName
+                , config_value as    configValue
+                , use_yn AS useYn 
+                , detail		 		
+      	from TB_CS_MEETING_CONFIG
+		where config_name =    #{settingTitle}   		
+    </select>  
+              
+    <update id="changeSettingInfo"  > 
+		UPDATE TB_CS_MEETING_CONFIG
+      	SET   
+				config_value = #{settingValueChange}
+				, use_yn = #{settingUseYnChange}
+				, detail = #{settingDetailChange}	
+       WHERE config_name = #{settingTitleChange}
+    </update> 
+    
+    <delete id="deleteSettingInfo" >
+		DELETE FROM TB_CS_MEETING_CONFIG 
+		WHERE config_name in 
+		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+    </delete> 
+    
+    <select id="getSettingConfigList" resultType="Map" >
+        select 
+                config_name  as configName
+                , config_value as    configValue
+                , use_yn AS useYn 
+                , detail
+                , DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') AS createdAt
+                , DATE_FORMAT(updated_at, '%Y-%m-%d %H:%i') as updatedAt                               
+          from TB_CS_MEETING_CONFIG          
+          order by updatedAt DESC                      
+    </select>         
+
+	<update id="updateUpdatedAtBySeq">
+		update TB_CS_MEETING 
+			set update_at = #{updateAt} 
+		where seq = #{seq}
+	</update>
+             
+	<update id="updateDeletedAtBySeq">
+		update TB_CS_MEETING 
+			set deleted_at = current_timestamp, 
+				update_at = current_timestamp
+		where seq = #{seq}
+	</update>   
+	
+	<update id="updateDeletedRemovedAtBySeq">
+		update TB_CS_MEETING 
+			set deleted_at = current_timestamp,
+				update_at = current_timestamp,
+				removed_at = current_timestamp
+		where seq = #{seq}
+	</update>   
+	          
+	<update id="updateTrashedAtBySeq">
+		update TB_CS_MEETING 
+			set trashed_at = #{trashedAt},
+				update_at = current_timestamp
+		where seq = #{seq}
+	</update>   	 
+	
+	<update id="updateSubjectAndUpdatedAtBySeq">
+		update TB_CS_MEETING 
+			set subject = #{subject},
+				update_at = #{updatedAt}
+		where seq = #{seq}
+	</update>            
+
+	<update id="updateRemarkAndUpdatedAtBySeq">
+		update TB_CS_MEETING 
+			set remark = #{updateRemark},
+				update_at = #{updatedAt}
+		where seq = #{meetSeq}
+	</update>
+	  
+	<update id="updateTextBySeq">
+		update TB_CS_MEETING_RESULT 
+			set text = #{text}
+		where seq = #{seq}
+	</update>    
+
+	<update id="updateSpeakerBySeqArr">
+		update TB_CS_MEETING_RESULT 
+			set meeting_speaker_id = #{meetingSpeakerId}
+			set speaker			   = #{meetingSpeakerId}
+		where seq = #{seq}
+	</update>  	
+
+	<select id="existsByMeeting_SeqAndMeetingSpeaker_Name">
+		select exists (
+			select 1
+			from 	TB_CS_MEETING_SPEAKER 
+        	where 	seq = ( 
+							select DISTINCT(MEETING_SEQ)
+        					from   TB_CS_MEETING_RESULT  rslt
+        					where  rslt.SEQ = #{seq}
+        				  ) and
+        			name = #{name}
+        )			
+	</select>
+	
+	<select id="findByMeeting_SeqOrderByStartAsc" resultType = "meetingResultVo">
+		select 	a.seq 					as	seq,
+				a.start					as	start,
+				a.end					as	end,
+				a.text					as	text,
+				a.speaker				as 	speaker,
+				a.meeting_seq			as	meetingSeq,
+				a.created_at			as	createdAt,
+				a.meeting_speaker_id 	as 	meetingSpeakerId,
+				a.updated_at			as	updatedAt,
+				b.name					as	name
+		from	tb_cs_meeting_result 	a,
+				tb_cs_meeting_speaker	b
+		where	a.meeting_seq 	= #{seq}	and
+				a.meeting_seq	= b.seq
+				order by a.start asc		
+	</select>
+
+    <delete id="deleteByMeeting_SeqAndName" >
+		DELETE 	FROM TB_CS_MEETING_SPEAKER
+		WHERE 	seq  = #{seq} and
+				name = #{name}
+    </delete> 	
+	               
+	<select id="existsByMeeting_SeqAndName">
+		select exists (
+			select 1
+			from 	TB_CS_MEETING_SPEAKER
+        	where 	seq  = #{seq} and
+        			name = #{name}
+        )			
+	</select>	               
+
+	<select id="findSpeakerByMeeting_Seq" resultType="meetingSpeakerVo">
+		select	meeting_speaker_id as meetingSpeakerId,
+				created_at	as	createdAt,
+				updated_at  as  updatedAt,
+				name		as	name,
+				seq			as 	seq
+		from	TB_CS_MEETING_SPEAKER
+		where	seq	= #{seq}
+	</select>
+	
+	<select id="findByNameAndMeeting_Seq" resultType = "meetingSpeakerVo">
+		select  meeting_speaker_id as meetingSpeakerId,
+				created_at	as	createdAt,
+				updated_at  as  updatedAt,
+				name		as	name,
+				seq			as 	seq
+		from 	TB_CS_MEETING_SPEAKER		
+        where 	seq  = #{seq} and
+        		name = #{name}
+ 	</select>		
+	
+    <insert id="saveMeetingSpeaker">
+        insert into TB_CS_MEETING_SPEAKER 
+        ( name, seq, created_at, updated_at ) 
+        VALUES 
+        ( #{name}, #{seq}, current_timestamp, current_timestamp )
+    </insert>  
+                      
+</mapper>

@@ -1,0 +1,13 @@
+<svg id="합치기아이콘" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <rect id="영역" width="24" height="24" rx="4" fill="none"/>
+  <g id="아이콘" transform="translate(24) rotate(90)">
+    <rect id="사각형_717" data-name="사각형 717" width="16" height="2" rx="1" transform="translate(4 4)" fill="#333"/>
+    <rect id="사각형_719" data-name="사각형 719" width="2" height="7" rx="1" transform="translate(4 4)" fill="#333"/>
+    <rect id="사각형_720" data-name="사각형 720" width="2" height="7" rx="1" transform="translate(18 4)" fill="#333"/>
+    <rect id="사각형_718" data-name="사각형 718" width="16" height="2" rx="1" transform="translate(4 18)" fill="#333"/>
+    <rect id="사각형_722" data-name="사각형 722" width="2" height="7" rx="1" transform="translate(4 13)" fill="#333"/>
+    <rect id="사각형_721" data-name="사각형 721" width="2" height="7" rx="1" transform="translate(18 13)" fill="#333"/>
+    <rect id="사각형_724" data-name="사각형 724" width="6" height="2" rx="1" transform="translate(9 11)" fill="#333"/>
+    <rect id="사각형_725" data-name="사각형 725" width="6" height="2" rx="1" transform="translate(13 9) rotate(90)" fill="#333"/>
+  </g>
+</svg>

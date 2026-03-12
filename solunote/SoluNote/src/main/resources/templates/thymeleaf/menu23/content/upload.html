@@ -1,0 +1,59 @@
+<div class="modal_wrap" id="uploadFile"  th:fragment="uploadFileFragment">
+    <div class="inner_grid">
+      <div class="modal_bx" >
+        <div class="hds" >
+              <div class="tit" th:switch="${menuId}">
+		        <div th:case="menu23" th:text="${#messages.msg('title.meeting.train.register')}"></div>
+		        <div th:case="menu25" th:text="${#messages.msg('title.meeting.test.register')}">테스트 Data 등록</div>
+    		  </div>
+          <button class="clsbtn" id="uploadFileClose" ></button>
+        </div>
+
+        <div class="contbx">
+          <div class="lang_select">
+            <div class="guide_text" th:text="${#messages.msg('title.meeting.register.desc2')}">업로드하실 파일을 첨부하세요.(최대 150분 길이 / mp3,mp4,wav,ogg 파일 지원) </div>
+<!--             <div class="sle_grid">
+              <span>언어</span>
+              <div class="sel_bx">
+                <select>
+                  <option value="">한국어</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                </select>
+              </div>
+            </div> -->
+          </div>                     
+          <div class="itrc_grp">
+            <div class="innerGuide">  
+              <div class="cmx_grid record_save">
+                <div class="cm_loading" >
+                  <div class="loader">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                  <p class="cmMsgbx"></p>
+                </div>
+              </div>            
+            </div>
+          </div>
+          
+        </div>
+        <div id="trainInputGroup">
+	        <input class = "uploadFileInput" id="trainFileInput" readonly></input>
+	        <input style = "display :none" type="file" id="trainFileInputhidden" accept=".wav, .mp3, .mp4, .ogg, .m4a, .aac, .mpeg, .webm, .avi"  />
+	        <button class = "uploadFileButton" th:text="${#messages.msg('button.trian.file.upload.find')}" id="trainFile">파일 찾기</button>
+        </div>
+        <div class="btn_grid total">
+          <button class="mdBtn fn_upld" th:text="${#messages.msg('button.meeting.file.upload')}" id="trainSubmit"></button>
+        </div>
+      </div>
+    </div>
+  </div>   

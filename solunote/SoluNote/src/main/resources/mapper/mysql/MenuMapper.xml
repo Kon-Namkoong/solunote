@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.vol.solunote.mapper.menu.MenuMapper">
+
+	<update id="updateMenu" parameterType = "Map">
+        INSERT INTO TB_CS_MENU_USER (USER_SEQ, MENU_SEQ, MENU_RIGHTS, DOWN_RIGHTS, BASE_MENU_SEQ) 
+        VALUES 
+         <foreach collection="menuList" item="item" separator=" , " >
+            (#{userInfo.seq}, #{item.key}, #{item.editYn}, #{item.downYn}, 0)
+         </foreach>
+    </update>
+    
+    
+    <update id="updateAuthBase" parameterType = "Map">
+        INSERT INTO TB_CS_MENU_BASE (AUTH_SEQ, MENU_SEQ, MENU_RIGHTS, DOWN_RIGHTS) 
+        VALUES 
+         <foreach collection="menuList" item="item" separator=" , " >
+            (#{menuInfo.seq}, #{item.key}, #{item.editYn}, #{item.downYn})
+         </foreach>
+    </update>
+    
+    <delete id="deleteAuthBase" parameterType = "String">
+        DELETE FROM TB_CS_MENU_BASE WHERE AUTH_SEQ = #{seq}
+    </delete>
+    
+    <select id="findTopMenu"  resultType = "java.lang.String">
+        SELECT MENU_NAME FROM TB_CS_MENU_MAIN WHERE MENU_PARENT_SEQ = 0
+    </select>
+    
+
+    
+    <delete id="deleteMenu" parameterType="int">
+        DELETE FROM TB_CS_MENU_USER WHERE USER_SEQ = #{seq}
+    </delete>
+    
+    <select id="findBaseAuthList"  resultType = "Map">
+        SELECT
+            AUTH_SEQ as authSeq, AUTH_NAME as authName, AUTH_TYPE as authType 
+        FROM TB_CS_MENU_AUTH
+        WHERE USE_YN =1
+    </select>
+    
+	<select id="readMenuAll" resultType="Map">
+		SELECT
+		    case 
+				when MENU_LEVEL = 100
+					then "ROLE_ADMIN"
+				when MENU_LEVEL = 0
+					then "ROLE_USER"
+				end AS authorityName 
+		    , URL AS url
+		FROM TB_CS_MENU
+	</select>          
+
+    <select id="getAuthList"  resultType = "menuListVo">
+	   	SELECT SEQ AS seq
+			,MENU_CODE AS menuCode
+			,MENU_MAIN AS menuMain
+			,MENU_SUB AS menuSub
+			,MENU_LEVEL AS menuLevel	
+			,MENU_COUNT AS menuCount		
+    	FROM TB_CS_MENU    	
+    </select>
+    
+    
+</mapper>
+      

@@ -1,0 +1,170 @@
+base:
+  redirect:
+    url: /menu22/cont/
+  lang: ko
+db:
+  type: mysql
+fixed:
+  delay:
+    string:
+      report: 0 #3600000 
+      sendrest: 0 #1000
+      status: 0 #600000
+myscheduler:
+  period: 60
+rest:
+  send:
+    retry:
+      cnt: 5
+    url: http://localhost:${server.http.port}/SGSAS/API/sample/receive_stt  # rest 수신 주소
+    use: true
+  token:
+    expired: 60 * 24
+    key: !!binary |-
+      U29sdWdhdGUgU0FTw4PCosOCwoTDgsKi
+server:
+  error:
+    include-exception: true
+    include-stacktrace: always
+  port: 18080  # https port
+  http:
+    port: 28080      # http port
+  servlet:
+    context-path: '/SGSAS' # contextURL 변경시 사용 
+  ssl:
+    key-alias: sttSolugte
+    key-store: classpath:sttSolugte.p12
+    key-store-password: sttsolugate
+    key-store-type: PKCS12
+session:
+    persistent: false # 세션을 파일로 저장하지 않음
+
+spring:
+  application:
+    name: SoluNote
+  profiles:
+    active: pc
+  data:
+    web:
+      pageable:
+        default-page-size: 100
+        page-parameter: page
+        size-parameter: size
+  datasource:
+    hikari:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      jdbc-url: jdbc:mysql://192.168.0.233:3307/SGSAS?serverTimezone=UTC
+#      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:log4jdbc:mysql://localhost:3306/MEETING?serverTimezone=UTC
+      password: solunote_user01
+      username: slounote_user01
+  devtools:
+    livereload:
+      enabled: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddlAuto: update
+      naming:
+#        physicalStrategy: com.sgsas.config.JPANamingStrategy
+         physicalStrategy: com.vol.solunote.config.JPANamingStrategy
+    generateDdl: true
+    database: MYSQL
+    databasePlatform: org.hibernate.dialect.MySQLDialect
+    properties:
+      org:
+        hibernate:
+          envers:
+            store_data_at_delete: true
+            revision_field_name: rev_id
+            audit_table_prefix: history_
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: GMT+9
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 1MB
+      location: /usr/local/tomcat/temp
+      #location: C:\Users\pcrla\Desktop\광주과기원\tomcat8\apache-tomcat-8.0.36\temp  #톰켓 temp 로 변경 필요
+      max-file-size: 5000000000
+      max-request-size: 5000000000
+  thymeleaf:
+    cache: false
+    check-template-location: true
+    prefix: classpath:/templates/
+    suffix: .html
+    view-names: thymeleaf/*
+    encoding: UTF-8
+  main:
+    allow-bean-definition-overriding: true  
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+stt:
+  service:
+    manager:
+      ip: 192.168.0.239
+      port: 9099
+      use: false
+  url: http://192.168.0.77:8987/was/stt_diarization
+  multi-lang: false
+  retry-days: 5
+  alternate: 
+    curl:
+      size: 100000000
+      command: /usr/bin/curl
+         # https://www.w3schools.io/file/yaml-escape-characters/
+      quote: single               # single quote for curl -H 'accept: application/json'
+  ffmgeg:
+    toType: wav 
+summary:
+  url: http://192.168.0.239:7000/summarize
+  url2: http://192.168.0.239:7000/summarize2
+  url3: http://192.168.0.239:7000/summarize3
+  enable: false
+train:
+  url: http://192.168.0.249:9033
+  project_id: 658cbe37d841727a482de0b4
+tts:
+  url: http://192.168.0.252:8081
+chatbot:
+  use: true
+  info:
+    port: 1005
+    ip: 192.168.0.240
+    url: http://${chatbot.info.ip}:${chatbot.info.port}/webhooks/STT/webhook
+
+logging:
+  config: classpath:logback-${spring.profiles.active}.xml
+  level:
+    com.zaxxer.hikari.HikariConfig: info
+    com.zaxxer.hikari: TRACE  
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: TRACE
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: info
+        transaction: info
+      apache:
+        http: info
+task:
+  stt:
+    max: 2
+    no_data_sleep: 60
+  summary:
+    max: 1  
+    no_data_sleep: 60
+batch:
+  SoundScheduler:
+    startDeleteWavFile: '0 0 5 * * *'
+#mybatis:
+#  config-location: classpath: mapper/mabatis-config.xml
+service:
+  class:
+    commonService: commonService
+    menu21Service: Menu21Service
+    menu23Service: Menu23Service

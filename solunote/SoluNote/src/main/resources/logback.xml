@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+	
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!-- <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern> -->
+			<pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			 <fileNamePattern>${catalina.home}/logs/RtccTaxi.%d{yyyy-MM-dd}.log</fileNamePattern>
+			 <maxHistory>90</maxHistory>
+		 </rollingPolicy>
+       <encoder>
+            <!-- <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern> -->
+            <Pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</Pattern>
+       </encoder>
+    </appender>
+	<logger name="root" level="INFO">
+		<appender-ref ref="console" />
+		<appender-ref ref="logfile" />
+	</logger>
+	<logger name="org.hibernate.SQL" level="DEBUG" >
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="org.hibernate.type" level="TRACE" >
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="com.vol.solunote" level="TRACE" >
+		<appender-ref ref="console" />
+	</logger>
+	
+<!-- 	<root level="INFO"> -->
+<!-- 		<appender-ref ref="logfile" /> -->
+<!-- 	</root> -->
+</configuration>

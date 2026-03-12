@@ -1,0 +1,7 @@
+<svg id="백버튼" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="default">
+    <rect id="버튼영역" width="24" height="24" fill="#fff"/>
+    <line id="선_167" data-name="선 167" x1="6" y2="6" transform="translate(9 6)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="2"/>
+    <line id="선_168" data-name="선 168" x2="6" y2="6" transform="translate(9 12)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="2"/>
+  </g>
+</svg>

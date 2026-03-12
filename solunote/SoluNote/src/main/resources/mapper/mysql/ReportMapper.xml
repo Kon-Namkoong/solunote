@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.vol.solunote.comm.mapper.ReportMapper">
+
+    <update id="insertStatus" parameterType = "Map">
+        INSERT INTO TB_CS_INFO_SVR_STSRT (TC_SVR, TC_WORKDATE, TC_WORKTIME, TC_CPU_RATIO, TC_RAM_FULL, TC_RAM_FREE, TC_HDD_FULL, TC_HDD_FREE) 
+        VALUES 
+            (#{serverSeq}, #{workDate}, #{workTime}, #{CPUratio}, #{RAMfull}, #{RAMfree}, #{HDDfull}, #{HDDfree})
+    </update>
+    
+    <select id="setReportHourly" parameterType="String"  resultType="int">
+        CALL fn_report_hourly(#{thisDay})
+    </select>
+    
+    <select id="setReportDaily" parameterType="String"  resultType="int">
+        CALL fn_report_daily(#{thisDay})
+    </select>
+    
+</mapper>

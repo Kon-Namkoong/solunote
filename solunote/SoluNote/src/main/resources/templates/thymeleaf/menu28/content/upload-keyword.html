@@ -1,0 +1,83 @@
+<!-- content -->
+<div id="uploadKeyword" th:fragment="uploadKeywordFragment"> 
+    <div class="content_tit keyword_tit content_detail_tit">
+        <div class="title">
+            <a class="back_btn" ><img th:src="@{/images/back_btn.svg}" alt=""></a>
+            <h2 th:text="${#messages.msg('menu28.upload.info1')}" >키워드 Data 등록</h2>
+        </div>
+        <div class="search" >
+            <div class="info_grid">
+                <div class="info">
+                    <span class="keywordTitle" th:text="${#messages.msg('menu28.upload.info2')}">학습 그룹명</span>
+                    <input class="keywordInput" th:placeholder="${#messages.msg('menu28.upload.placeholder')}" id="keyword_List_Title"></input>
+                </div>
+            </div>
+        </div>
+    </div>	
+	<div class="content_desc content_fullMeeting">
+		<div  class="tbl_btns">
+			<div class="left_btns">
+				<button class="w_btn" th:text="${#messages.msg('menu28.upload.button5')}" id="low-delete">선택 삭제</button>	
+				<button class="w_btn" th:text="${#messages.msg('menu28.upload.button7')}" id="low-add">열 추가</button>	
+			</div>
+			<div class="tbl_right">
+				<button class="w_btn" th:text="${#messages.msg('menu28.upload.button1')}" id= "get_excel">엑셀파일 양식 다운로드</button>			
+				<button class="b_btn" style="margin-left:10px" th:text="${#messages.msg('menu28.upload.button2')}" id="excel_upload">엑셀파일 업로드</button>
+				<button class="b_btn" style="margin-left:15px" th:text="${#messages.msg('menu28.upload.button3')}" id= "text_create">학습문장생성</button>
+				<button class="b_btn" style="margin-left:15px;" th:text="${#messages.msg('menu28.upload.button6')}" id= "audio_create">음성데이터 생성</button>
+				<button class="upload_btn" style="display : none;" th:text="${#messages.msg('menu28.upload.button4')}" id="keyword_list_create">키워드 Data 생성</button>
+			</div>
+		</div>	
+	    <div class="table_content">
+	        <table class="table_title">
+	            <thead>
+	                <tr style="height: 40px; background-color: #F2F4F7;">
+	                    <th style="width: 2%;">
+	                        <span class="all check-box">
+	                            <img class="unchecked" th:src="@{/images/checck.svg}"/>
+	                            <img class="checked" th:src="@{/images/checck_on.svg}"/>
+	                        </span>
+	                    </th>	                
+	                    <th style="width: 4%" th:text="${#messages.msg('menu28.upload.content1')}">번호</th>
+	                    <th style="width: 10%;  padding-right: 20px;"><span class = "keywordUploadSpan">*</span>[[${#messages.msg('menu28.upload.content2')}]]</th>
+	                    <th style="width: 10%;  padding-right: 20px;"><span  class = "keywordUploadSpan">*</span>[[${#messages.msg('menu28.upload.content3')}]]</th>
+	                    <th style="width: 15%"  th:text="${#messages.msg('menu28.upload.content6')}">키워드 설명</th>
+	                    <th style="width: 22%;" id="keyword_span" th:text="${#messages.msg('menu28.upload.content7')}">키워드 문장</th>
+	                    <th style="width: 22%;" id="pronounce_span" th:text="${#messages.msg('menu28.upload.content8')}">발음문장</th>
+	                    <th style="width: 15%;" th:text="${#messages.msg('menu28.upload.content5')}">음성 데이터</th>
+	                </tr>
+	            </thead>
+	        </table>
+	        <div class="tbl_scroll"  style="max-height: calc(100vh - 296px);"   >
+	            <table>
+	                <tbody id="keywordRow">
+						<tr th:each="i : ${#numbers.sequence(1, 10)}" class="page-data-row page_link" th:attr="data-rowid=${i}">
+		                    <td style="width: 2%;">
+		                        <span class="check-box">
+		                            <img class="unchecked" th:src="@{/images/checck.svg}"/>
+		                            <img class="checked" th:src="@{/images/checck_on.svg}"/>
+		                        </span>
+		                    </td>						
+							<td style="width: 4%;">[[${i}]]</td>
+							<td style="width: 10%;"><input class = "keywordContentInput1" th:placeholder="${#messages.msg('menu28.upload.content.placeholder1')}"></input></td>
+							<td style="width: 10%;"><input class = "keywordContentInput2" th:placeholder="${#messages.msg('menu28.upload.content.placeholder2')}"></input></td>
+							<td class="transText padding_0" style="width: 15%;">
+								<div class="transDivDB editable" contenteditable="true"></div>
+							</td>   
+							<td class="transText padding_0" style="width: 22%;">
+								<div class="transDivDB editable" contenteditable="true"></div>
+							</td>  
+							<td class="transText padding_0" style="width: 22%;">
+								<div class="transDivDB editable" contenteditable="true"></div>
+							</td>  
+							<td style="width: 15%;" th:attr="id='audioTd-' + ${i}" >					
+							</td>
+						</tr>	                
+	                </tbody>
+	            </table>	            	           
+	        </div>
+	        <div th:replace="thymeleaf/menu28/content/upload :: uploadFileFragment"></div> 
+	    </div>
+	</div>               
+</div>	
+<!-- //content -->

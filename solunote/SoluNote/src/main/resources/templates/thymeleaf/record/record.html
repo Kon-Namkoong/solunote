@@ -1,0 +1,50 @@
+이번 파일은 실시간 음성 녹음(realTimeRecorder.js)과 관련된 페이지인 것 같네요. 이전 페이지들과 마찬가지로 ${#httpServletRequest.getContextPath()} 구문을 제거하고, Thymeleaf의 표준 경로 문법인 **@{...}**로 수정해 드립니다.
+
+또한, 자바스크립트 내부에서 사용된 [[${idx}]] 문법을 조금 더 안정적인 방식으로 보정했습니다.
+
+1. 수정된 코드
+HTML
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>SOLUGATE - SGSAS™</title>
+    
+    <link id="contextPathHolder" th:data-contextPath="@{/}"/>
+    
+    <script type="text/javascript" th:src="@{/js/jquery-1.11.1.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/common_sgsas.js}"></script>
+    <script type="text/javascript" th:src="@{/js/realTimeRecorder.js}"></script>
+    
+    <script type="text/javascript">
+        /* Thymeleaf 인라인 변수 선언 방식 권장 */
+        /*[+
+        var idx = [[${idx}]];
+        +]*/
+        
+        if(idx == 3) {  
+            SEND_DOMAIN_CODE = "SG0003";
+        } else {
+            // DOM이 완전히 로드된 후 실행되도록 권장
+            window.onload = function() {
+                if(typeof fnStart === 'function') fnStart();
+            };
+        }
+
+        function rsVoiceUpload(data) {
+            $("#rs_sttUpload").html(data);
+        }
+    </script>
+</head>
+<body class="login">
+<div class="login_wrap">
+    <button onclick="fnStart()" type="button" class="btn_layer btn_write">음성 시작</button>
+    <button onclick="fnFinStop()" type="button" class="btn_layer btn_write">음성 종료</button>
+    <h1>전송결과</h1>
+    <div id="rs_sttUpload"></div>
+</div>
+</body>
+</html>

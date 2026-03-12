@@ -1,0 +1,58 @@
+file:
+  upload:
+    extension:
+      wav: wav|aif|mp3|mid|mp2|wam|ogg|m4a|aac
+      train: doc|docx|hwp|pdf|txt
+    path:
+      train: /home/solugate/meetdev/sgsas_train/upload/train
+      test: /home/solugate/meetdev/sgsas_train/upload/test
+      meet: /home/solugate/meetdev/sgsas_train/upload/meet
+      temp: /home/solugate/meetdev/sgsas_train/upload/temp
+spring:
+  servlet:
+    multipart:
+#      enabled: true
+#      file-size-threshold: 1MB
+      location: /tmp
+#      max-file-size: 100000000
+#      max-request-size: 100000000
+  datasource:
+    hikari:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      jdbc-url: jdbc:mysql://192.168.0.233:3307/SGSAS?serverTimezone=UTC
+#      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:log4jdbc:mysql://localhost:3306/MEETING?serverTimezone=UTC
+      password: solunote_user01
+      username: solunote_user01
+stt:
+  service:
+    manager:
+      ip: localhost
+      port: 8988
+      use: false
+  url: http://192.168.0.249:8987/was/stt_diarization_comp
+summary:
+  url: http://summarize:8000/summarize
+  url2: http://summarize:8000/summarize2
+  url3: http://summarize:8000/summarize3
+train:
+  url: http://192.168.0.249:8989
+  project_id: 6674cdf7573bb67ec1a50565
+ffmpeg:
+  ffmpeg:
+    path: /usr/bin/ffmpeg
+  ffprobe:
+    path : /usr/bin/ffprobe
+task:
+  sound:
+    train:
+      max: 1
+    test:
+      max: 1
+    no_data_sleep: 60
+    urls: >
+        http://192.168.0.249:8987/was/stt_diarization_comp
+  summary:
+    max: 3  
+    no_data_sleep: 60

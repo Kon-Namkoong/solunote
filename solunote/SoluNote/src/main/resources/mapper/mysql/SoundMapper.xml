@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vol.solunote.mapper.sound.SoundMapper">
+    
+    <insert id="createSound" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id">
+        insert TB_CS_SOUND (
+			division
+        	, file_org_nm
+        	, file_new_nm
+        	, file_conv_nm
+        	, file_size_bytes
+        	, subject
+        	, time_duration_ms
+        	, TC_USER_SEQ
+        	, click_least_once 
+        ) value (
+        	#{division}
+        	, #{orgnm}
+        	, #{newnm}
+        	, #{convnm}
+        	, #{fileSizeBytes}
+        	, #{subject}
+        	, #{timeDurationStr}
+        	, #{tcUserSeq}
+        	, 0
+        )
+    </insert>
+    
+    <update id="updateSound" parameterType="Map">
+        update TB_CS_SOUND 
+		<set>
+        	<if test='sttStartedAt != null'>
+        		, stt_started_at = #{sttStartedAt}
+        	</if>
+        	<if test='sttDuration != null'>
+        		, stt_duration = #{sttDuration}
+        	</if>
+        	<if test='errorMessage != null'>
+        		, error_message = #{errorMessage}
+        	</if>
+        	<if test='reliability != null'>
+        		, reliability = #{reliability}
+        	</if>
+        	<if test='channelCount != null'>
+        		, channel_count = #{channelCount}
+        	</if>
+        	<if test='fileStereoPrefix != null'>
+        		, file_stereo_prefix = #{fileStereoPrefix}
+        	</if>
+		</set>
+        where seq = #{seq}
+    </update>
+
+    <update id="updateSoundMode" parameterType="Map">
+    	update TB_CS_SOUND
+    	<if test='"trash".equals(mode)'>
+			set trashed_at = CURRENT_TIMESTAMP
+    	</if>
+    	<if test='"rollback".equals(mode)'>
+			set trashed_at = NULL
+    	</if>
+    	<if test='"delete".equals(mode)'>
+			set deleted_at = CURRENT_TIMESTAMP
+    	</if>    	
+    	where seq = #{seq}
+    </update>  
+
+
+    <select id="steelGetSoundData" parameterType="int" resultType="Map">
+		select ss.SEQ as seq
+			, ss.division
+			, ss.subject 
+			, DATE_FORMAT(ss.created_at, '%Y-%m-%d %H:%i') as createdAt
+			, DATE_FORMAT(ss.updated_at, '%Y-%m-%d %H:%i') as updatedAt
+			, ss.deleted_at as deletedAt
+			, ss.trashed_at as trashedAt
+			, ss.time_duration_ms as timeDurationMs
+			, ss.file_org_nm as fileOrgNm
+			, ss.file_new_nm as fileNewNm
+			, IFNULL(DATE_FORMAT(ss.stt_started_at, '%Y-%m-%d %H:%i'),"") as sttStartedAt			
+		from TB_CS_SOUND ss
+		WHERE ss.seq = #{seq}
+
+    </select>
+    
+    <select id="getListDataWithMap" parameterType="Map" resultType="soundVo">
+		select ss.SEQ as seq
+			, ss.subject 
+			, ss.created_at 	as createdAt
+			, ss.updated_at 	as updatedAt
+			, ss.deleted_at 	as deletedAt
+			, ss.trashed_at 	as trashedAt
+			, ss.time_duration_ms as timeDurationMs
+			, ss.file_org_nm 	as fileOrgNm
+			, ss.file_new_nm	as fileNewNm
+			, ss.click_least_once as clickLeastOnce
+			, ss.reliability
+			, ss.stt_started_at     as sttStartedAt	
+			, ss.file_stereo_prefix as fileStereoPrefix
+      	    , ss.channel_count      as channelCount	  
+			, (
+				   	SELECT count(s.SEQ)
+					from TB_CS_SOUND s	
+					WHERE s.seq > 0
+					<if test='searchStartDate != null'>
+						AND s.created_at BETWEEN str_to_date(#{searchStartDate}, '%Y-%m-%d') AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY )
+					</if>
+					AND ( s.status = '10' or s.status = '20' )
+					<if test='activeMenu == 1'>
+						AND s.deleted_at is null AND s.trashed_at is null
+					</if>
+					<if test='activeMenu == 3'>
+						AND s.deleted_at is null AND s.trashed_at is not null
+					</if>
+					<if test='keyword != null and keyword != ""'>
+						AND s.file_new_nm like CONCAT('%',#{keyword},'%')
+					</if>
+					<if test='seq != null'>
+						AND s.seq = #{seq}
+					</if>
+				   ) AS hiddenCount
+			  , (
+		        SELECT COUNT(*)
+		        FROM TB_CS_TRANSCRIPTION ct
+		        WHERE ct.sound_seq = ss.seq 
+		        AND ct.train_text IS NOT NULL
+		        AND ct.train_text != ''
+		       ) AS trainTextCount
+		from TB_CS_SOUND ss
+		WHERE ss.seq > 0
+		<if test='searchStartDate != null'>
+			AND ss.created_at BETWEEN str_to_date(#{searchStartDate}, '%Y-%m-%d') AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY )
+		</if>
+		AND ( ss.status = '10' or ss.status = '20' )
+		<if test='activeMenu == 1'>
+			AND ss.deleted_at is null AND ss.trashed_at is null
+		</if>
+		<if test='activeMenu == 3'>
+			AND ss.deleted_at is null AND ss.trashed_at is not null
+		</if>
+		<if test='keyword != null and keyword != ""'>
+			AND ss.file_new_nm like CONCAT('%',#{keyword},'%')
+		</if>
+		<if test='seq != null'>
+			AND ss.seq = #{seq}
+		</if>
+		order by ss.created_at desc
+		<if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>
+    
+    <insert id="copySound" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id">
+		insert into TB_CS_SOUND (
+			division
+			,subject
+			,time_duration_ms
+			,file_org_nm
+			,file_new_nm
+			,file_conv_nm
+			,file_size_bytes
+			,TC_USER_SEQ
+			,reliability
+		)
+		select
+			'00'
+			,subject
+			,time_duration_ms
+			,file_org_nm
+			,#{fileNewNm}
+			,#{fileConvNm}
+			,file_size_bytes
+			,#{userSeq}
+			,reliability
+		from TB_CS_MEETING
+		where SEQ = #{seq}
+    </insert> 
+    
+    <select id="getSoundData" parameterType="int" resultType="Map">
+		select ss.SEQ as seq
+			, ss.division
+			, ss.subject 
+			, DATE_FORMAT(ss.created_at, '%Y-%m-%d %H:%i') as createdAt
+			, DATE_FORMAT(ss.updated_at, '%Y-%m-%d %H:%i') as updatedAt
+			, ss.deleted_at as deletedAt
+			, ss.trashed_at as trashedAt
+			, ss.time_duration_ms as timeDurationMs
+			, ss.file_org_nm as fileOrgNm
+			, ss.file_new_nm as fileNewNm
+			, IFNULL(DATE_FORMAT(ss.stt_started_at, '%Y-%m-%d %H:%i'),"") as sttStartedAt			
+		from TB_CS_SOUND ss
+		WHERE ss.seq = #{seq}
+
+    </select>
+    
+    <select id="getListData" resultType="soundVo">
+		select ss.SEQ as seq
+			, ss.subject 
+			, ss.created_at as createdAt
+			, ss.updated_at as updatedAt
+			, ss.deleted_at as deletedAt
+			, ss.trashed_at as trashedAt
+			, ss.time_duration_ms as timeDurationMs
+			, ss.file_org_nm as fileOrgNm
+			, ss.file_new_nm as fileNewNm
+			, ss.reliability
+			, ss.stt_started_at as sttStartedAt			
+			, (
+				   	SELECT count(s.SEQ)
+					from TB_CS_SOUND s	
+					LEFT JOIN TB_CS_INFO_DIVISION tis ON tis.division = s.division
+					WHERE s.seq > 0
+					AND s.created_at BETWEEN str_to_date(#{startDate}, '%Y-%m-%d') AND DATE_ADD(#{endDate}, INTERVAL 1 DAY )
+					AND ( s.status = '10' or s.status = '20' )
+					<if test='activeMenu == 1'>
+						AND s.deleted_at is null AND s.trashed_at is null
+					</if>
+					<if test='activeMenu == 3'>
+						AND s.deleted_at is null AND s.trashed_at is not null
+					</if>
+					<if test='keyword != ""'>
+						AND (s.file_org_nm like CONCAT('%',#{keyword},'%'))
+					</if>
+				   ) AS hiddenCount
+			  , (
+		        SELECT COUNT(*)
+		        FROM TB_CS_TRANSCRIPTION ct
+		        WHERE ct.sound_seq = ss.seq 
+		        AND ct.train_text IS NOT NULL
+		        AND ct.train_text != ''
+		       ) AS trainTextCount
+		from TB_CS_SOUND ss
+		WHERE ss.seq > 0
+		AND ss.created_at BETWEEN str_to_date(#{startDate}, '%Y-%m-%d') AND DATE_ADD(#{endDate}, INTERVAL 1 DAY )
+		AND ( ss.status = '10' or ss.status = '20' )
+		<if test='activeMenu == 1'>
+			AND ss.deleted_at is null AND ss.trashed_at is null
+		</if>
+		<if test='activeMenu == 3'>
+			AND ss.deleted_at is null AND ss.trashed_at is not null
+		</if>
+		<if test='keyword != ""'>
+			AND (ss.file_org_nm like CONCAT('%',#{keyword},'%'))
+		</if>
+		order by ss.created_at desc
+		<if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>
+    
+    <select id="getMeetBySEQ" resultType="Map">
+        select ss.SEQ as seq
+        , ss.subject
+        , DATE_FORMAT(ss.created_at, '%Y.%m.%d %H:%i') as created_at
+        , DATE_FORMAT(ss.updated_at, '%Y.%m.%d %H:%i') as updated_at
+        , DATE_FORMAT(ss.deleted_at, '%Y.%m.%d %H:%i') as deleted_at
+        , DATE_FORMAT(ss.trashed_at, '%Y.%m.%d %H:%i') as trashed_at
+        , IFNULL(DATE_FORMAT(ss.stt_started_at, '%Y-%m-%d %H:%i'),"") as sttStartedAt
+        , ss.time_duration_ms  as timeDurationMs
+        	, ss.file_org_nm	as fileOrgNm
+        , ss.file_new_nm        as fileNewNm
+        , ss.reliability
+		  , (
+	        SELECT COUNT(*)
+	        FROM TB_CS_TRANSCRIPTION ct
+	        WHERE ct.sound_seq = ss.seq 
+	        AND ct.train_text IS NOT NULL
+	        AND ct.train_text != ''
+	       ) AS trainTextCount 
+      	, ss.file_stereo_prefix as fileStereoPrefix
+      	, ss.channel_count      as channelCount	              
+        from TB_CS_SOUND ss
+        WHERE SEQ = #{meetSeq}
+    </select>
+
+    <select id="getFailList" resultType="Map">
+		select ss.SEQ as seq
+			, IFNULL(ti.army_name,"미등록") AS armyName
+			, DATE_FORMAT(ss.created_at, '%Y-%m-%d %H:%i') as createdAt
+			, DATE_FORMAT(ss.updated_at, '%Y-%m-%d %H:%i') as updatedAt
+			, ss.file_org_nm as fileOrgNm
+			, IFNULL(DATE_FORMAT(ss.stt_started_at, '%Y-%m-%d %H:%i'),"") as sttStartedAt
+			, ss.status	
+			, IFNULL(ss.error_message,"")as errorMessage		
+			, (
+				   	SELECT count(s.SEQ)
+					from TB_CS_SOUND s			
+					WHERE<![CDATA[ (s.status < 20 OR s.status = 10 and s.error_message IS NOT NULL)]]>
+					<if test='search != null'>
+						AND s.created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+					</if>					
+					<if test='keyword != ""'>
+						AND (s.file_org_nm like CONCAT('%',#{keyword},'%'))
+					</if>
+				   ) AS hiddenCount
+		from TB_CS_SOUND ss
+		WHERE ss.seq > 0 
+		and <![CDATA[ ((ss.status < 20 OR ss.status = 10) and ss.error_message IS NOT NULL)]]>
+		<if test='search != null'>
+			AND ss.created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+		</if>	
+		<if test='keyword != ""'>
+			AND (ss.file_org_nm like CONCAT('%',#{keyword},'%'))
+		</if>
+		order by ss.created_at desc
+		<if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>    
+
+    <update id="clickLeastOnce" >
+    	update TB_CS_SOUND
+    	set click_least_once = 1
+    	where seq = #{seq}
+    </update>
+
+    <select id="getMeettingRemoveCandiate" parameterType="int" resultType="Map">
+    <![CDATA[
+		SELECT jo.*
+		FROM (
+			SELECT so.SEQ
+			, so.file_org_nm
+			, DATE_FORMAT(so.created_at, '%Y-%m-%d %H:%i') as created_at
+			, DATE_FORMAT(so.updated_at, '%Y-%m-%d %H:%i') as updated_at
+			, DATE_FORMAT(so.deleted_at, '%Y-%m-%d %H:%i') as deleted_at
+			, DATE_FORMAT(so.trashed_at, '%Y-%m-%d %H:%i') as trashed_at
+			, so.file_new_nm
+			, so.file_conv_nm
+			, accum.sum
+			FROM TB_CS_SOUND so
+			JOIN (
+				SELECT tr.sound_seq, SUM(tr.cnt) AS SUM
+				FROM (
+					SELECT sound_seq,
+					 IF ( use_yn = 'Y' 
+						OR data_id != ''
+						OR train_text IS NOT NULL  
+						   	,'1', '0'
+						) AS cnt
+				FROM TB_CS_TRANSCRIPTION
+				) tr
+				GROUP BY tr.sound_seq
+			) accum ON so.SEQ = accum.sound_seq
+			WHERE so.SEQ != -1
+			AND so.created_at < TIMESTAMP(DATE_SUB(NOW(), INTERVAL #{term} DAY ) )
+			AND so.deleted_at IS NULL
+		) jo
+		WHERE jo.sum = 0
+		ORDER BY jo.created_at 
+	]]>
+	
+    </select>    
+    <update id="updateDeletedAtBySeq">
+    	update TB_CS_SOUND
+		set deleted_at = CURRENT_TIMESTAMP
+    	where seq = #{seq}
+    </update>
+    
+    <select id="getSoundFromSeq" parameterType="meetingVo" resultType="meetingVo">
+        select 
+        	  SEQ				as seq
+        	, time_duration_ms	as timeDurationMs
+        	, file_org_nm		as fileOrgNm
+        	, file_new_nm		as fileNewNm
+        	, file_size_bytes	as fileSizeBytes
+        	, status			as status
+        from TB_CS_SOUND 
+        where 1 = 1
+       	<if test='status != null'>
+       		and status = #{status}
+       	</if>
+       	<if test='seq != -1'>
+       		and seq > #{seq}
+       	</if>
+        order by seq
+    </select>     
+
+    <update id="updateSoundWithMeet" parameterType="meetingVo">
+        update TB_CS_SOUND set
+        	  time_duration_ms = #{timeDurationMs}
+        	, status = #{status}
+        	<if test='sttStartedAt != null'>
+        		, stt_started_at = #{sttStartedAt}
+        	</if>
+        	<if test='sttDuration != null'>
+        		, stt_duration = #{sttDuration}
+        	</if>
+        	<if test='errorMessage != null'>
+        		, error_message = #{errorMessage}
+        	</if>
+        	<if test='reliability != null'>
+        		, reliability = #{reliability}
+        	</if>
+        	<if test='channelCount != 0'>
+        		, channel_count = #{channelCount}
+        	</if>
+        	<if test='fileStereoPrefix != null'>
+        		, file_stereo_prefix = #{fileStereoPrefix}
+        	</if>
+        where seq = #{seq}
+    </update>
+
+    <select id="getSoundByName" parameterType="Map" resultType="Map">
+        select 
+        	SEQ
+        	, subject
+        	, DATE_FORMAT(created_at, '%Y.%m.%d %H:%i') as created_at
+        	, DATE_FORMAT(updated_at, '%Y.%m.%d %H:%i') as updated_at
+        	, DATE_FORMAT(deleted_at, '%Y-%m-%d %H:%i') as deleted_at
+        	, DATE_FORMAT(trashed_at, '%Y-%m-%d %H:%i') as trashed_at
+        	, time_duration_ms
+        	, file_org_nm
+        	, file_new_nm
+        from TB_CS_SOUND 
+        WHERE file_org_nm = #{orgnm}
+    </select>
+ 
+     <select id="getExportList" resultType="soundBean">
+        <![CDATA[
+		select
+	       SEQ as seq
+	        , division
+	        , subject
+	        , created_at as createdAt
+	        , updated_at as updatedAt
+	        , deleted_at as deletedAt
+	        , trashed_at as trashedAt
+	        , time_duration_ms as timeDurationMs
+	        , file_org_nm as fileOrgNm
+	        , file_new_nm as fileNewNm
+	        , file_conv_nm as fileConvNm
+	        , remark
+	        , file_size_bytes as fileSizeBytes
+	        , TC_USER_SEQ as tcUserSeq
+	        , status
+			, stt_started_at   as sttStartedAt
+			, stt_duration     as sttDuration
+			, reliability
+			, click_least_once  as clickLeastOnce
+			, error_message	as errorMessage
+		from TB_CS_SOUND
+		WHERE SEQ > 0
+		AND created_at BETWEEN str_to_date(#{startDate}, '%Y-%m-%d') AND DATE_ADD(#{endDate}, INTERVAL 1 DAY )
+		and SEQ >= #{from} and SEQ <= #{to}
+		AND deleted_at is null AND trashed_at is null
+		order by created_at
+		]]>
+    </select>
+ 
+ 	<update	id = "updateRemarkAndUpdatedAtBySeq">
+ 		UPDATE	TB_CS_SOUND	
+ 		SET remark = #{updateRemark}, update_at = #{updateAt}
+ 		WHERE	seq = #{meetSeq}
+ 	</update>                         
+</mapper>

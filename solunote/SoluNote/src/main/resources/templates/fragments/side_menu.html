@@ -1,0 +1,137 @@
+<aisde th:fragment="sideMenuFragment"   class="side_menu">
+	<div class="menu_wrap">
+        <ul class="side_top_menu">
+          <li>
+            <a>
+              <span class="top_icon" id = "sideUpload">
+                <img th:src="@{/images/menu_icon_upload.svg}" alt="">
+              </span>
+              <span class="top_name" th:text="${#messages.msg('button.meeting.file.upload2')}">회의록 등록</span>
+            </a>
+          </li>
+          <li>
+            <a>
+              <span class="top_icon" id = "sideRecording">
+                <img th:src="@{/images/menu_icon_voice.svg}"alt="">
+              </span>
+        
+              <span class="top_name" th:text="${#messages.msg('button.meeting.live.recording')}">실시간 녹음</span>
+            </a>
+          </li>
+        </ul> 
+        <ul class="main_menu user_menu" sec:authorize="hasAnyRole('ROLE_USER')">
+            <li class="first_menu">
+                <a th:href="@{/menu21/cont/1?activeMenu=1}">
+                    <img th:src="@{/images/sidemenu_user01.svg}"alt="">
+                    <span th:text="${#messages.msg('sideMenu.soluNote.subMenu1')}">전체 회의록</span>
+                </a>
+            </li>
+            <li class="first_menu">
+                <a th:href="@{/menu21/cont/1?activeMenu=2}">
+                    <img th:src="@{/images/sidemenu_user02.svg}" alt="">
+                    <span th:text="${#messages.msg('sideMenu.soluNote.subMenu2')}">중요 회의록</span>
+                </a>
+            </li>
+            <li class="first_menu">
+                <a th:href="@{/menu21/cont/1?activeMenu=3}">
+                    <img th:src="@{/images/sidemenu_user03.svg}" alt="">
+                    <span th:text="${#messages.msg('sideMenu.soluNote.subMenu3')}">휴지통</span>
+                </a>
+            </li>
+            <li class="first_menu">
+                <a th:href="@{/menu27/cont/1?activeMenu=3}">
+                    <img th:src="@{/images/sidemenu_user04.svg}" alt="">
+                    <span th:text="${#messages.msg('sideMenu.confing.subMenu3')}">계정관리</span>
+                </a>
+            </li>
+            <li class="first_menu" style="display:none">
+                <a>
+                    <img th:src="@{/images/menu_icon_customer.svg}" alt="">
+                    <span th:text="${#messages.msg('sideMenu.customer')}">고객센터</span>
+                </a>
+            </li>
+        </ul>           	
+	    <ul class="main_menu" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+	        <li class="first_menu">
+	            <a id="side_dashbord" th:href="@{/menu22/cont/}">
+	                <img  th:src="@{/images/menu_icon_dashboard.svg}" alt="">
+	                <span th:text="${#messages.msg('sideMenu.dashbord')}"></span>
+	            </a>
+	        </li>
+	        <li  class="first_menu">
+	            <a id="side_solunote" >
+	                <img th:src="@{/images/menu_icon_solunote.svg}"alt="">
+	                <span th:text="${#messages.msg('sideMenu.soluNote')}"></span>
+	            </a>
+	            <ul class="sub_menu">
+	                <li><a th:href="@{/menu21/cont/1?activeMenu=1}" th:text="${#messages.msg('sideMenu.soluNote.subMenu1')}"></a></li>
+	                <li><a th:href="@{/menu21/cont/1?activeMenu=2}" th:text="${#messages.msg('sideMenu.soluNote.subMenu2')}"></a></li>
+	                <li><a th:href="@{/menu21/cont/1?activeMenu=3}" th:text="${#messages.msg('sideMenu.soluNote.subMenu3')}"></a></li>
+	            </ul>
+	        </li>
+	        <li class="first_menu">
+	            <a id="side_train">
+	                <img th:src="@{/images/menu_icon_studyData.svg}" alt="">
+	                <span th:text="${#messages.msg('sideMenu.train')}"></span>
+	            </a>
+	            <ul class="sub_menu">
+	                <li><a th:href="@{/menu23/cont/1?activeMenu=1}" th:text="${#messages.msg('sideMenu.train.subMenu1')}"></a></li>
+	                <li><a th:href="@{/menu24/cont/1?activeMenu=1}" th:text="${#messages.msg('sideMenu.train.subMenu2')}"></a></li>
+	                <li><a th:href="@{/menu24/cont/1?activeMenu=2}" th:text="${#messages.msg('sideMenu.train.subMenu3')}"></a></li>
+	                <li><a th:href="@{/menu23/cont/1?activeMenu=3}" th:text="${#messages.msg('sideMenu.train.subMenu4')}"></a></li>
+	            </ul>
+	        </li>
+	        <li class="first_menu">
+	            <a id="side_keyword">
+	                <img th:src="@{/images/menu_icon_keyword.svg}" alt="">
+	                <span th:text="${#messages.msg('sideMenu.keyword')}"></span>
+	            </a>
+	            <ul class="sub_menu">
+	                <li><a th:href="@{/menu28/cont/1?activeMenu=1}" th:text="${#messages.msg('sideMenu.keyword.subMenu1')}"></a></li>
+	                <li><a th:href="@{/menu28/cont/1?activeMenu=2}" th:text="${#messages.msg('sideMenu.keyword.subMenu2')}"></a></li>
+	                <li><a th:href="@{/menu28/cont/1?activeMenu=3}" th:text="${#messages.msg('sideMenu.keyword.subMenu3')}"></a></li>
+	                <li><a th:href="@{/menu28/cont/1?activeMenu=4}" th:text="${#messages.msg('sideMenu.keyword.subMenu4')}"></a></li>
+	            </ul>
+	        </li>	        
+	        <li class="first_menu">
+	            <a id="side_trainSchedule">
+	                <img th:src="@{/images/menu_icon_studyDay.svg}" alt="">
+	                <span th:text="${#messages.msg('sideMenu.trainSchedule')}"></span>
+	            </a>
+	            <ul class="sub_menu">
+	                <li><a th:href="@{/menu26/cont/1?activeMenu=1}" th:text="${#messages.msg('sideMenu.trainSchedule.subMenu1')}"></a></li>
+	                <li><a th:href="@{/menu26/cont/1?activeMenu=5}" th:text="${#messages.msg('sideMenu.trainSchedule.subMenu2')}"></a></li>
+	            </ul>
+	        </li>
+	        <li class="first_menu">
+	            <a id="side_test">
+	                <img th:src="@{/images/menu_icon_testData.svg}"alt="">
+	                <span th:text="${#messages.msg('sideMenu.test')}"></span>
+	            </a>
+	            <ul class="sub_menu">
+					<li><a th:href="@{/menu25/cont/1?activeMenu=1}" th:text="${#messages.msg('sideMenu.test.subMenu1')}"></a></li>
+					<li><a th:href="@{/menu25/cont/1?activeMenu=5}" th:text="${#messages.msg('sideMenu.test.subMenu2')}"></a></li>
+<!--/* 					<li><a th:href="@{/menu25/cont/1?activeMenu=6}">테스트 Data 오류</a></li> */-->
+	            </ul>
+	        </li>
+	        <li class="first_menu">
+	            <a id="side_config">
+	                <img th:src="@{/images/menu_icon_setting.svg}" alt="">
+	                <span th:text="${#messages.msg('sideMenu.confing')}"></span>
+	            </a>
+	            <ul class="sub_menu">
+					<li><a th:href="@{/menu27/cont/1?activeMenu=1}" th:text="${#messages.msg('sideMenu.confing.subMenu1')}">계정관리</a></li>
+					<li><a th:href="@{/menu27/cont/1?activeMenu=2}" th:text="${#messages.msg('sideMenu.confing.subMenu2')}">계정휴지통</a></li>
+					<li><a th:href="@{/menu27/cont/1?activeMenu=4}" th:text="${#messages.msg('sideMenu.confing.subMenu4')}">파일관리</a></li>
+	            </ul>
+	        </li>
+            <li class="first_menu" style="display:none">
+                <a>
+                    <img th:src="@{/images/menu_icon_customer.svg}" alt="">
+                    <span th:text="${#messages.msg('sideMenu.customer')}">고객센터</span>
+                </a>
+            </li>
+	    </ul>
+	</div>
+	<button class="menu_short"></button>
+</aisde>	

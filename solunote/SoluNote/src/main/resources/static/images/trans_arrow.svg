@@ -1,0 +1,8 @@
+<svg id="화살표" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <rect id="버튼영역" width="24" height="24" fill="none" opacity="0.2"/>
+  <g id="그룹_75647" data-name="그룹 75647" transform="translate(8 18.986) rotate(-90)">
+    <rect id="사각형_682" data-name="사각형 682" width="1" height="7" rx="0.5" transform="translate(7.686 10.279) rotate(135)" fill="#333" stroke="#333" stroke-width="0.5"/>
+    <rect id="사각형_683" data-name="사각형 683" width="1" height="7" rx="0.5" transform="translate(7.007 10.986) rotate(-135)" fill="#333" stroke="#333" stroke-width="0.5"/>
+    <rect id="사각형_681" data-name="사각형 681" width="1" height="12" rx="0.5" transform="translate(6.5 -3)" fill="#333" stroke="#333" stroke-width="0.5"/>
+  </g>
+</svg>

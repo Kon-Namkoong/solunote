@@ -1,0 +1,45 @@
+header {
+    height: 60px;
+    width: 100%;
+    min-width: 1440px;
+}
+
+header .header_wrap {
+    background-color: #0080BC;
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    padding: 0 20px 0 50px;
+    position: relative;
+}
+
+header .header_wrap>div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .header_wrap>div .head_title {
+    margin-left: 50px;
+}
+
+header .header_wrap>div .admin {
+    height: 100%;
+    line-height: 24px;
+    display: block;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+header .header_wrap>div .admin .name {
+    padding: 4px 15px 4px 35px;
+    font-size: 14px;
+    color: #FFF;
+    background: url(../images/profile.svg) no-repeat;
+    background-position: center left;
+    background-size: 24px;
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="진행중" transform="translate(-1423 -615)">
+    <g id="_02_on" data-name="02 on" transform="translate(1423 615)" fill="#fff" stroke="#0046fd" stroke-width="2">
+      <circle cx="10" cy="10" r="10" stroke="none"/>
+      <circle cx="10" cy="10" r="9" fill="none"/>
+    </g>
+    <circle id="_02" data-name="02" cx="5" cy="5" r="5" transform="translate(1428 620)" fill="#0046fd"/>
+  </g>
+</svg>

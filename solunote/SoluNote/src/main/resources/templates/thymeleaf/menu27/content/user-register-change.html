@@ -1,0 +1,90 @@
+ <!-- content -->
+<div id ="userRegChange" >
+        <div class="common_content">
+            <!-- 공통 고정 타이틀 및 검색 -->
+            <div class="content_tit trainingDetail_tit content_detail_tit">
+                <div class="title">
+                    <a  th:if="${liveMenu == 1 or liveMenu == 2}" class="back_btn Change"><img th:src="@{/images/back_btn.svg}"></a>
+                    <h2 th:if="${liveMenu == 1}" th:text="${#messages.msg('menu27.content1.change.h2')}">계정수정</h2>
+                    <h2 th:if="${liveMenu == 3}" th:text="${#messages.msg('menu27.content1.change.h2')}" style="margin-left : 0px;">계정수정</h2>
+                </div>
+            </div>
+            <!-- //공통 고정 타이틀 및 검색 -->
+
+            <!-- 계정관리 등록 -->
+            <div class="content_desc accountDetail_desc">
+                <div class="tbl_btns accountDetail_btns">
+                    <div class="tbl_right">
+                        <button class="upload_btn" id="btn_regUser_change" th:text="${#messages.msg('menu27.content1.change.btn1')}">수정</button>
+                    </div>
+                </div>
+                <div class="table_content tbl_accountDetail">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>[[${#messages.msg('menu27.content1.Res1')}]]<span>*</span></th>
+                                <td>
+                                    <div class="input_container" id="tcId-change" th:text="${list[0].tcId}">
+                                    </div>
+                                </td>
+                                <th>[[${#messages.msg('menu27.content1.Res3')}]]<span>*</span></th>
+                                <td>
+                                    <div class="input_container">
+                                        <input type="text" id="tcName-change" th:value="${list[0].tcName}"  autocomplete="off">
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>[[${#messages.msg('menu27.content1.Res4')}]]<span></span></th>
+                                <td>
+                                    <div class="input_container">
+                                        <input type="password" th:placeholder="${#messages.msg('menu27.content1.Res.placeholder2')}" id="tcPw-change" style="width : 240px" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+                                        <span class="guide_msg" id="checkPwChange" style="display : block; color : #999">* 비밀번호를 입력하지 않으면 기존 비밀번호로 유지됩니다.</span>
+                                    </div>
+                                </td>
+                                <th>[[${#messages.msg('menu27.content1.Res5')}]]<span></span></th>
+                                <td>
+                                    <div class="input_container">
+                                        <input type="password" th:placeholder="${#messages.msg('menu27.content1.Res.placeholder3')}" id="tcPw_cm-change" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');"> 
+                                        <span class="guide_msg" id="checkPwCmChange">* 비밀번호를 다시 입력하세요.</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>[[${#messages.msg('menu27.content1.Res6')}]]</th>
+                                <td>
+                                    <div class="input_container">
+                                        <input type="text" id="tcPhone-change" th:value="${list[0].tcPhone}" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+                                        <span class="guide_msg" id="checkPhoneChange">* 핸드폰 번호 형식이 틀립니다. 다시 입력해주세요.</span>
+                                    </div>
+                                </td>
+                                <th>[[${#messages.msg('menu27.content1.Res7')}]]</th>
+                                <td>
+                                    <div class="input_container">
+                                        <input type="email" id="tcEmail-change" th:value="${list[0].tcEmail}" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" >
+                                        <span class="guide_msg" id="checkEmailChange">* 이메일 주소를 입력하세요.</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:style="${#strings.equals(role, 'ROLE_ADMIN')} ? '' : 'display: none;'" >
+                                <th>[[${#messages.msg('menu27.content1.Res8')}]]<span>*</span></th>
+                                <td colspan="2" th:switch="${liveMenu}">
+                                    <div class="select-container" th:case="1">
+                                        <select name="search" class="custom-select" id="tcLevel-change">
+                                            <option th:text="${list[0].tcLevel == 100 ? #messages.msg('menu27.content1.Res9') : #messages.msg('menu27.content1.Res10')}"  th:value="${(list[0].tcLevel == 100 ? '100':'0')}" value="100">관리자</option>
+                                            <option th:text="${list[0].tcLevel == 0 ? #messages.msg('menu27.content1.Res9') : #messages.msg('menu27.content1.Res10')}"  th:value="${(list[0].tcLevel == 0 ? '100':'0')}">사용자</option>
+                                        </select>       
+                                    </div>
+                                    <div th:case="3" id="tcLevel-change" class="input_container" style="margin-top: 10px;" th:text="${list[0].tcLevel == 100 ? #messages.msg('menu27.content1.Res9') : #messages.msg('menu27.content1.Res10')}"  th:value="${(list[0].tcLevel == 100 ? '100':'0')}" ></div>                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+            <!-- //계정관리 등록 -->
+            <!-- //content -->
+        </div>
+</div>	
+<!-- //content -->

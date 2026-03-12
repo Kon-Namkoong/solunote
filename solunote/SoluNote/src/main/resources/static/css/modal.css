@@ -1,0 +1,659 @@
+@charset "UTF-8";
+.modal_wrap {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+}
+.modal_wrap.active {
+  display: block;
+}
+.modal_wrap .inner_grid {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+.modal_wrap .modal_bx {
+  z-index: 1000;
+  width: 600px;
+  padding: 30px;
+  background: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 5px 5px 10px #00000029;
+  border-radius: 20px;
+}
+
+.modal_date_bx {
+  margin-bottom: 20px;
+}
+
+.modal_date_bx .select-container:first-child {
+  margin-right: 15px;
+}
+
+.modal_date_bx .select-container select {
+  min-width: 65px;
+}
+
+.modal_date_bx label {
+  margin-right: 0;
+  margin-left: 5px;
+}
+
+.modal_date_bx,
+.modal_time_bx {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal_wrap .modal_bx.cm {
+  width: 400px;
+}
+.modal_wrap .modal_bx.recordMode .btn_grid button.fn_upld {
+  display: none;
+}
+.modal_wrap .modal_bx.recordMode .itrc_grp .innerGuide {
+  transform: translateX(-100%);
+  transition: all ease .6s;
+}
+.modal_wrap .modal_bx.recordMode .itrc_grp .innerGuide .upload_grid,
+.modal_wrap .modal_bx.recordMode .itrc_grp .innerGuide .lang_select {
+  padding: 20px 0;
+  height: 100px;
+  transition: all ease .3s;
+  opacity: 0;
+}
+.modal_wrap .modal_bx.recordMode .lang_select {
+  height: 0;
+  padding: 0;
+  transition: all ease .6s;
+  opacity: 0;
+}
+.modal_wrap .modal_bx.recordMode.recordStart .record_time,
+.modal_wrap .modal_bx.recordMode.recordStart .record_utilbx {
+  display: flex;
+}
+.modal_wrap .modal_bx.recordMode.recordStart .rectxt#rectxt:before {
+  display: inline-block;
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: #ff0000;
+  border-radius: 50%;
+  margin-right: 2px;
+  top: -2px;
+  animation: recpulse 1.3s infinite alternate;
+  transform-origin: center;
+}
+@keyframes recpulse {
+  0% {
+    transform: scale(0.6);
+    /* 5px 크기 */
+  }
+  100% {
+    transform: scale(0.8);
+    /* 12px 크기 */
+  }
+}
+.modal_wrap .modal_bx.recordMode.recordPause .rectxt#rectxt:before {
+  content: "";
+  width: 3px;
+  /* 폭 좁게 조정 */
+  height: 10px;
+  /* 원래 높이 */
+  background: #000;
+  border-radius: 0;
+  /* 둥근 모서리 제거 */
+  transform: none;
+  /* 확대 축소 제거 */
+  margin-right: 12px;
+  animation: none;
+  /* 애니메이션 중지 */
+  display: inline-block;
+  box-shadow: 6px 0 0 0 #000;
+  transition: all ease .3s;
+}
+.modal_wrap .modal_bx.recordMode.recordUploading .contbx .record_bx, .modal_wrap .modal_bx.recordMode.recordSaving .contbx .record_bx, .modal_wrap .modal_bx.recordMode.recordSaveEnd .contbx .record_bx {
+  display: none;
+}
+.modal_wrap .modal_bx.recordMode.recordSaveEnd .contbx .record_save.active {
+  height: 50px;
+}
+.modal_wrap .modal_bx .hds {
+  position: relative;
+  min-height: 24px;
+}
+.modal_wrap .modal_bx .hds .tit {
+  letter-spacing: 0px;
+  color: #000000;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 24px;
+}
+.modal_wrap .modal_bx .clsbtn {
+  width: 24px;
+  height: 24px;
+  background: url(../images/cls.svg);
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 99;
+}
+.modal_wrap .modal_bx .contbx {
+  margin-top: 20px;
+}
+.modal_wrap .modal_bx .contbx p.desc {
+  line-height: 24px;
+  font-size: 14px;
+  color: #333;
+}
+.modal_wrap .modal_bx .contbx .lang_select {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal_wrap .modal_bx .contbx .lang_select .guide_text {
+  font-size: 14px;
+  color: #555;
+}
+.modal_wrap .modal_bx .contbx .lang_select .sle_grid {
+  display: inline-flex;
+  align-items: center;
+}
+.modal_wrap .modal_bx .contbx .lang_select .sle_grid span {
+  font-size: 14px;
+  color: #555;
+}
+.modal_wrap .modal_bx .contbx .lang_select .sle_grid span + .sel_bx {
+  margin-left: 10px;
+}
+.modal_wrap .modal_bx .contbx .lang_select .sle_grid .sel_bx {
+  position: relative;
+}
+.modal_wrap .modal_bx .contbx .lang_select .sle_grid .sel_bx:after {
+  content: "";
+  background: url(../images/down_arrow.svg);
+  position: absolute;
+  width: 16px;
+  top: 50%;
+  margin-top: -8px;
+  right: 8px;
+  height: 16px;
+  z-index: 1;
+}
+.modal_wrap .modal_bx .contbx .lang_select .sle_grid .sel_bx select {
+  min-width: 100px;
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  padding: 0 10px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.modal_wrap .modal_bx .contbx .lang_select .sle_grid .sel_bx select option {
+  font-size: 14px;
+  color: #555;
+}
+.modal_wrap .modal_bx .contbx .itrc_grp {
+  overflow: hidden;
+  margin-top: 10px;
+}
+.modal_wrap .modal_bx .contbx .itrc_grp .innerGuide {
+  flex-direction: row;
+  display: flex;
+}
+.modal_wrap .modal_bx .contbx .itrc_grp .innerGuide.recordMode {
+  transform: translateX(-calc(100% - 30px));
+}
+.modal_wrap .modal_bx .contbx .upload_grid {
+  width: 100%;
+  background: #F2F4F7;
+  padding: 100px 0 50px 0;
+  border-radius: 10px;
+  position: relative;
+  text-align: center;
+  border: 2px solid transparent;
+  min-width: 540px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal_wrap .modal_bx .contbx .upload_grid.dragover {
+  border: 2px solid #333;
+  box-sizing: border-box;
+}
+.modal_wrap .modal_bx .contbx .upload_grid.dropUploading, .modal_wrap .modal_bx .contbx .upload_grid.clickUploading {
+  border: 2px solid #333;
+  padding-top: 50px;
+}
+.modal_wrap .modal_bx .contbx .upload_grid.dropUploading p, .modal_wrap .modal_bx .contbx .upload_grid.clickUploading p {
+  margin-top: 0;
+  color: #333;
+}
+.modal_wrap .modal_bx .contbx .upload_grid.dropUploading button.uploadx,
+.modal_wrap .modal_bx .contbx .upload_grid.dropUploading button.fn_rcrd button.mic_setup, .modal_wrap .modal_bx .contbx .upload_grid.clickUploading button.uploadx,
+.modal_wrap .modal_bx .contbx .upload_grid.clickUploading button.fn_rcrd button.mic_setup {
+  display: none;
+}
+.modal_wrap .modal_bx .contbx .upload_grid + .btn_grid {
+  margin-top: 14px;
+}
+.modal_wrap .modal_bx .contbx .upload_grid p {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 12px;
+  color: #555;
+  line-height: 18px;
+}
+.modal_wrap .modal_bx .contbx .upload_grid button.uploadx {
+  content: "";
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 50px;
+  background: url(../images/upload.svg) no-repeat;
+  background-size: 100%;
+  cursor: pointer;
+}
+.modal_wrap .modal_bx .contbx .upload_grid button.uploadx .circle {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 0px;
+  left: 0px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: #0046FD;
+  opacity: 0;
+}
+@keyframes drawLine {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.modal_wrap .modal_bx .contbx .upload_grid button.uploadx:before {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  left: 50%;
+  font-size: 40px;
+  line-height: 30px;
+  color: #0046FD;
+  opacity: 0;
+  transform: translate(-50%, -60%);
+}
+.modal_wrap .modal_bx .contbx .upload_grid button.uploadx:hover .circle {
+  opacity: 1;
+  animation: drawLine 2s linear infinite;
+}
+.modal_wrap .modal_bx .contbx .upload_grid input.upload-x {
+  display: none;
+}
+.modal_wrap .modal_bx .contbx .record_grid,
+.modal_wrap .modal_bx .contbx .cmx_grid {
+  background: #F2F4F7;
+  min-width: 540px;
+  border-radius: 10px;
+  width: calc(100% + 60px);
+}
+
+
+.modal_wrap .modal_bx .contbx .record_grid .loader,
+.modal_wrap .modal_bx .contbx .cmx_grid .loader {
+  margin-bottom: 30px;
+}
+.modal_wrap .modal_bx .contbx .record_grid .record_bx,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_bx {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 10px 10px;
+}
+.modal_wrap .modal_bx .contbx .record_grid .record_bx .toggleBtn,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_bx .toggleBtn {
+  flex: 1;
+  max-width: 40px;
+  height: 40px;
+  width: 40px;
+  background-image: url(../images/rec_icon.svg);
+  background-size: 40px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.modal_wrap .modal_bx .contbx .record_grid .record_bx .toggleBtn.init,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_bx .toggleBtn.init {
+  background-image: url(../images/pause_icon.svg);
+}
+.modal_wrap .modal_bx .contbx .record_grid .record_bx .toggleBtn.pause,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_bx .toggleBtn.pause {
+  background-image: url(../images/rec_icon.svg);
+}
+.modal_wrap .modal_bx .contbx .record_grid .record_bx .grpUi,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_bx .grpUi {
+  flex: 1;
+  padding: 0 0px 0 20px;
+  height: 100px;
+  overflow: hidden;
+  position: relative;
+}
+.modal_wrap .modal_bx .contbx .record_grid .record_bx .grpUi:before,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_bx .grpUi:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #f2f4f7, rgba(242, 244, 247, 0) 20%, rgba(242, 244, 247, 0) 70%, #f2f4f7);
+  z-index: 2;
+}
+.modal_wrap .modal_bx .contbx .record_grid .record_bx .grpUi canvas,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_bx .grpUi canvas {
+  position: relative;
+  width: 100%;
+}
+.modal_wrap .modal_bx .contbx .record_grid input#recsavetoMypc,
+.modal_wrap .modal_bx .contbx .cmx_grid input#recsavetoMypc {
+  display: none;
+}
+.modal_wrap .modal_bx .contbx .record_grid input#recsavetoMypc.active,
+.modal_wrap .modal_bx .contbx .cmx_grid input#recsavetoMypc.active {
+  display: block;
+  border: 0;
+  height: 40px;
+  width: 260px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  margin-bottom: 30px;
+  padding: 0 10px;
+  text-align: center;
+  margin-top: 5px;
+}
+.modal_wrap .modal_bx .contbx .record_grid .cm_loading,
+.modal_wrap .modal_bx .contbx .cmx_grid .cm_loading {
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 50px 0;
+}
+.modal_wrap .modal_bx .contbx .record_grid .cm_loading.active,
+.modal_wrap .modal_bx .contbx .cmx_grid .cm_loading.active {
+  display: flex;
+  height: 300px;
+  width: 100%;
+}
+.modal_wrap .modal_bx .contbx .record_grid .cm_loading .loader,
+.modal_wrap .modal_bx .contbx .cmx_grid .cm_loading .loader {
+  margin: auto;
+  display: flex;
+}
+.modal_wrap .modal_bx .contbx .record_grid .cm_loading .cmMsgbx,
+.modal_wrap .modal_bx .contbx .cmx_grid .cm_loading .cmMsgbx {
+  margin-top: 20px;
+  color: #555;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+}
+.modal_wrap .modal_bx .contbx .record_grid .cm_loading .cmMsgbx span,
+.modal_wrap .modal_bx .contbx .cmx_grid .cm_loading .cmMsgbx span {
+  font-weight: bold;
+  font-size: 16px;
+}
+.modal_wrap .modal_bx .contbx .record_grid .record_save,
+.modal_wrap .modal_bx .contbx .cmx_grid.record_save {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 50px 0;
+}
+.modal_wrap .modal_bx .contbx .record_grid .record_save.active,
+.modal_wrap .modal_bx .contbx .cmx_grid.record_save.active {
+  display: flex;
+  height: 300px;
+  width: 100%;
+}
+.modal_wrap .modal_bx .contbx .record_grid .record_save .savingTime,
+.modal_wrap .modal_bx .contbx .record_grid .record_save .uploadMmsgbx,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_save .savingTime,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_save .uploadMmsgbx {
+  color: #555;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+}
+.modal_wrap .modal_bx .contbx .record_grid .record_save .savingTime span,
+.modal_wrap .modal_bx .contbx .record_grid .record_save .uploadMmsgbx span,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_save .savingTime span,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_save .uploadMmsgbx span {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.modal_wrap .modal_bx .contbx .record_grid .record_save .savingPcBtn,
+.modal_wrap .modal_bx .contbx .record_grid .record_save .uploadRecBtn,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_save .savingPcBtn {
+  display: none;
+}
+
+.modal_wrap .modal_bx .contbx .record_grid .record_save .savingPcBtn:before,
+.modal_wrap .modal_bx .contbx .record_grid .record_save .uploadRecBtn:before,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_save .savingPcBtn:before {
+  display: none;
+}
+
+.modal_wrap .modal_bx .contbx .record_grid .record_save .savingPcBtn.active,
+.modal_wrap .modal_bx .contbx .record_grid .record_save .uploadRecBtn.active,
+.modal_wrap .modal_bx .contbx .cmx_grid .record_save .savingPcBtn.active {
+  display: block;
+}
+.modal_wrap .modal_bx .cmBtngrid {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+.modal_wrap .modal_bx .btn_grid {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal_wrap .modal_bx button.mdBtn {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #555;
+  border: 1px solid #D2D2D2;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+}
+.modal_wrap .modal_bx button.mdBtn.cm:before {
+  display: none;
+}
+.modal_wrap .modal_bx button.mdBtn.cm.postive {
+  background: #0080bc;
+  color: #fff;
+  border-color: #0080bc;
+}
+.modal_wrap .modal_bx button.mdBtn.cm.postive:hover {
+  border-color: #0080bc;
+}
+.modal_wrap .modal_bx button.mdBtn.cm + button {
+  margin-left: 5px;
+}
+.modal_wrap .modal_bx button.mdBtn:hover {
+  transition: all ease .3s;
+  border: 1px solid #333;
+}
+.modal_wrap .modal_bx button.mdBtn + button {
+  margin-left: 10px;
+}
+.modal_wrap .modal_bx button.mdBtn:before {
+  display: inline-block;
+  content: "";
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  z-index: 1;
+}
+.modal_wrap .modal_bx button.mdBtn.fn_upld:before {
+  background-image: url(../images/source_upload_icon.svg);
+}
+.modal_wrap .modal_bx button.mdBtn.fn_rcrd:before {
+  background-image: url(../images/source_voice_icon.svg);
+}
+.modal_wrap .modal_bx button.mdBtn.fn_rcrd span {
+  position: relative;
+  z-index: 1;
+}
+.modal_wrap .modal_bx button.mdBtn.fn_rcrd.recordReady {
+  position: relative;
+}
+.modal_wrap .modal_bx button.mdBtn.fn_rcrd.recordReady:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  content: "";
+  background: #0046FD;
+}
+.modal_wrap .modal_bx button.mdBtn.fn_rcrd.recordReady:hover {
+  color: #fff;
+  border: 1px solid #0046FD;
+  transition: all ease .3s;
+  z-index: 1;
+}
+.modal_wrap .modal_bx button.mdBtn.fn_rcrd.recordReady:hover:before {
+  filter: invert(1) sepia(1) saturate(5) hue-rotate(180deg);
+  /* 필터를 통해 색상 조정 */
+}
+.modal_wrap .modal_bx button.mdBtn.fn_rcrd.recordReady:hover:after {
+  transition: all ease .3s;
+  width: 100%;
+  z-index: 0;
+}
+.modal_wrap .modal_bx button.mdBtn.fn_rcrd.recordReady.recordStart {
+  display: none;
+}
+.modal_wrap .modal_bx button.mic_setup {
+  font-size: 14px;
+  color: #555;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  right: 30px;
+  background: #fff;
+}
+.modal_wrap .modal_bx button.mic_setup:after {
+  display: inline-block;
+  content: "";
+  margin-left: 4px;
+  width: 16px;
+  height: 16px;
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-image: url(../images/menudown.svg);
+}
+.modal_wrap .modal_bx button.mic_setup.active:after {
+  transform: rotate(180deg);
+}
+.modal_wrap .modal_bx button.mic_setup.hidden {
+  display: none;
+}
+.modal_wrap .modal_bx .mic_settingbx {
+  margin: 0;
+  padding: 0;
+  width: calc(100% + 60px);
+  position: relative;
+  left: -30px;
+  border-top: 0px solid #F2F4F7;
+  height: 0;
+  overflow: hidden;
+  transition: all ease-out .4s;
+}
+.modal_wrap .modal_bx .mic_settingbx.active {
+  height: auto;
+  border-top: 1px solid #F2F4F7;
+  margin-top: 20px;
+  padding-top: 20px;
+  transition: all ease-out .4s;
+}
+.modal_wrap .modal_bx .mic_settingbx .micInput_select {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal_wrap .modal_bx .mic_settingbx .micInput_select select {
+  padding: 10px 8px;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+}
+.modal_wrap .modal_bx .mic_settingbx .mic_guidetext {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+}
+.modal_wrap .modal_bx .record_time {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  margin-top: 30px;
+}
+.modal_wrap .modal_bx .record_time .rectxt {
+  font-size: #555;
+  font-size: 14px;
+}
+.modal_wrap .modal_bx .record_time .recTime {
+  margin-top: 4px;
+  font-size: 26px;
+  color: #333;
+  font-weight: bold;
+  opacity: 1;
+}
+.modal_wrap .modal_bx .record_time .recTime.active {
+  opacity: 1;
+}
+.modal_wrap .modal_bx .record_utilbx {
+  margin-top: 44px;
+  display: none;
+}
+.modal_wrap .modal_bx .record_utilbx button.mdBtn:before {
+  display: none;
+}
+.modal_wrap .modal_bx .utilbx {
+  margin-top: 14px;
+  width: 100%;
+  position: relative;
+}
+
+

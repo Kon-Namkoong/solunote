@@ -1,0 +1,98 @@
+<div id="detailPage">
+    <div class="common_content">
+        <div class="content_tit trainingDetail_tit content_detail_tit">
+            <div class="title">
+                <a class="back_btn"><img th:src="@{/images/back_btn.svg}" alt="뒤로가기"></a>
+                <h2 th:utext="${vo.name}"></h2>
+            </div>
+            <div class="search">
+                <div class="info_grid">
+                    <div class="info">
+                        <span class="tlt" th:text="${#messages.msg('menu26.detail.info1')}">학습시작시간</span>
+                        <span class="desc" th:utext="${#temporals.format(vo.startedAt, 'yyyy-MM-dd HH:mm')}"></span>
+                    </div>
+                    <div class="info">
+                        <span class="tlt" th:text="${#messages.msg('menu26.detail.info2')}">학습종료시간</span>
+                        <span class="desc" th:utext="${#temporals.format(vo.endedAt, 'yyyy-MM-dd HH:mm')}"></span>
+                    </div>
+                    <div class="info">
+                        <span class="tlt" th:text="${#messages.msg('menu26.detail.info3')}">학습자료분량</span>
+                        <span class="desc" th:utext="${vo.duration}"></span>
+                    </div>
+                    <div class="info">
+                        <span class="tlt" th:text="${#messages.msg('menu26.detail.info4')}">학습상태</span>
+                        <span class="desc" th:utext="${vo.status}"></span>
+                    </div>
+                    <div class="info">
+                        <span class="tlt" th:text="${#messages.msg('menu26.detail.info5')}">인식률</span>
+                        <span class="desc" th:text="${vo.cer == 0 ? '' : #numbers.formatInteger(vo.cer, 2) + ' %'}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content_desc content_fullMeeting">
+            <div class="table_info">
+                <div class="table_info_left">
+                    <div class="search_txt" style="margin-left:0px;">
+                        <div class="search_box result_search">
+                            <div class="table_total" th:text="${#messages.msg('menu26.detail.content.search3')}">조회기준</div>
+                            <div class="select-container">
+                                <select id="orderBy" name="table_view" class="custom-select" style="width: 100px;">
+                                    <option value="name" th:text="${#messages.msg('menu26.detail.content.search1')}">파일이름</option>
+                                    <option value="pct" th:text="${#messages.msg('menu26.detail.content.search2')}">최종인식률</option>
+                                    <option value="recent">최신파일순</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button class="search_btn" id="select-btn" th:text="${#messages.msg('search.search')}">검색</button>
+                    </div>
+                </div>
+
+                <div class="table_info_right">
+                    <div class="table_total">
+                        총 <span id="spanPopupCount"></span>개
+                    </div>
+                    <div class="select-container">
+                        <select name="pop_page_count" class="custom-select" id="pop_page_count">
+                            <option value="10" th:text="${#messages.msg('menu21.page_button.page1')}">10개씩</option>
+                            <option value="30" th:text="${#messages.msg('menu21.page_button.page2')}">30개씩</option>
+                            <option value="50" th:text="${#messages.msg('menu21.page_button.page3')}">50개씩</option>
+                            <option value="100" th:text="${#messages.msg('menu21.page_button.page4')}">100개씩</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table_content">
+                <table class="table_title">
+                    <thead>
+                        <tr style="height: 40px; background-color: #F2F4F7;">
+                            <th style="width: 4%;" th:text="${#messages.msg('menu26.detail.content.th1')}">번호</th>
+                            <th style="width: 5%;" th:text="${#messages.msg('menu26.detail.content.th2')}">최초인식률</th>
+                            <th style="width: 5%;" th:text="${#messages.msg('menu26.detail.content.th4')}">최종인식률</th>
+                            <th style="width: 20%;" th:text="${#messages.msg('menu26.detail.content.th5')}">정답문장</th>
+                            <th style="width: 20%;">STT Text</th>
+                            <th style="width: 12%;">player</th>
+                            <th style="width: 5%;" th:text="${#messages.msg('menu26.detail.content.th6')}">정답글자수</th>
+                            <th style="width: 5%;" th:text="${#messages.msg('menu26.detail.content.th7')}">오류글자수</th>
+                            <th style="width: 20%;" th:text="${#messages.msg('menu26.detail.content.th8')}">파일명</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="tbl_scroll">
+                    <table class="tbl_detail" id="div_content_list">
+                        <tbody th:replace="~{thymeleaf/menu26/content/detail-list}"></tbody>
+                    </table>                                            
+                    <div class="tbl_pagination_detail">
+                        <ul>
+                            <li><a class="arrow first" style="display:none"><img th:src="@{/images/pagi_first.svg}" alt=""></a></li>
+                            <li><a class="arrow prev" style="display:none"><img th:src="@{/images/pagi_prev.svg}" alt=""></a></li>
+                            <li><a class="arrow next" style="display:none"><img th:src="@{/images/pagi_next.svg}" alt=""></a></li>
+                            <li><a class="arrow last" style="display:none"><img th:src="@{/images/pagi_last.svg}" alt=""></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

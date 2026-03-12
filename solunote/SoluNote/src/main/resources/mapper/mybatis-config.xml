@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0/EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="loginLogProjectionVo" type="com.vol.solunote.model.vo.login.LoginLogProjectionVo"/>		
+		<typeAlias alias="meetingVo" type="com.vol.solunote.model.vo.meeting.MeetingVo"/>
+		<typeAlias alias="meetingResultVo" type="com.vol.solunote.model.vo.meeting.MeetingResultVo"/>
+		<typeAlias alias="meetingSpeakerVo" type="com.vol.solunote.model.vo.meeting.MeetingSpeakerVo"/>
+        <typeAlias alias="menuListVo" type="com.vol.solunote.model.vo.menu.MenuListVo"/>
+        <typeAlias alias="menuVo" type="com.vol.solunote.model.vo.menu.MenuVo"/>
+        <typeAlias alias="restDomainVo" type="com.vol.solunote.model.vo.rest.DomainVo"/>
+        <typeAlias alias="restUserVo" type="com.vol.solunote.model.vo.rest.RestUserVo"/>
+        <typeAlias alias="sttResultVo" type="com.vol.solunote.model.vo.rest.STTResultVo"/>
+        <typeAlias alias="agentVo" type="com.vol.solunote.model.vo.server.AgentVo"/>
+        <typeAlias alias="serverDomainVo" type="com.vol.solunote.model.vo.server.DomainVo"/>
+        <typeAlias alias="ServerVo" type="com.vol.solunote.model.vo.server.ServerVo"/>
+        <typeAlias alias="siteUser" type="com.vol.solunote.model.vo.siteuser.SiteUser"/>
+        <typeAlias alias="siteUserVo" type="com.vol.solunote.model.vo.siteuser.SiteUserVo"/>
+        <typeAlias alias="userRegisterVo" type="com.vol.solunote.model.vo.siteuser.UserRegisterVo"/>
+        <typeAlias alias="soundVo" type="com.vol.solunote.model.vo.sound.SoundVo"/>		        
+        <typeAlias alias="soundBean" type="com.vol.solunote.model.vo.sound.SoundBean"/>	
+		<typeAlias alias="trainVo" type="com.vol.solunote.model.vo.train.TrainVo"/>
+		<typeAlias alias="trainResultVo" type="com.vol.solunote.model.vo.train.TrainResultVo"/>
+		<typeAlias alias="transVo" type="com.vol.solunote.model.vo.transcription.TransVo"/>
+		<typeAlias alias="transcriptionVo" type="com.vol.solunote.model.vo.transcription.TranscriptionVo"/>
+	</typeAliases>
+</configuration>

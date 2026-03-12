@@ -1,0 +1,26 @@
+<tr th:each="item, stat : ${cPages.content}" class="page-data-row2 page_link" th:attr="data-rowid=${stat.count}">
+    <td style="width: 5%;">
+        <span class="check-box">
+            <img class="unchecked" th:src="@{/images/checck.svg}"/>
+            <img class="checked" th:src="@{/images/checck_on.svg}"/>
+        </span>
+    </td>						
+    <td style="width: 5%;" th:text="${stat.count}"></td>
+    <td style="width: 45%;"><input class="keywordContentInput1" th:value="${item.tcId}" th:placeholder="${#messages.msg('menu27.content1.Res.placeholder1')}"></td>
+    <td style="width: 45%;"><input class="keywordContentInput2" th:value="${item.tcName}"></td>           		    
+</tr>
+<tr th:each="i : ${#numbers.sequence(1, 10 - cPages.content.size())}" class="page-data-row2 page_link" 
+     th:if="${cPages.content.size() < 10}" th:attr="data-rowid=${cPages.content.size() + i}">
+    <td style="width: 5%;">
+        <span class="check-box">
+            <img class="unchecked" th:src="@{/images/checck.svg}"/>
+            <img class="checked" th:src="@{/images/checck_on.svg}"/>
+        </span>
+    </td>						
+    <td style="width: 5%;" th:text="${cPages.content.size() + i}"></td>
+    <td style="width: 45%;"><input class="keywordContentInput1" th:placeholder="${#messages.msg('menu27.content1.Res.placeholder1')}"></input></td>
+    <td style="width: 45%;"><input class="keywordContentInput2"></input></td>
+</tr>
+<tr th:if="${cPages.isEmpty() == true}" class="page-data-row">
+   <td colspan="6" class="align-middle">데이터가 없습니다.</td>
+</tr>

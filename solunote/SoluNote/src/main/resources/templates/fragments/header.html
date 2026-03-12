@@ -1,0 +1,39 @@
+<header th:fragment="headerFragment">
+	<div class="header_wrap"> 
+	  <div class="header_left">
+	    <a th:href="@{/}" class="logo">
+	      <h1><img th:if="${#locale.language == 'ko' and @environment.acceptsProfiles('korloy')}" th:src="@{/images/logo.svg}" alt="Logo"></h1>
+	      <h1><img th:if="${#locale.language == 'ko' and !@environment.acceptsProfiles('korloy')}" th:src="@{/images/soluNote_logo_header.svg}" alt="Logo"></h1>
+	      <h1><img th:if="${#locale.language == 'en'}" th:src="@{/images/soluNote_logo_header.svg}" alt="Logo"></h1>
+	    </a>
+	    <div class="head_title">
+	      <img th:if="${#locale.language == 'ko'}"  th:src="@{/images/voice_system.svg}" alt="Voice System">
+	      <img  th:if="${#locale.language == 'en'}" th:src="@{/images/voice_system_en.svg}" alt="Voice System">
+	    </div>
+	  </div>
+	  <div class="header_right">
+	    <div class="admin tooltip">
+	      <span class="name" sec:authorize="isAuthenticated()" th:text="${#authentication.principal.member.name}">솔루게이트</span>
+	      <span class="tooltiptext" style="width: 75px; bottom: -148%;" th:text="${#messages.msg('header.profileShow')}"></span>
+	    </div>    
+	    <a class="logout tooltip" >
+	      <img th:src="@{/images/logout.svg}" alt="로그아웃">
+	      <span class="tooltiptext" style="bottom: -148%;" th:text="${#messages.msg('header.logOut')}"></span>
+	    </a>
+	  </div>
+	  <!-- 회원정보 레이어 팝업 -->
+	  <div class="admin_popup">
+	    <div class="ad_pop_wrap">
+	      <div class="ad_pop_name">
+	        <span class="name" th:text="${#authentication.principal.member.name}">홍길동</span>
+	        <span class="role" th:text="${#authentication.principal.member.userLevel == 100 ? #messages.msg('header.accountType1'): #messages.msg('header.accountType2')}">관리자</span>
+	      </div>
+	      <div class="ad_pop_email" th:text="${#authentication.principal.member.email}">hong1004@solugate.com</div>
+	      <div class="ad_pop_btn">
+	        <a th:href="@{/menu27/cont/1?activeMenu=3}" th:text="${#messages.msg('header.account')}"></a>
+	      </div>
+	    </div>
+	  </div>
+	  <!-- //회원정보 레이어 팝업 -->
+	</div>
+</header>

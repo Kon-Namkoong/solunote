@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="24" viewBox="0 0 120 24">
+  <g id="한국야금_K-NOTE" data-name="한국야금 K-NOTE" transform="translate(1 1)">
+    <rect id="영역" width="120" height="24" transform="translate(-1 -1)" fill="none"/>
+    <path id="패스_3619" data-name="패스 3619" d="M11.532.437l-7.038,8.6V.437H0V23.261H4.494V13.382l7.585,9.878h5.9L8.133,10.987,17.159.437Z" transform="translate(1.4 -0.913)" fill="#fff"/>
+    <rect id="사각형_813" data-name="사각형 813" width="14" height="3" transform="translate(19 9.796)" fill="#fff"/>
+    <path id="패스_3616" data-name="패스 3616" d="M45.05.437V16.53L34.092.437H29.7V23.264h4.11V7.17L44.764,23.264h4.394V.437Z" transform="translate(7.339 -0.913)" fill="#fff"/>
+    <path id="패스_3620" data-name="패스 3620" d="M59.478,0A12.282,12.282,0,0,0,46.934,12a12.553,12.553,0,0,0,25.082,0A12.279,12.279,0,0,0,59.478,0m0,20.183A8.185,8.185,0,1,1,67.6,11.936V12a8.157,8.157,0,0,1-8.124,8.183" transform="translate(10.787 -1)" fill="#fff"/>
+    <path id="패스_3617" data-name="패스 3617" d="M67.074.437V3.974H73.98v19.29h4.109V3.974H85V.437Z" transform="translate(14.815 -0.913)" fill="#fff"/>
+    <path id="패스_3618" data-name="패스 3618" d="M83.137.437V23.264H99.8V19.726H87.246V13.049H99.232V9.51H87.246V3.974h12.27V.437Z" transform="translate(18.028 -0.913)" fill="#fff"/>
+  </g>
+</svg>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.vol.solunote.mapper.login.LoginLogMapper">
+    
+	<select id="countByCreatedAtBetweenAndGroupDate">
+		select	count(distinct user_seq, DATE_FORMAT(created_at, '%Y%m%d')) 
+		from	login_log
+		where	DATE_FORMAT(created_at, '%Y-%m-%d') 
+				between #{startYYMMdd} and #{endYYMMdd}
+	</select>
+
+	<select	id="countUserGroupDate"	resultType="loginLogProjectionVo">
+		select	DATE_FORMAT(created_at, '%Y%m%d') as date,
+				count(distinct user_seq) as count
+		from	login_log	
+		where	DATE_FORMAT(created_at, '%Y-%m-%d') 
+				between #{startYYMMdd} and #{endYYMMdd} 
+				group by DATE_FORMAT(created_at, '%Y%m%d')
+	</select>
+
+	<insert	id="createLoginErrorLog">
+		insert	login_log
+		(
+			ip,
+			tc_id,
+			error_message,
+			created_at,
+			updated_at
+		)	
+		values
+		(
+			#{ip},
+			#{tcId},
+			#{errorMessge},
+			current_timestamp,
+			current_timestamp
+		)
+	</insert>
+	
+	<insert	id="createLoginLog">
+		insert	login_log
+		(
+			ip,
+			user_seq,
+			tc_id,
+			created_at,
+			updated_at
+		)	
+		values
+		(
+			#{ip},
+			#{userSeq},
+			#{username},
+			current_timestamp,
+			current_timestamp
+		)
+	</insert>	
+	
+</mapper>

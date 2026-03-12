@@ -1,0 +1,1200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vol.solunote.mapper.transcription.TranscriptionMapper">
+    
+    <select id="getTranscriptionList" resultType="transcriptionVo">
+         select SEQ
+				, channel_id  as channelId
+				, CASE
+						WHEN channel_id = 0
+						THEN 'L'
+						ELSE 'R'
+					END AS channelChar
+				, round(start,2) as start
+				, round(end,2) as end
+				, reliability
+				, stt_text	as sttText
+				, train_text as trainText
+				,data_id   AS dataId
+				, (
+				   	SELECT count(ct.SEQ)
+						from TB_CS_TRANSCRIPTION ct
+						where sound_seq = #{meetSeq}
+				        <if test='reliability != -1'>
+				        	<![CDATA[
+				        	and  reliability <= #{reliability}
+				        	]]>
+				        </if>
+				        <if test='changeTextValue == 1'>
+				        	<![CDATA[
+				        	and  train_text is not null
+				        	and  train_text != ''
+				        	]]>
+				        </if>  				        
+				   ) AS hiddenCount
+      	from TB_CS_TRANSCRIPTION
+      	where sound_seq = #{meetSeq}	
+        <if test='changeTextValue == 1'>
+        	<![CDATA[
+        	and  train_text IS NOT NULL
+        	and  train_text != ''
+        	]]>
+        </if>      	
+        <if test='reliability != -1'>
+        	<![CDATA[
+        	and  reliability <= #{reliability}
+        	]]>
+        </if>
+        order by channel_id, start
+        <if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>
+    
+    <select id="getTranscription" resultType="transcriptionVo">
+         select SEQ
+				, start
+				, end
+				, reliability
+				, stt_text	as sttText
+				, train_text	as trainText
+				, data_id   AS dataId
+      	from TB_CS_TRANSCRIPTION
+      	where seq = #{seq}
+    </select>
+    
+    <select id="getTranscriptionR" resultType="transcriptionVo">
+	        SELECT SEQ
+	             , channel_id AS channelId
+	             , CASE WHEN channel_id = 0 THEN 'L' ELSE 'R' END AS channelChar
+	             , ROUND(start, 2) AS start
+	             , ROUND(end, 2) AS end
+	             , reliability
+	             , stt_text AS sttText
+	             , train_text AS trainText
+	             , data_id AS dataId
+	        FROM TB_CS_TRANSCRIPTION
+	      	where sound_seq = #{meetSeq}
+	        <if test='changeTextValue == 1'>
+	        	<![CDATA[
+	        	and  train_text IS NOT NULL
+	        	and  train_text != ''
+	        	]]>
+	        </if>      	
+	        <if test='reliability != -1'>
+	        	<![CDATA[
+	        	and  reliability <= #{reliability}
+	        	]]>
+	        </if>
+	        order by channel_id, start
+	        <if test='offsetPageable != null'>
+	       		limit #{listR}, 1
+	        </if>
+    </select>    
+    
+    <select id="getTranscriptionF" resultType="transcriptionVo">
+	        SELECT SEQ
+	             , channel_id AS channelId
+	             , CASE WHEN channel_id = 0 THEN 'L' ELSE 'R' END AS channelChar
+	             , ROUND(start, 2) AS start
+	             , ROUND(end, 2) AS end
+	             , reliability
+	             , stt_text AS sttText
+	             , train_text AS trainText
+	             , data_id AS dataId
+	        FROM TB_CS_TRANSCRIPTION
+	      	where sound_seq = #{meetSeq}
+	        <if test='changeTextValue == 1'>
+	        	<![CDATA[
+	        	and  train_text IS NOT NULL
+	        	and  train_text != ''
+	        	]]>
+	        </if>      	
+	        <if test='reliability != -1'>
+	        	<![CDATA[
+	        	and  reliability <= #{reliability}
+	        	]]>
+	        </if>
+	        order by channel_id, start
+			<if test="offsetPageable != null">
+				limit #{listF}, 1
+			</if>
+    </select>           
+    
+    
+      <select id="getDataTransListBatch" resultType="transVo">
+        SELECT tr.seq		 as seq
+        	, so.subject as subject
+			, round(tr.start, 2) as start
+			, round(tr.end, 2) as end
+			, tr.stt_text	 as sttText
+			, tr.train_text	 as trainText
+			, tr.data_id     as dataId
+			, if ( so.trashed_at IS NOT NULL, 'N', if(so.deleted_at IS NOT NULL, 'N', tr.use_yn)) AS useYn
+			, date_format(tr.updated_at, '%Y-%m-%d') as updatedAt
+        	, ifnull(so.seq, -1) 		as soundSeq     	
+			, ifnull(so.file_org_nm,'') AS fileOrgNm
+			, ifnull(so.file_new_nm,'') as fileNewNm
+			, pr.data_id   AS prDataId
+			, pr.seq       AS prSeq
+			, round(pr.start,2)     AS prStart
+			, round(pr.end,2)       AS prEnd
+			, ifnull(pr.train_text, '')  AS prTrainText
+			, trim(ifnull(pr.use_yn, ''))    AS prUseYn
+			, IF (	tr.seq !=  pr.seq
+					OR tr.train_text != ifnull(pr.train_text, '')
+					OR tr.use_yn  !=  trim(ifnull(pr.use_yn, ''))
+					OR round(tr.start,2) != round(pr.start,2)
+					OR round(tr.end,2) != round(pr.end,2)
+			   	,'Y', 'N'
+			) AS candidate
+		   , (
+		   	SELECT count(tra.seq)
+				FROM TB_CS_TRANSCRIPTION tra
+				JOIN TB_CS_SOUND soa ON soa.SEQ != -1 AND tra.sound_seq = soa.SEQ
+				LEFT JOIN TB_CS_TRANS_PAIR pra ON pra.data_id != '' AND tra.data_id = pra.data_id
+                WHERE tra.sound_seq != -1
+                <if test='caller == "reserve"'>
+	                AND ( 
+							 ( (tra.train_text IS NULL or tra.train_text = '') AND tra.data_id != '' )
+				         OR
+				           ( tra.train_text IS NOT NULL AND  tra.train_text != ''
+			  
+								) 
+						)
+                </if>
+                <if test='caller == "batch"'>
+	                AND ( 
+							 ( (tra.train_text IS NULL or tra.train_text = '') AND tra.data_id != '' )
+				         OR
+				           ( tra.train_text IS NOT NULL AND  tra.train_text != ''
+				          	 AND
+				          	 (
+								      ( tra.data_id = '' AND if ( soa.trashed_at IS NOT NULL, 'N', if(soa.deleted_at IS NOT NULL, 'N', tra.use_yn)) = 'Y' )
+								      OR 
+								      ( tra.data_id != '' AND 
+					              			IF (tra.seq != pra.seq
+					                        OR tra.train_text != ifnull(pra.train_text, '')
+					                        OR tra.use_yn != trim(ifnull(pra.use_yn, ''))
+					                        OR round(tra.start, 2) != round(pra.start, 2)
+					                        OR round(tra.end, 2) != round(pra.end, 2), 'Y', 'N') =
+					                   'Y'
+					               )
+				              )    
+								) 
+						)
+                </if>
+				<if test='caller == "list"'>
+					AND 
+					(  soa.trashed_at is null and soa.deleted_at is null and 
+						( tra.train_text is not null or tra.train_text != ''
+						-- or tra.data_id != ''
+						)
+					)
+				</if>
+				<if test='search != null'>
+					AND tra.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+				</if>
+				<if test='caller == "reserve" and search != null and search.useYn != ""'>
+				    AND (				        
+				        (#{search.useYn} = 'N' AND tra.use_yn = 'N' AND tra.data_id IS NOT NULL AND tra.data_id != '') 
+				        OR 
+				        (#{search.useYn} = 'Y' AND tra.use_yn = 'N' AND (tra.data_id IS NULL OR tra.data_id = '')) 
+				        OR 
+				        (#{search.useYn} = 'T' AND tra.use_yn = 'Y' AND (tra.data_id IS NULL OR tra.data_id = ''))				        
+				    )
+				</if>
+				<if test='keyword != null and keyword != ""'>
+			       	     AND ( soa.file_org_nm like CONCAT('%',#{keyword},'%') OR tra.stt_text like CONCAT('%',#{keyword},'%') OR tra.train_text like CONCAT('%',#{keyword},'%') )
+			    </if>		    			    
+		   ) AS hiddenCount
+		FROM TB_CS_TRANSCRIPTION tr
+		JOIN TB_CS_SOUND so ON so.SEQ != -1 AND tr.sound_seq = so.SEQ
+		LEFT JOIN TB_CS_TRANS_PAIR pr ON pr.data_id != '' AND tr.data_id = pr.data_id
+	  	WHERE tr.sound_seq != -1
+	  	<if test='caller == "reserve"'>
+		  	AND ((
+		  	(tr.train_text IS NULL or tr.train_text = '') AND tr.data_id != '' ) OR
+			(tr.train_text IS NOT NULL AND  tr.train_text != '' 
+			   )
+			  )
+	  	</if>
+	  	<if test='caller == "batch"'>
+		  	AND ((
+		  	(tr.train_text IS NULL or tr.train_text = '') AND tr.data_id != '' )OR
+			(tr.train_text IS NOT NULL AND  tr.train_text != '' AND 
+			((tr.data_id = '' AND 
+			  if(so.trashed_at IS NOT NULL, 'N', if(so.deleted_at IS NOT NULL, 'N', tr.use_yn)) = 'Y' )OR 
+			    (tr.data_id != '' AND IF(tr.seq != pr.seq
+			                     		OR tr.train_text != ifnull(pr.train_text, '')
+			                     		OR tr.use_yn != trim(ifnull(pr.use_yn, ''))
+			                     		OR round(tr.start, 2) != round(pr.start, 2)
+			                     		OR round(tr.end, 2) != round(pr.end, 2), 'Y', 'N') ='Y')
+			    )
+			   )
+			  )
+	  	</if>
+		<if test='caller == "list"'>
+			AND 
+				(  so.trashed_at is null and so.deleted_at is null and 
+					( tr.train_text is not null or tr.train_text != ''
+				--	or tr.data_id != ''
+					)
+				)
+		</if>
+		<if test='search != null'>
+			AND tr.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+		</if>
+		<if test='caller == "reserve" and search != null and search.useYn != ""'>
+		    AND (
+		        (#{search.useYn} = 'N' AND tr.use_yn = 'N' AND tr.data_id IS NOT NULL AND tr.data_id != '') 
+		        OR 
+		        (#{search.useYn} = 'Y' AND tr.use_yn = 'N' AND (tr.data_id IS NULL OR tr.data_id = '')) 
+		        OR 
+		        (#{search.useYn} = 'T' AND tr.use_yn = 'Y' AND (tr.data_id IS NULL OR tr.data_id = ''))
+		    )
+		</if>
+		<if test='keyword != null and keyword != ""'>
+	        AND ( so.file_org_nm like CONCAT('%',#{keyword},'%') OR tr.stt_text like CONCAT('%',#{keyword},'%') OR tr.train_text like CONCAT('%',#{keyword},'%') )
+	    </if>    
+        order by so.created_at desc, tr.start asc
+        <if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>  
+    
+    <select id="getDataTransListBatchFor24" resultType="transVo">
+        SELECT tr.seq		 as seq
+			, round(tr.start, 2) as start
+			, round(tr.end, 2) as end
+			, tr.stt_text	 as sttText
+			, tr.train_text	 as trainText
+			, tr.data_id     as dataId
+			, if ( so.trashed_at IS NOT NULL, 'N', if(so.deleted_at IS NOT NULL, 'N', tr.use_yn)) AS useYn
+			, date_format(tr.updated_at, '%Y-%m-%d') as updatedAt
+        	, ifnull(so.seq, -1) 		as soundSeq     	
+			, ifnull(so.file_org_nm,'') AS fileOrgNm
+			, ifnull(so.file_new_nm,'') as fileNewNm
+			, pr.data_id   AS prDataId
+			, pr.seq       AS prSeq
+			, round(pr.start,2)     AS prStart
+			, round(pr.end,2)       AS prEnd
+			, ifnull(pr.train_text, '')  AS prTrainText
+			, trim(ifnull(pr.use_yn, ''))    AS prUseYn
+			, IF (	tr.seq !=  pr.seq
+					OR tr.train_text != ifnull(pr.train_text, '')
+					OR tr.use_yn  !=  trim(ifnull(pr.use_yn, ''))
+					OR round(tr.start,2) != round(pr.start,2)
+					OR round(tr.end,2) != round(pr.end,2)
+			   	,'Y', 'N'
+			) AS candidate
+		   , (
+		   	SELECT count(tra.seq)
+				FROM TB_CS_TRANSCRIPTION tra
+				JOIN TB_CS_SOUND soa ON soa.SEQ != -1 AND tra.sound_seq = soa.SEQ
+				LEFT JOIN TB_CS_TRANS_PAIR pra ON pra.data_id != '' AND tra.data_id = pra.data_id
+                WHERE  ( 
+						 ( (tra.train_text IS NULL or tra.train_text = '') AND tra.data_id != '' )
+			         OR
+			           ( tra.train_text IS NOT NULL AND  tra.train_text != ''
+			          	 AND
+			          	 (
+							      ( tra.data_id = '' AND if ( soa.trashed_at IS NOT NULL, 'N', if(soa.deleted_at IS NOT NULL, 'N', tra.use_yn)) = 'Y' )
+							      OR 
+							      ( tra.data_id != '' AND 
+				              			IF (tra.seq != pra.seq
+				                        OR tra.train_text != ifnull(pra.train_text, '')
+				                        OR tra.use_yn != trim(ifnull(pra.use_yn, ''))
+				                        OR round(tra.start, 2) != round(pra.start, 2)
+				                        OR round(tra.end, 2) != round(pra.end, 2), 'Y', 'N') =
+				                   'Y'
+				               )
+			              )    
+							) 
+					)
+			       AND tra.sound_seq != -1
+				<if test='caller == "list"'>
+					AND ( tra.train_text is not null or tra.train_text != '' )
+				</if>
+				<if test='search != null'>
+					AND tra.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+				</if>
+				<if test='keyword != null and keyword != ""'>
+			       	 AND (soa.file_org_nm like CONCAT('%',#{keyword},'%')) 
+			    </if>		    			    
+		   ) AS hiddenCount
+		FROM TB_CS_TRANSCRIPTION tr
+		JOIN TB_CS_SOUND so ON so.SEQ != -1 AND tr.sound_seq = so.SEQ
+		LEFT JOIN TB_CS_TRANS_PAIR pr ON pr.data_id != '' AND tr.data_id = pr.data_id
+	  	WHERE((
+	  	(tr.train_text IS NULL or tr.train_text = '') AND tr.data_id != '' )OR
+		(tr.train_text IS NOT NULL AND  tr.train_text != '' AND 
+		((tr.data_id = '' AND 
+		  if(so.trashed_at IS NOT NULL, 'N', if(so.deleted_at IS NOT NULL, 'N', tr.use_yn)) = 'Y' )OR 
+		    (tr.data_id != '' AND IF(tr.seq != pr.seq
+		                     		OR tr.train_text != ifnull(pr.train_text, '')
+		                     		OR tr.use_yn != trim(ifnull(pr.use_yn, ''))
+		                     		OR round(tr.start, 2) != round(pr.start, 2)
+		                     		OR round(tr.end, 2) != round(pr.end, 2), 'Y', 'N') ='Y')
+		    )
+		   )
+		  )
+	   AND tr.sound_seq != -1
+		<if test='caller == "list"'>
+			AND ( tr.train_text is not null or tr.train_text != '' )
+		</if>
+		<if test='search != null'>
+			AND tr.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+		</if>
+		<if test='keyword != null and keyword != ""'>
+	        AND (so.file_org_nm like CONCAT('%',#{keyword},'%'))
+	    </if>    
+        order by so.created_at desc, tr.start asc
+        <if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>
+    
+    <select id="getDataTransListReserveWithParams" resultType="transVo">
+	    SELECT tr.seq as seq
+	        , round(tr.start, 2) as start
+	        , round(tr.end, 2) as end
+	        , tr.stt_text as sttText
+	        , tr.train_text as trainText
+	        , tr.data_id as dataId
+	        , tr.use_yn as useYn
+	        , date_format(tr.updated_at, '%Y-%m-%d') as updatedAt
+	        , ifnull(so.seq, -1) as soundSeq     
+	        , ifnull(so.file_org_nm,'') AS fileOrgNm
+	        , ifnull(so.file_new_nm,'') as fileNewNm
+	        , pr.data_id AS prDataId
+	        , pr.seq AS prSeq
+	        , round(pr.start,2) AS prStart
+	        , round(pr.end,2) AS prEnd
+	        , ifnull(pr.train_text, '') AS prTrainText
+	        , trim(ifnull(pr.use_yn, '')) AS prUseYn
+	        , if ( tr.use_yn = 'N' AND tr.data_id = '', 'N',
+	             IF ( tr.seq != pr.seq
+	                OR tr.train_text != ifnull(pr.train_text, '')
+	                OR tr.use_yn != trim(ifnull(pr.use_yn, ''))
+	                OR round(tr.start,2) != round(pr.start,2)
+	                OR round(tr.end,2) != round(pr.end,2)
+	            ,'Y', 'N'
+	        ) ) AS candidate
+	        , ( SELECT count(tra.seq)
+	                FROM TB_CS_TRANSCRIPTION tra
+	                left JOIN TB_CS_SOUND soa ON tra.sound_seq = soa.SEQ
+	                LEFT JOIN TB_CS_TRANS_PAIR pra ON tra.data_id = pra.data_id
+	                WHERE  ( tra.train_text IS NOT NULL AND tra.train_text != ''
+	                         OR tra.train_text = '' AND pra.data_id IS NOT NULL )
+	                AND tra.sound_seq != -1
+	                <if test='search != null'>
+	                    AND tra.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+	                </if>
+	                <if test='search != null and search.candidate != ""'>
+	                    AND (
+	                        if ( tra.use_yn = 'N' AND tra.data_id = '', 'N', 
+	                           IF ( tra.seq != pra.seq
+	                                OR tra.train_text != ifnull(pra.train_text, '')
+	                                OR tra.use_yn != trim(ifnull(pra.use_yn, ''))
+	                                OR round(tra.start, 2) != round(pra.start, 2)
+	                                OR round(tra.end, 2) != round(pra.end, 2)
+	                            ,'Y', 'N'
+	                        ) ) = #{search.candidate}
+	                    )
+	                </if>
+	                <if test='search != null and search.useYn != ""'>
+	                    AND tra.use_yn = #{search.useYn}
+	                </if>
+	                <if test='keyword != null and keyword != ""'>
+	                    AND (soa.file_org_nm like CONCAT('%',#{keyword},'%'))
+	                </if>
+	           ) AS hiddenCount
+	    FROM TB_CS_TRANSCRIPTION tr
+	    left JOIN TB_CS_SOUND so ON tr.sound_seq = so.SEQ
+	    LEFT JOIN TB_CS_TRANS_PAIR pr ON tr.data_id = pr.data_id
+	    WHERE ( tr.train_text IS NOT NULL AND tr.train_text != ''
+	            OR tr.train_text = '' AND pr.data_id IS NOT NULL )
+	    AND tr.sound_seq != -1
+	    <if test='search != null'>
+	        AND tr.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+	    </if>
+	    <if test='search != null and search.candidate != ""'>
+	        AND (
+	            if ( tr.use_yn = 'N' AND tr.data_id = '', 'N',
+	               IF ( tr.seq != pr.seq
+	                    OR tr.train_text != ifnull(pr.train_text, '')
+	                    OR tr.use_yn != trim(ifnull(pr.use_yn, ''))
+	                    OR round(tr.start, 2) != round(pr.start, 2)
+	                    OR round(tr.end, 2) != round(pr.end, 2)
+	                ,'Y', 'N'
+	            ) ) = #{search.candidate}
+	        )
+	    </if>
+	    <if test='search != null and search.useYn != ""'>
+	        AND tr.use_yn = #{search.useYn}
+	    </if>
+	    <if test='keyword != null and keyword != ""'>
+	        AND (so.file_org_nm like CONCAT('%',#{keyword},'%'))
+	    </if>
+	    order by so.created_at desc, tr.start asc
+	    <if test='offsetPageable != null'>
+	        limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+	    </if>
+	</select>
+    
+        
+    <!-- 
+        , file_new_nm
+     -->
+    
+    <insert id="createTranscription">
+        insert TB_CS_TRANSCRIPTION (
+        	start
+        	, end
+        	, stt_text
+        	, reliability
+        	,  meeting_seq
+        	, sound_seq
+        	, channel_id
+        ) value (
+        	#{startDouble}
+        	, #{endDouble}
+        	, #{text}
+        	, #{reliability}
+        	, #{meeting_seq}
+        	, #{sound_seq}
+        	, #{channel_id}
+        )
+    </insert>
+
+    <insert id="createTranscriptionWithoutMeet">
+        insert TB_CS_TRANSCRIPTION (
+        	start
+        	, end
+        	, stt_text
+        	, reliability
+        	, sound_seq
+        	, channel_id
+        ) value(
+        	#{start}
+        	, #{end}
+        	, #{text}
+        	, #{reliability}
+        	, #{soundSeq}
+        	, #{channelId}
+        )
+    </insert>
+    
+    <insert id="createTranscriptionGen" parameterType="map" useGeneratedKeys="true" keyProperty="seq">
+        insert TB_CS_TRANSCRIPTION (
+        	start
+        	, end
+        	, stt_text
+        	, reliability
+        	, sound_seq
+        ) values (
+        	#{start}
+        	, #{end}
+        	, #{text}
+        	, #{reliability}
+        	, #{soundSeq}
+        )
+    </insert>
+    
+    <insert id="createTranscriptionWithMap" parameterType="map" useGeneratedKeys="true" keyProperty="seq">
+        insert TB_CS_TRANSCRIPTION (
+        	start
+        	, end
+        	, stt_text
+        	, reliability
+        	, meeting_seq
+        	, sound_seq
+        	, channel_id
+        ) value (
+        	#{start}
+        	, #{end}
+        	, #{text}
+        	, #{reliability}
+        	, #{meetingSeq}
+        	, #{soundSeq}
+        	, #{channelId}
+        )
+    </insert>
+    
+    <insert id="createTranscriptionForTts" parameterType="map" useGeneratedKeys="true" keyProperty="seq">
+        insert TB_CS_TRANSCRIPTION (
+        	start
+        	, end
+        	, stt_text
+        	, reliability
+        	, meeting_seq
+        	, sound_seq
+        	, tts_seq
+        	, channel_id
+        ) value (
+        	#{start}
+        	, #{end}
+        	, #{text}
+        	, #{reliability}
+        	, #{meetingSeq}
+        	, #{soundSeq}
+        	, #{ttsSeq}
+        	, #{channelId}
+        )
+    </insert>
+
+    <update id="clickLeastOnce" >
+    	update TB_CS_SOUND
+    	set click_least_once = 1
+    	where seq = #{seq}
+    </update>
+
+    <select id="changedTransCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM TB_CS_TRANSCRIPTION
+		WHERE sound_seq = #{seq}
+			AND ( use_yn = 'Y' 
+				OR data_id != ''
+				OR train_text IS NOT NULL )
+    </select>
+
+     <delete id="deleteTrans" parameterType="Integer">
+		DELETE FROM TB_CS_TRANSCRIPTION 
+		WHERE sound_seq = #{seq}
+    </delete>
+
+    <select id="readSoundBySeq" parameterType="int" resultType="Map">
+        select 
+        	SEQ
+        	, file_org_nm
+        	, file_new_nm
+        	, file_conv_nm
+        from TB_CS_SOUND
+        WHERE SEQ = #{seq}
+    </select>
+
+    <update id="updateTranscriptionForCombine" parameterType="Map">
+		UPDATE TB_CS_TRANSCRIPTION set
+		sound_seq = -1
+		, use_yn = 'N'
+		where seq = #{seq}
+    </update>
+
+
+    <insert id="copyTrans" parameterType="hashmap">
+		insert into TB_CS_TRANSCRIPTION (
+			start
+			, end
+			, reliability
+			, stt_text
+			, meet_text
+			, train_text
+			, sound_seq
+			, tts_seq
+			, meeting_seq
+			, channel_id
+		)
+		select
+			start
+			, end
+			, reliability
+			, stt_text
+			, meet_text
+			, train_text
+			, #{soundSeq}
+			, -1
+			, -1
+			, channel_id
+		from TB_CS_TRANSCRIPTION
+		where meeting_seq = #{seq}
+    </insert>
+    
+    
+    <select id="getDataTransListX" resultType="transVo">
+        SELECT tr.seq		 as seq
+			, round(tr.start, 2) as start
+			, round(tr.end, 2) as end
+			, tr.stt_text	 as sttText
+			, tr.train_text	 as trainText
+			, tr.data_id     as dataId
+			, tr.use_yn    as useYn
+			, date_format(tr.updated_at, '%Y-%m-%d') as updatedAt
+        	, ifnull(so.seq, -1) 		as soundSeq
+        	, IFNULL(ti.army_name,"미등록") AS armyName        	
+			, ifnull(so.file_org_nm,'') AS fileOrgNm
+			, ifnull(so.file_new_nm,'') as fileNewNm
+			, pr.data_id   AS prDataId
+			, pr.seq       AS prSeq
+			, round(pr.start,2)     AS prStart
+			, round(pr.end,2)       AS prEnd
+			, ifnull(pr.train_text, '')  AS prTrainText
+			, trim(ifnull(pr.use_yn, ''))    AS prUseYn
+			, IF (	tr.seq !=  pr.seq
+					OR tr.train_text != ifnull(pr.train_text, '')
+					OR tr.use_yn  !=  trim(ifnull(pr.use_yn, ''))
+					OR round(tr.start,2) != round(pr.start,2)
+					OR round(tr.end,2) != round(pr.end,2)
+			   	,'Y', 'N'
+			) AS candidate
+		   , (
+		   	SELECT count(tra.seq)
+				FROM TB_CS_TRANSCRIPTION tra
+				left JOIN TB_CS_SOUND soa ON soa.SEQ != -1 AND tra.sound_seq = soa.SEQ
+				LEFT JOIN TB_CS_TRANS_PAIR pra ON pra.data_id != '' AND tra.data_id = pra.data_id
+				WHERE ( ( (tra.train_text IS NULL or tra.train_text = '') AND tra.data_id != '' )
+				 OR   ( tra.train_text IS NOT NULL AND tra.data_id = '' )
+				<if test='search == null'>
+					or (   pra.data_id != '' AND             
+				        IF ( tra.seq !=  pra.seq
+								OR tra.train_text != ifnull(pra.train_text, '')
+								OR tra.use_yn  !=  trim(ifnull(pra.use_yn, ''))
+								OR round(tra.start,2) != round(pra.start,2)
+								OR round(tra.end,2) != round(pra.end,2)
+						   	,'Y', 'N'
+						) = 'Y'        
+				    )
+				</if>
+				) and 1 = 1
+				<if test='caller == "list"'>
+					AND tra.train_text != ''
+				</if>
+				<if test='search != null'>
+					AND tra.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+				</if>
+				<if test='keyword != null and keyword != ""'>
+			        AND (
+			             (tra.stt_text like CONCAT('%',#{keyword},'%')) 
+			             or (tra.train_text like CONCAT('%',#{keyword},'%')) 
+			             or (soa.file_org_nm like CONCAT('%',#{keyword},'%')) 
+			             )
+			    </if>			    			    
+		   ) AS hiddenCount
+		FROM TB_CS_TRANSCRIPTION tr
+		left JOIN TB_CS_SOUND so ON so.SEQ != -1 AND tr.sound_seq = so.SEQ
+		LEFT JOIN TB_CS_TRANS_PAIR pr ON pr.data_id != '' AND tr.data_id = pr.data_id
+		WHERE ( ( (tr.train_text IS NULL or tr.train_text = '') AND tr.data_id != '' )
+		 OR   ( tr.train_text IS NOT NULL AND tr.data_id = '' )
+		<if test='search == null'>
+			or (        pr.data_id != '' AND        
+		        IF (	tr.seq !=  pr.seq
+						OR tr.train_text != ifnull(pr.train_text, '')
+						OR tr.use_yn  !=  trim(ifnull(pr.use_yn, ''))
+						OR round(tr.start,2) != round(pr.start,2)
+						OR round(tr.end,2) != round(pr.end,2)
+				   	,'Y', 'N'
+				) = 'Y'        
+		    )
+		</if>
+		) and 1 = 1
+		<if test='caller == "list"'>
+			AND tr.train_text != ''
+		</if>
+		<if test='search != null'>
+			AND tr.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+		</if>
+		<if test='keyword != null and keyword != ""'>
+	        AND (
+	            (tr.stt_text like CONCAT('%',#{keyword},'%')) 
+	            or (tr.train_text like CONCAT('%',#{keyword},'%')) 
+	            or (so.file_org_nm like CONCAT('%',#{keyword},'%')) 
+	            )
+	    </if>
+        order by so.file_org_nm desc, tr.start asc
+        <if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>
+    
+
+    
+    <update id="updateTrainTextNull" parameterType="Map">
+		UPDATE TB_CS_TRANSCRIPTION
+		set train_text = null
+		where seq = #{seq}
+    </update>
+    
+    <update id="updateDataId" parameterType="Map">
+		UPDATE TB_CS_TRANSCRIPTION
+		set use_yn = #{useYn}
+		<if test='dataId != null'>
+			, data_id = #{dataId}
+		</if>
+		<if test='reset == true'>
+			, train_text = stt_text
+		</if>
+		<if test='errorMsg != null'>
+			, error_msg = #{errorMsg}
+		</if>
+		where seq = #{seq}
+    </update>        
+    
+    <update id="updateTranscriptionForSplit" parameterType="Map">
+		UPDATE TB_CS_TRANSCRIPTION set
+			end = #{end}
+			, stt_text = #{sttText}
+			, train_text = NULL
+			, error_msg = NULL
+		where seq = #{seq}
+    </update>
+    
+    <update id="updateTranscriptionForReset" parameterType="Map">
+		UPDATE TB_CS_TRANSCRIPTION set
+			start = #{start}
+			, end = #{end}
+		where seq = #{seq}
+    </update>
+    
+    <select id="getDataTransListBatchWithParams" resultType="transVo">
+        SELECT tr.seq		 as seq
+			, round(tr.start, 2) as start
+			, round(tr.end, 2) as end
+			, tr.stt_text	 as sttText
+			, tr.train_text	 as trainText
+			, tr.data_id     as dataId
+			, if ( so.trashed_at IS NOT NULL, 'N', if(so.deleted_at IS NOT NULL, 'N', tr.use_yn)) AS useYn
+			, date_format(tr.updated_at, '%Y-%m-%d') as updatedAt
+        	, ifnull(so.seq, -1) 		as soundSeq     	
+			, ifnull(so.file_org_nm,'') AS fileOrgNm
+			, ifnull(so.file_new_nm,'') as fileNewNm
+			, pr.data_id   AS prDataId
+			, pr.seq       AS prSeq
+			, round(pr.start,2)     AS prStart
+			, round(pr.end,2)       AS prEnd
+			, ifnull(pr.train_text, '')  AS prTrainText
+			, trim(ifnull(pr.use_yn, ''))    AS prUseYn
+			, IF (	tr.seq !=  pr.seq
+					OR tr.train_text != ifnull(pr.train_text, '')
+					OR tr.use_yn  !=  trim(ifnull(pr.use_yn, ''))
+					OR round(tr.start,2) != round(pr.start,2)
+					OR round(tr.end,2) != round(pr.end,2)
+			   	,'Y', 'N'
+			) AS candidate
+		   , (
+		   	SELECT count(tra.seq)
+				FROM TB_CS_TRANSCRIPTION tra
+				JOIN TB_CS_SOUND soa ON soa.SEQ != -1 AND tra.sound_seq = soa.SEQ
+				LEFT JOIN TB_CS_TRANS_PAIR pra ON pra.data_id != '' AND tra.data_id = pra.data_id
+                WHERE  ( 
+						 ( (tra.train_text IS NULL or tra.train_text = '') AND tra.data_id != '' )
+			         OR
+			           ( tra.train_text IS NOT NULL AND  tra.train_text != ''
+			          	 AND
+			          	 (
+							      ( tra.data_id = '' AND if ( soa.trashed_at IS NOT NULL, 'N', if(soa.deleted_at IS NOT NULL, 'N', tra.use_yn)) = 'Y' )
+							      OR 
+							      ( tra.data_id != '' AND 
+				              			IF (tra.seq != pra.seq
+				                        OR tra.train_text != ifnull(pra.train_text, '')
+				                        OR tra.use_yn != trim(ifnull(pra.use_yn, ''))
+				                        OR round(tra.start, 2) != round(pra.start, 2)
+				                        OR round(tra.end, 2) != round(pra.end, 2), 'Y', 'N') =
+				                   'Y'
+				               )
+			              )    
+							) 
+					)
+			       AND tra.sound_seq != -1
+				<if test='caller == "list"'>
+					AND ( tra.train_text is not null or tra.train_text != '' )
+				</if>
+				<if test='search != null'>
+					AND tra.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+				</if>
+				<if test='keyword != null and keyword != ""'>
+			       	 AND (soa.file_org_nm like CONCAT('%',#{keyword},'%')) 
+			    </if>		    			    
+		   ) AS hiddenCount
+		FROM TB_CS_TRANSCRIPTION tr
+		JOIN TB_CS_SOUND so ON so.SEQ != -1 AND tr.sound_seq = so.SEQ
+		LEFT JOIN TB_CS_TRANS_PAIR pr ON pr.data_id != '' AND tr.data_id = pr.data_id
+	  	WHERE((
+	  	(tr.train_text IS NULL or tr.train_text = '') AND tr.data_id != '' )OR
+		(tr.train_text IS NOT NULL AND  tr.train_text != '' AND 
+		((tr.data_id = '' AND 
+		  if(so.trashed_at IS NOT NULL, 'N', if(so.deleted_at IS NOT NULL, 'N', tr.use_yn)) = 'Y' )OR 
+		    (tr.data_id != '' AND IF(tr.seq != pr.seq
+		                     		OR tr.train_text != ifnull(pr.train_text, '')
+		                     		OR tr.use_yn != trim(ifnull(pr.use_yn, ''))
+		                     		OR round(tr.start, 2) != round(pr.start, 2)
+		                     		OR round(tr.end, 2) != round(pr.end, 2), 'Y', 'N') ='Y')
+		    )
+		   )
+		  )
+	   AND tr.sound_seq != -1
+		<if test='caller == "list"'>
+			AND ( tr.train_text is not null or tr.train_text != '' )
+		</if>
+		<if test='search != null'>
+			AND tr.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+		</if>
+		<if test='keyword != null and keyword != ""'>
+	        AND (so.file_org_nm like CONCAT('%',#{keyword},'%'))
+	    </if>    
+        order by so.created_at desc, tr.start asc
+        <if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>
+
+
+    <select id="getDataTransListReserve" parameterType="Map" resultType="transVo">
+        SELECT tr.seq		 as seq
+			, round(tr.start, 2) as start
+			, round(tr.end, 2) as end
+			, tr.stt_text	 as sttText
+			, tr.train_text	 as trainText
+			, tr.data_id     as dataId
+			, tr.use_yn    as useYn
+			, date_format(tr.updated_at, '%Y-%m-%d') as updatedAt
+        	, ifnull(so.seq, -1) 		as soundSeq     	
+			, ifnull(so.file_org_nm,'') AS fileOrgNm
+			, ifnull(so.file_new_nm,'') as fileNewNm
+			, pr.data_id   AS prDataId
+			, pr.seq       AS prSeq
+			, round(pr.start,2)     AS prStart
+			, round(pr.end,2)       AS prEnd
+			, ifnull(pr.train_text, '')  AS prTrainText
+			, trim(ifnull(pr.use_yn, ''))    AS prUseYn
+			, if ( tr.use_yn = 'N' AND tr.data_id = '', 'N',
+			     IF (	tr.seq !=  pr.seq
+					OR tr.train_text != ifnull(pr.train_text, '')
+					OR tr.use_yn  !=  trim(ifnull(pr.use_yn, ''))
+					OR round(tr.start,2) != round(pr.start,2)
+					OR round(tr.end,2) != round(pr.end,2)  
+			   	,'Y', 'N'
+			) ) AS candidate
+		    , ( SELECT count(tra.seq)
+					FROM TB_CS_TRANSCRIPTION tra
+					left JOIN TB_CS_SOUND soa ON tra.sound_seq = soa.SEQ
+					LEFT JOIN TB_CS_TRANS_PAIR pra ON tra.data_id = pra.data_id
+					WHERE  ( tra.train_text IS NOT NULL  AND tra.train_text != ''
+	                         OR  tra.train_text = '' AND pra.data_id IS NOT NULL )
+	                AND tra.sound_seq != -1
+					<if test='search != null'>
+						AND tra.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+					</if>
+					<if test='search != null and search.candidate != ""'>
+						AND (        
+				             if ( tra.use_yn = 'N' AND tra.data_id = '', 'N', 
+				               IF ( tra.seq !=  pra.seq
+										OR tra.train_text != ifnull(pra.train_text, '')
+										OR tra.use_yn  !=  trim(ifnull(pra.use_yn, ''))  
+										OR round(tra.start, 2) != round(pra.start, 2)
+				                        OR round(tra.end, 2) != round(pra.end, 2)
+							   	,'Y', 'N'
+							) ) = #{search.candidate} 
+				        )
+					</if>
+					<if test='keyword != null and keyword != ""'>
+				        AND (soa.file_org_nm like CONCAT('%',#{keyword},'%'))
+				    </if>
+			   ) AS hiddenCount
+		FROM TB_CS_TRANSCRIPTION tr
+		left JOIN TB_CS_SOUND so ON tr.sound_seq = so.SEQ
+		LEFT JOIN TB_CS_TRANS_PAIR pr ON tr.data_id = pr.data_id
+		WHERE  ( tr.train_text IS NOT NULL  AND tr.train_text != ''
+                OR  tr.train_text = '' AND pr.data_id IS NOT NULL )
+        AND tr.sound_seq != -1
+		<if test='search != null'>
+			AND tr.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+		</if>
+		<if test='search != null and search.candidate != ""'>
+			AND (        
+	             if ( tr.use_yn = 'N' AND tr.data_id = '', 'N',      
+	               IF (	tr.seq !=  pr.seq
+							OR tr.train_text != ifnull(pr.train_text, '')
+							OR tr.use_yn  !=  trim(ifnull(pr.use_yn, ''))  
+							OR round(tr.start, 2) != round(pr.start, 2)
+		                    OR round(tr.end, 2) != round(pr.end, 2)
+				   	,'Y', 'N'
+				) ) = #{search.candidate} 
+	        )
+		</if>
+		<if test='keyword != null and keyword != ""'>
+	        AND (so.file_org_nm like CONCAT('%',#{keyword},'%'))
+	    </if>   
+        order by so.created_at desc, tr.start asc
+        <if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select>
+
+	<update id="excludeTransTranscription" parameterType="Integer">
+		UPDATE TB_CS_TRANSCRIPTION
+		SET use_yn = 'N'
+		WHERE SEQ in
+		<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+    </update>
+    
+        
+	<update id="excludeTransTransPair" parameterType="Integer">
+		UPDATE TB_CS_TRANS_PAIR
+		SET model_id = ''
+		WHERE seq in
+		<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+    </update>
+            
+	<update id="includeTransTranscription" parameterType="Integer">
+		UPDATE TB_CS_TRANSCRIPTION
+		SET  use_yn = 'Y',data_id =''
+		WHERE SEQ in
+		<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+    </update>
+    
+    
+    <insert id="insertTransPair" parameterType="Map">
+    	insert into TB_CS_TRANS_PAIR (
+    		data_id
+    		, seq
+    		, train_text
+    		, use_yn
+    		, start
+    		, end
+    	) values (
+    		#{dataId}
+    		, #{seq}
+    		, #{trainText}
+    		, #{useYn}
+    		, #{start}
+    		, #{end}
+    	)  
+    	on duplicate key update
+		    seq = #{seq}
+			, train_text = #{trainText}
+			, use_yn = #{useYn}
+			, start = #{start}
+			, end = #{end}
+    </insert>
+    
+        
+    <select id="selectTransPair" parameterType="String" resultType="transVo">
+    	select 
+    		data_id			as dataId
+    		, seq			as seq
+    		, train_text	as trainText
+    		, use_yn		as useYn
+    	from TB_CS_TRANS_PAIR
+    	where data_id = #{dataId}  	
+    </select>
+    
+    
+    <select id="getUuid" resultType="String">
+    	select REPLACE(UUID(),'-','')
+    </select>
+     
+
+    <select id="getTtsTransListBatch" resultType="transVo">
+        SELECT tr.seq		 as seq
+			, round(tr.start, 2) as start
+			, round(tr.end, 2) as end
+			, so.subject	 as subject
+			, kw.keyword_text	 as keywordText
+			, kw.tts_text	 as ttsText
+			, tr.stt_text	 as sttText
+			, ifnull(tr.train_text, kw.tts_text)	 as trainText
+			, tr.data_id     as dataId
+			, tr.use_yn AS useYn
+			, date_format(tr.updated_at, '%Y-%m-%d') as updatedAt
+        	, ifnull(so.seq, -1) 		as soundSeq     	
+        	, ifnull(kw.seq, -1) 		as ttsSeq     	
+			, ifnull(kw.file_org_nm,'') AS fileOrgNm
+			, ifnull(kw.file_new_nm,'') as fileNewNm
+			, pr.data_id   AS prDataId
+			, pr.seq       AS prSeq
+			, round(pr.start,2)     AS prStart
+			, round(pr.end,2)       AS prEnd
+			, ifnull(pr.train_text, '')  AS prTrainText
+			, trim(ifnull(pr.use_yn, ''))    AS prUseYn
+			, IF (	tr.seq !=  pr.seq
+					OR tr.train_text != ifnull(pr.train_text, '')
+					OR tr.use_yn  !=  trim(ifnull(pr.use_yn, ''))
+					OR round(tr.start,2) != round(pr.start,2)
+					OR round(tr.end,2) != round(pr.end,2)
+			   	,'Y', 'N'
+			) AS candidate
+		   , (
+		   	SELECT count(tra.seq)
+				FROM TB_CS_TRANSCRIPTION tra
+				JOIN TB_CS_TTS_KEYWORD kwa on  kwa.seq != -1 AND kwa.seq = tra.tts_seq
+				JOIN TB_CS_TTS soa         on soa.seq != -1 and kwa.tts_seq = soa.seq
+				LEFT JOIN TB_CS_TRANS_PAIR pra ON  tra.data_id = pra.data_id
+                WHERE tra.tts_seq != -1
+				<if test='caller == "list"'>
+					AND kwa.trashed_at is null and kwa.deleted_at is null 
+					AND tra.train_text != ''
+				</if>
+                <if test='caller == "batch"'>
+	                AND ( 
+							 ( (tra.train_text IS NULL or tra.train_text = '') AND tra.data_id != '' )
+				         OR
+				           ( tra.train_text IS NOT NULL AND  tra.train_text != ''
+				          	 AND
+				          	 (
+								      ( tra.data_id = '' AND if ( kwa.trashed_at IS NOT NULL, 'N', if(kwa.deleted_at IS NOT NULL, 'N', tra.use_yn)) = 'Y' )
+								      OR 
+								      ( tra.data_id != '' AND 
+					              			IF (tra.seq != pra.seq
+					                        OR tra.train_text != ifnull(pra.train_text, '')
+					                        OR tra.use_yn != trim(ifnull(pra.use_yn, ''))
+					                        OR round(tra.start, 2) != round(pra.start, 2)
+					                        OR round(tra.end, 2) != round(pra.end, 2), 'Y', 'N') =
+					                   'Y'
+					               )
+				              )    
+								) 
+						)
+                </if>
+                <if test='caller == "reserve"'>
+				AND ( tra.train_text IS NOT NULL AND tra.train_text != ''
+					            OR tra.train_text = '' AND pra.data_id IS NOT NULL )		
+			  	</if>
+				<if test='search != null'>
+					AND tra.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+				</if>
+				<if test='search != null  and search.useYn != null and search.useYn != ""'>
+				    AND (
+				        (#{search.useYn} = 'N' AND tra.use_yn = 'N' AND tra.data_id IS NOT NULL AND tra.data_id != '') 
+				        OR 
+				        (#{search.useYn} = 'Y' AND tra.use_yn = 'N' AND (tra.data_id IS NULL OR tra.data_id = '')) 
+				        OR 
+				        (#{search.useYn} = 'T' AND tra.use_yn = 'Y' AND (tra.data_id IS NULL OR tra.data_id = ''))
+				    )
+			    </if>
+				<if test='keyword != null and keyword != ""'>
+			       	AND ( kwa.keyword_text like CONCAT('%',#{keyword},'%') OR kwa.keyword_sound like CONCAT('%',#{keyword},'%') OR kwa.tts_text like CONCAT('%',#{keyword},'%') OR tra.train_text like CONCAT('%',#{keyword},'%') )
+			    </if>		    			    
+		   ) AS hiddenCount
+		FROM TB_CS_TRANSCRIPTION tr
+		JOIN TB_CS_TTS_KEYWORD kw on  kw.seq != -1 AND kw.seq = tr.tts_seq
+		JOIN TB_CS_TTS so         on so.seq != -1 and kw.tts_seq = so.seq
+		LEFT JOIN TB_CS_TRANS_PAIR pr ON tr.data_id = pr.data_id
+		WHERE tr.tts_seq != -1					
+		<if test='caller == "list"'>
+			AND ( tr.train_text IS NOT NULL AND tr.train_text != ''
+				            OR tr.train_text = '' AND pr.data_id IS NOT NULL )		
+			AND kw.trashed_at is null and kw.deleted_at is null 	
+			AND tr.train_text != ''			
+		</if>
+	  	<if test='caller == "batch"'>
+		  	AND ((
+		  	(tr.train_text IS NULL or tr.train_text = '') AND tr.data_id != '' )OR
+			(tr.train_text IS NOT NULL AND  tr.train_text != '' AND 
+			((tr.data_id = '' AND 
+			  if(kw.trashed_at IS NOT NULL, 'N', if(kw.deleted_at IS NOT NULL, 'N', tr.use_yn)) = 'Y' )OR 
+			    (tr.data_id != '' AND IF(tr.seq != pr.seq
+			                     		OR tr.train_text != ifnull(pr.train_text, '')
+			                     		OR tr.use_yn != trim(ifnull(pr.use_yn, ''))
+			                     		OR round(tr.start, 2) != round(pr.start, 2)
+			                     		OR round(tr.end, 2) != round(pr.end, 2), 'Y', 'N') ='Y')
+			    )
+			   )
+			  )
+	  	</if>
+	  	<if test='caller == "reserve"'>
+			AND ( tr.train_text IS NOT NULL AND tr.train_text != ''
+				            OR tr.train_text = '' AND pr.data_id IS NOT NULL )				           
+	  	</if>
+		<if test='search != null'>
+			AND tr.updated_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
+		</if>
+		<if test='search != null and search.useYn != null and search.useYn != ""'>
+		    AND (		        
+		        (#{search.useYn} = 'N' AND tr.use_yn = 'N' AND tr.data_id IS NOT NULL AND tr.data_id != '') 
+		        OR 
+		        (#{search.useYn} = 'Y' AND tr.use_yn = 'N' AND (tr.data_id IS NULL OR tr.data_id = '')) 
+		        OR 
+		        (#{search.useYn} = 'T' AND tr.use_yn = 'Y' AND (tr.data_id IS NULL OR tr.data_id = ''))		        
+		    )
+	    </if>
+		<if test='keyword != null and keyword != ""'>
+	        AND ( kw.keyword_text like CONCAT('%',#{keyword},'%') OR kw.keyword_sound like CONCAT('%',#{keyword},'%') OR kw.tts_text like CONCAT('%',#{keyword},'%') OR tr.train_text like CONCAT('%',#{keyword},'%') )
+	    </if>    
+        order by so.created_at desc, tr.start asc
+        <if test='offsetPageable != null'>
+       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+        </if>
+    </select> 
+       
+    <select id="getTransList" resultType="Map">
+		    SELECT
+                tr.SEQ as seq,
+                ROUND(tr.start, 2) AS start,
+                ROUND(tr.end, 2) AS end,
+                tr.reliability,
+                tr.stt_text AS sttText,
+                tr.train_text AS trainText,
+                tr.data_id AS dataId,
+                kw.tts_text AS TtsText,
+                kw.tts_pronounce AS TtsPronText,
+                kw.keyword_text AS keywordText,
+                kw.file_new_nm AS newnm,
+                kw.SEQ as keywordSeq,
+                (
+                       SELECT count(tra.SEQ)
+                        from TB_CS_TRANSCRIPTION tra
+                        JOIN TB_CS_TTS_KEYWORD kwa ON kwa.SEQ = tra.tts_seq
+                        JOIN TB_CS_TTS soa ON soa.SEQ = kwa.tts_seq
+                        WHERE soa.SEQ = #{seq}    
+                        <if test='reliability != -1'>
+                            <![CDATA[
+                            and  tra.reliability <= #{reliability}
+                            ]]>
+                        </if>
+<!--                         <if test='changeTextValue == 1'>
+                            <![CDATA[
+                            and  tra.train_text is not null
+                            and  tra.train_text != ''
+                            ]]>
+                        </if>  -->                                                 
+                   ) AS hiddenCount
+            FROM TB_CS_TRANSCRIPTION tr
+            JOIN TB_CS_TTS_KEYWORD kw ON kw.SEQ = tr.tts_seq
+            JOIN TB_CS_TTS so ON so.SEQ = kw.tts_seq
+            WHERE so.SEQ = #{seq}
+<!--             <if test='changeTextValue == 1'>
+                <![CDATA[
+                and  ct.train_text IS NOT NULL
+                and  ct.train_text != ''
+                ]]>
+            </if>  -->         
+            <if test='reliability != -1'>
+                <![CDATA[
+                and  tr.reliability <= #{reliability}
+                ]]>
+            </if>                    
+            ORDER BY kw.SEQ    
+            <if test='offsetPageable != null'>
+                   limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
+            </if>            
+    </select>     
+
+	<update id="updateTransTranscription" parameterType="map">
+	    UPDATE TB_CS_TRANSCRIPTION
+	    <set>
+	        <foreach collection="tts_text" item="item" index="index" open="(" separator="," close=")">
+	            train_text = #{item}
+	        </foreach>
+	        , use_yn = 'N'
+	    </set>
+	    WHERE SEQ in
+	    <foreach collection="TransSeq" item="item" index="index" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+	</update>
+
+	<update	id="updateTrainTextAndUseYnBySeq">
+		UPDATE	TB_CS_TRANSCRIPTION	
+		SET train_text = #{trainText}, use_yn = #{useYn}
+		FROM	seq = #{seq}
+	</update>		    
+</mapper>

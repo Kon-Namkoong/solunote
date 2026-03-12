@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1580" height="290" viewBox="0 0 1580 290">
+  <g id="그래프이미지1" transform="translate(-60 -290)">
+    <rect id="영역" width="1580" height="290" transform="translate(60 290)" fill="none"/>
+    <g id="가로라인" transform="translate(722 -77)">
+      <rect id="가로라인-2" data-name="가로라인" width="1540" height="1" transform="translate(-622 576)" fill="#e0e0e0"/>
+      <rect id="가로라인-3" data-name="가로라인" width="1540" height="1" transform="translate(-622 526)" fill="#e0e0e0"/>
+      <rect id="가로라인-4" data-name="가로라인" width="1540" height="1" transform="translate(-622 476)" fill="#e0e0e0"/>
+      <rect id="가로라인-5" data-name="가로라인" width="1540" height="1" transform="translate(-622 426)" fill="#e0e0e0"/>
+      <rect id="가로라인-6" data-name="가로라인" width="1540" height="1" transform="translate(-622 376)" fill="#e0e0e0"/>
+    </g>
+    <g id="건수" transform="translate(-20 -20)">
+      <rect id="세로라인" width="1" height="260" transform="translate(120 310)" fill="#333"/>
+      <text id="_0" data-name="0" transform="translate(110 573)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-7" y="0">0</tspan></text>
+      <text id="_10" data-name="10" transform="translate(110 523)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-12" y="0">10</tspan></text>
+      <text id="_20" data-name="20" transform="translate(110 473)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-14" y="0">20</tspan></text>
+      <text id="_30" data-name="30" transform="translate(110 423)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-14" y="0">30</tspan></text>
+      <text id="_40" data-name="40" transform="translate(110 373)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-14" y="0">40</tspan></text>
+      <text id="_50" data-name="50" transform="translate(110 323)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-14" y="0">50</tspan></text>
+    </g>
+    <g id="날짜" transform="translate(10 -20)">
+      <rect id="가로라인-7" data-name="가로라인" width="1540" height="1" transform="translate(90 569)" fill="#333"/>
+      <text id="_6.1" data-name="6.1" transform="translate(147 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-7" y="0">6.1</tspan></text>
+      <text id="_6.2" data-name="6.2" transform="translate(195 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-8" y="0">6.2</tspan></text>
+      <text id="_6.3" data-name="6.3" transform="translate(244.999 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-8" y="0">6.3</tspan></text>
+      <text id="_6.4" data-name="6.4" transform="translate(295.001 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-8" y="0">6.4</tspan></text>
+      <text id="_6.5" data-name="6.5" transform="translate(345 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-8" y="0">6.5</tspan></text>
+      <text id="_6.6" data-name="6.6" transform="translate(395 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-8" y="0">6.6</tspan></text>
+      <text id="_6.7" data-name="6.7" transform="translate(443.999 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-8" y="0">6.7</tspan></text>
+      <text id="_6.8" data-name="6.8" transform="translate(495.001 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-8" y="0">6.8</tspan></text>
+      <text id="_6.9" data-name="6.9" transform="translate(545 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-8" y="0">6.9</tspan></text>
+      <text id="_6.10" data-name="6.10" transform="translate(595 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-11" y="0">6.10</tspan></text>
+      <text id="_6.11" data-name="6.11" transform="translate(643.999 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-10" y="0">6.11</tspan></text>
+      <text id="_6.12" data-name="6.12" transform="translate(695.001 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-10" y="0">6.12</tspan></text>
+      <text id="_6.13" data-name="6.13" transform="translate(745 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-10" y="0">6.13</tspan></text>
+      <text id="_6.14" data-name="6.14" transform="translate(795 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-11" y="0">6.14</tspan></text>
+      <text id="_6.15" data-name="6.15" transform="translate(845 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-10" y="0">6.15</tspan></text>
+      <text id="_6.16" data-name="6.16" transform="translate(895 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-11" y="0">6.16</tspan></text>
+      <text id="_6.17" data-name="6.17" transform="translate(946 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-10" y="0">6.17</tspan></text>
+      <text id="_6.18" data-name="6.18" transform="translate(995 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-11" y="0">6.18</tspan></text>
+      <text id="_6.19" data-name="6.19" transform="translate(1044.999 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-11" y="0">6.19</tspan></text>
+      <text id="_6.20" data-name="6.20" transform="translate(1096 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-12" y="0">6.20</tspan></text>
+      <text id="_6.21" data-name="6.21" transform="translate(1145 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-11" y="0">6.21</tspan></text>
+      <text id="_6.22" data-name="6.22" transform="translate(1195 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-11" y="0">6.22</tspan></text>
+      <text id="_6.23" data-name="6.23" transform="translate(1246 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-11" y="0">6.23</tspan></text>
+      <text id="_6.24" data-name="6.24" transform="translate(1295.001 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-11" y="0">6.24</tspan></text>
+      <text id="_6.25" data-name="6.25" transform="translate(1345 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-11" y="0">6.25</tspan></text>
+      <text id="_6.26" data-name="6.26" transform="translate(1395 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-12" y="0">6.26</tspan></text>
+      <text id="_6.27" data-name="6.27" transform="translate(1445 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-11" y="0">6.27</tspan></text>
+      <text id="_6.28" data-name="6.28" transform="translate(1494.001 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-11" y="0">6.28</tspan></text>
+      <text id="_6.29" data-name="6.29" transform="translate(1544 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-12" y="0">6.29</tspan></text>
+      <text id="_6.30" data-name="6.30" transform="translate(1595 593)" fill="#333" font-size="12" font-family="SF Pro"><tspan x="-12" y="0">6.30</tspan></text>
+    </g>
+    <g id="라인" transform="translate(15 -10)" opacity="0.6">
+      <line id="선_129" data-name="선 129" x2="51" y2="70" transform="translate(139.5 448.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_130" data-name="선 130" x2="50" y2="21" transform="translate(190.5 518.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_131" data-name="선 131" y1="121" x2="50" transform="translate(240.5 418.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_132" data-name="선 132" x1="50" y1="40" transform="translate(290.5 418.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_133" data-name="선 133" x1="51" y1="11" transform="translate(339.5 458.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_134" data-name="선 134" x1="51" y2="21" transform="translate(389.5 448.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_135" data-name="선 135" x1="51" y2="81" transform="translate(440.5 368.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_136" data-name="선 136" x1="51" y2="51" transform="translate(489.5 318.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_137" data-name="선 137" x2="50" y2="220" transform="translate(540.5 318.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_138" data-name="선 138" y1="20" x2="50" transform="translate(590.5 518.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_139" data-name="선 139" y1="80" x2="50" transform="translate(640.5 439.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_140" data-name="선 140" x2="50" y2="41" transform="translate(690.5 438.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_141" data-name="선 141" x1="50" y2="90" transform="translate(740.5 389.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_142" data-name="선 142" x2="50" y2="10" transform="translate(790.5 389.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_143" data-name="선 143" y1="41" x2="50" transform="translate(840.5 358.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_144" data-name="선 144" x2="50" y2="140" transform="translate(890.5 358.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_145" data-name="선 145" y1="10" x2="50" transform="translate(940.5 488.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_146" data-name="선 146" y1="50" x2="50" transform="translate(990.5 438.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_147" data-name="선 147" y1="120" x2="50" transform="translate(1040.5 318.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_148" data-name="선 148" y1="10" x2="50" transform="translate(1090.5 308.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_149" data-name="선 149" x2="50" y2="50" transform="translate(1140.5 308.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_150" data-name="선 150" y1="31" x2="50" transform="translate(1190.5 328.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_151" data-name="선 151" x2="50" y2="50" transform="translate(1240.5 328.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_152" data-name="선 152" x2="50" y2="141" transform="translate(1290.5 378.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_153" data-name="선 153" x2="51" y2="9" transform="translate(1339.5 519.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_158" data-name="선 158" y1="31" x2="50" transform="translate(1390.5 498.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_155" data-name="선 155" x2="51" y2="21" transform="translate(1439.5 498.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_156" data-name="선 156" y1="81" x2="51" transform="translate(1489.5 438.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+      <line id="선_157" data-name="선 157" x2="50" y2="21" transform="translate(1540.5 438.5)" fill="none" stroke="#8ca9f7" stroke-width="1.2"/>
+    </g>
+    <g id="점" transform="translate(40 -10)">
+      <circle id="타원_54" data-name="타원 54" cx="4" cy="4" r="4" transform="translate(111 445)" fill="#8ca9f7"/>
+      <circle id="타원_55" data-name="타원 55" cx="4" cy="4" r="4" transform="translate(161 515)" fill="#8ca9f7"/>
+      <circle id="타원_56" data-name="타원 56" cx="4" cy="4" r="4" transform="translate(211 535)" fill="#8ca9f7"/>
+      <circle id="타원_57" data-name="타원 57" cx="4" cy="4" r="4" transform="translate(261 415)" fill="#8ca9f7"/>
+      <circle id="타원_58" data-name="타원 58" cx="4" cy="4" r="4" transform="translate(311 455)" fill="#8ca9f7"/>
+      <circle id="타원_59" data-name="타원 59" cx="4" cy="4" r="4" transform="translate(361 465)" fill="#8ca9f7"/>
+      <circle id="타원_60" data-name="타원 60" cx="4" cy="4" r="4" transform="translate(411 445)" fill="#8ca9f7"/>
+      <circle id="타원_61" data-name="타원 61" cx="4" cy="4" r="4" transform="translate(461 365)" fill="#8ca9f7"/>
+      <circle id="타원_62" data-name="타원 62" cx="4" cy="4" r="4" transform="translate(511 315)" fill="#8ca9f7"/>
+      <circle id="타원_63" data-name="타원 63" cx="4" cy="4" r="4" transform="translate(561 535)" fill="#8ca9f7"/>
+      <circle id="타원_64" data-name="타원 64" cx="4" cy="4" r="4" transform="translate(611 515)" fill="#8ca9f7"/>
+      <circle id="타원_65" data-name="타원 65" cx="4" cy="4" r="4" transform="translate(661 435)" fill="#8ca9f7"/>
+      <circle id="타원_77" data-name="타원 77" cx="4" cy="4" r="4" transform="translate(711 475)" fill="#8ca9f7"/>
+      <circle id="타원_76" data-name="타원 76" cx="4" cy="4" r="4" transform="translate(761 385)" fill="#8ca9f7"/>
+      <circle id="타원_75" data-name="타원 75" cx="4" cy="4" r="4" transform="translate(811 395)" fill="#8ca9f7"/>
+      <circle id="타원_74" data-name="타원 74" cx="4" cy="4" r="4" transform="translate(861 355)" fill="#8ca9f7"/>
+      <circle id="타원_73" data-name="타원 73" cx="4" cy="4" r="4" transform="translate(911 495)" fill="#8ca9f7"/>
+      <circle id="타원_72" data-name="타원 72" cx="4" cy="4" r="4" transform="translate(961 485)" fill="#8ca9f7"/>
+      <circle id="타원_71" data-name="타원 71" cx="4" cy="4" r="4" transform="translate(1011 435)" fill="#8ca9f7"/>
+      <circle id="타원_70" data-name="타원 70" cx="4" cy="4" r="4" transform="translate(1061 315)" fill="#8ca9f7"/>
+      <circle id="타원_69" data-name="타원 69" cx="4" cy="4" r="4" transform="translate(1111 305)" fill="#8ca9f7"/>
+      <circle id="타원_68" data-name="타원 68" cx="4" cy="4" r="4" transform="translate(1161 355)" fill="#8ca9f7"/>
+      <circle id="타원_67" data-name="타원 67" cx="4" cy="4" r="4" transform="translate(1211 325)" fill="#8ca9f7"/>
+      <circle id="타원_66" data-name="타원 66" cx="4" cy="4" r="4" transform="translate(1261 375)" fill="#8ca9f7"/>
+      <circle id="타원_89" data-name="타원 89" cx="4" cy="4" r="4" transform="translate(1311 515)" fill="#8ca9f7"/>
+      <circle id="타원_88" data-name="타원 88" cx="4" cy="4" r="4" transform="translate(1361 525)" fill="#8ca9f7"/>
+      <circle id="타원_87" data-name="타원 87" cx="4" cy="4" r="4" transform="translate(1411 495)" fill="#8ca9f7"/>
+      <circle id="타원_86" data-name="타원 86" cx="4" cy="4" r="4" transform="translate(1461 515)" fill="#8ca9f7"/>
+      <circle id="타원_85" data-name="타원 85" cx="4" cy="4" r="4" transform="translate(1511 435)" fill="#8ca9f7"/>
+      <circle id="타원_84" data-name="타원 84" cx="4" cy="4" r="4" transform="translate(1561 455)" fill="#8ca9f7"/>
+    </g>
+  </g>
+</svg>

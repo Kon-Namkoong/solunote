@@ -1,0 +1,45 @@
+    <div class="modal_wrap" id="scheduleModalWrap"  th:fragment="scheduleFragment">
+        <div class="inner_grid">
+            <div class="modal_bx cm">
+                <div class="hds">
+                    <div class="tit" th:text="${#messages.msg('menu26.schedule.title')}">학습일정 등록</div>
+                </div>
+
+                <div class="contbx">
+
+                    <div class="modal_date_bx">
+                        <div class="date-input-container">
+                            <input type="text" id="scheduleDate" class="custom-date-input start-date" th:placeholder="${#messages.msg('searchDate.placeholder1')}" required aria-required="true" >
+                        </div>
+                        <div class="modal_time_bx">
+                            <div class="select-container">
+                                <select id="scheduleHour" class="custom-select time hour"></select>
+                                <label for="hour" th:text="${#messages.msg('menu26.schedule.time1')}">시</label>
+                            </div>
+                            <div class="select-container">
+                                <select id="scheduleMinute" class="custom-select time minute"></select>
+                                <label for="minute" th:text="${#messages.msg('menu26.schedule.time2')}">분</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <p class="modal_date_desc" th:if="${#locale.language == 'ko'}">
+                        * 학습하실 날짜와 시간을 설정 후 <span>'등록'</span>버튼을 눌러주세요.
+                    </p>
+                    <p class="modal_date_desc" th:if="${#locale.language == 'en'}">
+                       * Please set the date and time <br>to learn and press the <span>'Register'</span> button.
+                    </p>                    
+                </div>
+
+                <div class="cmBtngrid">
+                    <button id="scheduleModalRmCls" class="mdBtn cm" th:text="${#messages.msg('menu26.schedule.btn1')}">취소</button>
+                    <button id="scheduleModalRmRegister" class="mdBtn cm postive" th:text="${#messages.msg('menu21.page_button.btn1')}">등록</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>

@@ -1,0 +1,74 @@
+file:
+  upload:
+    extension:
+      wav: wav|aif|mp3|mid|mp2|wam|ogg|m4a|aac
+      train: doc|docx|hwp|pdf|txt
+    path:
+      train: D:/e2e/upload/sgsas_train/upload/train
+      test: D:/e2e/upload/sgsas_train/upload/test
+      meet: D:/e2e/upload/sgsas_train/upload/meet
+      temp: D:/e2e/upload/sgsas_train/upload/temp
+      tts: D:/e2e/upload/sgsas_train/upload/tts
+tts:
+  url: http://121.78.145.5:8081	  
+server:
+  servlet:
+    session:
+      persistent: false	  
+spring:
+  servlet:
+    multipart:
+      location: c:\temp  #톰켓 temp 로 변경 필요
+  datasource:
+    hikari:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      jdbc-url: jdbc:mysql://192.168.0.233:3307/SGSAS?serverTimezone=UTC
+#      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      jdbc-url: jdbc:log4jdbc:mysql://localhost:3306/MEETING?serverTimezone=UTC    # steel-pc
+      password: tndbs0306!
+      username: root
+stt:
+  service:
+    manager:
+      ip: localhost
+      port: 8988
+      use: true
+  url: http://121.78.145.5:8987/was/stt_diarization
+  alternate: 
+    curl:
+#      size: 10000
+      size: 500000000
+      command: cmd, /c, curl
+      quote: double                                   # double quote for curl -H "accept: application/json"
+  confidence: false
+  multi-lang: true
+  
+summary:
+  url: http://121.78.145.5:7100/summ/text?filename=asd&type=
+  url2:  http://121.78.145.5:7100/summ/result?summId=
+  
+train:
+  url: http://121.78.145.5:8989
+  project_id: 69a78b8b5ac61877ef76ea89
+  enable: true
+
+ffmpeg:
+  ffmpeg:
+    path: C:\ProgramData\chocolatey\lib\ffmpeg-full\tools\ffmpeg\bin\ffmpeg.exe
+  ffprobe:
+    path : C:\ProgramData\chocolatey\lib\ffmpeg-full\tools\ffmpeg\bin\ffprobe.exe
+
+task:
+  sound:
+    train:
+      max: 1
+    test:
+      max: 1
+    no_data_sleep: 60
+    urls: >
+      http://121.78.145.5:8987/was/stt_diarization_comp
+
+batch:
+  SoundScheduler:
+    startDeleteWavFile: '0 0 5 * * *'

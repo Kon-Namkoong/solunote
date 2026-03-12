@@ -1,0 +1,62 @@
+<div class="search" th:fragment="headSearchFragment">
+<!-- 	<div class="date">
+	    [[${#messages.msg('searchDate.date')}]] &nbsp;
+	    <div class="date-input-container">
+	        <input type="text" id="searchStartDate" class="custom-date-input start-date" th:placeholder="${#messages.msg('searchDate.placeholder1')}" required aria-required="true" th:value="${search.searchStartDate}">
+	    </div>
+	    <span>~</span>
+	    <div class="date-input-container">
+	        <input type="text" id="searchEndDate" class="custom-date-input end-date" th:placeholder="${#messages.msg('searchDate.placeholder2')}" required aria-required="true" th:value="${search.searchEndDate}">
+	    </div>
+	</div>
+	<div class="date_button">
+		<button id="searchDateNow" class="day" th:text="${#messages.msg('searchDate.day2')}">당일</button>
+		<button id="searchDateMonth" class="week" th:text="${#messages.msg('searchDate.month2')}">1개월</button>
+		<button id="searchDateyear" class="month" th:text="${#messages.msg('searchDate.year')}">1년</button>
+	</div> -->
+    <div class="search_txt account_search" style="margin-left : 0px">
+        <div class="sel_reserve_grid account_grid" th:if="${liveMenu == 1 or liveMenu == 2}">
+            <span class="sel_reser_label" th:text="${#messages.msg('menu27.head_search.search.select1')}">계정유형</span>
+            <div class="select-container">
+                <select id="userType" name="search" class="custom-select">
+                    <option value="1" th:text="${#messages.msg('menu27.head_search.search.select2')}">전체</option>
+                    <option value="100" th:text="${#messages.msg('menu27.head_search.search.select3')}">관리자</option>
+                    <option value="0" th:text="${#messages.msg('menu27.head_search.search.select4')}">사용자</option>
+                </select>
+            </div>
+        </div>
+        <div class="sel_reserve_grid" th:if="${liveMenu == 1 or liveMenu == 2}">
+            <div class="select-container">
+                <select id="search_type" name="search" class="custom-select">
+                	<option value="2" th:text="${#messages.msg('menu27.head_search.search.select6')}">이름</option>
+                    <option value="1" th:text="${#messages.msg('menu27.head_search.search.select5')}">아이디</option>
+                    <option value="3" th:text="${#messages.msg('menu27.head_search.search.select7')}">전화번호</option>
+                </select>
+            </div>
+        </div>
+        <div class="sel_reserve_grid account_grid" th:if="${liveMenu == 4}">
+            <span class="sel_reser_label" th:text="${#messages.msg('menu27.head_search.search.select8')}">사용여부</span>
+            <div class="select-container">
+                <select name="search" class="custom-select" id="useYn">
+                    <option value="" th:text="${#messages.msg('menu27.head_search.search.select9')}">전체</option>
+                    <option value="Y">O</option>
+                    <option value="N">X</option>
+                </select>
+            </div>
+        </div>
+        <div class="sel_reserve_grid setting_grid" th:if="${liveMenu == 4}">
+            <div class="select-container">
+                <select name="search" class="custom-select" id="serachType">
+                    <option value="title" th:text="${#messages.msg('menu27.head_search.search.select10')}">설정제목</option>
+                    <option value="content" th:text="${#messages.msg('menu27.head_search.search.select11')}">설정기간</option>
+                    <option value="detail" th:text="${#messages.msg('menu27.head_search.search.select12')}">상세내용</option>
+                </select>
+            </div>
+        </div>        
+        <div class="search_box">
+            <input id="search-keyword" type="text" th:placeholder="${#messages.msg('menu23.head_search.search.placeholder')}" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');">
+        </div>
+    </div>            
+	<button id="search-btn" class="search_btn" th:text="${#messages.msg('search.search')}">검색</button>
+</div>
+

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8" />
+    <title>학습 DATA</title>
+    <th:block layout:fragment="script">
+        <script type="text/javascript" th:src="@{/js/menu24/menu24.js}"></script>
+    </th:block>
+</head>
+<body>
+    <div layout:fragment="content" class="common_content">
+		<th:block th:if="${liveMenu == 1}">
+			<div th:replace="~{thymeleaf/menu24/content/table-content1}"></div>
+		</th:block>
+		<th:block th:if="${liveMenu == 2}">
+			<div th:replace="~{thymeleaf/menu28/content/table-content2}"></div>
+		</th:block>		
+    </div>
+</body>
+</html>

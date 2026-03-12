@@ -1,0 +1,75 @@
+db:
+  company: steel
+file:
+  upload:
+    extension:
+      wav: wav|aif|mp3|mid|mp2|wam|ogg|m4a|aac
+      train: doc|docx|hwp|pdf|txt
+    path:
+      train: D:/e2e/upload/sgsas_train/upload/train
+      test: D:/e2e/upload/sgsas_train/upload/test
+      meet: D:/e2e/upload/sgsas_train/upload/meet
+      temp: D:/e2e/upload/sgsas_train/upload/temp
+      tts:  D:/e2e/upload/sgsas_train/upload/tts
+spring:
+  servlet:
+    multipart:
+      location: c:\temp  #톰켓 temp 로 변경 필요
+  datasource:
+    hikari:
+#      driver-class-name: com.mysql.cj.jdbc.Driver
+#      jdbc-url: jdbc:mysql://192.168.0.233:3307/SGSAS?serverTimezone=UTC
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      jdbc-url: jdbc:log4jdbc:mysql://192.168.0.239:33342/MEETING?serverTimezone=UTC    # steel-pc
+      password: meet_pass
+      username: meet_user
+stt:
+  service:
+    manager:
+      ip: localhost
+      port: 8988
+      use: false
+#  url: http://192.168.0.252:9187/was/stt_diarization
+  url: http://192.168.0.8:8987/was/stt_diarization
+#  url: http://192.168.0.251:8987/was/stt_diarization
+  multi-lang: true
+  alternate: 
+    curl:
+#      size: 10000
+      size: 500000000
+      command: cmd, /c, curl
+      quote: double                                   # double quote for curl -H "accept: application/json"
+  confidence: false
+  
+summary:
+  url: http://121.78.145.5:7100/summ/text?filename=asd&type=
+  url2: http://121.78.145.5:7100/summ/result?summId=
+  enable: true
+train:
+  enable: true
+  url: http://121.78.145.5:8989
+  project_id: 692e7c6048333415e23cded9
+ffmpeg:
+  ffmpeg:
+    path: C:\ProgramData\chocolatey\lib\ffmpeg-full\tools\ffmpeg\bin\ffmpeg.exe
+  ffprobe:
+    path : C:\ProgramData\chocolatey\lib\ffmpeg-full\tools\ffmpeg\bin\ffprobe.exe
+task:
+  sound:
+    train:
+      max: 1
+    test:
+      max: 1
+    no_data_sleep: 60
+    urls: >
+      http://192.168.0.14:8987/was/stt_diarization
+  summary:
+    max: 1  
+    no_data_sleep: 60
+service:
+  class:
+    commonService: CommonSteelService
+    menu21Service: Menu21SteelService
+    menu23Service: Menu23SteelService
+    menu24Service: Menu24SteelService
+    menu25Service: Menu25SteelService

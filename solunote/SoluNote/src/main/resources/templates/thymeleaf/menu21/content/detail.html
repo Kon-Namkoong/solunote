@@ -1,0 +1,486 @@
+<!-- content -->
+<div id ="detailPage">
+	<div class="common_content common_fullMeetDetail">
+		<input type="hidden" id="queryParamsSeq" th:value="${seq}"></input>
+		<input type="hidden" id="checkSummlen" th:value="${checkSummlen}"></input>
+		<input type="hidden" id="hasSummary" th:value="${hasSummary}"></input>
+		<input type="hidden" id="queryParamsSummaryId" th:value="${meetMap.summaryId}"></input>
+		<input type="hidden" id="queryParamsSummaryStatus" th:value="${meetMap.summaryStatus}"></input>
+		<input type="hidden" id="queryParamsSummaryId2" th:value="${meetMap.summaryId2}"></input>
+		<input type="hidden" id="queryParamsSummaryStatus2" th:value="${meetMap.summaryStatus2}"></input>
+		<input type="hidden" id="queryParamsSummaryId3" th:value="${meetMap.summaryId3}"></input>
+		<input type="hidden" id="queryParamsSummaryStatus3" th:value="${meetMap.summaryStatus3}"></input>				
+	    <!-- 공통 고정 타이틀 및 검색 -->
+	    <div class="content_tit fullMeetingDetail_tit content_detail_tit">
+	        <div class="title">
+	            <a class="back_btn"><img th:src="@{/images/back_btn.svg}" alt=""></a>
+	            <h2 class="editable" contenteditable="true" id="deatilSubject" th:text="${meetMap.subject}" ></h2>
+	        </div>
+	        <div class="search">
+	            <button class="search_btn tooltip">
+	                <img th:src="@{/images/word_search.svg}" alt="단어검색 버튼">
+	                <span class="tooltiptext" th:text="${#messages.msg('menu21.detail.search1')}">단어검색</span>
+	            </button>
+	            <button class="download_btn tooltip">
+	                <img th:src="@{/images/download.svg}"  alt="다운로드 버튼">
+	                <span class="tooltiptext" th:text="${#messages.msg('menu21.detail.search2')}">다운로드</span>
+	            </button>
+	        </div>
+	
+	        <!-- 단어검색 레이어 팝업 -->
+	        <div id= "search-word-popup" class="layer_popup search_popup">
+	            <div class="popuup_wrap">
+	                <div class="popup_tit">
+	                    <span class="title" th:text="${#messages.msg('menu21.detail.search1')}">단어 검색</span>
+	                    <button class="close_btn"></button>
+	                </div>
+	                <div class="popup_cont">
+	                    <div class="popup_cont_grid">
+	                        <div class="search_input">
+	                            <div class="search_box input_bx">
+	                                <input id="find-search" type="text" th:placeholder="${#messages.msg('menu21.detail.search.placeholder1')}">
+	                                <div class="U_and_D">
+	                                    <span class="page"></span>
+	                                    <span id="up_click" class="up_click"></span>
+	                                    <span id="down_click" class="down_click"></span>
+	                                </div>
+	                            </div>
+	                            <button id="search-word-btn" class="search_btn" th:placeholder="${#messages.msg('menu21.head_search.search')}" th:text="${#messages.msg('menu21.head_search.search')}">검색</button>
+	                        </div>
+	                        <div class="change_input">
+	                            <div class="change_tit" th:text="${#messages.msg('menu21.detail.search.change1')}">바꾸기</div>
+	                            <div class="change_box input_bx">
+	                                <input id="change-word" type="text" th:placeholder="${#messages.msg('menu21.detail.search.placeholder2')}">
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="popup_btn">
+	                    <button id="changeOne" class="line" th:text="${#messages.msg('menu21.detail.search.change1')}">바꾸기</button>
+	                    <button id="changeAll" th:text="${#messages.msg('menu21.detail.search.change2')}">모두 바꾸기</button>
+	                </div>
+	            </div>
+	        </div>
+	        <!-- //단어검색 레이어 팝업 -->
+	
+	        <!-- 다운로드 레이어 팝업 -->
+	        <div id= "download-popup" class="layer_popup download_popup">
+	            <div class="popuup_wrap">
+	                <div class="popup_tit">
+	                    <span class="title" th:text="${#messages.msg('menu21.detail.search2')}">다운로드</span>
+	                    <button class="close_btn"></button>
+	                </div>
+	                <div class="popup_cont">
+	                    <div class="popup_cont_grid">
+	                        <div class="pop_chk">
+	                            <span id="fileCheck" class="check-box">
+	                                <img class="unchecked" th:src="@{/images/checck.svg}">
+	                                <img class="checked"   th:src="@{/images/checck_on.svg}">
+	                            </span>
+	                            <span class="check_label" th:text="${#messages.msg('menu21.detail.download.type1')}">회의록</span>
+	                        </div>
+	                        <div class="select-container">
+	                            <select id="fileType" class="custom-select">
+	                                <option value="txt">txt</option>
+	                                <option value="xlsx">xlsx</option>
+	                                <option value="hwp">hwp</option>
+	                                <option value="docx">doc</option>
+	                            </select>
+	                        </div>	                        
+	                    </div>
+	                    <div class="popup_cont_grid">	                    
+	                        <div class="pop_chk">
+	                            <span id="summaryCheck" class="check-box">
+	                                <img class="unchecked" th:src="@{/images/checck.svg}">
+	                                <img class="checked"   th:src="@{/images/checck_on.svg}">
+	                            </span>
+	                            <span class="check_label" th:text="${#messages.msg('menu21.detail.download.type2')}">요약</span>
+	                        </div>	                        
+	                        <div class="select-container">
+	                            <select id="summaryDownloadType" class="custom-select">
+	                                <option value="txt">txt</option>
+	                                <option value="xlsx">xlsx</option>
+	                                <option value="hwp">hwp</option>
+	                                <option value="docx">doc</option>
+	                            </select>
+	                        </div>	
+	                    </div>	                                            
+	                    <div class="popup_cont_grid">
+	                        <div class="pop_chk">
+	                            <span id="audioCheck" class="check-box">
+	                                <img class="unchecked" th:src="@{/images/checck.svg}">
+	                                <img class="checked"   th:src="@{/images/checck_on.svg}">
+	                            </span>
+	                            <span class="check_label" th:text="${#messages.msg('menu21.detail.download.type3')}">음성파일</span>
+	                        </div>
+	                    </div>
+	                </div>
+	                <div class="popup_btn">
+	                    <button id= "download-btn" th:text="${#messages.msg('menu21.detail.search2')}">다운로드</button>
+	                </div>
+	            </div>
+	        </div>
+	        <!-- //다운로드 레이어 팝업 -->
+	    </div>
+	    <!-- //공통 고정 타이틀 및 검색 -->
+	
+	    <!-- 전체 회의록 상세 -->
+	    <div class="content_desc content_fullMeetingDetail" sytile>
+	        <div class="detail_left_wrap detail_wrap">
+	            <div class="tab_grid">
+	                <ul class="tab_box">
+	                    <li>
+	                        <button class="tablinks active defaultOpen" onclick="openCity(event, 'Substance')" th:text="${#messages.msg('menu21.detail.content.tablelink1')}">회의록 내용</button>
+	                    </li>
+	<!--                     <li>
+	                        <button class="tablinks">회의록 번역</button>
+	                    </li> -->
+	                    <li class="summary_tab">
+	                        <button class="tablinks" onclick="toggleSummaryDisplay(); openCity(event, 'Summary')" th:text="${#messages.msg('menu21.detail.content.tablelink2')}">요약</button>
+	                    </li>
+	                </ul>
+	            </div>
+	            <!-- 전체 회의록 상세 - 회의록 내용 -->
+	            <div id="moveFocusPostion" class="tabcontent Substance">
+	            	<!-- 전체 회의록 상세 - 출처 및 사람박스 -->
+	                <div class="info_grid">
+	                    <div class="info">
+	                        <span class="tlt" th:text="${#messages.msg('menu21.detail.content.info1')}">출처</span>
+	                        <span class="desc" th:text="${#messages.msg('menu21.detail.content.info2')}">영상파일</span>
+	                    </div>
+	                    <div class="info">
+	                        <span class="tlt" th:text="${#messages.msg('menu21.detail.content.info3')}">파일 길이</span>
+	                        <span class="desc" th:text="${meetMap.durationFormat}"></span>
+	                    </div>
+	                    <div class="info">
+	                        <span class="tlt" th:text="${#messages.msg('menu21.detail.content.info4')}">등록일</span>
+	                        <span class="desc" th:text="${meetMap.created_at}"></span>
+	                    </div>
+	                    <div class="info">
+	                        <span class="tlt" th:text="${#messages.msg('menu21.detail.content.info5')}">최종 수정</span>
+	                        <span id="lastModifiedText" class="desc" th:text="${meetMap.updated_at}"></span>
+	                    </div>
+	                </div>
+	                <div class="person_grid">
+	                    <ul class="box">
+	                        <li th:each="name: ${speakerGroupList}" th:attr="speaker=${name}" class="person">
+	                        	<span th:text="${name}"></span>
+	                            <button><img th:src="@{/images/name_delete.svg}" alt=""></button>
+	                        </li>
+	                    </ul>
+	                </div>
+	                <input type="hidden" id="hiddenLang" th:value="${meetMap.lang}"/>
+	                <!-- 전체 회의록 상세 - 출처 및 사람박스 -->
+	                
+	                
+					<!-- 참석자 변경 레이어 팝업 -->
+	                <div class="layer_popup attend_popup">
+	                    <div class="popuup_wrap">
+	                        <div class="popup_tit">
+	                            <span class="title" th:text="${#messages.msg('menu21.detail.content.popup1')}">참석자 변경</span>
+	                            <button class="close_btn" ></button>
+	                        </div>
+	                        <div class="popup_cont">
+	                            <div class="attend_list">
+	                                <ul class="scroll_custom" id="speaker-change-popup">
+	                                    <li class="speaker-change-list" th:each="name: ${speakerGroupList}" th:attr="speaker=${name}" th:text="${name}">김팀장</li>
+	                                </ul>
+	                            </div>
+	
+	                            <div class="popup_cont_grid attend_input">
+	                                <div class="attend_box input_bx">
+	                                    <input id="new-speaker-input" type="text" th:placeholder="${#messages.msg('menu21.detail.content.popup.placeholder1')}"><img id="new-speaker-input-img" th:src="@{/images/re_write.svg}" alt="">
+	                                </div>
+	                            </div>
+	                            <div class="popup_cont_grid">
+	                                <div class="pop_chk">
+	                                    <input type="radio" id="radio1" name="radio-group" class="radio-input">
+	                                    <label for="radio1" class="check-box">
+	                                        <img class="unchecked" th:src="@{/images/radio_off.svg}">
+	                                        <img class="checked"   th:src="@{/images/radio_on.svg}">
+	                                    </label>
+	                                    <span class="check_label" th:text="${#messages.msg('menu21.detail.content.popup2')}">이 구간만</span>
+	                                </div>
+	                            </div>
+	                            <div class="popup_cont_grid">
+	                                <div class="pop_chk">
+	                                    <input type="radio" id="radio2" name="radio-group" class="radio-input">
+	                                    <label for="radio2" class="check-box">
+	                                        <img class="unchecked" th:src="@{/images/radio_off.svg}">
+	                                        <img class="checked"   th:src="@{/images/radio_on.svg}">
+	                                    </label>
+	                                    <span class="check_label" th:text="${#messages.msg('menu21.detail.content.popup3')}">이 구간부터 끝까지</span>
+	                                </div>
+	                            </div>
+	                            <div class="popup_cont_grid">
+	                                <div class="pop_chk">
+	                                    <input type="radio" id="radio3" name="radio-group" class="radio-input">
+	                                    <label for="radio3" class="check-box">
+	                                        <img class="unchecked" th:src="@{/images/radio_off.svg}">
+	                                        <img class="checked"   th:src="@{/images/radio_on.svg}">
+	                                    </label>
+	                                    <span class="check_label" th:text="${#messages.msg('menu21.detail.content.popup4')}">모든 구간</span>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="popup_btn">
+	                            <button id ="speakerChange_btn" th:text="${#messages.msg('menu21.detail.search.change1')}">변경하기</button>
+	                        </div>
+	                    </div>
+	                </div>
+	                <!-- //참석자 변경 레이어 팝업 -->                
+	                
+	                
+	                
+	                <!-- //본문 내용 포멧 -->   
+	                <div class="chat_grid">
+	                    <ul id="detailList" class="chat_box scroll_custom">
+	                    	<!-- //li 단위로 텍스트 추가 -->   
+	                        <li class="chat_detail" th:each="item: ${resultList}" 
+	                        	th:attr="data-start-second=${item.start} , data-end-second=${item.end}, data-speaker=${item.name} , data-seq=${item.seq}">
+	                            <div class="top_grp">
+	                                <div class="name_grid" >
+	                                    <i th:classappend="'i_color_' + ${item.color}" th:text="${item.name[0]}"></i>
+	                                    <span class="name" th:text="${item.name}"></span>
+	                                </div>
+	                                <span class="time" th:text="${item.startTimeFormat}"></span>
+	                            </div>
+	                            <div class="btm_grp editable" contenteditable="true" spellcheck="false" th:utext="${item.text}"></div>
+	                        </li>
+	                    </ul>
+	
+	                    <!-- 미디어 프레임워크 -->
+	                    <div class="play_grid2"  > 
+	                    	<input type="hidden" id="hiddenFileNm" th:value="${meetMap.file_new_nm}"></input>
+                            <div class="start_play_arrow play_btn_arrow">
+                                <input  id="arrowTime" type="number" value=10 ></input>
+                                <button class="forward_arrow tooltip_arrow">
+                                    <span class="tooltiptext_arrow" >10초 뒤</span>
+                                </button>
+                                <button class="rewind_arrow tooltip_arrow">
+                                    <span class="tooltiptext_arrow"  >10초 앞</span>
+                                </button>
+                            </div>                            
+                            <audio id="audio" style="width: 100%;" controls></audio>	                    	
+							</audio>
+	                    </div>
+	                    <!-- //미디어 프레임워크 -->
+	                </div>
+	            </div>
+	            <!-- //전체 회의록 상세 - 회의록 내용 -->
+	
+	            <!-- 전체 회의록 상세 - 회의록 번역 -->
+<!-- 	            <div class="tabcontent Translation">
+	                <div class="trans_grid">
+	                    <div class="trans_box scroll_custom">
+	                        <div class="trans_original">
+	                            <div class="original_tit">회의록 원본</div>
+	                            <div class="original_box">본문 내용</div>
+	                        </div>
+	                        <div class="trans_arrow">
+	                            <i><img  th:src="@{/images/trans_arrow.svg}"alt=""></i>
+	                        </div>
+	                        <div class="trans_complete">
+	                            <div class="complete_tit">
+		                            회의록 번역 셀렉박스
+	                                <div class="select-container">
+	                                    <select name="" class="custom-select">
+	                                        <option value="">영어</option>
+	                                        <option value="">영어</option>
+	                                        <option value="">영어</option>
+	                                    </select>
+	                                </div>
+	                                <button>번역</button>
+	                            </div>
+	                            <div class="complete_box">번역 내용</div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div> -->
+	            <!-- //전체 회의록 상세 - 회의록 번역 -->
+	        </div>	
+			<input type="hidden" id="hiddenSummaryEnable" th:value="${@environment.getProperty('summary.enable')}"></input>				
+	        <div class="detail_right_wrap detail_wrap">
+	            <div class="tab_grid">
+	                <ul class="tab_box">
+	                    <li><button class="active" th:text="${#messages.msg('menu21.detail.content.tablelink2')}">요약</button></li>
+	                </ul>
+                    <div class="tab_btns">
+                        <div class="select-container">
+                            <span>요약 템플릿</span>
+                            <select name="search" class="custom-select" id="summaryType">
+                                <option value="1">일반</option>
+                                <option value="2">발표</option>
+                                <option value="3">시간별</option>
+                            </select>
+                        </div>
+	                	<button class="summation_btn" th:text="${#messages.msg('menu21.detail.content.summary1')}">회의록 요약</button>
+                    </div>	                
+	            </div>
+	            <div class="Summary">
+	                <!-- 요약 전 -->
+	                <div id="summaryBefore" class="sum_grid" >
+	                    <i class="sum_icon"><img  th:src="@{/images/exclamation.svg}" alt=""></i>
+	                    <p th:if="${#locale.language == 'en'}">Click the <span>‘Meeting Minutes Summary’ </span><br>button to view the meeting minutes summary results.</p>
+	                    <p th:if="${#locale.language == 'en'}">The summary contents cannot be modified. <br>If you click the <span>'Meeting Minutes Summary'</span> button again after editing the meeting minutes, <br>the summary results will be displayed again according to the modified contents.</p>
+	                    <p th:if="${#locale.language == 'ko'}"><span>'회의록 요약'</span> 버튼을 클릭하시면 회의록 요약 결과를 볼 수 있습니다.</p>
+	                    <p th:if="${#locale.language == 'ko'}">요약 내용의 수정은 불가하며, 회의록 내용을 수정한 이후<br><span>'회의록 요약'</span> 버튼을 다시 클릭하시면<br>수정된 내용에 따라 요약 결과가 다시 표시됩니다.</p>
+	                </div>
+	                <!-- //요약 전 -->
+	                
+	                <!-- 요약 시작-->
+	                <div id="summaryIng1" class="sum_grid" style="display: none;">
+	                    <div class="loader">
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                    </div>
+	                    <div class="progress">
+	                        <div class="step current">요약대기</div>
+	                        <div class="step upcoming">요약중</div>
+	                        <div class="step upcoming">요약완료</div>
+	                    </div>
+	                    <p style="color: #999;">요약이 진행중입니다. 잠시만 기다려주세요.</p>
+	                </div>
+	                <!-- //요약시작 -->                   
+	                
+	                
+	                <!-- 요약중간 -->
+	                <div id="summaryIng2" class="sum_grid" style="display: none;">
+	                    <div class="loader">
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                    </div>
+	                    <div class="progress">
+	                        <div class="step completed">요약대기</div>
+	                        <div class="step current">요약중</div>
+	                        <div class="step upcoming">요약완료</div>
+	                    </div>
+	                    <p style="color: #999;">요약이 진행중입니다. 잠시만 기다려주세요.</p>
+	                </div>
+	                <!-- //요약중 -->                
+	
+	                <!-- 요약중간 -->
+	                <div id="summaryIng3" class="sum_grid" style="display: none;">
+	                    <div class="loader">
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                        <div></div>
+	                    </div>
+	                    <div class="progress">
+	                        <div class="step completed">요약대기</div>
+	                        <div class="step completed">요약중</div>
+	                        <div class="step current">요약완료</div>
+	                    </div>
+	                    <p style="color: #999;">요약이 진행중입니다. 잠시만 기다려주세요.</p>
+	                </div>
+	                <!-- //요약중 --> 
+	
+	
+	                <!-- 요약완료 -->
+	                <div id="summaryFinsh" class="sum_grid sum_grid_complete" style="display: none;">
+	                    <i class="sum_icon"><img th:src="@{/images/complete.svg}"alt=""></i>
+	                    <p>요약이 완료되었습니다.</p>
+	                </div>
+	                <!-- //요약완료 -->
+	 
+	
+	                <!-- 요약내용 -->
+	                <div class="sum_grid sum_grid_cont">
+					    <div class="sum_grid_cont_box scroll_custom" id="summaryContent" >
+					    	<div id="summary1" style="display : none;">
+							    <ul>
+							        <h3 class="sum_subject" th:text="${#messages.msg('menu21.detail.content.summary.content1')}">주제</h3>
+							        <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+							        	<li class="more-than-one" th:each="item : ${summary.subject}" th:text="${item}"></li>
+							        <div>	
+							    </ul>						
+							    <ul>
+							        <h3 class="sum_agenda" th:text="${#messages.msg('menu21.detail.content.summary.content2')}">안건</h3>
+							        <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+							        	<li class="more-than-one" th:each="item : ${summary.agenda}" th:text="${item}"></li>
+							        </div> 	
+							    </ul>						
+							    <ul>
+							        <h3 class="sum_detailed" th:text="${#messages.msg('menu21.detail.content.summary.content3')}">세부요약</h3>
+							        <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+							        	<li class="more-than-one" th:each="item : ${summary.detailed}" th:text="${item}"></li>
+							        </div> 							        
+							    </ul>						   					    						    						
+							    <ul>
+							        <h3 class="sum_major" th:text="${#messages.msg('menu21.detail.content.summary.content4')}">주요결정사항</h3>
+							        <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+										<li class="more-than-one" th:each="item : ${summary.majorDecision}" th:text="${item}"></li>
+							        </div>						        
+							    </ul>						
+							    <ul>
+							        <h3 class="sum_plan" th:text="${#messages.msg('menu21.detail.content.summary.content5')}">향후일정 및 계획</h3>
+							        <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+							        	<li class="more-than-one" th:each="item : ${summary.plan}" th:text="${item}"></li>
+							        </div>						        
+							    </ul>						
+							    <ul>
+							        <h3 class="sum_keyword" th:text="${#messages.msg('menu21.detail.content.summary.content6')}">키워드</h3>
+							        <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+							        	<li class="more-than-one" th:each="item : ${summary.keyword}" th:text="${item}"></li>
+							        </div>						        
+							    </ul>
+						    </div>
+					    	<div id="summary2" style="display : none;">												
+							    <ul >
+							        <h3 class="sum_subject" th:text="${#messages.msg('menu21.detail.content.summary.content1')}">주제</h3>
+							        <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+							        	<li class="more-than-one" th:each="item : ${summary2.subject}" th:text="${item}"></li>
+							        <div>	
+							    </ul>												
+							    <ul>
+							        <h3 class="sum_detailed" th:text="${#messages.msg('menu21.detail.content.summary.content3')}">세부요약</h3>
+							        <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+							        	<li class="more-than-one" th:each="item : ${summary2.detailed}" th:text="${item}"></li>
+							        </div> 							        
+							    </ul>						   					    						    						
+							    <ul>
+							        <h3 class="sum_keyword" th:text="${#messages.msg('menu21.detail.content.summary.content6')}">키워드</h3>
+							        <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+							        	<li class="more-than-one" th:each="item : ${summary2.keyword}" th:text="${item}"></li>
+							        </div>						        
+							    </ul>
+						    </div>		
+							<div id="summary3" style="display : none;">
+							    <ul th:each="block : ${summary3.blocks}">
+							        <h3 class="sum_title">
+							            <span class="sum_time btm_grp_summary editable"  contenteditable="true" spellcheck="false" th:text="${block['time']}"></span>
+							            <div class="sum_subject btm_grp_summary editable" contenteditable="true" spellcheck="false" th:text="${block['subject']}"></div>
+							        </h3>
+							        <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+							            <li class="more-than-one" th:each="detail : ${block['detailed']}" th:text="${detail}">세부내용</li>
+							        </div>
+							    </ul>
+							</div>				    
+					    </div>
+	                </div>
+	                <!-- //요약내용 -->
+	            </div>
+	
+	        </div>
+	    </div>
+	    <!-- //전체 회의록 상세 -->
+	</div>
+</div>	
+<!-- //content -->

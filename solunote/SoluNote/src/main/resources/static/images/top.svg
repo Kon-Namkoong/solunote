@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="top으로아이콘" transform="translate(4.244 8.003) rotate(-90)">
+    <rect id="영역" width="20" height="20" transform="translate(-11.997 15.756) rotate(-90)" fill="none"/>
+    <path id="패스_79" data-name="패스 79" d="M0,0,6,5.667" transform="translate(0 -0.244)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="2"/>
+    <path id="패스_80" data-name="패스 80" d="M0,5.667,6,0" transform="translate(0 5.556)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="2"/>
+    <g id="사각형_672" data-name="사각형 672" transform="translate(6.003 4.556) rotate(90)" fill="none" stroke="#000" stroke-width="1">
+      <rect width="2" height="16" rx="1" stroke="none"/>
+      <rect x="0.5" y="0.5" width="1" height="15" rx="0.5" fill="none"/>
+    </g>
+  </g>
+</svg>

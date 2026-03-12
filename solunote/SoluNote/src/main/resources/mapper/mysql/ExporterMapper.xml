@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vol.solunote.export.mapper.ExporterMapper">
+
+    <select id="getExportList" resultType="com.vol.solunote.model.vo.sound.SoundBean">
+        <![CDATA[
+		select
+	       SEQ as seq
+	        , division
+	        , subject
+	        , created_at as createdAt
+	        , updated_at as updatedAt
+	        , deleted_at as deletedAt
+	        , trashed_at as trashedAt
+	        , time_duration_ms as timeDurationMs
+	        , file_org_nm as fileOrgNm
+	        , file_new_nm as fileNewNm
+	        , file_conv_nm as fileConvNm
+	        , remark
+	        , file_size_bytes as fileSizeBytes
+	        , TC_USER_SEQ as tcUserSeq
+	        , status
+			, stt_started_at   as sttStartedAt
+			, stt_duration     as sttDuration
+			, reliability
+			, click_least_once  as clickLeastOnce
+			, error_message	as errorMessage
+		from TB_CS_SOUND
+		WHERE SEQ > 0
+		AND created_at BETWEEN str_to_date(#{startDate}, '%Y-%m-%d') AND DATE_ADD(#{endDate}, INTERVAL 1 DAY )
+		and SEQ >= #{from} and SEQ <= #{to}
+		AND deleted_at is null AND trashed_at is null
+		order by created_at
+		]]>
+    </select>
+    
+    <select id="getMeetingList" resultType="com.vol.solunote.model.vo.sound.SoundBean">
+        <![CDATA[
+		select
+	       SEQ as seq
+	        , subject
+	        , created_at as createdAt
+	        , updated_at as updatedAt
+	        , deleted_at as deletedAt
+	        , trashed_at as trashedAt
+	        , time_duration_ms as timeDurationMs
+	        , file_org_nm as fileOrgNm
+	        , file_new_nm as fileNewNm
+	        , file_conv_nm as fileConvNm
+	        , remark
+	        , file_size_bytes as fileSizeBytes
+	        , TC_USER_SEQ as tcUserSeq
+		from TB_CS_MEETING
+		WHERE SEQ > 0
+		AND created_at BETWEEN str_to_date(#{startDate}, '%Y-%m-%d') AND DATE_ADD(#{endDate}, INTERVAL 1 DAY )
+		and SEQ >= #{from} and SEQ <= #{to}
+		AND deleted_at is null AND trashed_at is null
+		order by created_at
+		]]>
+    </select>
+    
+    
+    <insert id="insertSound" parameterType="com.vol.solunote.model.vo.sound.SoundBean" useGeneratedKeys="true" keyProperty="seq">
+    	insert into TB_CS_SOUND (
+    		division
+			, subject
+			, time_duration_ms
+			, file_org_nm
+			, file_new_nm
+			, file_conv_nm
+			, file_size_bytes
+			, TC_USER_SEQ 
+			, status
+			, stt_started_at
+			, stt_duration
+		) values (
+			#{division}
+			, #{subject}
+			, #{timeDurationMs}
+			, #{fileOrgNm}
+			, #{fileNewNm}
+			, #{fileConvNm}
+			, #{fileSizeBytes}
+			, #{tcUserSeq}
+			, #{status}
+			, #{sttStartedAt}
+			, #{sttDuration}
+    	)
+    </insert>
+    
+        <insert id="createTest" parameterType="com.vol.solunote.model.vo.sound.SoundBean" useGeneratedKeys="true" keyProperty="seq">
+        insert TB_CS_TEST (
+    		division
+			, subject
+			, time_duration_ms
+			, file_org_nm
+			, file_new_nm
+			, file_conv_nm
+			, file_size_bytes
+			, TC_USER_SEQ 
+			, status
+			, stt_started_at
+			, stt_duration
+		) values (
+			#{division}
+			, #{subject}
+			, #{timeDurationMs}
+			, #{fileOrgNm}
+			, #{fileNewNm}
+			, #{fileConvNm}
+			, #{fileSizeBytes}
+			, #{tcUserSeq}
+			, #{status}
+			, #{sttStartedAt}
+			, #{sttDuration}
+        )
+    </insert>
+    
+    
+    
+    <insert id="createTranscription"  parameterType="com.vol.solunote.model.vo.transcription.TranscriptionVo" >
+        insert TB_CS_TRANSCRIPTION (
+	        start
+	        , end
+	        , stt_text
+	        , meet_text
+	        , train_text
+	        , reliability
+	        , use_yn
+	        , meeting_seq
+	        , sound_seq
+        ) value(
+        	#{start}
+        	, #{end}
+        	, #{sttText}
+        	, #{meetText}
+        	, #{trainText}
+        	, #{reliability}
+        	, #{useYn}
+        	, #{meetingSeq}
+        	, #{soundSeq}
+        )
+    </insert>
+    
+    <insert id="createTranscriptionDataId" parameterType="com.vol.solunote.model.vo.transcription.TranscriptionVo" >
+        insert TB_CS_TRANSCRIPTION (
+            start
+	        , end
+	        , stt_text
+	        , meet_text
+	        , train_text
+	        , reliability
+	        , use_yn
+	        , meeting_seq
+	        , sound_seq
+	        , data_id
+        ) value(
+        	#{start}
+        	, #{end}
+        	, #{sttText}
+        	, #{meetText}
+        	, #{trainText}
+        	, #{reliability}
+        	, #{useYn}
+        	, #{meetingSeq}
+        	, #{soundSeq}
+        	, #{dataId}
+        )
+    </insert>
+    
+    <update id="disableTranscription" parameterType="com.vol.solunote.model.vo.transcription.TranscriptionVo" >
+        update TB_CS_TRANSCRIPTION set
+            data_id = ''
+	        , use_yn = 'N'
+	        , sound_seq = -1
+       	 where SEQ = #{seq}
+    </update>
+    
+    <insert id="createTestTrans" parameterType="com.vol.solunote.model.vo.transcription.TranscriptionVo" >
+        insert TB_CS_TEST_TRANS (
+        	 start
+	        , end
+	        , stt_text
+	        , meet_text
+	        , train_text
+	        , reliability
+	        , use_yn
+	        , test_seq
+        ) value(
+        	#{start}
+        	, #{end}
+        	, #{sttText}
+        	, #{meetText}
+        	, #{trainText}
+        	, #{reliability}
+        	, #{useYn}
+        	, #{testSeq}
+        )
+    </insert>
+ 
+        
+    <select id="getTrans" resultType="com.vol.solunote.model.vo.transcription.TranscriptionVo">
+        <![CDATA[
+		select
+	       SEQ as seq
+			, start
+			, end
+			, reliability
+			, stt_text as sttText
+			, meet_text as meetText
+			, train_text as trainText
+			, meeting_seq as meetingSeq
+			, sound_seq as soundSeqtranscription
+			, use_yn as useYn
+			, data_id as dataId
+			, created_at as createdAt
+			, updated_at as updatedAt
+		from TB_CS_TRANSCRIPTION
+		order by SEQ
+		]]>
+    </select>
+    
+    
+    
+    
+   <select id="getList" parameterType="Map" resultType="com.vol.solunote.model.vo.sound.SoundBean">
+      select 
+	       SEQ as seq
+	        , subject
+	        , created_at as createdAt
+	        , updated_at as updatedAt
+	        , deleted_at as deletedAt
+	        , trashed_at as trashedAt
+	        , time_duration_ms as timeDurationMs
+	        , file_org_nm as fileOrgNm
+	        , file_new_nm as fileNewNm
+	        , file_conv_nm as fileConvNm
+	        , remark
+	        , file_size_bytes as fileSizeBytes
+	        , TC_USER_SEQ as tcUserSeq
+        from TB_CS_TEST
+        WHERE SEQ > 0
+            AND trashed_at is null
+        order by SEQ
+    </select>
+    
+    
+    <select id="getTestTransList" resultType="com.vol.solunote.model.vo.transcription.TranscriptionVo">
+         select 
+	       SEQ as seq
+			, start
+			, end
+			, reliability
+			, stt_text as sttText
+			, meet_text as meetText
+			, train_text as trainText
+			, test_seq as testSeq
+			, -1 as meetingSeq
+			, -1 as soundSeq
+			, use_yn as useYn
+			, data_id as dataId
+			, created_at as createdAt
+			, updated_at as updatedAt
+      	from TB_CS_TEST_TRANS
+       	order by seq
+    </select>       
+</mapper>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <g id="요약아이콘01" transform="translate(0 0)">
+    <rect id="영역" width="16" height="16" transform="translate(0 0)" fill="none"/>
+    <g id="그룹_75826" data-name="그룹 75826">
+      <g id="사각형_756" data-name="사각형 756" transform="translate(1 1)" fill="none" stroke="#333" stroke-width="1.4">
+        <rect width="14" height="14" rx="2" stroke="none"/>
+        <rect x="0.7" y="0.7" width="12.6" height="12.6" rx="1.3" fill="none"/>
+      </g>
+      <rect id="사각형_760" data-name="사각형 760" width="8" height="1.5" rx="0.75" transform="translate(4 5)" fill="#333"/>
+      <rect id="사각형_761" data-name="사각형 761" width="6" height="1.5" rx="0.75" transform="translate(4 8)" fill="#333"/>
+    </g>
+  </g>
+</svg>

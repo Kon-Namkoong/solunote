@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+	
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!-- <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern> -->
+<!-- 			<pattern>%d{HH:mm:ss.SSS} %-5level %logger{36} - %msg%n</pattern> -->
+			<pattern>%d{yy-MM-dd HH:mm:ss.SSS} %t %-5level %C %L - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="logfile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+<!-- 			 <fileNamePattern>${catalina.home}/logs/RtccTaxi(%d{yyyy-MM-dd}).log</fileNamePattern> -->
+			 <fileNamePattern>d:/temp/logs/RtccTaxi.%d{yyyy-MM-dd}.log</fileNamePattern>
+			 <maxHistory>90</maxHistory>
+		 </rollingPolicy>
+       <encoder>
+            <!-- <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern> -->
+            <Pattern>%d{yy-MM-dd HH:mm:ss.SSS} %t %-5level %logger{36} - %msg%n</Pattern>
+       </encoder>
+    </appender>
+	<logger name="org.hibernate.SQL" level="DEBUG" additivity="false" >
+		<appender-ref ref="console" />
+	</logger>
+	<logger name="org.hibernate.type" level="DEBUG" additivity="false" >
+		<appender-ref ref="console" />
+	</logger>
+
+
+<!--     <logger name="jdbc.connection" additivity="false"> -->
+<!-- 		<level value="off" /> -->
+<!-- 		<appender-ref ref="console"/>  -->
+<!-- 	</logger> -->
+	
+<!-- 	<logger name="jdbc.audit" additivity="false">  -->
+<!-- 		<level value="off"/>   -->
+<!-- 		<appender-ref ref="console"/>  -->
+<!-- 	</logger>  -->
+    
+<!-- 	<logger name="jdbc.resultset" additivity="false"> -->
+<!-- 		<level value="off" /> -->
+<!-- 		<appender-ref ref="console"/>  -->
+<!-- 	</logger> -->
+	
+	<logger name="jdbc.sqlonly" level = "TRACE"/> 
+	<logger name="jdbc.resultsettable" level="TRACE"/>      
+	<logger name="org.springframework.transaction" level="TRACE"/> 
+	
+	<!--  HikariCP connection pool leak debug https://do-study.tistory.com/97 -->
+	<logger name="com.zaxxer.hikari.HikariConfig" level="DEBUG"/> 
+	
+	<logger name="com.zaxxer.hikari" level="TRACE"/> 
+	
+<!-- 	<logger name="jdbc.sqltiming" additivity="false"> -->
+<!-- 		<level value="TRACE" /> -->
+<!-- 		<appender-ref ref="console"/>  -->
+<!-- 	</logger> -->
+	
+<!-- 	<logger name="net.sf.log4jdbc" additivity="false"> -->
+<!-- 		<level value="ERROR" /> -->
+<!-- 		<appender-ref ref="console"/>  -->
+<!-- 	</logger> -->
+	
+<!-- 	<logger name="jdbc" level="ERROR" additivity="true"> -->
+<!-- 		<appender-ref ref="console" /> -->
+<!-- 	</logger> -->
+	
+<!--     <logger name="jdbc.sqltiming" level="INFO" additivity="true" > -->
+<!--     	<appender-ref ref="console" /> -->
+<!-- 	</logger> -->
+	
+<!--     <logger name="jdbc.resultsettable" level="INFO" additivity="true" > -->
+<!--     	<appender-ref ref="console" /> -->
+<!-- 	</logger> -->
+    
+	
+	<logger name="org.springframework.core.log.CompositeLog" level="INFO" additivity="false"/> 	
+	
+	<logger name="net.sf.log4jdbc.log.slf4j.Slf4jSpyLogDelegator" level="DEBUG" additivity="false"/> 
+	
+	<logger name="org.apache.ibatis.logging.jdbc.BaseJdbcLogger" level="DEBUG" additivity="false"/> 
+	
+	<logger name="com.vol.solunote" level="DEBUG" additivity="true" /> 
+	
+	<root level="error" additivity="true" >
+		<appender-ref ref="console" />
+		<appender-ref ref="logfile" />
+	</root>
+</configuration>

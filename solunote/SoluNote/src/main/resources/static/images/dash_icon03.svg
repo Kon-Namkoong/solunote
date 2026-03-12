@@ -1,0 +1,9 @@
+<svg id="아이콘03" xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 50 50">
+  <rect id="영역" width="50" height="50" fill="none"/>
+  <g id="타원_90" data-name="타원 90" fill="none" stroke="#0080bc" stroke-width="4">
+    <circle cx="25" cy="25" r="25" stroke="none"/>
+    <circle cx="25" cy="25" r="23" fill="none"/>
+  </g>
+  <rect id="사각형_518" data-name="사각형 518" width="4" height="18" rx="2" transform="translate(27 28) rotate(180)" fill="#0080bc"/>
+  <rect id="사각형_519" data-name="사각형 519" width="4" height="14" rx="2" transform="translate(22.5 26.864) rotate(-60)" fill="#0080bc"/>
+</svg>

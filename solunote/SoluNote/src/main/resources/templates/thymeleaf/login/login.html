@@ -1,0 +1,210 @@
+<html xmlns:th="http://www.thymeleaf.org">
+	
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>K-NOTE : Login</title>
+    <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon" />
+    
+    <link id="contextPathHolder" th:data-contextPath="@{/}"/>
+    
+    <link rel="stylesheet" type="text/css" th:href="@{/css/content.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login/login.css}">
+    
+    <script type="text/javascript" th:src="@{/js/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/login/gsap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/js/login/login.js}"></script>
+</head>
+
+
+<body>
+  <div class="login_wrap login_wrap02">
+    <div class="inner_grid">
+     <div class="leftbx">
+        <p id="solutext" th:if="${#locale.language == 'ko'}"><span>음성 인식 · 요약  · 학습</span>을 한 번에!<br> 빠르고 정확한 <span>스마트 회의록 시스템</span></p>
+        <p id="solutext" th:if="${#locale.language == 'en'}"><span>Voice recognition · summary · train</span> at once!<br>Fast and Accurate <span>Smart Minutes System</span></p>
+        <div class="solunote-logo">
+			<svg id="solunote-logo" xmlns="http://www.w3.org/2000/svg" width="380" height="83.09" viewBox="0 0 380 83.09">
+	            <g id="K-NOTE" transform="translate(0 0)">
+	              <path id="패스_3621" data-name="패스 3621" d="M10.855,7.21A2.969,2.969,0,0,1,12.4,4.83a4.76,4.76,0,0,1,2.94-.7,4.677,4.677,0,0,1,2.8.91,2.858,2.858,0,0,1,1.12,2.73q-.84,7.14-2.17,16.17t-3.01,18.69a103.606,103.606,0,0,1,9.38-10.57,120.093,120.093,0,0,1,10.78-9.45,114.084,114.084,0,0,1,11.34-7.77,76.293,76.293,0,0,1,11.06-5.53,4.087,4.087,0,0,1,2.87-.07,3.466,3.466,0,0,1,1.75,1.47,3.171,3.171,0,0,1,.28,2.24,2.488,2.488,0,0,1-1.54,1.68,91.935,91.935,0,0,0-17.29,9.94,121.508,121.508,0,0,0-16.87,14.56q3.078,4.2,7,8.68t8.26,8.96q4.2,4.62,8.47,8.82t8.05,7.56a1.856,1.856,0,0,1,.56,1.89,3.357,3.357,0,0,1-1.12,1.75,4.164,4.164,0,0,1-1.89,1.12,1.688,1.688,0,0,1-1.75-.42q-8.541-7-17.43-15.82A188.353,188.353,0,0,1,20.8,44.87q-2.94,3.642-5.53,7.35a53.878,53.878,0,0,0-4.41,7.49Q9.6,65.17,8.4,70.21t-2.45,9.66a1.96,1.96,0,0,1-1.47,1.47,3.9,3.9,0,0,1-2.17-.21,3.556,3.556,0,0,1-1.75-1.19,2.377,2.377,0,0,1-.49-2.17q1.68-7.7,3.36-17.08t3.22-18.9q1.4-9.519,2.45-18.48t1.75-16.1" transform="translate(0 0)" fill="#0080bc"/>
+	              <path id="패스_3622" data-name="패스 3622" d="M69.794,42.77q4.9-.557,10.92-1.119t12.46-.841q6.3-.419,12.6-.63t11.9-.21a1.681,1.681,0,0,1,1.4.771,2.909,2.909,0,0,1,.56,1.75,2.756,2.756,0,0,1-.28,1.75,1.469,1.469,0,0,1-1.4.769q-5.6.284-11.69.771t-12.11,1.05q-6.162.7-11.83,1.4t-10.29,1.26a4.233,4.233,0,0,1-3.15-.63,4.286,4.286,0,0,1-1.75-2.17,3.185,3.185,0,0,1,.14-2.45,3,3,0,0,1,2.52-1.471" transform="translate(0 0)" fill="#0080bc"/>
+	              <path id="패스_3623" data-name="패스 3623" d="M145.814,2.031a2.931,2.931,0,0,1,1.96-1.82,4.755,4.755,0,0,1,2.8,0,3.915,3.915,0,0,1,2.03,1.54,3.043,3.043,0,0,1,.21,2.8q-.42.84-.77,1.75c-.234.608-.444,1.19-.63,1.75q-.42.981-.77,1.89t-.63,1.89a106.945,106.945,0,0,0,3.5,15.75,160.323,160.323,0,0,0,5.46,15.33,123.622,123.622,0,0,0,6.51,13.93,98.817,98.817,0,0,0,7.21,11.41q2.52,3.5,4.9,2.94t2.8-4.48a100.277,100.277,0,0,0,.21-11.48q-.21-6.438-.91-13.3-.561-6.856-1.54-13.439t-1.96-11.9a1.894,1.894,0,0,1,.49-2.17,5.052,5.052,0,0,1,2.31-1.05,4.947,4.947,0,0,1,2.45.349,2.745,2.745,0,0,1,1.61,1.75q1.26,5.323,2.38,11.971t1.82,13.79q.7,7.14.91,14.279a108.574,108.574,0,0,1-.35,13.161,13.534,13.534,0,0,1-2.59,7.349,9.21,9.21,0,0,1-5.11,3.431,10.155,10.155,0,0,1-6.44-.771,15.619,15.619,0,0,1-6.16-5.25,106.454,106.454,0,0,1-12.67-22.33,135.368,135.368,0,0,1-8.61-27.229q-1.962,6.719-3.71,13.93t-3.43,14.35q-1.68,7.14-3.29,14.069t-3.15,13.09a2.117,2.117,0,0,1-1.33,1.54,3.062,3.062,0,0,1-2.03.141,3.14,3.14,0,0,1-1.89-.91,2.053,2.053,0,0,1-.49-2.031q1.539-8.958,3.64-19.249t4.48-20.371q2.379-10.217,5.11-19.67a173.942,173.942,0,0,1,5.67-16.729" transform="translate(0 0)" fill="#0080bc"/>
+	              <path id="패스_3624" data-name="패스 3624" d="M234.5,9.451a20.343,20.343,0,0,1,7.63,1.12,16.865,16.865,0,0,1,6.37,4.34,20.408,20.408,0,0,1,4.27,7.559,42.477,42.477,0,0,1,1.4,15.681,61.023,61.023,0,0,1-3.78,16.8,55.358,55.358,0,0,1-8.26,14.7,28.528,28.528,0,0,1-11.9,9.239,25.234,25.234,0,0,1-9.73,2.1,19.261,19.261,0,0,1-8.47-1.821,18.385,18.385,0,0,1-6.44-5.6,20.434,20.434,0,0,1-3.5-9.1,43.664,43.664,0,0,1-.21-14.21,77.487,77.487,0,0,1,3.71-15.189,91.436,91.436,0,0,1,6.65-14.63,87.306,87.306,0,0,1,8.61-12.671,3.81,3.81,0,0,1,2.45-1.4,4.365,4.365,0,0,1,2.45.42,3.915,3.915,0,0,1,1.4,1.75,1.876,1.876,0,0,1-.42,2.03.4.4,0,0,0-.14.279h-.14a29.412,29.412,0,0,1,8.05-1.4m10.85,15.819q-1.68-7.14-6.859-8.609a17.725,17.725,0,0,0-11.2.769,17.951,17.951,0,0,0-6.089,3.851,28.169,28.169,0,0,0-4.69,5.809,79.191,79.191,0,0,0-6.23,18.481,42.587,42.587,0,0,0-.35,16.939q1.26,6.861,6.3,9.731t11.341-.071a22.853,22.853,0,0,0,8.959-7.49,44.951,44.951,0,0,0,6.3-11.97,61.016,61.016,0,0,0,3.15-13.929,41.675,41.675,0,0,0-.63-13.511" transform="translate(0 0)" fill="#0080bc"/>
+	              <path id="패스_3625" data-name="패스 3625" d="M261.873,16.731q6.438-1.961,14.141-3.711t15.959-3.01q8.118-1.4,16.24-2.309t15.54-1.191a1.493,1.493,0,0,1,1.33.84,3.565,3.565,0,0,1,.49,1.82,3.428,3.428,0,0,1-.21,1.821,1.218,1.218,0,0,1-1.19.84q-4.761.42-9.941.979t-10.638,1.4a97.358,97.358,0,0,0-5.532,13.51q-2.591,7.772-4.83,16.59-2.1,8.822-3.709,18.131t-2.31,17.85a2.829,2.829,0,0,1-1.54,2.169,5.874,5.874,0,0,1-2.659.63,4.892,4.892,0,0,1-2.661-.7,2.042,2.042,0,0,1-.98-2.1,161.5,161.5,0,0,1,2.1-16.731q1.539-8.747,3.64-17.29,2.1-8.677,4.76-16.59a117.9,117.9,0,0,1,5.74-14.21q-8.262,1.68-16.03,3.571T265.514,22.89a3.848,3.848,0,0,1-5.181-1.96,3.628,3.628,0,0,1-.21-2.519,2.367,2.367,0,0,1,1.75-1.68" transform="translate(0 0)" fill="#0080bc"/>
+	              <path id="패스_3626" data-name="패스 3626" d="M377.232,12.111q-4.62.281-10.221.909t-11.2,1.471q-3.5,5.039-7.211,11.55t-6.93,13.37q6.722-1.541,13.51-2.731t12.67-1.75a1.994,1.994,0,0,1,1.61.771,2.69,2.69,0,0,1,.63,1.75,3.385,3.385,0,0,1-.279,1.96,1.673,1.673,0,0,1-1.261.979q-6.719,1.122-14.77,2.8T338.312,46.97q-2.1,4.9-3.57,9.521a54.105,54.105,0,0,0-2.031,8.4q-.981,5.461,1.331,7.7t7.069.84a92.9,92.9,0,0,0,17.221-6.859,88.688,88.688,0,0,0,15.82-10.08,2.324,2.324,0,0,1,2.029-.42,4.181,4.181,0,0,1,1.891,1.12,3.676,3.676,0,0,1,.84,1.89,1.843,1.843,0,0,1-.7,1.75,139.555,139.555,0,0,1-16.8,11.479,71.774,71.774,0,0,1-18.34,7.7q-10.223,2.663-14.7-1.33t-2.8-14.21a44.519,44.519,0,0,1,1.539-7.139q1.119-3.781,2.66-7.84a5.41,5.41,0,0,1-1.119.42c-.375.094-.7.187-.981.28a5.975,5.975,0,0,1-1.05.42c-.328.094-.629.188-.91.279a2.46,2.46,0,0,1-2.45-.139,4.018,4.018,0,0,1-1.33-1.821,4.82,4.82,0,0,1,0-2.309,2.143,2.143,0,0,1,1.4-1.611q2.1-.838,4.549-1.609t5.111-1.61q2.938-6.86,6.649-13.58a141.619,141.619,0,0,1,7.49-12.18q-3.78.839-7.28,1.609t-6.16,1.611a2.942,2.942,0,0,1-2.52-.281,3.61,3.61,0,0,1-1.54-1.819,3.2,3.2,0,0,1-.139-2.45,3.029,3.029,0,0,1,2.1-1.75q4.48-1.26,10.221-2.45t11.9-2.031q6.018-.839,12.111-1.33t11.129-.489a1.934,1.934,0,0,1,1.611.84,3.175,3.175,0,0,1,.629,1.96,2.744,2.744,0,0,1-.35,1.819,1.718,1.718,0,0,1-1.609.841" transform="translate(0 0)" fill="#0080bc"/>
+	              <rect id="영역" width="380" height="82" transform="translate(0 0)" fill="none"/>
+	            </g>
+           </svg>
+        </div>
+      </div>
+      <div class="rightbx vsx rightbx_02" id="tgbx">
+        <div class="loginwrap afterbx">
+          <div class="logobx">
+            <img th:if="${#locale.language == 'ko' and @environment.acceptsProfiles('korloy')}" th:src="@{/images/lg_logo.png}" alt="logo">
+            <img th:if="${#locale.language == 'ko' and !@environment.acceptsProfiles('korloy')}" th:src="@{/images/soluNote_login_logo_en.svg}" alt="logo">
+            <img th:if="${#locale.language == 'en'}" th:src="@{/images/soluNote_login_logo_en.svg}" alt="logo">
+          </div>
+          <form id="frmLogin" method="post" th:action="@{/user/loginProcess}" style="margin-left: 55px;">
+	          <div class="iptgrp">
+	            <div class="iptbx">
+	              <input id="username" name="username" type="text"  th:placeholder="${#messages.msg('login.id.placeholder')}">
+	              <button type="button" class="rstbtn" id="clearInput"></button>
+	            </div>
+	            <div class="iptbx">
+	              <input type="password" id="password" name="password" autoComplete="off" th:placeholder="${#messages.msg('login.pw.placeholder')}">
+	              <button type="button" class="visiblepwd" id="togglePassword"></button>
+	            </div>
+	            <div class="chkbx">
+	              <input type="checkbox" id="remember-box" name="remember-box">
+	              <label for="remember-box" th:text="${#messages.msg('login.remember')}"></label>
+	            </div>
+	          </div>
+	          <button id="login-submit-btn" type="submit" class="lgbtn" th:text="${#messages.msg('login.submit')}"></button>
+          </form>   
+<!--/*           <input type="hidden" id="prof" th:value="${@systemProperties['spring.profiles.active']}"></input> */-->
+        </div>
+      </div>
+    </div>
+</div>
+
+
+  <script>
+
+
+  const togglePassword = document.getElementById('togglePassword');
+  const passwordInput = document.getElementById('password');
+  const clearInput = document.getElementById('clearInput');
+  const userIdInput = document.getElementById('username');
+
+  // 버튼 클릭 시 비밀번호 가시성 토글
+  togglePassword.addEventListener('click', function () {
+
+    // 현재 비밀번호 입력 요소의 type 속성 확인
+    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+
+    // type 속성 변경
+    passwordInput.setAttribute('type', type);
+
+    // visible 클래스 토글
+    if (type === 'text') {
+      togglePassword.classList.add('visible');
+    } else {
+      togglePassword.classList.remove('visible');
+    }
+  });
+
+
+
+  // 일반 입력 필드 초기화 기능
+  clearInput.addEventListener('click', function () {
+    // 입력 필드 초기화
+  	userIdInput.value = '';
+
+    // 초기화 후 버튼 숨기기
+    clearInput.classList.remove('visible');
+  });
+
+  // 입력 필드에 입력이 있을 때 초기화 버튼 표시
+  userIdInput.addEventListener('input', function () {
+    if (userIdInput.value.length > 0) {
+      clearInput.classList.add('visible');
+    } else {
+      clearInput.classList.remove('visible');
+    }
+  });
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const lgStartButton = document.getElementById("lg-start");
+      const tgbx = document.getElementById("tgbx");
+
+
+
+      tgbx.classList.add("active");
+
+
+    });
+
+
+    // solutext를 처음에 숨기고 아래쪽에 위치
+    gsap.set("#solutext", { opacity: 0, y: 20 });
+
+    // 로고의 모든 경로를 초기 상태로 설정 (숨기기)
+    gsap.set("#solunote-logo path", { opacity: 0 });
+
+    // bx01을 처음에 숨기고 화면 왼쪽 밖에 위치시킴
+    gsap.set("#bx01", { opacity: 0, x: -50 });
+    gsap.set("#bx02", { opacity: 0, x: 80 });
+    gsap.set("#lg-start", { opacity: 0, y: 20 });
+
+    // solutext가 떠오르듯이 등장하는 애니메이션
+    gsap.to("#solutext", {
+      opacity: 1,
+      y: 0,
+      duration: 0.8,
+      delay: 0.4,
+      ease: "power2.out",
+      onComplete: function () {
+        let tl = gsap.timeline({
+
+          onComplete: function () {
+
+            gsap.to(".rightbx", {
+              opacity: 1,
+              x: 0,
+              duration: 0.64,
+              ease: "power2.out"
+            });
+
+
+          }
+
+
+        });
+
+        gsap.utils.toArray("#solunote-logo path").forEach(function (path, i) {
+          const length = path.getTotalLength();
+          path.style.strokeDasharray = length;
+          path.style.strokeDashoffset = length;
+          path.style.stroke = "#0080BC";
+          path.style.strokeWidth = 1;
+          path.style.fill = "none";
+
+          // 경로가 나타나도록 설정
+          tl.set(path, { opacity: 1 }, i * 0.16);
+
+          // 경로를 따라 외곽선 그리기
+          tl.to(path, {
+            strokeDashoffset: 0,
+            duration: 0.8,
+            ease: "power2.inOut",
+          }, i * 0.16);
+
+          // 외곽선이 그려진 후 채우기
+          tl.to(path, {
+            fill: "#0080BC",
+            duration: 0.8,
+            ease: "power2.inOut"
+          }, i * 0.24);
+
+          // 외곽선 제거
+          tl.to(path, {
+            strokeWidth: 0,
+            duration: 0.4,
+            ease: "power2.inOut"
+          }, i * 0.32);
+        });
+
+
+
+      }
+    });
+
+
+  </script>
+
+
+</body>
+</html>
