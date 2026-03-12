@@ -1,4 +1,4 @@
-package com.vol.solunote.rest;
+package com.vol.solunote.rest.service;
 
 import java.io.BufferedReader;
 import java.io.File;

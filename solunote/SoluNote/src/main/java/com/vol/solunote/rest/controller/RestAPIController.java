@@ -1,4 +1,4 @@
-package com.vol.solunote.rest;
+package com.vol.solunote.rest.controller;
 
 import java.io.BufferedReader;
 import java.util.HashMap;
@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.vol.solunote.comm.DefaultController;
 import com.vol.solunote.model.vo.rest.RestUserVo;
+import com.vol.solunote.rest.service.RestAPIService;
 
 import lombok.extern.slf4j.Slf4j;
 
