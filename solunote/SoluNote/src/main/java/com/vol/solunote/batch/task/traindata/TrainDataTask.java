@@ -12,8 +12,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.vol.solunote.batch.task.SoundLauncher;
-import com.vol.solunote.comm.model.Category;
-import com.vol.solunote.comm.service.SttService;
+import com.vol.solunote.comm.service.stt.SttService;
+import com.vol.solunote.model.type.Category;
 import com.vol.solunote.model.vo.meeting.MeetingVo;
 import com.vol.solunote.repository.sound.SoundRepository;
 

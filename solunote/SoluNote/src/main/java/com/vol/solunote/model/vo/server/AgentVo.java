@@ -1,6 +1,6 @@
 package com.vol.solunote.model.vo.server;
 
-import com.vol.solunote.comm.vo.DefaultVo;
+import com.vol.solunote.model.vo.comm.DefaultVo;
 
 import lombok.Getter;
 import lombok.Setter;

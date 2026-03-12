@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
 
+import com.vol.solunote.model.type.Category;
+import com.vol.solunote.model.vo.comm.DefaultVo;
+import com.vol.solunote.model.vo.comm.SearchVo;
+import com.vol.solunote.model.vo.train.TrainCompareVo;
+import com.vol.solunote.model.vo.train.TrainServerDataVo;
 import com.vol.solunote.model.vo.train.TrainVo;
 import com.vol.solunote.model.vo.transcription.TransVo;
 import com.vol.solunote.repository.meeting.MeetingRepository;
@@ -25,17 +30,13 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vol.solunote.batch.train.vo.TrainCompareVo;
-import com.vol.solunote.batch.train.vo.TrainServerDataVo;
 import com.vol.solunote.common.service.CommonDataService;
+import com.vol.solunote.mapper.comm.ReportMapper;
 import com.vol.solunote.comm.DefaultController;
-import com.vol.solunote.comm.mapper.ReportMapper;
-import com.vol.solunote.comm.model.Category;
-import com.vol.solunote.comm.service.CommonSteelServiceImpl;
-import com.vol.solunote.comm.service.DiskService;
+import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
+import com.vol.solunote.comm.service.disk.DiskService;
 import com.vol.solunote.comm.util.DateUtil;
-import com.vol.solunote.comm.vo.DefaultVo;
-import com.vol.solunote.comm.vo.SearchVo;
+
 import lombok.extern.slf4j.Slf4j;
 import java.net.URI;
 

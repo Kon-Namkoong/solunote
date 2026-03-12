@@ -1,10 +1,11 @@
 package com.vol.solunote.batch.service.train;
 import java.util.List;
 import java.util.Map;
+
+import com.vol.solunote.model.type.Category;
+import com.vol.solunote.model.vo.comm.SearchVo;
 import com.vol.solunote.model.vo.train.TrainVo;
 import com.vol.solunote.model.vo.transcription.TransVo;
-import com.vol.solunote.comm.model.Category;
-import com.vol.solunote.comm.vo.SearchVo;
 
 public interface TrainSchedulerService {
 

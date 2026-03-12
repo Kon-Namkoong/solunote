@@ -14,8 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vol.solunote.comm.OffsetPageable;
 import com.vol.solunote.comm.util.CommonUtil;
-import com.vol.solunote.comm.vo.DefaultVo;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
+import com.vol.solunote.model.vo.comm.DefaultVo;
 import com.vol.solunote.model.vo.sound.SoundVo;
 import com.vol.solunote.model.vo.transcription.TransVo;
 import com.vol.solunote.repository.sound.SoundRepository;

@@ -30,9 +30,9 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vol.solunote.comm.mapper.ReportMapper;
 import com.vol.solunote.comm.util.DateUtil;
 import com.vol.solunote.config.ResultRestConfig;
+import com.vol.solunote.mapper.comm.ReportMapper;
 import com.vol.solunote.repository.rest.RestRepository;
 import com.vol.solunote.model.vo.rest.STTResultVo;
 import lombok.extern.slf4j.Slf4j;

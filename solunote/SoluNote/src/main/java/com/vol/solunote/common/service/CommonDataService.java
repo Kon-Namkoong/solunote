@@ -2,7 +2,7 @@ package com.vol.solunote.common.service;
 
 import java.util.Map;
 
-import com.vol.solunote.comm.model.Category;
+import com.vol.solunote.model.type.Category;
 import com.vol.solunote.model.vo.sound.SoundVo;
 import com.vol.solunote.model.vo.transcription.TransVo;
 

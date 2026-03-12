@@ -26,18 +26,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.vol.solunote.Exception.TrainCallException;
 import com.vol.solunote.comm.DefaultController;
 import com.vol.solunote.comm.OffsetPageable;
-import com.vol.solunote.comm.model.Category;
-import com.vol.solunote.comm.model.TrainCallException;
-import com.vol.solunote.comm.service.CommonSteelServiceImpl;
-import com.vol.solunote.comm.vo.DefaultVo;
-import com.vol.solunote.comm.vo.SearchVo;
-import com.vol.solunote.comm.vo.DataVo;
 import com.vol.solunote.menu24.service.Menu24SteelServiceImpl;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
+import com.vol.solunote.model.type.Category;
+import com.vol.solunote.model.vo.comm.DataVo;
+import com.vol.solunote.model.vo.comm.DefaultVo;
+import com.vol.solunote.model.vo.comm.SearchVo;
 import com.vol.solunote.model.vo.transcription.TransVo;
-import com.vol.solunote.comm.service.SttService;
+import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
+import com.vol.solunote.comm.service.stt.SttService;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -7,7 +7,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import com.vol.solunote.comm.service.FFMpegService;
+
+import com.vol.solunote.comm.service.ffmpec.FFMpegService;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -12,7 +12,7 @@ import java.util.Map;
 
 import jakarta.servlet.http.HttpServletResponse;
 
-import com.vol.solunote.common.service.DefaultService;
+import com.vol.solunote.model.type.DefaultService;
 import com.vol.solunote.model.vo.menu.MenuListVo;
 import com.vol.solunote.model.vo.siteuser.UserRegisterVo;
 

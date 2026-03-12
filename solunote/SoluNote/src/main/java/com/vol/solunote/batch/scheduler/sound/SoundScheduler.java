@@ -10,10 +10,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.vol.solunote.comm.model.Category;
-import com.vol.solunote.comm.service.DiskService;
-import com.vol.solunote.comm.service.CommonSteelServiceImpl;
-import com.vol.solunote.comm.vo.DirPathVo;
+import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
+import com.vol.solunote.comm.service.disk.DiskService;
+import com.vol.solunote.model.type.Category;
+import com.vol.solunote.model.vo.comm.DirPathVo;
 import com.vol.solunote.repository.meeting.MeetingRepository;
 import com.vol.solunote.repository.sound.SoundRepository;
 import com.vol.solunote.repository.test.TestRepository;

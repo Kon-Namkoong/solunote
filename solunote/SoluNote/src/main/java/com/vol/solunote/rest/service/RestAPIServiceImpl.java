@@ -29,7 +29,7 @@ import com.vol.solunote.comm.util.CommonUtil;
 import com.vol.solunote.comm.util.DateUtil;
 import com.vol.solunote.comm.util.JWTUtil;
 import com.vol.solunote.comm.util.STTManagerHandler;
-import com.vol.solunote.common.service.STTManagerRsSerivce;
+import com.vol.solunote.model.status.STTManagerRsSerivce;
 import com.vol.solunote.model.vo.rest.DomainVo;
 import com.vol.solunote.model.vo.rest.RestUserVo;
 import com.vol.solunote.model.vo.rest.STTResultVo;

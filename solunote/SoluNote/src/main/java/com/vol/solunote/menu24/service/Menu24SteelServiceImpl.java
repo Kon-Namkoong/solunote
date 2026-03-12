@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vol.solunote.comm.OffsetPageable;
 import com.vol.solunote.comm.util.HtmlVisitor;
-import com.vol.solunote.comm.vo.SearchVo;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
+import com.vol.solunote.model.vo.comm.SearchVo;
 import com.vol.solunote.model.vo.transcription.TransVo;
 import com.vol.solunote.repository.sound.SoundRepository;
 import com.vol.solunote.repository.transcription.TranscriptionRepository;

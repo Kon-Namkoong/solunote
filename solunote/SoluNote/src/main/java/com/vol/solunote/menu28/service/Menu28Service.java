@@ -10,7 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.vol.solunote.comm.OffsetPageable;
-import com.vol.solunote.comm.vo.SearchVo;
+import com.vol.solunote.model.vo.comm.SearchVo;
 import com.vol.solunote.model.vo.transcription.TransVo;
 
 public interface Menu28Service  {

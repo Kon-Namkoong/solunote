@@ -13,7 +13,7 @@ import com.vol.solunote.batch.task.testdata.TestDataTask;
 import com.vol.solunote.batch.task.traindata.TrainDataConsumer;
 import com.vol.solunote.batch.task.traindata.TrainDataProducer;
 import com.vol.solunote.batch.task.traindata.TrainDataTask;
-import com.vol.solunote.comm.service.SttService;
+import com.vol.solunote.comm.service.stt.SttService;
 
 import lombok.extern.slf4j.Slf4j;
 

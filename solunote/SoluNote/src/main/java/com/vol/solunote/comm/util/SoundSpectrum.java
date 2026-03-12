@@ -25,9 +25,8 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-
-import com.vol.solunote.comm.model.SoundException;
-import com.vol.solunote.comm.vo.SoundFile;
+import com.vol.solunote.Exception.SoundException;
+import com.vol.solunote.model.vo.comm.SoundFile;
 
 import lombok.extern.slf4j.Slf4j;
 

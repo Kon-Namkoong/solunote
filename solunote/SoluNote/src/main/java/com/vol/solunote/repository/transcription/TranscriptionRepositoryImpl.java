@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vol.solunote.comm.DefaultController;
 import com.vol.solunote.comm.OffsetPageable;
-import com.vol.solunote.comm.vo.SearchVo;
 import com.vol.solunote.mapper.transcription.TranscriptionMapper;
+import com.vol.solunote.model.vo.comm.SearchVo;
 import com.vol.solunote.model.vo.transcription.TransVo;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
 import org.springframework.stereotype.Repository;

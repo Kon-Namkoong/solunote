@@ -17,10 +17,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.vol.solunote.comm.service.CommonSteelServiceImpl;
+import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
 import com.vol.solunote.comm.util.DateUtil;
-import com.vol.solunote.comm.vo.DefaultVo;
-import com.vol.solunote.comm.vo.DomainVo;
+import com.vol.solunote.model.vo.comm.DefaultVo;
+import com.vol.solunote.model.vo.comm.DomainVo;
 
 import lombok.extern.slf4j.Slf4j;
 

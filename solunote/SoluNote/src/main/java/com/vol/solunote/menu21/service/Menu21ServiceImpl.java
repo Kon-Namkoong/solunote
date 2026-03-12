@@ -46,13 +46,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.vol.solunote.batch.task.MeetingLauncher;
 import com.vol.solunote.comm.OffsetPageable;
 import com.vol.solunote.comm.Util;
-import com.vol.solunote.comm.model.Category;
-import com.vol.solunote.comm.service.CommonSteelServiceImpl;
-
+import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
 import com.vol.solunote.comm.util.HwpFile;
 
 
 import com.vol.solunote.model.vo.meeting.MeetingVo;
+import com.vol.solunote.model.type.Category;
 import com.vol.solunote.model.vo.meeting.MeetingResultVo;
 import com.vol.solunote.model.vo.meeting.MeetingSpeakerVo;
 

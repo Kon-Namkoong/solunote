@@ -11,7 +11,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.vol.solunote.comm.vo.SearchVo;
+import com.vol.solunote.model.vo.comm.SearchVo;
 
 public class DateUtil {
 	/**

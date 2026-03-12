@@ -9,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vol.solunote.comm.OffsetPageable;
-import com.vol.solunote.comm.vo.SearchVo;
 import com.vol.solunote.model.entity.sound.Sound;
+import com.vol.solunote.model.vo.comm.SearchVo;
 import com.vol.solunote.model.vo.meeting.MeetingVo;
 import com.vol.solunote.model.vo.sound.SoundVo;
 

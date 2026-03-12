@@ -1,9 +1,9 @@
 package com.vol.solunote.model.vo.transcription;
 
+import com.vol.solunote.model.vo.comm.DataVo;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import com.vol.solunote.comm.vo.DataVo;
 
 @Getter
 @Setter

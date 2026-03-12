@@ -14,7 +14,7 @@ import java.util.Map;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.vol.solunote.common.service.STTManagerRsSerivce;
+import com.vol.solunote.model.status.STTManagerRsSerivce;
 
 import lombok.extern.slf4j.Slf4j;
 

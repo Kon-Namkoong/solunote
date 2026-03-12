@@ -6,13 +6,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.vol.solunote.batch.train.vo.TrainCompareVo;
-import com.vol.solunote.batch.train.vo.TrainServerDataVo;
 import com.vol.solunote.comm.OffsetPageable;
-import com.vol.solunote.comm.vo.SearchVo;
 import com.vol.solunote.mapper.train.TrainMapper;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
+import com.vol.solunote.model.vo.comm.SearchVo;
+import com.vol.solunote.model.vo.train.TrainCompareVo;
 import com.vol.solunote.model.vo.train.TrainResultVo;
+import com.vol.solunote.model.vo.train.TrainServerDataVo;
 import com.vol.solunote.model.vo.train.TrainVo;
 import org.springframework.stereotype.Repository;
 

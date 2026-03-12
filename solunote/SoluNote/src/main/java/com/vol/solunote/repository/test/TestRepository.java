@@ -6,8 +6,8 @@ import java.util.Map;
 import org.springframework.data.repository.query.Param;
 
 import com.vol.solunote.comm.OffsetPageable;
-import com.vol.solunote.comm.vo.DefaultVo;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
+import com.vol.solunote.model.vo.comm.DefaultVo;
 import com.vol.solunote.model.vo.meeting.MeetingVo;
 import com.vol.solunote.model.vo.sound.SoundBean;
 import com.vol.solunote.model.vo.sound.SoundVo;

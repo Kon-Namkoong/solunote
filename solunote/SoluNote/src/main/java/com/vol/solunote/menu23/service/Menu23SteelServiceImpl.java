@@ -13,10 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vol.solunote.comm.DefaultController;
 import com.vol.solunote.comm.Util;
-import com.vol.solunote.comm.model.Category;
-import com.vol.solunote.comm.service.CommonSteelServiceImpl;
-import com.vol.solunote.comm.service.DiskService;
+import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
+import com.vol.solunote.comm.service.disk.DiskService;
 import com.vol.solunote.model.entity.transcription.Transcription;
+import com.vol.solunote.model.type.Category;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
 import com.vol.solunote.model.vo.sound.SoundVo;
 import com.vol.solunote.repository.sound.SoundRepository;

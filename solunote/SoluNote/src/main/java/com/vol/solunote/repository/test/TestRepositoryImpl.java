@@ -6,9 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vol.solunote.comm.OffsetPageable;
-import com.vol.solunote.comm.vo.DefaultVo;
 import com.vol.solunote.mapper.test.TestMapper;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
+import com.vol.solunote.model.vo.comm.DefaultVo;
 import com.vol.solunote.model.vo.meeting.MeetingVo;
 import com.vol.solunote.model.vo.sound.SoundBean;
 import com.vol.solunote.model.vo.sound.SoundVo;

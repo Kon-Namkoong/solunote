@@ -13,10 +13,10 @@ import org.springframework.core.env.Environment;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.vol.solunote.comm.service.CommonSteelServiceImpl;
+import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
 import com.vol.solunote.comm.util.DateUtil;
-import com.vol.solunote.comm.vo.ErrorShelf;
-import com.vol.solunote.comm.vo.SearchVo;
+import com.vol.solunote.model.vo.comm.ErrorShelf;
+import com.vol.solunote.model.vo.comm.SearchVo;
 import com.vol.solunote.model.vo.train.TrainVo;
 import com.vol.solunote.repository.train.TrainRepository;
 import com.vol.solunote.batch.service.train.TrainSchedulerService;
