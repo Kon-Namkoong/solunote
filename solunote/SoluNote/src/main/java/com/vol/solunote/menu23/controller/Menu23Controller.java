@@ -39,7 +39,7 @@ import com.vol.solunote.comm.OffsetPageable;
 import com.vol.solunote.comm.util.CommonUtil;
 import com.vol.solunote.common.service.CommonDataService;
 import com.vol.solunote.menu23.service.Menu23SteelServiceImpl;
-import com.vol.solunote.model.dto.transcription.TranscriptionExt;
+import com.vol.solunote.model.dto.transcription.TranscriptionDto;
 import com.vol.solunote.model.type.Category;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
 import com.vol.solunote.model.vo.comm.DefaultVo;
@@ -653,8 +653,8 @@ public class Menu23Controller extends DefaultController {
     	Map<String, Object> param = generateRequestParam("seq", hiddenSeq);
     	List<SoundVo> pages = menu23Service.getListData(param);
     	
-    	List<TranscriptionExt> list = new ArrayList<>();
-    	TranscriptionExt vo = new TranscriptionExt();
+    	List<TranscriptionDto> list = new ArrayList<>();
+    	TranscriptionDto vo = new TranscriptionDto();
     	
     	int channelId = "L".equals(channelChar) ? 0 : 1;
     	
@@ -676,7 +676,7 @@ public class Menu23Controller extends DefaultController {
     		vo.setChannelId(channelId);
     		list.add(vo);
     		
-    		vo = new TranscriptionExt();
+    		vo = new TranscriptionDto();
     		vo.setSeq(seq[1]);
     		vo.setStart(start[1]);
     		vo.setEnd(end[1]);

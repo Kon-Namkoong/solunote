@@ -30,7 +30,7 @@ import com.vol.solunote.Exception.TrainCallException;
 import com.vol.solunote.comm.DefaultController;
 import com.vol.solunote.comm.OffsetPageable;
 import com.vol.solunote.menu25.service.Menu25SteelServiceImpl;
-import com.vol.solunote.model.dto.transcription.TranscriptionExt;
+import com.vol.solunote.model.dto.transcription.TranscriptionDto;
 import com.vol.solunote.model.type.Category;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
 import com.vol.solunote.model.vo.comm.DefaultVo;
@@ -381,8 +381,8 @@ public class Menu25Controller extends DefaultController {
         } 
 //		Map<String, Object> meetMap = menu25Service.getMeetBySEQ(hiddenSeq);
 
-		List<TranscriptionExt> list = new ArrayList<>();
-		TranscriptionExt vo = new TranscriptionExt();
+		List<TranscriptionDto> list = new ArrayList<>();
+		TranscriptionDto vo = new TranscriptionDto();
 		
     	int channelId = "L".equals(channelChar) ? 0 : 1;
 		int size = seq.length;
@@ -403,7 +403,7 @@ public class Menu25Controller extends DefaultController {
     		vo.setChannelId(channelId);
 			list.add(vo);
 
-			vo = new TranscriptionExt();
+			vo = new TranscriptionDto();
 			vo.setSeq( seq[1]);
 			vo.setStart(start[1]);
 			vo.setEnd(end[1]);

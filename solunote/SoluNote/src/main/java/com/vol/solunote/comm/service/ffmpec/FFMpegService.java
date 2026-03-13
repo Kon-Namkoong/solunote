@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
-import com.vol.solunote.model.dto.transcription.TranscriptionExt;
+import com.vol.solunote.model.dto.transcription.TranscriptionDto;
 import com.vol.solunote.model.type.Category;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
 import com.vol.solunote.model.vo.meeting.MeetingVo;
@@ -44,7 +44,7 @@ public interface FFMpegService {
 	
 	void writeWave(OutputStream outputStream, Category category, String fileNm, float start, float end, float prevEnd, float nextStart) throws Exception;
 
-	List<Map<String, Object>> replaceWaveSpectrum(Category catetory, SoundVo soundVo, List<TranscriptionExt> list) throws Exception;
+	List<Map<String, Object>> replaceWaveSpectrum(Category catetory, SoundVo soundVo, List<TranscriptionDto> list) throws Exception;
 
 	<T extends TranscriptionVo> List<Map<String, Object>> appendWaveSpectrum(Category category, SoundVo soundVo, List<T> list) throws Exception;
 }

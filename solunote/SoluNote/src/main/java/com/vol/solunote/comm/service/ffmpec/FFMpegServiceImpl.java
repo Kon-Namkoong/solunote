@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 import com.vol.solunote.Exception.FFMpegCallException;
 import com.vol.solunote.comm.service.disk.DiskService;
 import com.vol.solunote.comm.util.SoundSpectrum;
-import com.vol.solunote.model.dto.transcription.TranscriptionExt;
+import com.vol.solunote.model.dto.transcription.TranscriptionDto;
 import com.vol.solunote.model.type.Category;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
 import com.vol.solunote.model.vo.comm.SoundFile;
@@ -689,7 +689,7 @@ public class FFMpegServiceImpl implements FFMpegService {
 	}
 	
 	@Override
-	public List<Map<String, Object>> replaceWaveSpectrum(Category category, SoundVo soundVo, List<TranscriptionExt> list)	throws Exception {
+	public List<Map<String, Object>> replaceWaveSpectrum(Category category, SoundVo soundVo, List<TranscriptionDto> list)	throws Exception {
 		
 		long start = System.currentTimeMillis();
 		
@@ -707,7 +707,7 @@ public class FFMpegServiceImpl implements FFMpegService {
 		
 		List<Map<String, Object>> result = new ArrayList<>();
 		
-		for( TranscriptionExt vo : list ) {
+		for( TranscriptionDto vo : list ) {
 			
 			byte[] bytes = spectrum.writeWaveSvg( vo.getPrevEnd(), vo.getStart(), vo.getEnd(), vo.getNextStart());
 			Map<String, Object> map = new HashMap<>();
