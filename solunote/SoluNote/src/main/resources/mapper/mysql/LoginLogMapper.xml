@@ -7,7 +7,7 @@
     
 	<select id="countByCreatedAtBetweenAndGroupDate">
 		select	count(distinct user_seq, DATE_FORMAT(created_at, '%Y%m%d')) 
-		from	login_log
+		from	tb_cs_login_log
 		where	DATE_FORMAT(created_at, '%Y-%m-%d') 
 				between #{startYYMMdd} and #{endYYMMdd}
 	</select>
@@ -15,14 +15,14 @@
 	<select	id="countUserGroupDate"	resultType="loginLogProjectionVo">
 		select	DATE_FORMAT(created_at, '%Y%m%d') as date,
 				count(distinct user_seq) as count
-		from	login_log	
+		from	tb_cs_login_log	
 		where	DATE_FORMAT(created_at, '%Y-%m-%d') 
 				between #{startYYMMdd} and #{endYYMMdd} 
 				group by DATE_FORMAT(created_at, '%Y%m%d')
 	</select>
 
 	<insert	id="createLoginErrorLog">
-		insert	login_log
+		insert	tb_cs_login_log
 		(
 			ip,
 			tc_id,
@@ -41,7 +41,7 @@
 	</insert>
 	
 	<insert	id="createLoginLog">
-		insert	login_log
+		insert	tb_cs_login_log
 		(
 			ip,
 			user_seq,

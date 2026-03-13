@@ -41,7 +41,5 @@ public class LoginLog extends BaseTimeEntity {
     	this.status = "F";
     	this.errorMessage = errorMessage;
     }
-    
-
 }
 
