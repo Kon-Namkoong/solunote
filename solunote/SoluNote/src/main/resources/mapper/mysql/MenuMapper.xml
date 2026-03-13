@@ -6,7 +6,7 @@
 <mapper namespace="com.vol.solunote.mapper.menu.MenuMapper">
 
 	<update id="updateMenu" parameterType = "Map">
-        INSERT INTO TB_CS_MENU_USER (USER_SEQ, MENU_SEQ, MENU_RIGHTS, DOWN_RIGHTS, BASE_MENU_SEQ) 
+        INSERT INTO tb_cs_menu_user (user_seq, menu_seq, menu_rights, down_rights, base_menu_seq) 
         VALUES 
          <foreach collection="menuList" item="item" separator=" , " >
             (#{userInfo.seq}, #{item.key}, #{item.editYn}, #{item.downYn}, 0)
@@ -15,7 +15,7 @@
     
     
     <update id="updateAuthBase" parameterType = "Map">
-        INSERT INTO TB_CS_MENU_BASE (AUTH_SEQ, MENU_SEQ, MENU_RIGHTS, DOWN_RIGHTS) 
+        INSERT INTO tb_cs_menu_base (auth_seq, menu_seq, menu_rights, down_rights) 
         VALUES 
          <foreach collection="menuList" item="item" separator=" , " >
             (#{menuInfo.seq}, #{item.key}, #{item.editYn}, #{item.downYn})
@@ -23,46 +23,46 @@
     </update>
     
     <delete id="deleteAuthBase" parameterType = "String">
-        DELETE FROM TB_CS_MENU_BASE WHERE AUTH_SEQ = #{seq}
+        DELETE FROM tb_cs_menu_base WHERE auth_seq = #{seq}
     </delete>
     
     <select id="findTopMenu"  resultType = "java.lang.String">
-        SELECT MENU_NAME FROM TB_CS_MENU_MAIN WHERE MENU_PARENT_SEQ = 0
+        SELECT menu_name FROM tb_cs_menu_main WHERE menu_parent_seq = 0
     </select>
     
 
     
     <delete id="deleteMenu" parameterType="int">
-        DELETE FROM TB_CS_MENU_USER WHERE USER_SEQ = #{seq}
+        DELETE FROM tb_cs_menu_user WHERE user_seq = #{seq}
     </delete>
     
     <select id="findBaseAuthList"  resultType = "Map">
         SELECT
-            AUTH_SEQ as authSeq, AUTH_NAME as authName, AUTH_TYPE as authType 
-        FROM TB_CS_MENU_AUTH
-        WHERE USE_YN =1
+            auth_seq as authSeq, auth_name as authName, auth_type as authType 
+        FROM tb_cs_menu_auth
+        WHERE use_yn =1
     </select>
     
 	<select id="readMenuAll" resultType="Map">
 		SELECT
 		    case 
-				when MENU_LEVEL = 100
+				when menu_level = 100
 					then "ROLE_ADMIN"
-				when MENU_LEVEL = 0
+				when menu_level = 0
 					then "ROLE_USER"
 				end AS authorityName 
-		    , URL AS url
-		FROM TB_CS_MENU
+		    , url AS url
+		FROM tb_cs_menu
 	</select>          
 
     <select id="getAuthList"  resultType = "menuListVo">
-	   	SELECT SEQ AS seq
-			,MENU_CODE AS menuCode
-			,MENU_MAIN AS menuMain
-			,MENU_SUB AS menuSub
-			,MENU_LEVEL AS menuLevel	
-			,MENU_COUNT AS menuCount		
-    	FROM TB_CS_MENU    	
+	   	SELECT seq AS seq
+			,menu_code AS menuCode
+			,menu_main AS menuMain
+			,menu_sub AS menuSub
+			,menu_level AS menuLevel	
+			,menu_count AS menuCount		
+    	FROM tb_cs_menu    	
     </select>
     
     

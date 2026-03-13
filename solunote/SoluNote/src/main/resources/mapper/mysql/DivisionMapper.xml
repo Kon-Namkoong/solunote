@@ -6,14 +6,14 @@
 <mapper namespace="com.vol.solunote.mapper.division.DivisionMapper">
                        
     <select id="checkDivision" resultType="int">
-        SELECT COUNT(*) as CNT
-        FROM TB_CS_INFO_DIVISION 
+        SELECT COUNT(*) as cnt
+        FROM tb_cs_info_division 
         WHERE division = #{division}
     </select>  
     
     
     <insert id="divisionRes">
-        INSERT TB_CS_INFO_DIVISION (
+        INSERT tb_cs_info_division (
         division, army_name) 
         VALUES (
         #{division},#{armyName});
@@ -21,24 +21,24 @@
 
     <select id="divisionInfo" resultType="Map">
 		select 
-				SEQ as seq
+				seq as seq
                 ,division  as division
                 ,army_name as    armyName	 		
-      	from TB_CS_INFO_DIVISION
+      	from tb_cs_info_division
 		where division =    #{division}   		
     </select>       
     
     <update id="changeDivisionInfo"  > 
-		UPDATE TB_CS_INFO_DIVISION
+		UPDATE tb_cs_info_division
       	SET   
 				army_name = #{armyNameChange}
 				,division = #{division}
 				,updated_at = CURRENT_TIMESTAMP
-       WHERE SEQ = #{seq}
+       WHERE seq = #{seq}
     </update>       
     
     <delete id="deleteDivisionInfo" >
-		DELETE FROM TB_CS_INFO_DIVISION 
+		DELETE FROM tb_cs_info_division 
 		WHERE division in 
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
 	        #{item}
@@ -47,19 +47,19 @@
      
     <select id="selectInfoDivision" resultType="Map">
       SELECT 
-      	SEQ as seq
+      	seq as seq
 		,division
 		,army_name AS armyName
 		,DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') AS createdAt
 		,DATE_FORMAT(updated_at, '%Y-%m-%d %H:%i') AS updatedAt
 		,(
 			SELECT count(tid.division) 
-			FROM TB_CS_INFO_DIVISION tid
+			FROM tb_cs_info_division tid
 			<if test='division != null and division != "" '>
 			WHERE tid.division =  #{division}
 			</if>
 		) AS hiddenCount		
-		FROM TB_CS_INFO_DIVISION
+		FROM tb_cs_info_division
 		<if test='division != null and division != "" '>
 			WHERE division =  #{division}
 		</if>

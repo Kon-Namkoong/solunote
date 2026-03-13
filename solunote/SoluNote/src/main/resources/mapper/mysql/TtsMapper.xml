@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.vol.solunote.mapper.tts.TtsMapper">
-    <insert id ="saveAudio" parameterType="Map" useGeneratedKeys="true" keyProperty="SEQ">
-    	INSERT INTO TB_CS_TTS_KEYWORD (
+    <insert id ="saveAudio" parameterType="Map" useGeneratedKeys="true" keyProperty="seq">
+    	INSERT INTO tb_cs_tts_keyword (
     	keyword_text,
     	keyword_sound,
     	keyword_detail,
@@ -15,7 +15,7 @@
     	file_org_nm,
     	file_new_nm,
     	file_size_bytes,
-    	TC_USER_SEQ 	
+    	tc_user_seq 	
     	) VALUES (
 		#{keyword},
 		#{speech},
@@ -29,36 +29,36 @@
 		#{tcUserSeq}		
     	)
     </insert>    
-    <insert id ="crateTitle" parameterType="Map" useGeneratedKeys="true" keyProperty="SEQ">
-    	INSERT INTO TB_CS_TTS (
+    <insert id ="crateTitle" parameterType="Map" useGeneratedKeys="true" keyProperty="seq">
+    	INSERT INTO tb_cs_tts (
 		subject,
-    	TC_USER_SEQ 	
+    	tc_user_seq 	
     	) VALUES (
 		#{title},
 		#{tcUserSeq}		
     	)
     </insert>     
     <update id="updateAudio" parameterType="Map"   > 
-        UPDATE TB_CS_TTS_KEYWORD
+        UPDATE tb_cs_tts_keyword
         SET tts_seq = #{titleSeq}
-		WHERE SEQ = #{seq}
+		WHERE seq = #{seq}
     </update>  
     <select id="getAudioInfo" parameterType="Map" resultType="Map">
 		select 
-        	SEQ as seq
+        	seq as seq
         	, tts_seq as  ttsSeq
         	, keyword_text	as keywordText
         	, keyword_sound	as keywordSound
         	, tts_text		as ttsText
         	, time_duration_ms	as timeDurationMs
-        	, TC_USER_SEQ		as tcUserSeq
+        	, tc_user_seq		as tcUserSeq
         	, file_new_nm		as newnm
         	, status		
-        from TB_CS_TTS_KEYWORD
-        where SEQ = #{seq}
+        from tb_cs_tts_keyword
+        where seq = #{seq}
     </select> 
     <update id="updateTts" parameterType="Map">
-        update TB_CS_TTS_KEYWORD 
+        update tb_cs_tts_keyword 
 		<set>
         	<if test='sttStartedAt != null'>
         		, stt_started_at = #{sttStartedAt}
@@ -83,7 +83,7 @@
     </update>   
 	<select id="getList" resultType="Map">
 	    SELECT 
-	        ss.SEQ AS seq,
+	        ss.seq AS seq,
 	        ss.subject,
 	        DATE_FORMAT(ss.created_at, '%Y-%m-%d %H:%i') AS createdAt,
 	        DATE_FORMAT(ss.updated_at, '%Y-%m-%d %H:%i') AS updatedAt,
@@ -91,8 +91,8 @@
 	        DATE_FORMAT(ss.trashed_at, '%Y-%m-%d %H:%i') AS trashedAt,
 	        ss.click_least_once AS clickLeastOnce,
 	        (
-	            SELECT COUNT(s.SEQ)
-	            FROM TB_CS_TTS s 
+	            SELECT COUNT(s.seq)
+	            FROM tb_cs_tts s 
 	            WHERE s.seq > 0
 	            AND s.created_at BETWEEN STR_TO_DATE(#{searchStartDate}, '%Y-%m-%d') AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY)
 	            <if test='activeMenu == 1'>
@@ -110,24 +110,24 @@
 	        ) AS hiddenCount,
 	        (
 	            SELECT SUM(ctk.time_duration_ms)
-	            FROM TB_CS_TTS_KEYWORD ctk
+	            FROM tb_cs_tts_keyword ctk
 	            WHERE ctk.tts_seq = ss.seq  
 	        ) AS timeDurationFormatted,
 	        (
 	            SELECT AVG(ctk.reliability)
-	            FROM TB_CS_TTS_KEYWORD ctk
+	            FROM tb_cs_tts_keyword ctk
 	            WHERE ctk.tts_seq = ss.seq  
 	        ) AS reliability,
 	        (
 	            SELECT COUNT(*)
-	            FROM TB_CS_TRANSCRIPTION ctr
-	            JOIN TB_CS_TTS_KEYWORD ctk ON ctr.tts_seq = ctk.SEQ
+	            FROM tb_cs_transcription ctr
+	            JOIN tb_cs_tts_keyword ctk ON ctr.tts_seq = ctk.seq
 	            WHERE ctr.train_text IS NOT NULL 
 	            AND ctr.train_text != ''
 	            AND ctk.tts_seq = ss.seq 
 	        ) AS trainTextCount    	    
 	    FROM 
-	        TB_CS_TTS ss
+	        tb_cs_tts ss
 	    WHERE 
 	        ss.seq > 0
 	    AND ss.created_at BETWEEN STR_TO_DATE(#{searchStartDate}, '%Y-%m-%d') AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY)
@@ -150,21 +150,21 @@
 	    </if>		        
 	</select>  
     <update id="clickLeastOnce" >
-    	update TB_CS_TTS
+    	update tb_cs_tts
     	set click_least_once = 1
     	where seq = #{seq}
     </update>
     <select id="searchList" resultType="Map">
 	    SELECT 
-			SEQ AS seq
+			seq AS seq
 			,keyword_text AS keywordText
 			,tts_text AS ttsText
 			,file_new_nm AS newnm
-		FROM TB_CS_TTS_KEYWORD
+		FROM tb_cs_tts_keyword
 		WHERE tts_seq = #{seq}
     </select>
 	<update id="updateTtsList" >
-	    UPDATE TB_CS_TTS
+	    UPDATE tb_cs_tts
 	    <set>
 	        <if test="type == 'trash'">
 	            trashed_at = CURRENT_TIMESTAMP
@@ -179,7 +179,7 @@
 	    WHERE seq = #{seq}
 	</update>   
 	<update id="updateKeywordDate" >
-		UPDATE TB_CS_TTS_KEYWORD
+		UPDATE tb_cs_tts_keyword
 	    <set>
 	        <if test="type == 'trash'">
 	            trashed_at = CURRENT_TIMESTAMP
@@ -191,7 +191,7 @@
 	            deleted_at = CURRENT_TIMESTAMP
 	        </if>
 	    </set>
-		WHERE SEQ in
+		WHERE seq in
 		 <foreach collection="keywordSeq" item="item" index="index" open="(" separator="," close=")">
 	        #{item}
 	    </foreach>

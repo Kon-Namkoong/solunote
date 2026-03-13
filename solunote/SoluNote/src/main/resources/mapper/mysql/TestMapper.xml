@@ -6,14 +6,14 @@
  <mapper namespace="com.vol.solunote.mapper.test.TestMapper">
     
     <insert id="createTest" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id">
-        insert TB_CS_TEST (
+        insert tb_cs_test (
 			division
         	, file_org_nm
         	, file_new_nm
         	, file_size_bytes
         	, subject
         	, time_duration_ms
-        	, TC_USER_SEQ
+        	, tc_user_seq
         	, click_least_once
         ) value (
         	#{division}
@@ -28,7 +28,7 @@
     </insert>
     
     <update id="updateTest" parameterType="Map">
-        update TB_CS_TEST 
+        update tb_cs_test 
 			<set>
 	        	<if test='sttStartedAt != null'>
 	        		, stt_started_at = #{sttStartedAt}
@@ -49,11 +49,11 @@
 	        		, file_stereo_prefix = #{fileStereoPrefix}
 	        	</if>
 			</set>
-        where SEQ = #{seq}
+        where seq = #{seq}
     </update>
  
     <update id="updateTestWithMeet" parameterType="meetingVo">
-        update TB_CS_TEST set
+        update tb_cs_test set
         	  time_duration_ms = #{timeDurationMs}
         	, status = #{status}
         	<if test='sttStartedAt != null'>
@@ -79,7 +79,7 @@
         
     <select id="getTestByName" parameterType="Map" resultType="Map">
         select 
-        	SEQ
+        	
         	, subject
         	, DATE_FORMAT(created_at, '%Y.%m.%d %H:%i') as created_at
         	, DATE_FORMAT(updated_at, '%Y.%m.%d %H:%i') as updated_at
@@ -88,19 +88,19 @@
         	, time_duration_ms
         	, file_org_nm
         	, file_new_nm
-        from TB_CS_TEST
+        from tb_cs_test
         WHERE file_org_nm = #{orgnm}
     </select>
     
     <select id="getTestFromSeq" parameterType="meetingVo" resultType="meetingVo">
         select 
-        	  SEQ				as seq
+        	  				as seq
         	, time_duration_ms	as timeDurationMs
         	, file_org_nm		as fileOrgNm
         	, file_new_nm		as fileNewNm
         	, file_size_bytes	as fileSizeBytes
         	, status			as status
-        from TB_CS_TEST 
+        from tb_cs_test 
         where 1 = 1
        	<if test='status != null'>
        		and status = #{status}
@@ -113,7 +113,7 @@
            
     <!--  vo 를 사용하기 때문에 test_seq 에 해당하는 vo 는 test_seq:soundSeq 를 사용함 -->
     <insert id="createTestTran">
-        insert TB_CS_TEST_TRANS (
+        insert tb_cs_test_trans (
         	start
         	, end
         	, stt_text
@@ -132,7 +132,7 @@
     
     
     <insert id="createTestTrans">
-        insert TB_CS_TEST_TRANS (
+        insert tb_cs_test_trans (
         	start
         	, end
         	, stt_text
@@ -149,7 +149,7 @@
 
    <select id="getList" parameterType="Map" resultType="soundBean">
       select 
-	       SEQ as seq
+	        as seq
 	        , subject
 	        , created_at as createdAt
 	        , updated_at as updatedAt
@@ -161,11 +161,11 @@
 	        , file_conv_nm as fileConvNm
 	        , remark
 	        , file_size_bytes as fileSizeBytes
-	        , TC_USER_SEQ as tcUserSeq
-        from TB_CS_TEST
-        WHERE SEQ > 0
+	        , tc_user_seq as tcUserSeq
+        from tb_cs_test
+        WHERE  > 0
             AND trashed_at is null
-        order by SEQ
+        order by seq
     </select>
 
     <select id="getListWithParams" parameterType="Map" resultType="Map">
@@ -185,10 +185,10 @@
             , ss.reliability
             , IFNULL(DATE_FORMAT(ss.stt_started_at, '%Y-%m-%d %H:%i'),"") as sttStartedAt
             , (
-                   select count(distinct s.SEQ) 
-                   from TB_CS_TEST s
-                    LEFT JOIN TB_CS_INFO_USER iuu ON s.tc_user_seq = iuu.seq
-                    LEFT JOIN TB_CS_INFO_DIVISION t ON t.division = s.division
+                   select count(distinct s.seq) 
+                   from tb_cs_test s
+                    LEFT JOIN tb_cs_info_user iuu ON s.tc_user_seq = iuu.seq
+                    LEFT JOIN tb_cs_info_division t ON t.division = s.division
                      WHERE s.seq > 0
                         AND s.trashed_at is null
 						<if test='division != ""'>
@@ -198,9 +198,9 @@
 							AND (s.file_org_nm like CONCAT('%',#{keyword},'%'))
 						</if>						
                      ) as hiddenCount
-        from TB_CS_TEST ss
-        LEFT JOIN TB_CS_INFO_USER iu ON ss.tc_user_seq = iu.seq
-        LEFT JOIN TB_CS_INFO_DIVISION ti ON ti.division = ss.division
+        from tb_cs_test ss
+        LEFT JOIN tb_cs_info_user iu ON ss.tc_user_seq = iu.seq
+        LEFT JOIN tb_cs_info_division ti ON ti.division = ss.division
         WHERE ss.seq > 0
         AND ss.trashed_at is null
 		<if test='division != ""'>
@@ -217,7 +217,7 @@
 
     <select id="getTestTransListWithoutParams" resultType="transcriptionVo">
          select 
-	       SEQ as seq
+	       seq as seq
 			, start
 			, end
 			, reliability
@@ -231,12 +231,12 @@
 			, data_id as dataId
 			, created_at as createdAt
 			, updated_at as updatedAt
-      	from TB_CS_TEST_TRANS
+      	from tb_cs_test_trans
        	order by seq
     </select>
 
     <update id="excludeTest" parameterType="Integer">
-		UPDATE TB_CS_TEST
+		UPDATE tb_cs_test
 		set trashed_at = CURRENT_TIMESTAMP
 		where seq = #{seq}
     </update>
@@ -244,41 +244,41 @@
 
     
     <update id="updateTestUseNoFromTrans">
-		UPDATE TB_CS_TEST
+		UPDATE tb_cs_test
 		set trashed_at = CURRENT_TIMESTAMP
 		where seq not in (
 			SELECT distinct(test_seq)
-			FROM TB_CS_TEST_TRANS
+			FROM tb_cs_test_trans
 			WHERE use_yn = 'Y'
 		)
 		and trashed_at is null
     </update>   
     
     <update id="updateTestUseYesFromTrans">
-		UPDATE TB_CS_TEST
+		UPDATE tb_cs_test
 		set trashed_at = CURRENT_TIMESTAMP
 		where seq not in (
 			SELECT distinct(test_seq)
-			FROM TB_CS_TEST_TRANS
+			FROM tb_cs_test_trans
 			WHERE use_yn = 'N'
 		)
 		and trashed_at is null
     </update>   
     
     <update id="excludeTestTrans" parameterType="Integer">
-		UPDATE TB_CS_TEST_TRANS
+		UPDATE tb_cs_test_trans
 		set use_yn = 'N'
 		where test_seq = #{seq}
     </update>   
     
     <select id="getDataIdFromTestTrans" parameterType="Integer" resultType="Integer">
 		SELECT seq
-		FROM TB_CS_TEST_TRANS
+		FROM tb_cs_test_trans
 		WHERE test_seq = #{seq}
     </select>
 
     <update id="excludeTestTransPair" parameterType="Map">
-		UPDATE TB_CS_TEST_TRANS_PAIR
+		UPDATE tb_cs_test_trans_pair
 		SET model_id = ''
 		WHERE seq in
 		<foreach collection="seq"  item="item" index="index" open="(" separator="," close=")">
@@ -287,7 +287,7 @@
     </update>
     
     <select id="getTestTransList" resultType="Map">
-         select SEQ as seq
+         select seq as seq
 				, round(start,2) as start
 				, round(end, 2) as end
 				, reliability
@@ -299,7 +299,7 @@
 				, use_yn as useYn
 				, ifnull(data_id, '') as dataId
 			    ,(SELECT count(tt.test_seq) 
-				  FROM TB_CS_TEST_TRANS tt
+				  FROM tb_cs_test_trans tt
 				  WHERE tt.test_seq = #{seq}
 			        <if test='reliability != -1'>
 			        	<![CDATA[
@@ -307,7 +307,7 @@
 			        	]]>
 			        </if>				  
 				 ) AS hiddenCount				
-      	from TB_CS_TEST_TRANS
+      	from tb_cs_test_trans
        	where test_seq = #{seq}
         <if test='reliability != -1'>
         	<![CDATA[
@@ -321,7 +321,7 @@
     </select>
 
     <select id="getTestTransListBatch" resultType="transVo">
-         select tr.SEQ as seq
+         select tr.seq as seq
 		        , te.subject
 		        , te.division
 		        , te.file_org_nm as fileOrgNm
@@ -340,21 +340,21 @@
 				, pr.seq       AS prSeq
 				, ifnull(pr.train_text, '')  AS prTrainText
 				, trim(ifnull(pr.use_yn, ''))    AS prUseYn
-				,  IF (	tr.SEQ !=  pr.seq
+				,  IF (	tr.seq !=  pr.seq
 						OR trim(IF(tr.train_text IS NULL or tr.train_text = '', tr.stt_text, tr.train_text)) != ifnull(pr.train_text, '')
 						OR tr.use_yn  !=  trim(ifnull(pr.use_yn, ''))  
 							OR round(tr.start,2) != round(pr.start,2)
 						   OR round(tr.end,2) != round(pr.end,2) 
 				   	,'Y', 'N'
 				) AS candidate
-		        , ( select count(tra.SEQ)
-			        from TB_CS_TEST_TRANS tra
-			        join TB_CS_TEST  tea on  tea.seq != -1 and tra.test_seq = tea.seq
-			        LEFT JOIN TB_CS_TEST_TRANS_PAIR pra ON  pra.data_id != '' AND tra.data_id = pra.data_id
+		        , ( select count(tra.seq)
+			        from tb_cs_test_trans tra
+			        join tb_cs_test  tea on  tea.seq != -1 and tra.test_seq = tea.seq
+			        LEFT JOIN tb_cs_test_trans_pair pra ON  pra.data_id != '' AND tra.data_id = pra.data_id
 			        where tra.test_seq != -1
 					AND ( ( tra.data_id = '' AND tra.use_yn = 'Y' )
 	               	or (  tra.data_id != '' AND       
-				        IF ( tra.SEQ !=  pra.seq
+				        IF ( tra.seq !=  pra.seq
 								OR trim(IF(tra.train_text IS NULL or tra.train_text = '', tra.stt_text, tra.train_text)) != ifnull(pra.train_text, '')
 								OR tra.use_yn  !=  trim(ifnull(pra.use_yn, ''))  
 								OR round(tra.start,2) != round(pra.start,2)
@@ -369,13 +369,13 @@
 						AND tea.division = #{search.searchDivision}
 					</if>
 				) as hiddenCount
-      	from TB_CS_TEST_TRANS tr
-        JOIN TB_CS_TEST  te on te.seq != -1 and tr.test_seq = te.seq
-        LEFT JOIN TB_CS_TEST_TRANS_PAIR pr ON  pr.data_id != '' AND tr.data_id = pr.data_id
+      	from tb_cs_test_trans tr
+        JOIN tb_cs_test  te on te.seq != -1 and tr.test_seq = te.seq
+        LEFT JOIN tb_cs_test_trans_pair pr ON  pr.data_id != '' AND tr.data_id = pr.data_id
         where tr.test_seq != -1
         AND ( ( tr.data_id = '' AND tr.use_yn = 'Y' )
 		  or (  tr.data_id != '' AND      
-	        IF ( tr.SEQ !=  pr.seq
+	        IF ( tr.seq !=  pr.seq
 					OR trim(IF(tr.train_text IS NULL or tr.train_text = '', tr.stt_text, tr.train_text)) != ifnull(pr.train_text, '')
 					OR tr.use_yn  !=  trim(ifnull(pr.use_yn, '')) 
 					OR round(tr.start,2) != round(pr.start,2)
@@ -396,7 +396,7 @@
     </select>
  
      <update id="excludeTestCandiate" parameterType="Map">
-		UPDATE TB_CS_TEST_TRANS
+		UPDATE tb_cs_test_trans
 		set use_yn = #{value}
 			,data_id = ''
 		where seq in 
@@ -406,7 +406,7 @@
     </update>
     
     <update id="updateTestDataId" parameterType="Map">
-		UPDATE TB_CS_TEST_TRANS
+		UPDATE tb_cs_test_trans
 		set use_yn = #{useYn}
 		<if test='dataId != null'>
 			, data_id = #{dataId}
@@ -418,7 +418,7 @@
     </update>
         
     <insert id="insertTestTransPair" parameterType="Map">
-    	insert into TB_CS_TEST_TRANS_PAIR (
+    	insert into tb_cs_test_trans_pair (
     		data_id
     		, seq
     		, train_text
@@ -447,12 +447,12 @@
     		, seq			as seq
     		, train_text	as trainText
     		, use_yn		as useYn
-    	from TB_CS_TEST_TRANS_PAIR
+    	from tb_cs_test_trans_pair
     	where data_id = #{dataId}  	
     </select>
     
     <select id="getMeetBySEQ" resultType="Map">
-        select SEQ as seq
+        select seq as seq
         		, subject
         		, DATE_FORMAT(created_at, '%Y.%m.%d %H:%i') as created_at
         		, DATE_FORMAT(updated_at, '%Y.%m.%d %H:%i') as updated_at
@@ -461,24 +461,24 @@
         		, time_duration_ms as timeDurationMs
         		, file_org_nm as fileOrgNm
         		, file_new_nm as fileNewNm
-        from TB_CS_TEST
-        WHERE SEQ = #{meetSeq}
+        from tb_cs_test
+        WHERE seq = #{meetSeq}
     </select>
     
     <update id="updateTrainTextBySeq" parameterType="Map">
-		UPDATE TB_CS_TEST_TRANS
+		UPDATE tb_cs_test_trans
 		SET train_text = #{trainText}
-		WHERE SEQ = #{seq}
+		WHERE seq = #{seq}
     </update> 
     
     <update id="clickLeastOnce" >
-    	update TB_CS_TEST
+    	update tb_cs_test
     	set click_least_once = 1
     	where seq = #{seq}
     </update>    
     
     <select id="getTranscription" resultType="Map">
-	select SEQ as seq
+	select seq as seq
 		, start
 		, end
 		, reliability
@@ -488,12 +488,12 @@
 		, created_at as	createdAt
 		, updated_at as	updatedAt
 		, use_yn as useYn				
-   	from TB_CS_TEST_TRANS
-    WHERE SEQ = #{seq}
+   	from tb_cs_test_trans
+    WHERE seq = #{seq}
     </select>   
 
     <update id="updateTranscriptionForSplit" parameterType="Map">
-		UPDATE TB_CS_TEST_TRANS set
+		UPDATE tb_cs_test_trans set
 			end = #{end}
 			, stt_text = #{sttText}
 			, train_text = NULL
@@ -502,7 +502,7 @@
     </update>       
 
     <insert id="createTranscriptionGen" parameterType="map" useGeneratedKeys="true" keyProperty="seq">
-        insert TB_CS_TEST_TRANS (
+        insert tb_cs_test_trans (
         	start
         	, end
         	, stt_text
@@ -518,14 +518,14 @@
     </insert>  
 
     <update id="updateTranscriptionForCombine" parameterType="Map">
-		UPDATE TB_CS_TEST_TRANS set
+		UPDATE tb_cs_test_trans set
 		test_seq = -1
 		, use_yn = 'N'
 		where seq = #{seq}
     </update> 
 
     <update id="updateTranscriptionForReset" parameterType="Map">
-		UPDATE TB_CS_TEST_TRANS set
+		UPDATE tb_cs_test_trans set
 			start = #{start}
 			, end = #{end}
 		where seq = #{seq}
@@ -533,7 +533,7 @@
 
 
     <update id="updateTestTransPairModel" parameterType="trainVo">
-    	update TB_CS_TEST_TRANS_PAIR
+    	update tb_cs_test_trans_pair
     	set model_id = #{modelId}
 		WHERE model_id IS NOT NULL AND model_id = ''   
     </update>
@@ -541,30 +541,30 @@
      <select id="getTransPairCount" resultType="int">
        SELECT SUM(a.cnt) FROM (
 			SELECT COUNT(*) AS cnt
-			FROM TB_CS_TRANS_PAIR
+			FROM tb_cs_trans_pair
 			WHERE model_id IS NOT NULL AND model_id = ''
 		union
 			SELECT  COUNT(*) AS cnt
-			FROM TB_CS_TEST_TRANS_PAIR
+			FROM tb_cs_test_trans_pair
 			WHERE model_id IS NOT NULL AND model_id = ''
 		) a
     </select>
 
    <select id="getAllTestTransList" resultType="transcriptionVo">
-         select SEQ
+         select seq
 				, start
 				, end
 				, reliability
 				, trim(IF(train_text IS NULL or train_text = '', stt_text, train_text))    as trainText
 				, data_id   AS dataId
 				, use_yn    as useYn
-      	from TB_CS_TEST_TRANS
+      	from tb_cs_test_trans
       	where data_id is not null and data_id != ''
       	order by data_id
     </select>
 
     <select id="getListData" parameterType="Map" resultType="soundVo">
-		select ss.SEQ as seq
+		select ss.seq as seq
 			, ss.subject 
 			, ss.created_at 	as createdAt
 			, ss.updated_at 	as updatedAt
@@ -579,8 +579,8 @@
 			, ss.file_stereo_prefix as fileStereoPrefix
       	    , ss.channel_count      as channelCount	  
 			, (
-				   	SELECT count(s.SEQ)
-					from TB_CS_TEST s	
+				   	SELECT count(s.seq)
+					from tb_cs_test s	
 					WHERE s.seq > 0
 					<if test='search != null and search.searchStartDate != null'>
 						AND s.created_at BETWEEN str_to_date(#{search.searchStartDate}, '%Y-%m-%d') AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
@@ -601,12 +601,12 @@
 				   ) AS hiddenCount
 			  , (
 		        SELECT COUNT(*)
-			        FROM TB_CS_TEST_TRANS ct
+			        FROM tb_cs_test_trans ct
 			        WHERE ct.test_seq = ss.seq 
 			        AND ct.train_text IS NOT NULL
 			        AND ct.train_text != ''
 		       ) AS trainTextCount
-		from TB_CS_TEST ss
+		from tb_cs_test ss
 		WHERE ss.seq > 0
 		<if test='search != null and search.searchStartDate != null'>
 			AND ss.created_at BETWEEN str_to_date(#{search.searchStartDate}, '%Y-%m-%d') AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
@@ -646,9 +646,9 @@
             , ss.reliability
             , ss.stt_started_at as sttStartedAt
             , (
-                   select count(distinct s.SEQ) 
-                   from TB_CS_TEST s
-                    LEFT JOIN TB_CS_INFO_USER iuu ON s.tc_user_seq = iuu.seq
+                   select count(distinct s.seq) 
+                   from tb_cs_test s
+                    LEFT JOIN tb_cs_info_user iuu ON s.tc_user_seq = iuu.seq
                      WHERE s.seq > 0
                         AND s.trashed_at is null
 						AND s.created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
@@ -656,8 +656,8 @@
 							AND (s.file_org_nm like CONCAT('%',#{search.searchText},'%'))
 						</if>						
                      ) as hiddenCount
-        from TB_CS_TEST ss
-        LEFT JOIN TB_CS_INFO_USER iu ON ss.tc_user_seq = iu.seq
+        from tb_cs_test ss
+        LEFT JOIN tb_cs_info_user iu ON ss.tc_user_seq = iu.seq
         WHERE ss.seq > 0
         AND ss.trashed_at is null
 		AND ss.created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
@@ -671,7 +671,7 @@
     </select>
 
      <insert id="copyTest" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id">
-		insert into TB_CS_TEST (
+		insert into tb_cs_test (
 			division
 			,subject
 			,time_duration_ms
@@ -679,7 +679,7 @@
 			,file_new_nm
 			,file_conv_nm
 			,file_size_bytes
-			,TC_USER_SEQ
+			,tc_user_seq
 			,reliability
 		)
 		select
@@ -693,11 +693,11 @@
 			,#{userSeq}
 			,reliability
 		from TB_CS_MEETING
-		where SEQ = #{seq}
+		where seq = #{seq}
     </insert>
 
      <insert id="trainCopyTest" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id">
-		insert into TB_CS_TEST (
+		insert into tb_cs_test (
 			division
 			,subject
 			,time_duration_ms
@@ -705,7 +705,7 @@
 			,file_new_nm
 			,file_conv_nm
 			,file_size_bytes
-			,TC_USER_SEQ
+			,tc_user_seq
 			,reliability
 		)
 		select
@@ -718,12 +718,12 @@
 			,file_size_bytes
 			,#{userSeq}
 			,reliability
-		from TB_CS_SOUND
-		where SEQ = #{seq}
+		from tb_cs_sound
+		where seq = #{seq}
     </insert>   
     
     <select id="getTranscriptionList" resultType="transcriptionVo">
-         select SEQ
+         select seq
 				, channel_id  as channelId
 				, CASE
 						WHEN channel_id = 0
@@ -737,8 +737,8 @@
 				, train_text as trainText
 				,data_id   AS dataId
 				, (
-				   	SELECT count(ct.SEQ)
-						from TB_CS_TEST_TRANS ct
+				   	SELECT count(ct.seq)
+						from tb_cs_test_trans ct
 						where test_seq = #{meetSeq}
 				        <if test='reliability != -1'>
 				        	<![CDATA[
@@ -752,7 +752,7 @@
 				        	]]>
 				        </if>  				        
 				   ) AS hiddenCount
-      	from TB_CS_TEST_TRANS
+      	from tb_cs_test_trans
       	where test_seq = #{meetSeq}
         <if test='changeTextValue == 1'>
         	<![CDATA[
@@ -772,7 +772,7 @@
     </select>
 
     <select id="getTestTransListX" resultType="transVo">
-         select tr.SEQ as seq
+         select tr.seq as seq
 		        , te.subject
 		        , te.division
 		        , te.file_org_nm as fileOrgNm
@@ -791,17 +791,17 @@
 				, pr.seq       AS prSeq
 				, ifnull(pr.train_text, '')  AS prTrainText
 				, trim(ifnull(pr.use_yn, ''))    AS prUseYn
-				,  IF (	tr.SEQ !=  pr.seq
+				,  IF (	tr.seq !=  pr.seq
 						OR trim(IF(tr.train_text IS NULL or tr.train_text = '', tr.stt_text, tr.train_text)) != ifnull(pr.train_text, '')
 						OR tr.use_yn  !=  trim(ifnull(pr.use_yn, ''))  
 							OR round(tr.start,2) != round(pr.start,2)
 						   OR round(tr.end,2) != round(pr.end,2) 
 				   	,'Y', 'N'
 				) AS candidate
-		        , ( select count(tra.SEQ)
-			        from TB_CS_TEST_TRANS tra
-			        join TB_CS_TEST  tea on  tea.seq != -1 and tra.test_seq = tea.seq
-			        LEFT JOIN TB_CS_TEST_TRANS_PAIR pra ON  pra.data_id != '' AND tra.data_id = pra.data_id
+		        , ( select count(tra.seq)
+			        from tb_cs_test_trans tra
+			        join tb_cs_test  tea on  tea.seq != -1 and tra.test_seq = tea.seq
+			        LEFT JOIN tb_cs_test_trans_pair pra ON  pra.data_id != '' AND tra.data_id = pra.data_id
 			        where tra.test_seq != -1
 					<if test='search != null and search.searchStartDate != null'>
 						AND tra.created_at BETWEEN str_to_date(#{search.searchStartDate}, '%Y-%m-%d') AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
@@ -816,9 +816,9 @@
 						AND ( IF(tra.train_text IS NULL or tra.train_text = '', tra.stt_text, tra.train_text) LIKE concat('%', #{search.searchText}, '%') OR tea.file_org_nm LIKE concat('%', #{search.searchText}, '%') )
 					</if>
 				) as hiddenCount
-      	from TB_CS_TEST_TRANS tr
-        JOIN TB_CS_TEST  te on te.seq != -1 and tr.test_seq = te.seq
-        LEFT JOIN TB_CS_TEST_TRANS_PAIR pr ON  pr.data_id != '' AND tr.data_id = pr.data_id
+      	from tb_cs_test_trans tr
+        JOIN tb_cs_test  te on te.seq != -1 and tr.test_seq = te.seq
+        LEFT JOIN tb_cs_test_trans_pair pr ON  pr.data_id != '' AND tr.data_id = pr.data_id
         where tr.test_seq != -1
 		<if test='search != null and search.searchStartDate != null'>
 			AND tr.created_at BETWEEN str_to_date(#{search.searchStartDate}, '%Y-%m-%d') AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
@@ -839,7 +839,7 @@
     </select>
              
     <insert id="copyTestTrans" parameterType="hashmap">
-		insert into TB_CS_TEST_TRANS (
+		insert into tb_cs_test_trans (
 			start
 			, end
 			, reliability
@@ -858,12 +858,12 @@
 			, train_text
 			, #{testSeq}
 			, channel_id
-		from TB_CS_TRANSCRIPTION
+		from tb_cs_transcription
 		where meeting_seq = #{seq}
     </insert>
 
     <insert id="trainCopyTestTrans" parameterType="hashmap">
-		insert into TB_CS_TEST_TRANS (
+		insert into tb_cs_test_trans (
 			start
 			, end
 			, reliability
@@ -882,7 +882,7 @@
 			, train_text
 			, #{testSeq}
 			, channel_id
-		from TB_CS_TRANSCRIPTION
+		from tb_cs_transcription
 		where sound_seq = #{seq}
     </insert>  
 
@@ -897,9 +897,9 @@
 			, ss.status	
 			, IFNULL(ss.error_message,"")as errorMessage            
             , (
-                   select count(distinct s.SEQ) 
-                   from TB_CS_TEST s
-                   LEFT JOIN TB_CS_INFO_DIVISION t ON t.division = s.division
+                   select count(distinct s.seq) 
+                   from tb_cs_test s
+                   LEFT JOIN tb_cs_info_division t ON t.division = s.division
                      WHERE  <![CDATA[ (s.status < 20 OR s.status = 10 and s.error_message IS NOT NULL)]]>
 						<if test='division != ""'>
 							AND s.division = #{division}
@@ -908,8 +908,8 @@
 							AND (s.file_org_nm like CONCAT('%',#{keyword},'%'))
 						</if>
                      ) as hiddenCount
-        from TB_CS_TEST ss
-        LEFT JOIN TB_CS_INFO_DIVISION ti ON ti.division = ss.division
+        from tb_cs_test ss
+        LEFT JOIN tb_cs_info_division ti ON ti.division = ss.division
         WHERE <![CDATA[ (ss.status < 20 OR ss.status = 10 and ss.error_message IS NOT NULL)]]>
         and ss.seq != -1
 		<if test='division != ""'>
@@ -922,15 +922,6 @@
         <if test='offsetPageable != null'>
        		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
        	</if>
-    </select> 
-    
-                                                                                                       
+    </select>                                                                                           
 </mapper>    
-       
-
-    
-    
-    
-    
-     
     

@@ -4,164 +4,157 @@
 <mapper namespace="com.vol.solunote.mapper.siteuser.SiteUserMapper">
 
     <resultMap id="userResult" type="siteUserVo">
-        <result property="seq" column="SEQ" javaType="int" />
-        <result property="tcId" column="TC_ID" javaType="java.lang.String" />
-        <result property="tcPw" column="TC_PW" javaType="java.lang.String" />
-        <result property="tcName" column="TC_NAME" javaType="java.lang.String" />
-        <result property="tcNick" column="TC_NICK" javaType="java.lang.String" />
-        <result property="tcEmail" column="TC_EMAIL" javaType="java.lang.String" />
-        <result property="tcPhone" column="TC_PHONE" javaType="java.lang.String" />
-        <result property="tcType" column="TC_TYPE" javaType="int" />
-        <result property="tcGroup" column="TC_GROUP" javaType="int" />
-        <result property="tcLevel" column="TC_LEVEL" javaType="int" />
-        <result property="tcUseYn" column="TC_USEYN" javaType="short" />
-        <result property="tcLogin" column="TC_LOGIN" javaType="int" />
-        <result property="tcRegDate" column="TC_REGDATE" javaType="java.lang.String" />
+        <result property="seq" column="seq" javaType="int" />
+        <result property="tcId" column="tc_id" javaType="java.lang.String" />
+        <result property="tcPw" column="tc_pw" javaType="java.lang.String" />
+        <result property="tcName" column="tc_name" javaType="java.lang.String" />
+        <result property="tcNick" column="tc_nick" javaType="java.lang.String" />
+        <result property="tcEmail" column="tc_email" javaType="java.lang.String" />
+        <result property="tcPhone" column="tc_phone" javaType="java.lang.String" />
+        <result property="tcType" column="tc_type" javaType="int" />
+        <result property="tcGroup" column="tc_group" javaType="int" />
+        <result property="tcLevel" column="tc_level" javaType="int" />
+        <result property="tcUseYn" column="tc_useyn" javaType="short" />
+        <result property="tcLogin" column="tc_login" javaType="int" />
+        <result property="tcRegDate" column="tc_regdate" javaType="java.lang.String" />
     </resultMap>
 
 	<select id="readUser" parameterType="String" resultType="com.vol.solunote.model.vo.siteuser.SiteUser">
 		SELECT 
-		    SEQ as username, TC_ID as userId, TC_PW as password, TC_NAME as name, TC_EMAIL as email, TC_LEVEL as userLevel
+		    seq as username, tc_id as userId, tc_pw as password, tc_name as name, tc_email as email, tc_level as userLevel
 		    , 1 as isAccountNonExpired, 1 as isAccountNonLocked, 1 as isCredentialsNonExpired, 1 as isEnabled
-		FROM TB_CS_INFO_USER
-		WHERE TC_ID = #{username}
-		AND TC_USEYN= 1
+		FROM tb_cs_info_user
+		WHERE tc_id = #{username}
+		AND tc_useyn= 1
 	</select>
 	<select id="readAuthority" parameterType="String" resultType="String">
-<!-- 		SELECT -->
-<!-- 		    CONCAT('MENU', mm.MENU_CODE) as authority_name -->
-<!-- 		FROM  TB_CS_MENU_USER mu -->
-<!-- 		INNER JOIN TB_CS_MENU_MAIN mm ON mu.MENU_SEQ = mm.SEQ  -->
-<!-- 		WHERE  mm.MENU_USEYN=1 AND mm.MENU_DEL =0 -->
-<!-- 		AND mu.USER_SEQ =(SELECT SEQ FROM TB_CS_INFO_USER WHERE TC_ID=#{username}) -->
-<!-- 		ORDER BY IFNULL((SELECT pm.MENU_NO  FROM  TB_CS_MENU_MAIN pm WHERE pm.MENU_CODE=mm.MENU_PARENT_SEQ ), 99) ASC , mm.MENU_NO  ASC		 -->	   	
 
 		SELECT
 		case 
-			when TC_LEVEL = 100
+			when tc_level = 100
 				then "ADMIN"
-			when TC_LEVEL = 0
+			when tc_level = 0
 				then "USER"
 		end AS authority_name 
-		FROM TB_CS_INFO_USER	
-		WHERE TC_ID=#{username}	
-		AND TC_USEYN= 1
+		FROM tb_cs_info_user	
+		WHERE tc_id=#{username}	
+		AND tc_useyn= 1
 	</select>
 	
 	<select id="readMenuAll" resultType="map">
 		SELECT
 		    case 
-				when MENU_LEVEL = 100
+				when menu_level = 100
 					then "ROLE_ADMIN"
-				when MENU_LEVEL = 0
+				when menu_level = 0
 					then "ROLE_USER"
 				end AS authorityName 
 		    , URL AS url
-		FROM TB_CS_MENU
+		FROM tb_cs_menu
 	</select>
 
     <select id="findUserInfo" resultMap="userResult">
         select * 
-        from TB_CS_INFO_USER
-		where SEQ = #{seq};
+        from tb_cs_info_user
+		where seq = #{seq};
     </select>
 
     <update id="updateUser" parameterType = "Map">
-        UPDATE TB_CS_INFO_USER
+        UPDATE tb_cs_info_user
         <if test='tcPw == null or tcPw == ""'>
-        SET TC_NAME = #{tcName}, TC_EMAIL= #{tcEmail}, TC_PHONE = #{tcPhone}
+        SET tc_name = #{tcName}, tc_email= #{tcEmail}, tc_phone = #{tcPhone}
         </if>
         <if test='tcPw != null and tcPw != ""'>
-        SET TC_PW = #{tcPw}, TC_NAME = #{tcName}, TC_EMAIL= #{tcEmail}, TC_PHONE = #{tcPhone}
+        SET tc_pw = #{tcPw}, tc_name = #{tcName}, tc_email= #{tcEmail}, tc_phone = #{tcPhone}
         </if>
-        WHERE SEQ = #{seq}
+        WHERE seq = #{seq}
     </update> 	
     
     <delete id="deleteUser" parameterType = "int"> 
-        DELETE FROM TB_CS_INFO_USER 
-        WHERE SEQ = #{seq} 
+        DELETE FROM tb_cs_info_user 
+        WHERE seq = #{seq} 
     </delete>
     
      <insert id="insertUser" parameterType = "Map" useGeneratedKeys="true" keyProperty="seq" >
-		INSERT INTO TB_CS_INFO_USER (
+		INSERT INTO tb_cs_info_user (
 		tc_id, tc_pw, tc_name, tc_nick, tc_email, tc_phone ) 
 		VALUES (
 		#{tcId},#{tcPw},#{tcName},#{tcName},#{tcEmail},#{tcPhone} );
     </insert>
     
     <select id="checkUserId" resultType="int">
-        SELECT COUNT(*) as CNT
-        FROM TB_CS_INFO_USER 
-        WHERE TC_ID = #{code}
+        SELECT COUNT(*) as cnt
+        FROM tb_cs_info_user 
+        WHERE tc_id = #{code}
     </select>
     
     <select id="getUser" resultMap="userResult">
         select * 
-        from TB_CS_INFO_USER
-		where TC_ID = #{userId};
+        from tb_cs_info_user
+		where tc_id = #{userId};
     </select>
     
     <select id="getList" resultType="UserRegisterVo">
-		select SEQ AS seq
-				, TC_ID  as tcId
-				, TC_PW as	tcPw
-				, TC_NAME AS tcName
-				, TC_PHONE AS tcPhone
-				, TC_LEVEL as tcLevel
-				, TC_EMAIL as tcEmail	
-				, TC_REGDATE AS tcRegdate
+		select seq AS seq
+				, tc_id  as tcId
+				, tc_pw as	tcPw
+				, tc_name AS tcName
+				, tc_phone AS tcPhone
+				, tc_level as tcLevel
+				, tc_email as tcEmail	
+				, tc_regdate AS tcRegdate
 				,(
 					SELECT count(tiu.seq) 
-					FROM TB_CS_INFO_USER tiu
+					FROM tb_cs_info_user tiu
 					<where>
 			      	<if test='activeMenu == 1'>
-			       		AND tiu.TC_USEYN = 1
+			       		AND tiu.tc_useyn = 1
 			        </if>       	 
 			      	<if test='activeMenu == 2'>
-			       		AND tiu.TC_USEYN = 0
+			       		AND tiu.tc_useyn = 0
 			        </if>
 			      	<if test='userType != null and userType != "" and userType == 100'>
-			       		AND TC_LEVEL = 100
+			       		AND tc_level = 100
 			        </if>
 			      	<if test='userType != null and userType != "" and userType == 0'>
-			       		AND TC_LEVEL = 0
+			       		AND tc_level = 0
 			        </if>  			        
 			      	<if test='tcId != null and tcId != "" '>
-			       		AND tiu.TC_ID like CONCAT('%', #{tcId}, '%')
+			       		AND tiu.tc_id like CONCAT('%', #{tcId}, '%')
 			        </if> 
 			      	<if test='tcName != null and tcName != "" '>
-			       		AND tiu.TC_NAME like CONCAT('%', #{tcName}, '%')
+			       		AND tiu.tc_name like CONCAT('%', #{tcName}, '%')
 			        </if> 
 			      	<if test='tcPhone != null and tcPhone != "" '>
-      					AND tiu.TC_PHONE like CONCAT('%', #{tcPhone}, '%')
+      					AND tiu.tc_phone like CONCAT('%', #{tcPhone}, '%')
 			        </if>
 			        </where>    
 				) AS hiddenCount				 		
-      	from TB_CS_INFO_USER
+      	from tb_cs_info_user
       	<where>
       	<if test='activeMenu == 1'>
-       		AND TC_USEYN = 1
+       		AND tc_useyn = 1
         </if>       	 
       	<if test='activeMenu == 2'>
-       		AND TC_USEYN = 0
+       		AND tc_useyn = 0
         </if>
       	<if test='userType == 100'>
-       		AND TC_LEVEL = 100
+       		AND tc_level = 100
         </if>
       	<if test='userType == 0'>
-       		AND TC_LEVEL = 0
+       		AND tc_level = 0
         </if>                        
       	<if test='tcId != null and tcId != "" '>
-       		AND TC_ID like CONCAT('%', #{tcId}, '%')
+       		AND tc_id like CONCAT('%', #{tcId}, '%')
         </if> 
       	<if test='tcName != null and tcName != "" '>
-       		AND TC_NAME like CONCAT('%', #{tcName}, '%')
+       		AND tc_name like CONCAT('%', #{tcName}, '%')
         </if> 
       	<if test='tcPhone != null and tcPhone != "" '>
-      		AND TC_PHONE like CONCAT('%',#{tcPhone},'%')
+      		AND tc_phone like CONCAT('%',#{tcPhone},'%')
         </if>
         </where>                      	
-      	order by TC_REGDATE DESC
+      	order by tc_regdate DESC
       	<if test='offsetPageable != null'>
        		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
         </if>      		
@@ -169,19 +162,19 @@
 
     <select id="userinfo" resultType="Map">
 		select 
-				TC_ID  as tcId
-				, TC_PW as	tcPw
-				, TC_NAME AS tcName
-				, TC_PHONE AS tcPhone
-				, TC_EMAIL AS tcEmail	
-				, TC_LEVEL as tcLevel			 		
-				, TC_USEYN as tcUseyn			 		
-      	from TB_CS_INFO_USER
-		where TC_ID =    #{userId}   		
+				tc_id  as tcId
+				, tc_pw as	tcPw
+				, tc_name AS tcName
+				, tc_phone AS tcPhone
+				, tc_email AS tcEmail	
+				, tc_level as tcLevel			 		
+				, tc_useyn as tcUseyn			 		
+      	from tb_cs_info_user
+		where tc_id =    #{userId}   		
     </select>   
 
     <update id="removeUser"  > 
-        UPDATE TB_CS_INFO_USER SET TC_USEYN= 0 
+        UPDATE tb_cs_info_user SET tc_useyn= 0 
 		WHERE tc_id in 
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
 	        #{item}
@@ -189,7 +182,7 @@
     </update>       
 
     <update id="saveUser"  > 
-        UPDATE TB_CS_INFO_USER SET TC_USEYN= 1 
+        UPDATE tb_cs_info_user SET tc_useyn= 1 
 		WHERE tc_id in 
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
 	        #{item}
@@ -197,7 +190,7 @@
     </update>   
 
     <update id="permanentlyUser"  > 
-        UPDATE TB_CS_INFO_USER SET TC_USEYN= 3 
+        UPDATE tb_cs_info_user SET tc_useyn= 3 
 		WHERE tc_id in 
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
 	        #{item}
@@ -206,35 +199,35 @@
     
     <select id="getUserForReg" resultType="userRegisterVo">
         select 
-        		TC_ID  as tcId
-				, TC_PW as	tcPw
-				, TC_NAME AS tcName
-				, TC_PHONE AS tcPhone
-				, TC_EMAIL AS tcEmail	
-				, TC_LEVEL as tcLevel
-        from TB_CS_INFO_USER
-		where TC_ID = #{userId};
+        		tc_id  as tcId
+				, tc_pw as	tcPw
+				, tc_name AS tcName
+				, tc_phone AS tcPhone
+				, tc_email AS tcEmail	
+				, tc_level as tcLevel
+        from tb_cs_info_user
+		where tc_id = #{userId};
     </select>   
 
     <update id="changeUserinfo"  > 
-		UPDATE TB_CS_INFO_USER
+		UPDATE tb_cs_info_user
       	SET   
-				TC_PW = #{userPw}
-				, TC_NAME = #{userName}
-				, TC_PHONE = #{userPhone}
-				, TC_EMAIL = #{userEmail}	
-				, TC_LEVEL = #{userLevel}
-       WHERE TC_ID = #{userId}
+				tc_pw = #{userPw}
+				, tc_name = #{userName}
+				, tc_phone = #{userPhone}
+				, tc_email = #{userEmail}	
+				, tc_level = #{userLevel}
+       WHERE tc_id = #{userId}
     </update>      
 
     <update id="changeUserinfoNotPw"  > 
-		UPDATE TB_CS_INFO_USER
+		UPDATE tb_cs_info_user
       	SET   
-				TC_NAME = #{userName}
-				, TC_PHONE = #{userPhone}
-				, TC_EMAIL = #{userEmail}	
-				, TC_LEVEL = #{userLevel}
-       WHERE TC_ID = #{userId}
+				tc_name = #{userName}
+				, tc_phone = #{userPhone}
+				, tc_email = #{userEmail}	
+				, tc_level = #{userLevel}
+       WHERE tc_id = #{userId}
     </update>
 
                           

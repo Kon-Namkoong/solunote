@@ -13,9 +13,9 @@
                 , category    
                 ,(
                     SELECT count(tud.dir) 
-                    FROM TB_CS_UPLOAD_DIR tud    
+                    FROM tb_cs_upload_dir tud    
                 ) AS hiddenCount                                 
-          from TB_CS_UPLOAD_DIR          
+          from tb_cs_upload_dir          
           order by seq DESC     
           <if test='offsetPageable != null'>
                limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
@@ -23,7 +23,7 @@
     </select> 
 
      <insert id="uploadDirRegister">
-        INSERT INTO TB_CS_UPLOAD_DIR (
+        INSERT INTO tb_cs_upload_dir (
         dir, use_yn , category) 
         VALUES (
         #{uploadDir},#{uploadDirUseYn} ,#{uploadDirCategory});
@@ -31,7 +31,7 @@
     
     <select id="checkUploadDir" resultType="int">
         SELECT COUNT(*) as CNT
-        FROM TB_CS_UPLOAD_DIR 
+        FROM tb_cs_upload_dir 
         WHERE dir = #{uploadDir}
     </select>   
 
@@ -40,36 +40,36 @@
                 dir 
                 , use_yn AS useYn
                 , category  		
-      	from TB_CS_UPLOAD_DIR 
+      	from tb_cs_upload_dir 
 		where dir =    #{uploadDir}   		
     </select> 
     
     <update id="trainChangeToN">
-		UPDATE TB_CS_UPLOAD_DIR
+		UPDATE tb_cs_upload_dir
 		SET use_yn = 'N'
 		WHERE category = 'train'
     </update>
     
     <update id="testChangeToN">
-		UPDATE TB_CS_UPLOAD_DIR
+		UPDATE tb_cs_upload_dir
 		SET use_yn = 'N'
 		WHERE category = 'test'
     </update>  
     
     <update id="changeToY"  > 
-		UPDATE TB_CS_UPLOAD_DIR
+		UPDATE tb_cs_upload_dir
       	SET use_yn = 'Y'	
        WHERE dir = #{uploadDirChange}
     </update>    
     
     <select id="getLastRead" parameterType="String" resultType="String">
         select dir
-        from TB_CS_LAST_READ
+        from tb_cs_last_read
         where category = #{category}
     </select>
     
     <insert id="createLastRead"  parameterType="Map">
-        insert TB_CS_LAST_READ (
+        insert tb_cs_last_read (
 			category
         	, dir
         ) value (

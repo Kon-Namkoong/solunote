@@ -6,7 +6,7 @@
 <mapper namespace="com.vol.solunote.mapper.sound.SoundMapper">
     
     <insert id="createSound" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id">
-        insert TB_CS_SOUND (
+        insert tb_cs_sound (
 			division
         	, file_org_nm
         	, file_new_nm
@@ -14,7 +14,7 @@
         	, file_size_bytes
         	, subject
         	, time_duration_ms
-        	, TC_USER_SEQ
+        	, tc_user_seq
         	, click_least_once 
         ) value (
         	#{division}
@@ -30,7 +30,7 @@
     </insert>
     
     <update id="updateSound" parameterType="Map">
-        update TB_CS_SOUND 
+        update tb_cs_sound 
 		<set>
         	<if test='sttStartedAt != null'>
         		, stt_started_at = #{sttStartedAt}
@@ -55,7 +55,7 @@
     </update>
 
     <update id="updateSoundMode" parameterType="Map">
-    	update TB_CS_SOUND
+    	update tb_cs_sound
     	<if test='"trash".equals(mode)'>
 			set trashed_at = CURRENT_TIMESTAMP
     	</if>
@@ -70,7 +70,7 @@
 
 
     <select id="steelGetSoundData" parameterType="int" resultType="Map">
-		select ss.SEQ as seq
+		select ss.seq as seq
 			, ss.division
 			, ss.subject 
 			, DATE_FORMAT(ss.created_at, '%Y-%m-%d %H:%i') as createdAt
@@ -81,13 +81,13 @@
 			, ss.file_org_nm as fileOrgNm
 			, ss.file_new_nm as fileNewNm
 			, IFNULL(DATE_FORMAT(ss.stt_started_at, '%Y-%m-%d %H:%i'),"") as sttStartedAt			
-		from TB_CS_SOUND ss
+		from tb_cs_sound ss
 		WHERE ss.seq = #{seq}
 
     </select>
     
     <select id="getListDataWithMap" parameterType="Map" resultType="soundVo">
-		select ss.SEQ as seq
+		select ss.seq as seq
 			, ss.subject 
 			, ss.created_at 	as createdAt
 			, ss.updated_at 	as updatedAt
@@ -102,8 +102,8 @@
 			, ss.file_stereo_prefix as fileStereoPrefix
       	    , ss.channel_count      as channelCount	  
 			, (
-				   	SELECT count(s.SEQ)
-					from TB_CS_SOUND s	
+				   	SELECT count(s.seq)
+					from tb_cs_sound s	
 					WHERE s.seq > 0
 					<if test='searchStartDate != null'>
 						AND s.created_at BETWEEN str_to_date(#{searchStartDate}, '%Y-%m-%d') AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY )
@@ -124,12 +124,12 @@
 				   ) AS hiddenCount
 			  , (
 		        SELECT COUNT(*)
-		        FROM TB_CS_TRANSCRIPTION ct
+		        FROM tb_cs_transcription ct
 		        WHERE ct.sound_seq = ss.seq 
 		        AND ct.train_text IS NOT NULL
 		        AND ct.train_text != ''
 		       ) AS trainTextCount
-		from TB_CS_SOUND ss
+		from tb_cs_sound ss
 		WHERE ss.seq > 0
 		<if test='searchStartDate != null'>
 			AND ss.created_at BETWEEN str_to_date(#{searchStartDate}, '%Y-%m-%d') AND DATE_ADD(#{searchEndDate}, INTERVAL 1 DAY )
@@ -154,7 +154,7 @@
     </select>
     
     <insert id="copySound" parameterType="hashmap" useGeneratedKeys="true" keyProperty="id">
-		insert into TB_CS_SOUND (
+		insert into tb_cs_sound (
 			division
 			,subject
 			,time_duration_ms
@@ -162,7 +162,7 @@
 			,file_new_nm
 			,file_conv_nm
 			,file_size_bytes
-			,TC_USER_SEQ
+			,tc_user_seq
 			,reliability
 		)
 		select
@@ -176,11 +176,11 @@
 			,#{userSeq}
 			,reliability
 		from TB_CS_MEETING
-		where SEQ = #{seq}
+		where seq = #{seq}
     </insert> 
     
     <select id="getSoundData" parameterType="int" resultType="Map">
-		select ss.SEQ as seq
+		select ss.seq as seq
 			, ss.division
 			, ss.subject 
 			, DATE_FORMAT(ss.created_at, '%Y-%m-%d %H:%i') as createdAt
@@ -191,13 +191,13 @@
 			, ss.file_org_nm as fileOrgNm
 			, ss.file_new_nm as fileNewNm
 			, IFNULL(DATE_FORMAT(ss.stt_started_at, '%Y-%m-%d %H:%i'),"") as sttStartedAt			
-		from TB_CS_SOUND ss
+		from tb_cs_sound ss
 		WHERE ss.seq = #{seq}
 
     </select>
     
     <select id="getListData" resultType="soundVo">
-		select ss.SEQ as seq
+		select ss.seq as seq
 			, ss.subject 
 			, ss.created_at as createdAt
 			, ss.updated_at as updatedAt
@@ -209,9 +209,9 @@
 			, ss.reliability
 			, ss.stt_started_at as sttStartedAt			
 			, (
-				   	SELECT count(s.SEQ)
-					from TB_CS_SOUND s	
-					LEFT JOIN TB_CS_INFO_DIVISION tis ON tis.division = s.division
+				   	SELECT count(s.seq)
+					from tb_cs_sound s	
+					LEFT JOIN tb_cs_info_division tis ON tis.division = s.division
 					WHERE s.seq > 0
 					AND s.created_at BETWEEN str_to_date(#{startDate}, '%Y-%m-%d') AND DATE_ADD(#{endDate}, INTERVAL 1 DAY )
 					AND ( s.status = '10' or s.status = '20' )
@@ -227,12 +227,12 @@
 				   ) AS hiddenCount
 			  , (
 		        SELECT COUNT(*)
-		        FROM TB_CS_TRANSCRIPTION ct
+		        FROM tb_cs_transcription ct
 		        WHERE ct.sound_seq = ss.seq 
 		        AND ct.train_text IS NOT NULL
 		        AND ct.train_text != ''
 		       ) AS trainTextCount
-		from TB_CS_SOUND ss
+		from tb_cs_sound ss
 		WHERE ss.seq > 0
 		AND ss.created_at BETWEEN str_to_date(#{startDate}, '%Y-%m-%d') AND DATE_ADD(#{endDate}, INTERVAL 1 DAY )
 		AND ( ss.status = '10' or ss.status = '20' )
@@ -252,7 +252,7 @@
     </select>
     
     <select id="getMeetBySEQ" resultType="Map">
-        select ss.SEQ as seq
+        select ss.seq as seq
         , ss.subject
         , DATE_FORMAT(ss.created_at, '%Y.%m.%d %H:%i') as created_at
         , DATE_FORMAT(ss.updated_at, '%Y.%m.%d %H:%i') as updated_at
@@ -265,19 +265,19 @@
         , ss.reliability
 		  , (
 	        SELECT COUNT(*)
-	        FROM TB_CS_TRANSCRIPTION ct
+	        FROM tb_cs_transcription ct
 	        WHERE ct.sound_seq = ss.seq 
 	        AND ct.train_text IS NOT NULL
 	        AND ct.train_text != ''
 	       ) AS trainTextCount 
       	, ss.file_stereo_prefix as fileStereoPrefix
       	, ss.channel_count      as channelCount	              
-        from TB_CS_SOUND ss
-        WHERE SEQ = #{meetSeq}
+        from tb_cs_sound ss
+        WHERE seq = #{meetSeq}
     </select>
 
     <select id="getFailList" resultType="Map">
-		select ss.SEQ as seq
+		select ss.seq as seq
 			, IFNULL(ti.army_name,"미등록") AS armyName
 			, DATE_FORMAT(ss.created_at, '%Y-%m-%d %H:%i') as createdAt
 			, DATE_FORMAT(ss.updated_at, '%Y-%m-%d %H:%i') as updatedAt
@@ -286,8 +286,8 @@
 			, ss.status	
 			, IFNULL(ss.error_message,"")as errorMessage		
 			, (
-				   	SELECT count(s.SEQ)
-					from TB_CS_SOUND s			
+				   	SELECT count(s.seq)
+					from tb_cs_sound s			
 					WHERE<![CDATA[ (s.status < 20 OR s.status = 10 and s.error_message IS NOT NULL)]]>
 					<if test='search != null'>
 						AND s.created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
@@ -296,7 +296,7 @@
 						AND (s.file_org_nm like CONCAT('%',#{keyword},'%'))
 					</if>
 				   ) AS hiddenCount
-		from TB_CS_SOUND ss
+		from tb_cs_sound ss
 		WHERE ss.seq > 0 
 		and <![CDATA[ ((ss.status < 20 OR ss.status = 10) and ss.error_message IS NOT NULL)]]>
 		<if test='search != null'>
@@ -312,7 +312,7 @@
     </select>    
 
     <update id="clickLeastOnce" >
-    	update TB_CS_SOUND
+    	update tb_cs_sound
     	set click_least_once = 1
     	where seq = #{seq}
     </update>
@@ -321,7 +321,7 @@
     <![CDATA[
 		SELECT jo.*
 		FROM (
-			SELECT so.SEQ
+			SELECT so.seq
 			, so.file_org_nm
 			, DATE_FORMAT(so.created_at, '%Y-%m-%d %H:%i') as created_at
 			, DATE_FORMAT(so.updated_at, '%Y-%m-%d %H:%i') as updated_at
@@ -330,7 +330,7 @@
 			, so.file_new_nm
 			, so.file_conv_nm
 			, accum.sum
-			FROM TB_CS_SOUND so
+			FROM tb_cs_sound so
 			JOIN (
 				SELECT tr.sound_seq, SUM(tr.cnt) AS SUM
 				FROM (
@@ -340,11 +340,11 @@
 						OR train_text IS NOT NULL  
 						   	,'1', '0'
 						) AS cnt
-				FROM TB_CS_TRANSCRIPTION
+				FROM tb_cs_transcription
 				) tr
 				GROUP BY tr.sound_seq
-			) accum ON so.SEQ = accum.sound_seq
-			WHERE so.SEQ != -1
+			) accum ON so.seq = accum.sound_seq
+			WHERE so.seq != -1
 			AND so.created_at < TIMESTAMP(DATE_SUB(NOW(), INTERVAL #{term} DAY ) )
 			AND so.deleted_at IS NULL
 		) jo
@@ -354,20 +354,20 @@
 	
     </select>    
     <update id="updateDeletedAtBySeq">
-    	update TB_CS_SOUND
+    	update tb_cs_sound
 		set deleted_at = CURRENT_TIMESTAMP
     	where seq = #{seq}
     </update>
     
     <select id="getSoundFromSeq" parameterType="meetingVo" resultType="meetingVo">
         select 
-        	  SEQ				as seq
+        	  seq				as seq
         	, time_duration_ms	as timeDurationMs
         	, file_org_nm		as fileOrgNm
         	, file_new_nm		as fileNewNm
         	, file_size_bytes	as fileSizeBytes
         	, status			as status
-        from TB_CS_SOUND 
+        from tb_cs_sound 
         where 1 = 1
        	<if test='status != null'>
        		and status = #{status}
@@ -379,7 +379,7 @@
     </select>     
 
     <update id="updateSoundWithMeet" parameterType="meetingVo">
-        update TB_CS_SOUND set
+        update tb_cs_sound set
         	  time_duration_ms = #{timeDurationMs}
         	, status = #{status}
         	<if test='sttStartedAt != null'>
@@ -405,7 +405,7 @@
 
     <select id="getSoundByName" parameterType="Map" resultType="Map">
         select 
-        	SEQ
+        	seq
         	, subject
         	, DATE_FORMAT(created_at, '%Y.%m.%d %H:%i') as created_at
         	, DATE_FORMAT(updated_at, '%Y.%m.%d %H:%i') as updated_at
@@ -414,14 +414,14 @@
         	, time_duration_ms
         	, file_org_nm
         	, file_new_nm
-        from TB_CS_SOUND 
+        from tb_cs_sound 
         WHERE file_org_nm = #{orgnm}
     </select>
  
      <select id="getExportList" resultType="soundBean">
         <![CDATA[
 		select
-	       SEQ as seq
+	       seq as seq
 	        , division
 	        , subject
 	        , created_at as createdAt
@@ -434,24 +434,24 @@
 	        , file_conv_nm as fileConvNm
 	        , remark
 	        , file_size_bytes as fileSizeBytes
-	        , TC_USER_SEQ as tcUserSeq
+	        , tc_user_seq as tcUserSeq
 	        , status
 			, stt_started_at   as sttStartedAt
 			, stt_duration     as sttDuration
 			, reliability
 			, click_least_once  as clickLeastOnce
 			, error_message	as errorMessage
-		from TB_CS_SOUND
-		WHERE SEQ > 0
+		from tb_cs_sound
+		WHERE seq > 0
 		AND created_at BETWEEN str_to_date(#{startDate}, '%Y-%m-%d') AND DATE_ADD(#{endDate}, INTERVAL 1 DAY )
-		and SEQ >= #{from} and SEQ <= #{to}
+		and seq >= #{from} and seq <= #{to}
 		AND deleted_at is null AND trashed_at is null
 		order by created_at
 		]]>
     </select>
  
  	<update	id = "updateRemarkAndUpdatedAtBySeq">
- 		UPDATE	TB_CS_SOUND	
+ 		UPDATE	tb_cs_sound	
  		SET remark = #{updateRemark}, update_at = #{updateAt}
  		WHERE	seq = #{meetSeq}
  	</update>                         

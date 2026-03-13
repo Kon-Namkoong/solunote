@@ -6,7 +6,7 @@
 <mapper namespace="com.vol.solunote.mapper.transcription.TranscriptionMapper">
     
     <select id="getTranscriptionList" resultType="transcriptionVo">
-         select SEQ
+         select seq
 				, channel_id  as channelId
 				, CASE
 						WHEN channel_id = 0
@@ -20,8 +20,8 @@
 				, train_text as trainText
 				,data_id   AS dataId
 				, (
-				   	SELECT count(ct.SEQ)
-						from TB_CS_TRANSCRIPTION ct
+				   	SELECT count(ct.seq)
+						from tb_cs_transcription ct
 						where sound_seq = #{meetSeq}
 				        <if test='reliability != -1'>
 				        	<![CDATA[
@@ -35,7 +35,7 @@
 				        	]]>
 				        </if>  				        
 				   ) AS hiddenCount
-      	from TB_CS_TRANSCRIPTION
+      	from tb_cs_transcription
       	where sound_seq = #{meetSeq}	
         <if test='changeTextValue == 1'>
         	<![CDATA[
@@ -55,19 +55,19 @@
     </select>
     
     <select id="getTranscription" resultType="transcriptionVo">
-         select SEQ
+         select seq
 				, start
 				, end
 				, reliability
 				, stt_text	as sttText
 				, train_text	as trainText
 				, data_id   AS dataId
-      	from TB_CS_TRANSCRIPTION
+      	from tb_cs_transcription
       	where seq = #{seq}
     </select>
     
     <select id="getTranscriptionR" resultType="transcriptionVo">
-	        SELECT SEQ
+	        SELECT seq
 	             , channel_id AS channelId
 	             , CASE WHEN channel_id = 0 THEN 'L' ELSE 'R' END AS channelChar
 	             , ROUND(start, 2) AS start
@@ -76,7 +76,7 @@
 	             , stt_text AS sttText
 	             , train_text AS trainText
 	             , data_id AS dataId
-	        FROM TB_CS_TRANSCRIPTION
+	        FROM tb_cs_transcription
 	      	where sound_seq = #{meetSeq}
 	        <if test='changeTextValue == 1'>
 	        	<![CDATA[
@@ -96,7 +96,7 @@
     </select>    
     
     <select id="getTranscriptionF" resultType="transcriptionVo">
-	        SELECT SEQ
+	        SELECT seq
 	             , channel_id AS channelId
 	             , CASE WHEN channel_id = 0 THEN 'L' ELSE 'R' END AS channelChar
 	             , ROUND(start, 2) AS start
@@ -105,7 +105,7 @@
 	             , stt_text AS sttText
 	             , train_text AS trainText
 	             , data_id AS dataId
-	        FROM TB_CS_TRANSCRIPTION
+	        FROM tb_cs_transcription
 	      	where sound_seq = #{meetSeq}
 	        <if test='changeTextValue == 1'>
 	        	<![CDATA[
@@ -153,9 +153,9 @@
 			) AS candidate
 		   , (
 		   	SELECT count(tra.seq)
-				FROM TB_CS_TRANSCRIPTION tra
-				JOIN TB_CS_SOUND soa ON soa.SEQ != -1 AND tra.sound_seq = soa.SEQ
-				LEFT JOIN TB_CS_TRANS_PAIR pra ON pra.data_id != '' AND tra.data_id = pra.data_id
+				FROM tb_cs_transcription tra
+				JOIN tb_cs_sound soa ON soa.seq != -1 AND tra.sound_seq = soa.seq
+				LEFT JOIN tb_cs_trans_pair pra ON pra.data_id != '' AND tra.data_id = pra.data_id
                 WHERE tra.sound_seq != -1
                 <if test='caller == "reserve"'>
 	                AND ( 
@@ -211,9 +211,9 @@
 			       	     AND ( soa.file_org_nm like CONCAT('%',#{keyword},'%') OR tra.stt_text like CONCAT('%',#{keyword},'%') OR tra.train_text like CONCAT('%',#{keyword},'%') )
 			    </if>		    			    
 		   ) AS hiddenCount
-		FROM TB_CS_TRANSCRIPTION tr
-		JOIN TB_CS_SOUND so ON so.SEQ != -1 AND tr.sound_seq = so.SEQ
-		LEFT JOIN TB_CS_TRANS_PAIR pr ON pr.data_id != '' AND tr.data_id = pr.data_id
+		FROM tb_cs_transcription tr
+		JOIN tb_cs_sound so ON so.seq != -1 AND tr.sound_seq = so.seq
+		LEFT JOIN tb_cs_trans_pair pr ON pr.data_id != '' AND tr.data_id = pr.data_id
 	  	WHERE tr.sound_seq != -1
 	  	<if test='caller == "reserve"'>
 		  	AND ((
@@ -293,9 +293,9 @@
 			) AS candidate
 		   , (
 		   	SELECT count(tra.seq)
-				FROM TB_CS_TRANSCRIPTION tra
-				JOIN TB_CS_SOUND soa ON soa.SEQ != -1 AND tra.sound_seq = soa.SEQ
-				LEFT JOIN TB_CS_TRANS_PAIR pra ON pra.data_id != '' AND tra.data_id = pra.data_id
+				FROM tb_cs_transcription tra
+				JOIN tb_cs_sound soa ON soa.seq != -1 AND tra.sound_seq = soa.seq
+				LEFT JOIN tb_cs_trans_pair pra ON pra.data_id != '' AND tra.data_id = pra.data_id
                 WHERE  ( 
 						 ( (tra.train_text IS NULL or tra.train_text = '') AND tra.data_id != '' )
 			         OR
@@ -326,9 +326,9 @@
 			       	 AND (soa.file_org_nm like CONCAT('%',#{keyword},'%')) 
 			    </if>		    			    
 		   ) AS hiddenCount
-		FROM TB_CS_TRANSCRIPTION tr
-		JOIN TB_CS_SOUND so ON so.SEQ != -1 AND tr.sound_seq = so.SEQ
-		LEFT JOIN TB_CS_TRANS_PAIR pr ON pr.data_id != '' AND tr.data_id = pr.data_id
+		FROM tb_cs_transcription tr
+		JOIN tb_cs_sound so ON so.seq != -1 AND tr.sound_seq = so.seq
+		LEFT JOIN tb_cs_trans_pair pr ON pr.data_id != '' AND tr.data_id = pr.data_id
 	  	WHERE((
 	  	(tr.train_text IS NULL or tr.train_text = '') AND tr.data_id != '' )OR
 		(tr.train_text IS NOT NULL AND  tr.train_text != '' AND 
@@ -385,9 +385,9 @@
 	            ,'Y', 'N'
 	        ) ) AS candidate
 	        , ( SELECT count(tra.seq)
-	                FROM TB_CS_TRANSCRIPTION tra
-	                left JOIN TB_CS_SOUND soa ON tra.sound_seq = soa.SEQ
-	                LEFT JOIN TB_CS_TRANS_PAIR pra ON tra.data_id = pra.data_id
+	                FROM tb_cs_transcription tra
+	                left JOIN tb_cs_sound soa ON tra.sound_seq = soa.seq
+	                LEFT JOIN tb_cs_trans_pair pra ON tra.data_id = pra.data_id
 	                WHERE  ( tra.train_text IS NOT NULL AND tra.train_text != ''
 	                         OR tra.train_text = '' AND pra.data_id IS NOT NULL )
 	                AND tra.sound_seq != -1
@@ -413,9 +413,9 @@
 	                    AND (soa.file_org_nm like CONCAT('%',#{keyword},'%'))
 	                </if>
 	           ) AS hiddenCount
-	    FROM TB_CS_TRANSCRIPTION tr
-	    left JOIN TB_CS_SOUND so ON tr.sound_seq = so.SEQ
-	    LEFT JOIN TB_CS_TRANS_PAIR pr ON tr.data_id = pr.data_id
+	    FROM tb_cs_transcription tr
+	    left JOIN tb_cs_sound so ON tr.sound_seq = so.seq
+	    LEFT JOIN tb_cs_trans_pair pr ON tr.data_id = pr.data_id
 	    WHERE ( tr.train_text IS NOT NULL AND tr.train_text != ''
 	            OR tr.train_text = '' AND pr.data_id IS NOT NULL )
 	    AND tr.sound_seq != -1
@@ -452,7 +452,7 @@
      -->
     
     <insert id="createTranscription">
-        insert TB_CS_TRANSCRIPTION (
+        insert tb_cs_transcription (
         	start
         	, end
         	, stt_text
@@ -472,7 +472,7 @@
     </insert>
 
     <insert id="createTranscriptionWithoutMeet">
-        insert TB_CS_TRANSCRIPTION (
+        insert tb_cs_transcription (
         	start
         	, end
         	, stt_text
@@ -490,7 +490,7 @@
     </insert>
     
     <insert id="createTranscriptionGen" parameterType="map" useGeneratedKeys="true" keyProperty="seq">
-        insert TB_CS_TRANSCRIPTION (
+        insert tb_cs_transcription (
         	start
         	, end
         	, stt_text
@@ -506,7 +506,7 @@
     </insert>
     
     <insert id="createTranscriptionWithMap" parameterType="map" useGeneratedKeys="true" keyProperty="seq">
-        insert TB_CS_TRANSCRIPTION (
+        insert tb_cs_transcription (
         	start
         	, end
         	, stt_text
@@ -526,7 +526,7 @@
     </insert>
     
     <insert id="createTranscriptionForTts" parameterType="map" useGeneratedKeys="true" keyProperty="seq">
-        insert TB_CS_TRANSCRIPTION (
+        insert tb_cs_transcription (
         	start
         	, end
         	, stt_text
@@ -548,14 +548,14 @@
     </insert>
 
     <update id="clickLeastOnce" >
-    	update TB_CS_SOUND
+    	update tb_cs_sound
     	set click_least_once = 1
     	where seq = #{seq}
     </update>
 
     <select id="changedTransCount" parameterType="int" resultType="int">
 		SELECT COUNT(*)
-		FROM TB_CS_TRANSCRIPTION
+		FROM tb_cs_transcription
 		WHERE sound_seq = #{seq}
 			AND ( use_yn = 'Y' 
 				OR data_id != ''
@@ -563,22 +563,22 @@
     </select>
 
      <delete id="deleteTrans" parameterType="Integer">
-		DELETE FROM TB_CS_TRANSCRIPTION 
+		DELETE FROM tb_cs_transcription 
 		WHERE sound_seq = #{seq}
     </delete>
 
     <select id="readSoundBySeq" parameterType="int" resultType="Map">
         select 
-        	SEQ
+        	seq
         	, file_org_nm
         	, file_new_nm
         	, file_conv_nm
-        from TB_CS_SOUND
-        WHERE SEQ = #{seq}
+        from tb_cs_sound
+        WHERE seq = #{seq}
     </select>
 
     <update id="updateTranscriptionForCombine" parameterType="Map">
-		UPDATE TB_CS_TRANSCRIPTION set
+		UPDATE tb_cs_transcription set
 		sound_seq = -1
 		, use_yn = 'N'
 		where seq = #{seq}
@@ -586,7 +586,7 @@
 
 
     <insert id="copyTrans" parameterType="hashmap">
-		insert into TB_CS_TRANSCRIPTION (
+		insert into tb_cs_transcription (
 			start
 			, end
 			, reliability
@@ -609,7 +609,7 @@
 			, -1
 			, -1
 			, channel_id
-		from TB_CS_TRANSCRIPTION
+		from tb_cs_transcription
 		where meeting_seq = #{seq}
     </insert>
     
@@ -642,9 +642,9 @@
 			) AS candidate
 		   , (
 		   	SELECT count(tra.seq)
-				FROM TB_CS_TRANSCRIPTION tra
-				left JOIN TB_CS_SOUND soa ON soa.SEQ != -1 AND tra.sound_seq = soa.SEQ
-				LEFT JOIN TB_CS_TRANS_PAIR pra ON pra.data_id != '' AND tra.data_id = pra.data_id
+				FROM tb_cs_transcription tra
+				left JOIN tb_cs_sound soa ON soa.seq != -1 AND tra.sound_seq = soa.seq
+				LEFT JOIN tb_cs_trans_pair pra ON pra.data_id != '' AND tra.data_id = pra.data_id
 				WHERE ( ( (tra.train_text IS NULL or tra.train_text = '') AND tra.data_id != '' )
 				 OR   ( tra.train_text IS NOT NULL AND tra.data_id = '' )
 				<if test='search == null'>
@@ -673,9 +673,9 @@
 			             )
 			    </if>			    			    
 		   ) AS hiddenCount
-		FROM TB_CS_TRANSCRIPTION tr
-		left JOIN TB_CS_SOUND so ON so.SEQ != -1 AND tr.sound_seq = so.SEQ
-		LEFT JOIN TB_CS_TRANS_PAIR pr ON pr.data_id != '' AND tr.data_id = pr.data_id
+		FROM tb_cs_transcription tr
+		left JOIN tb_cs_sound so ON so.seq != -1 AND tr.sound_seq = so.seq
+		LEFT JOIN tb_cs_trans_pair pr ON pr.data_id != '' AND tr.data_id = pr.data_id
 		WHERE ( ( (tr.train_text IS NULL or tr.train_text = '') AND tr.data_id != '' )
 		 OR   ( tr.train_text IS NOT NULL AND tr.data_id = '' )
 		<if test='search == null'>
@@ -712,13 +712,13 @@
 
     
     <update id="updateTrainTextNull" parameterType="Map">
-		UPDATE TB_CS_TRANSCRIPTION
+		UPDATE tb_cs_transcription
 		set train_text = null
 		where seq = #{seq}
     </update>
     
     <update id="updateDataId" parameterType="Map">
-		UPDATE TB_CS_TRANSCRIPTION
+		UPDATE tb_cs_transcription
 		set use_yn = #{useYn}
 		<if test='dataId != null'>
 			, data_id = #{dataId}
@@ -733,7 +733,7 @@
     </update>        
     
     <update id="updateTranscriptionForSplit" parameterType="Map">
-		UPDATE TB_CS_TRANSCRIPTION set
+		UPDATE tb_cs_transcription set
 			end = #{end}
 			, stt_text = #{sttText}
 			, train_text = NULL
@@ -742,7 +742,7 @@
     </update>
     
     <update id="updateTranscriptionForReset" parameterType="Map">
-		UPDATE TB_CS_TRANSCRIPTION set
+		UPDATE tb_cs_transcription set
 			start = #{start}
 			, end = #{end}
 		where seq = #{seq}
@@ -775,9 +775,9 @@
 			) AS candidate
 		   , (
 		   	SELECT count(tra.seq)
-				FROM TB_CS_TRANSCRIPTION tra
-				JOIN TB_CS_SOUND soa ON soa.SEQ != -1 AND tra.sound_seq = soa.SEQ
-				LEFT JOIN TB_CS_TRANS_PAIR pra ON pra.data_id != '' AND tra.data_id = pra.data_id
+				FROM tb_cs_transcription tra
+				JOIN tb_cs_sound soa ON soa.seq != -1 AND tra.sound_seq = soa.seq
+				LEFT JOIN tb_cs_trans_pair pra ON pra.data_id != '' AND tra.data_id = pra.data_id
                 WHERE  ( 
 						 ( (tra.train_text IS NULL or tra.train_text = '') AND tra.data_id != '' )
 			         OR
@@ -808,9 +808,9 @@
 			       	 AND (soa.file_org_nm like CONCAT('%',#{keyword},'%')) 
 			    </if>		    			    
 		   ) AS hiddenCount
-		FROM TB_CS_TRANSCRIPTION tr
-		JOIN TB_CS_SOUND so ON so.SEQ != -1 AND tr.sound_seq = so.SEQ
-		LEFT JOIN TB_CS_TRANS_PAIR pr ON pr.data_id != '' AND tr.data_id = pr.data_id
+		FROM tb_cs_transcription tr
+		JOIN tb_cs_sound so ON so.seq != -1 AND tr.sound_seq = so.seq
+		LEFT JOIN tb_cs_trans_pair pr ON pr.data_id != '' AND tr.data_id = pr.data_id
 	  	WHERE((
 	  	(tr.train_text IS NULL or tr.train_text = '') AND tr.data_id != '' )OR
 		(tr.train_text IS NOT NULL AND  tr.train_text != '' AND 
@@ -868,9 +868,9 @@
 			   	,'Y', 'N'
 			) ) AS candidate
 		    , ( SELECT count(tra.seq)
-					FROM TB_CS_TRANSCRIPTION tra
-					left JOIN TB_CS_SOUND soa ON tra.sound_seq = soa.SEQ
-					LEFT JOIN TB_CS_TRANS_PAIR pra ON tra.data_id = pra.data_id
+					FROM tb_cs_transcription tra
+					left JOIN tb_cs_sound soa ON tra.sound_seq = soa.seq
+					LEFT JOIN tb_cs_trans_pair pra ON tra.data_id = pra.data_id
 					WHERE  ( tra.train_text IS NOT NULL  AND tra.train_text != ''
 	                         OR  tra.train_text = '' AND pra.data_id IS NOT NULL )
 	                AND tra.sound_seq != -1
@@ -893,9 +893,9 @@
 				        AND (soa.file_org_nm like CONCAT('%',#{keyword},'%'))
 				    </if>
 			   ) AS hiddenCount
-		FROM TB_CS_TRANSCRIPTION tr
-		left JOIN TB_CS_SOUND so ON tr.sound_seq = so.SEQ
-		LEFT JOIN TB_CS_TRANS_PAIR pr ON tr.data_id = pr.data_id
+		FROM tb_cs_transcription tr
+		left JOIN tb_cs_sound so ON tr.sound_seq = so.seq
+		LEFT JOIN tb_cs_trans_pair pr ON tr.data_id = pr.data_id
 		WHERE  ( tr.train_text IS NOT NULL  AND tr.train_text != ''
                 OR  tr.train_text = '' AND pr.data_id IS NOT NULL )
         AND tr.sound_seq != -1
@@ -924,9 +924,9 @@
     </select>
 
 	<update id="excludeTransTranscription" parameterType="Integer">
-		UPDATE TB_CS_TRANSCRIPTION
+		UPDATE tb_cs_transcription
 		SET use_yn = 'N'
-		WHERE SEQ in
+		WHERE seq in
 		<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
 	        #{item}
 	    </foreach>
@@ -934,7 +934,7 @@
     
         
 	<update id="excludeTransTransPair" parameterType="Integer">
-		UPDATE TB_CS_TRANS_PAIR
+		UPDATE tb_cs_trans_pair
 		SET model_id = ''
 		WHERE seq in
 		<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
@@ -943,9 +943,9 @@
     </update>
             
 	<update id="includeTransTranscription" parameterType="Integer">
-		UPDATE TB_CS_TRANSCRIPTION
+		UPDATE tb_cs_transcription
 		SET  use_yn = 'Y',data_id =''
-		WHERE SEQ in
+		WHERE seq in
 		<foreach collection="array" item="item" index="index" open="(" separator="," close=")">
 	        #{item}
 	    </foreach>
@@ -953,7 +953,7 @@
     
     
     <insert id="insertTransPair" parameterType="Map">
-    	insert into TB_CS_TRANS_PAIR (
+    	insert into tb_cs_trans_pair (
     		data_id
     		, seq
     		, train_text
@@ -983,7 +983,7 @@
     		, seq			as seq
     		, train_text	as trainText
     		, use_yn		as useYn
-    	from TB_CS_TRANS_PAIR
+    	from tb_cs_trans_pair
     	where data_id = #{dataId}  	
     </select>
     
@@ -1024,10 +1024,10 @@
 			) AS candidate
 		   , (
 		   	SELECT count(tra.seq)
-				FROM TB_CS_TRANSCRIPTION tra
-				JOIN TB_CS_TTS_KEYWORD kwa on  kwa.seq != -1 AND kwa.seq = tra.tts_seq
-				JOIN TB_CS_TTS soa         on soa.seq != -1 and kwa.tts_seq = soa.seq
-				LEFT JOIN TB_CS_TRANS_PAIR pra ON  tra.data_id = pra.data_id
+				FROM tb_cs_transcription tra
+				JOIN tb_cs_tts_keyword kwa on  kwa.seq != -1 AND kwa.seq = tra.tts_seq
+				JOIN tb_cs_tts soa         on soa.seq != -1 and kwa.tts_seq = soa.seq
+				LEFT JOIN tb_cs_trans_pair pra ON  tra.data_id = pra.data_id
                 WHERE tra.tts_seq != -1
 				<if test='caller == "list"'>
 					AND kwa.trashed_at is null and kwa.deleted_at is null 
@@ -1074,10 +1074,10 @@
 			       	AND ( kwa.keyword_text like CONCAT('%',#{keyword},'%') OR kwa.keyword_sound like CONCAT('%',#{keyword},'%') OR kwa.tts_text like CONCAT('%',#{keyword},'%') OR tra.train_text like CONCAT('%',#{keyword},'%') )
 			    </if>		    			    
 		   ) AS hiddenCount
-		FROM TB_CS_TRANSCRIPTION tr
-		JOIN TB_CS_TTS_KEYWORD kw on  kw.seq != -1 AND kw.seq = tr.tts_seq
-		JOIN TB_CS_TTS so         on so.seq != -1 and kw.tts_seq = so.seq
-		LEFT JOIN TB_CS_TRANS_PAIR pr ON tr.data_id = pr.data_id
+		FROM tb_cs_transcription tr
+		JOIN tb_cs_tts_keyword kw on  kw.seq != -1 AND kw.seq = tr.tts_seq
+		JOIN tb_cs_tts so         on so.seq != -1 and kw.tts_seq = so.seq
+		LEFT JOIN tb_cs_trans_pair pr ON tr.data_id = pr.data_id
 		WHERE tr.tts_seq != -1					
 		<if test='caller == "list"'>
 			AND ( tr.train_text IS NOT NULL AND tr.train_text != ''
@@ -1127,7 +1127,7 @@
        
     <select id="getTransList" resultType="Map">
 		    SELECT
-                tr.SEQ as seq,
+                tr.seq as seq,
                 ROUND(tr.start, 2) AS start,
                 ROUND(tr.end, 2) AS end,
                 tr.reliability,
@@ -1138,13 +1138,13 @@
                 kw.tts_pronounce AS TtsPronText,
                 kw.keyword_text AS keywordText,
                 kw.file_new_nm AS newnm,
-                kw.SEQ as keywordSeq,
+                kw.seq as keywordSeq,
                 (
-                       SELECT count(tra.SEQ)
-                        from TB_CS_TRANSCRIPTION tra
-                        JOIN TB_CS_TTS_KEYWORD kwa ON kwa.SEQ = tra.tts_seq
-                        JOIN TB_CS_TTS soa ON soa.SEQ = kwa.tts_seq
-                        WHERE soa.SEQ = #{seq}    
+                       SELECT count(tra.seq)
+                        from tb_cs_transcription tra
+                        JOIN tb_cs_tts_keyword kwa ON kwa.seq = tra.tts_seq
+                        JOIN tb_cs_tts soa ON soa.seq = kwa.tts_seq
+                        WHERE soa.seq = #{seq}    
                         <if test='reliability != -1'>
                             <![CDATA[
                             and  tra.reliability <= #{reliability}
@@ -1157,10 +1157,10 @@
                             ]]>
                         </if>  -->                                                 
                    ) AS hiddenCount
-            FROM TB_CS_TRANSCRIPTION tr
-            JOIN TB_CS_TTS_KEYWORD kw ON kw.SEQ = tr.tts_seq
-            JOIN TB_CS_TTS so ON so.SEQ = kw.tts_seq
-            WHERE so.SEQ = #{seq}
+            FROM tb_cs_transcription tr
+            JOIN tb_cs_tts_keyword kw ON kw.seq = tr.tts_seq
+            JOIN tb_cs_tts so ON so.seq = kw.tts_seq
+            WHERE so.seq = #{seq}
 <!--             <if test='changeTextValue == 1'>
                 <![CDATA[
                 and  ct.train_text IS NOT NULL
@@ -1172,28 +1172,28 @@
                 and  tr.reliability <= #{reliability}
                 ]]>
             </if>                    
-            ORDER BY kw.SEQ    
+            ORDER BY kw.seq    
             <if test='offsetPageable != null'>
                    limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
             </if>            
     </select>     
 
 	<update id="updateTransTranscription" parameterType="map">
-	    UPDATE TB_CS_TRANSCRIPTION
+	    UPDATE tb_cs_transcription
 	    <set>
 	        <foreach collection="tts_text" item="item" index="index" open="(" separator="," close=")">
 	            train_text = #{item}
 	        </foreach>
 	        , use_yn = 'N'
 	    </set>
-	    WHERE SEQ in
+	    WHERE seq in
 	    <foreach collection="TransSeq" item="item" index="index" open="(" separator="," close=")">
 	        #{item}
 	    </foreach>
 	</update>
 
 	<update	id="updateTrainTextAndUseYnBySeq">
-		UPDATE	TB_CS_TRANSCRIPTION	
+		UPDATE	tb_cs_transcription	
 		SET train_text = #{trainText}, use_yn = #{useYn}
 		FROM	seq = #{seq}
 	</update>		    

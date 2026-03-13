@@ -11,8 +11,8 @@
 			sch.seq
 			, sch.start_time	AS startTime
 			, tr.status
-		FROM TB_CS_TRAIN_SCHEDULE sch
-		LEFT JOIN TB_CS_TRAIN tr ON sch.seq = tr.schedule_seq
+		FROM tb_cs_train_schedule sch
+		LEFT JOIN tb_cs_train tr ON sch.seq = tr.schedule_seq
 	    WHERE sch.start_time BETWEEN DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -1 MONTH), '%Y-%m-%d %H:%i') AND  DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i')
         order by sch.start_time
     ]]>
@@ -20,7 +20,7 @@
     
     <select id="getTrainData" resultType="trainVo">
 	    SELECT 
-			SEQ				AS seq
+			seq				AS seq
 			, NAME
 			, model_id		AS modelId
 			, data_cnt		AS dataCnt
@@ -33,7 +33,7 @@
 			, cer
 			, wer
 			, detail
-		FROM TB_CS_TRAIN
+		FROM tb_cs_train
 		WHERE requested_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
 		<if test='search.searchText != null and search.searchText != ""'>
 			<![CDATA[
@@ -47,7 +47,7 @@
     </select>
     
 	<insert id="insertTrain" parameterType="trainVo">
-        insert TB_CS_TRAIN (
+        insert tb_cs_train (
         	schedule_seq
         	, name
         	, model_id
@@ -66,13 +66,13 @@
     
     
     <update id="updateTransPairModel" parameterType="trainVo">
-    	update TB_CS_TRANS_PAIR
+    	update tb_cs_trans_pair
     	set model_id = #{modelId}
 		WHERE model_id IS NOT NULL AND model_id = ''   
     </update>
     
     <update id="updateTestTransPairModel" parameterType="trainVo">
-    	update TB_CS_TEST_TRANS_PAIR
+    	update tb_cs_test_trans_pair
     	set model_id = #{modelId}
 		WHERE model_id IS NOT NULL AND model_id = ''   
     </update>
@@ -80,18 +80,18 @@
      <select id="getTransPairCount" resultType="int">
        SELECT SUM(a.cnt) FROM (
 			SELECT COUNT(*) AS cnt
-			FROM TB_CS_TRANS_PAIR
+			FROM tb_cs_trans_pair
 			WHERE model_id IS NOT NULL AND model_id = ''
 		union
 			SELECT  COUNT(*) AS cnt
-			FROM TB_CS_TEST_TRANS_PAIR
+			FROM tb_cs_test_trans_pair
 			WHERE model_id IS NOT NULL AND model_id = ''
 		) a
     </select>
     
     
     <update id="updateTrainData" parameterType="trainVo">
-    	update TB_CS_TRAIN
+    	update tb_cs_train
     	set started_at = #{startedAt}
     		, ended_at = #{endedAt}
     		, duration = #{duration}
@@ -106,7 +106,7 @@
     
         
 	<insert id="insertTrainResult" parameterType="trainResultVo">
-        insert TB_CS_TRAIN_RESULT (
+        insert tb_cs_train_result (
 			model_id
 			, data_id
 			, cer
@@ -132,7 +132,7 @@
     </insert>
         
 	<insert id="insertTrainResultXXXXx" parameterType="trainResultVo">
-        insert TB_CS_TRAIN_RESULT (
+        insert tb_cs_train_result (
 			model_id
 			, data_id
 			, cer
@@ -166,7 +166,7 @@
     </insert>
         
 	<insert id="insertTrainResultFull" parameterType="trainResultVo">
-        insert TB_CS_TRAIN_RESULT_FULL (
+        insert tb_cs_train_result_FULL (
 			model_id
 			, data_id
 			, cer
@@ -192,13 +192,13 @@
     </insert>
     
     <update id="updateTrainSchedule" parameterType="trainVo">
-    	update TB_CS_TRAIN_SCHEDULE
+    	update tb_cs_train_schedule
     	set status = #{status}
 		WHERE seq = #{seq}
     </update>
 
     <insert id ="listAdd">
-    	INSERT INTO TB_CS_TRAIN_SCHEDULE (
+    	INSERT INTO tb_cs_train_schedule (
     	start_time
     	) VALUES (
 		#{startTime}
@@ -207,12 +207,12 @@
 
  	<select id="checkdata" resultType="int">
      	SELECT EXISTS (
-    	SELECT * FROM TB_CS_TRAIN_SCHEDULE
+    	SELECT * FROM tb_cs_train_schedule
     	WHERE start_time = #{startTime})
     </select>
 
     <select id="getList" resultType="trainVo">
-		select ts.SEQ AS seq
+		select ts.seq AS seq
 				, ts.start_time as startTime
 				, ts.created_at as	createdAt
 				, tt.started_at AS startedAt
@@ -221,8 +221,8 @@
 				, tt.status as status
 				,(
 					SELECT count(tsc.seq) 
-					FROM TB_CS_TRAIN_SCHEDULE tsc
-					LEFT JOIN TB_CS_TRAIN ttc ON   tsc.SEQ = ttc.schedule_seq
+					FROM tb_cs_train_schedule tsc
+					LEFT JOIN tb_cs_train ttc ON   tsc.seq = ttc.schedule_seq
 					<where>
 						<if test='search != null and search.searchStartDate != null'>
 	      					tsc.created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
@@ -235,8 +235,8 @@
                     </if>						
 					</where>
 				) AS hiddenCount				 		
-      	from TB_CS_TRAIN_SCHEDULE ts
-      	LEFT JOIN TB_CS_TRAIN tt ON   ts.SEQ = tt.schedule_seq
+      	from tb_cs_train_schedule ts
+      	LEFT JOIN tb_cs_train tt ON   ts.seq = tt.schedule_seq
       	<where>
 	      	<if test='search != null and search.searchStartDate != null'>
 		      	ts.created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )
@@ -255,7 +255,7 @@
     </select>
 
     <select id="requestList" resultType="trainVo">
-		select SEQ AS seq
+		select seq AS seq
 				, name
 				, model_id AS modelId
 				, started_at AS startedAt
@@ -270,7 +270,7 @@
 				, updated_at as	updatedAt
 				,(
 					SELECT count(tra.seq) 
-					FROM TB_CS_TRAIN tra
+					FROM tb_cs_train tra
 					<where>
 						<if test='search != null and search.searchStartDate != null'>
 							and tra.created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )	
@@ -280,7 +280,7 @@
 						</if>
 					</where>
 				) AS hiddenCount				 
-      	from TB_CS_TRAIN
+      	from tb_cs_train
       	<where>
 			<if test='search != null and search.searchStartDate != null'>
       			 and created_at BETWEEN DATE(#{search.searchStartDate}) AND DATE_ADD(#{search.searchEndDate}, INTERVAL 1 DAY )	
@@ -304,7 +304,7 @@
 		   , re.error_char  as errorChar
 		   , re.train_text AS trainText
 		   , re.stt_text AS sttText
-		   , tr.SEQ AS seq
+		   , tr.seq AS seq
 		   , tr.start
 		   , tr.end
 		   , tr.reliability
@@ -314,14 +314,14 @@
 		   , te.subject as subject
 		   ,(
 		   		SELECT count(reh.data_id) 
-				 FROM TB_CS_TRAIN_RESULT reh
-				 JOIN TB_CS_TEST_TRANS trh ON reh.data_id = trh.data_id
-				 JOIN TB_CS_TEST teh ON teh.seq != -1 AND trh.test_seq = teh.seq
+				 FROM tb_cs_train_result reh
+				 JOIN tb_cs_test_trans trh ON reh.data_id = trh.data_id
+				 JOIN tb_cs_test teh ON teh.seq != -1 AND trh.test_seq = teh.seq
 				 WHERE reh.model_id = #{modelId}
 			) AS hiddenCount			   
-		FROM TB_CS_TRAIN_RESULT re
-		JOIN TB_CS_TEST_TRANS tr ON re.data_id = tr.data_id
-		JOIN TB_CS_TEST te ON te.seq != -1 AND tr.test_seq = te.SEQ
+		FROM tb_cs_train_result re
+		JOIN tb_cs_test_trans tr ON re.data_id = tr.data_id
+		JOIN tb_cs_test te ON te.seq != -1 AND tr.test_seq = te.seq
 		WHERE re.model_id = #{modelId}
 		<if test='orderby =="fileNewNm" '>
 			order by te.file_new_nm desc
@@ -338,7 +338,7 @@
     </select>
 
     <delete id="excludeTrans" parameterType="Integer">
-		DELETE FROM TB_CS_TRAIN_SCHEDULE 
+		DELETE FROM tb_cs_train_schedule 
 		WHERE seq in 
 		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
 	        #{item}
@@ -346,18 +346,18 @@
     </delete>
 
     <select id="getTrainList" resultType="Map">
-		select SEQ AS seq
+		select seq AS seq
 				, name
 				, model_id   AS modelId
 				, is_success as isSuccess
 				, detail
 				, status
-      	from TB_CS_TRAIN
+      	from tb_cs_train
       	WHERE model_id = #{modelId}
     </select>
 
 	<insert id="insertTrainServerData" parameterType="com.vol.solunote.model.vo.train.TrainServerDataVo">
-        insert TB_CS_TRAIN_SERVER (
+        insert tb_cs_train_server (
         	data_id
         	, test_yn
         	, use_yn
@@ -373,7 +373,7 @@
     </insert>
     
     <delete id="deleteAllTrainServerData">
-        delete from TB_CS_TRAIN_SERVER
+        delete from tb_cs_train_server
     </delete>
     
     <select id="selectTrainServerData" parameterType="com.vol.solunote.model.vo.train.TrainServerDataVo" resultType="com.vol.solunote.model.vo.train.TrainServerDataVo">
@@ -383,14 +383,14 @@
         	, use_yn as useYn
         	, duration
         	, train_text as trainText
-        from TB_CS_TRAIN_SERVER
+        from tb_cs_train_server
         where test_yn = #{testYn}
         order by data_id
     </select>
     
     
    <select id="getAllTranscriptionList" resultType="transcriptionVo">
-         select SEQ
+         select seq
 				, start
 				, end
 				, reliability
@@ -398,34 +398,34 @@
 				, train_text	as trainText
 				, data_id   AS dataId
 				, use_yn    as useYn
-      	from TB_CS_TRANSCRIPTION
+      	from tb_cs_transcription
       	where data_id is not null and data_id != ''
       	order by data_id
     </select>
         
     
    <select id="getAllTestTransList" resultType="transcriptionVo">
-         select SEQ
+         select seq
 				, start
 				, end
 				, reliability
 				, trim(IF(train_text IS NULL or train_text = '', stt_text, train_text))    as trainText
 				, data_id   AS dataId
 				, use_yn    as useYn
-      	from TB_CS_TEST_TRANS
+      	from tb_cs_test_trans
       	where data_id is not null and data_id != ''
       	order by data_id
     </select>
         
         
     <delete id="deleteTransPair" parameterType="Map" >
-        delete from TB_CS_TRANS_PAIR
+        delete from tb_cs_trans_pair
         where data_id = #{dataId}
     </delete>
     
     
     <delete id="deleteTestPair" parameterType="Map" >
-        delete from TB_CS_TRANS_PAIR
+        delete from tb_cs_trans_pair
         where data_id = #{dataId}
     </delete>
     
@@ -441,14 +441,14 @@
                 , t.train_text as tTrainText
                 , t.sound_seq as tRelSeq
                 , 'E' AS mode
-        from TB_CS_TRAIN_SERVER s
-        join TB_CS_TRANSCRIPTION t on s.data_id = t.data_id
+        from tb_cs_train_server s
+        join tb_cs_transcription t on s.data_id = t.data_id
         where s.test_yn = 'N'
         order by s.data_id
     </select>
     
     <update id="updateTransServerMode" parameterType="com.vol.solunote.model.vo.train.TrainCompareVo">
-    	update TB_CS_TRAIN_SERVER
+    	update tb_cs_train_server
     	set t_use_yn = #{tUseYn}
     		, t_duration = #{tDuration}
     		, t_train_text = #{tTrainText}
@@ -468,7 +468,7 @@
                 , s.t_duration as tDuration
                 , s.t_train_text as tTrainText
                 , 'E' AS mode
-        from TB_CS_TRAIN_SERVER s
+        from tb_cs_train_server s
         where s.rel_seq = -1
         and s.mode = 'E'
         and s.use_yn = 'Y'
@@ -488,8 +488,8 @@
                 , t.use_yn as tUseYn
                 , t.test_seq as tRelSeq
                 , 'E' AS mode
-        from TB_CS_TRAIN_SERVER s
-        join TB_CS_TEST_TRANS t on s.data_id = t.data_id
+        from tb_cs_train_server s
+        join tb_cs_test_trans t on s.data_id = t.data_id
         where s.test_yn = 'Y'
         order by s.data_id
     </select>

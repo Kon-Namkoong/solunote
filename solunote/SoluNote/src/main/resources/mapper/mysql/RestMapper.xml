@@ -5,79 +5,75 @@
     
 <mapper namespace="com.vol.solunote.mapper.rest.RestMapper">
     <resultMap id="restUserResult" type="restUserVo">
-        <result property="seq" column="SEQ" javaType="int" />
+        <result property="seq" column="seq" javaType="int" />
         <result property="tcId" column="userId" javaType="java.lang.String" />
         <result property="uid" column="userId" javaType="java.lang.String" />
         <result property="tcPwd" column="password" javaType="java.lang.String" />
     </resultMap>
     
     <resultMap id="restDomain" type="restDomainVo">
-        <result property="seq" column="SEQ" javaType="int" />
-        <result property="domainCode" column="TC_DOMAIN_CODE" javaType="java.lang.String" />
-        <result property="domainName" column="TC_DOMAIN_NAME" javaType="java.lang.String" />
+        <result property="seq" column="seq" javaType="int" />
+        <result property="domainCode" column="tc_domain_code" javaType="java.lang.String" />
+        <result property="domainName" column="tc_domain_name" javaType="java.lang.String" />
     </resultMap>
     
     <resultMap id="restSTTQ" type="sttResultVo">
-        <result property="sttSeq" column="SEQ" javaType="int" />
-        <result property="callId" column="TC_CALL_ID" javaType="java.lang.String" />
-        <result property="status" column="TC_WORKSTATUS" javaType="java.lang.String" />
-        <result property="callUrl" column="TC_REST_URL" javaType="java.lang.String" />
+        <result property="sttSeq" column="seq" javaType="int" />
+        <result property="callId" column="tc_call_id" javaType="java.lang.String" />
+        <result property="status" column="tc_workstatus" javaType="java.lang.String" />
+        <result property="callUrl" column="tc_rest_url" javaType="java.lang.String" />
     </resultMap>
     
     <resultMap id="restSTTResult" type="sttResultVo">
-        <result property="sttSeq" column="SEQ" javaType="int" />
-        <result property="seq" column="RNUM" javaType="int" />
-        <result property="callId" column="TC_CALL_ID" javaType="String" />
-        <result property="regDate" column="TC_CALL_STARTDATE" javaType="String" />
-        <result property="regTime" column="TC_CALL_STARTTIME" javaType="String" />
-<!--         <result property="startDate" column="TC_CALL_STARTDATE" javaType="String" /> -->
-<!--         <result property="startTime" column="TC_CALL_STARTTIME" javaType="String" /> -->
-<!--         <result property="endDate" column="TC_CALL_ENDDATE" javaType="String" /> -->
-<!--         <result property="endTime" column="TC_CALL_ENDTIME" javaType="String" /> -->
-        <result property="fileId" column="TC_FILE_ID" javaType="String" />
-        <result property="fileName" column="TC_FILE_NAME" javaType="String" />
-        <result property="duration" column="TC_DURATION" javaType="String" />
-        <result property="channel" column="TC_CHANNEL" javaType="String" />
-        <result property="frameSp" column="TC_FRAME_SP" javaType="String" />
-        <result property="frameEp" column="TC_FRAME_EP" javaType="String" />
-        <result property="sttResult" column="TC_STT_RESULT" javaType="String" />
+        <result property="sttSeq" column="seq" javaType="int" />
+        <result property="seq" column="rnum" javaType="int" />
+        <result property="callId" column="tc_call_id" javaType="String" />
+        <result property="regDate" column="tc_call_startdate" javaType="String" />
+        <result property="regTime" column="tc_call_starttime" javaType="String" />
+        <result property="fileId" column="tc_file_id" javaType="String" />
+        <result property="fileName" column="tc_file_name" javaType="String" />
+        <result property="duration" column="tc_duration" javaType="String" />
+        <result property="channel" column="tc_channel" javaType="String" />
+        <result property="frameSp" column="tc_frame_sp" javaType="String" />
+        <result property="frameEp" column="tc_frame_ep" javaType="String" />
+        <result property="sttResult" column="tc_stt_result" javaType="String" />
     </resultMap>
 
     <select id="getMember" parameterType="restUserVo" resultMap="restUserResult">
         SELECT 
-            SEQ, TC_ID as userId, TC_PW as password, TC_NAME as name, TC_EMAIL as email, TC_LEVEL as userLevel
+            seq, tc_id as userId, tc_pw as password, tc_name as name, tc_email as email, tc_level as userLevel
             , 1 as isAccountNonExpired, 1 as isAccountNonLocked, 1 as isCredentialsNonExpired, 1 as isEnabled
-        FROM TB_CS_INFO_USER
-        WHERE TC_ID = #{uid}
-        AND TC_USEYN= 1
+        FROM tb_cs_info_user
+        WHERE tc_id = #{uid}
+        AND tc_useyn= 1
     </select>
     
     <select id="getDomainInfo" resultMap="restDomain">
         SELECT
-            SEQ, TC_DOMAIN_CODE, TC_DOMAIN_NAME 
-        FROM TB_CS_INFO_DOMAIN
-        WHERE TC_USEYN = 1
+            seq, tc_domain_code, tc_domain_name 
+        FROM tb_cs_info_domain
+        WHERE tc_useyn = 1
         LIMIT 1
     </select>
     
     <update id="setUpdateSTT" parameterType = "int">
-        DELETE FROM TB_QUEUE_CONN  
-        WHERE SEQ=#{sttSeq}
+        DELETE FROM tb_queue_conn  
+        WHERE seq=#{sttSeq}
     </update>
         
     <select id="getSTTQ"  parameterType="int" resultMap="restSTTQ">
-        SELECT tqc.SEQ, tqc.TC_WORKSTATUS, ir.TC_CALL_ID 
-        FROM TB_QUEUE_CONN tqc 
-        INNER JOIN TB_STT_INFO_RECORD ir ON tqc.SEQ =ir.SEQ 
-        WHERE tqc.SEQ=#{sttSeq}
+        SELECT tqc.seq, tqc.tc_workstatus, ir.tc_call_id 
+        FROM tb_queue_conn tqc 
+        INNER JOIN tb_stt_info_record ir ON tqc.seq =ir.seq 
+        WHERE tqc.seq=#{sttSeq}
     </select>
         
     <select id="getSTTQList" resultMap="restSTTQ">
-        SELECT tqc.SEQ, tqc.TC_WORKSTATUS, ir.TC_CALL_ID, cd.TC_REST_URL 
-        FROM TB_QUEUE_CONN tqc 
-        INNER JOIN TB_STT_INFO_RECORD ir ON tqc.SEQ =ir.SEQ
-        INNER JOIN TB_CS_INFO_DOMAIN cd ON ir.TC_DOMAIN_SEQ =cd.SEQ 
-        WHERE tqc.TC_WORKSTATUS =3
+        SELECT tqc.seq, tqc.tc_workstatus, ir.tc_call_id, cd.tc_rest_url 
+        FROM tb_queue_conn tqc 
+        INNER JOIN tb_stt_info_record ir ON tqc.seq =ir.seq
+        INNER JOIN tb_cs_info_domain cd ON ir.tc_domain_seq =cd.seq 
+        WHERE tqc.tc_workstatus =3
     </select>
     
     <select id="getSTTResult" parameterType="int" resultMap="restSTTResult">
@@ -85,17 +81,17 @@
     </select>
     
     <select id="getLastSTTSEQ" parameterType="String" resultType="sttResultVo">
-        SELECT ic.SEQ FROM 
-		TB_STT_CSCONN ic INNER JOIN
-		 TB_STT_INFO_RECORD ir ON ic.SEQ = ir.SEQ AND ic.TC_WORKSTATUS =3
-		WHERE ir.TC_DOMAIN_CODE = #{domainCode}
-		ORDER  BY ic.SEQ DESC
+        SELECT ic.seq FROM 
+		tb_stt_csconn ic INNER JOIN
+		 tb_stt_info_record ir ON ic.seq = ir.seq AND ic.tc_workstatus =3
+		WHERE ir.tc_domain_code = #{domainCode}
+		ORDER  BY ic.seq DESC
 		LIMIT 1
     </select>
     
     <select id="insertWavFile" parameterType="java.util.HashMap" resultType="int">
-        CALL fn_web_popup_184_file_upload(#{TC_CALL_ID}, #{TC_CALL_STARTDATE}, #{TC_CALL_STARTTIME}, #{TC_CALL_ENDDATE}, #{TC_CALL_ENDTIME}
-            , #{TC_DOMAIN_CODE}, #{TC_DOMAIN_NAME}, #{TC_FILE_NAME}, #{TC_FILE_ID}, #{TC_FILE_ORG_PATH})
+        CALL fn_web_popup_184_file_upload(#{tc_call_id}, #{tc_call_startdate}, #{tc_call_starttime}, #{tc_call_enddate}, #{tc_call_endtime}
+            , #{tc_domain_code}, #{tc_domain_name}, #{tc_file_name}, #{tc_file_id}, #{tc_file_org_path})
     </select>
     
 </mapper>

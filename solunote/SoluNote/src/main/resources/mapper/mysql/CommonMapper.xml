@@ -6,25 +6,25 @@
 <mapper namespace="com.vol.solunote.mapper.comm.CommonMapper">
     
     <resultMap id="domainInfo" type="com.vol.solunote.model.vo.comm.DomainVo">
-	    <result property="seq" column="SEQ" javaType="int" />
-	    <result property="domainCode" column="TC_DOMAIN_CODE" javaType="java.lang.String" />
-	    <result property="domainName" column="TC_DOMAIN_NAME" javaType="java.lang.String" />
-	    <result property="domainExplain" column="TC_DOMAIN_EXPLAIN" javaType="java.lang.String" />
-	    <result property="userSeq" column="TC_USER_SEQ" javaType="int" />
-	    <result property="useYn" column="TC_USEYN" javaType="java.lang.String" />
-	    <result property="regDate" column="TC_REGDATE" javaType="java.lang.String" />
+	    <result property="seq" column="seq" javaType="int" />
+	    <result property="domainCode" column="tc_domain_code" javaType="java.lang.String" />
+	    <result property="domainName" column="tc_domain_name" javaType="java.lang.String" />
+	    <result property="domainExplain" column="tc_domain_explain" javaType="java.lang.String" />
+	    <result property="userSeq" column="tc_user_seq" javaType="int" />
+	    <result property="useYn" column="tc_useyn" javaType="java.lang.String" />
+	    <result property="regDate" column="tc_regdate" javaType="java.lang.String" />
 	</resultMap>
         
     <resultMap id="sesrverInfo" type="Map">
-	    <result property="seq" column="SEQ" javaType="int" />
-	    <result property="svrNick" column="TC_SVRNICK" javaType="java.lang.String" />
-	    <result property="svrChannel" column="TC_SVRCHANNEL" javaType="java.lang.String" />
-	    <result property="wavfileDays" column="TC_WAVFILE_DAYS" javaType="java.lang.String" />
-	    <result property="mp3fileDays" column="TC_MP3FILE_DAYS" javaType="java.lang.String" />
-        <result property="svrIp" column="TC_SVRIP" javaType="java.lang.String" />
-	    <result property="svrPort" column="TC_SVRPORT" javaType="java.lang.String" />
-	    <result property="regDate" column="TC_REGDATE" javaType="java.lang.String" />
-	    <result property="useYn" column="TC_USEYN" javaType="int" />
+	    <result property="seq" column="seq" javaType="int" />
+	    <result property="svrNick" column="tc_svrnick" javaType="java.lang.String" />
+	    <result property="svrChannel" column="tc_svrchannel" javaType="java.lang.String" />
+	    <result property="wavfileDays" column="tc_wavfile_days" javaType="java.lang.String" />
+	    <result property="mp3fileDays" column="tc_mp3file_days" javaType="java.lang.String" />
+        <result property="svrIp" column="tc_svrip" javaType="java.lang.String" />
+	    <result property="svrPort" column="tc_svrport" javaType="java.lang.String" />
+	    <result property="regDate" column="tc_regdate" javaType="java.lang.String" />
+	    <result property="useYn" column="tc_useyn" javaType="int" />
 	</resultMap>
         
     <select id="selectDomainList" resultMap="domainInfo">

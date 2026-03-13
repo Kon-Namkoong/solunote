@@ -6,7 +6,7 @@
 <mapper namespace="com.vol.solunote.comm.mapper.ReportMapper">
 
     <update id="insertStatus" parameterType = "Map">
-        INSERT INTO TB_CS_INFO_SVR_STSRT (TC_SVR, TC_WORKDATE, TC_WORKTIME, TC_CPU_RATIO, TC_RAM_FULL, TC_RAM_FREE, TC_HDD_FULL, TC_HDD_FREE) 
+        INSERT INTO tb_cs_info_svr_stsrt (tc_svr, tc_workdate, tc_worktime, tc_cpu_ratio, tc_ram_full, tc_ram_free, tc_hdd_full, tc_hdd_free) 
         VALUES 
             (#{serverSeq}, #{workDate}, #{workTime}, #{CPUratio}, #{RAMfull}, #{RAMfree}, #{HDDfull}, #{HDDfree})
     </update>

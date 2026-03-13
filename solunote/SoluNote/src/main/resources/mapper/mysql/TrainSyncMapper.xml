@@ -6,7 +6,7 @@
 <mapper namespace="com.vol.solunote.batch.train.mapper.TrainSyncMapper">
                    
 	<insert id="insertTrainServerData" parameterType="com.vol.solunote.model.vo.train.TrainServerDataVo">
-        insert TB_CS_TRAIN_SERVER (
+        insert tb_cs_train_server (
         	data_id
         	, test_yn
         	, use_yn
@@ -22,7 +22,7 @@
     </insert>
     
     <delete id="deleteAllTrainServerData">
-        delete from TB_CS_TRAIN_SERVER
+        delete from tb_cs_train_server
     </delete>
     
     <select id="selectTrainServerData" parameterType="com.vol.solunote.model.vo.train.TrainServerDataVo" resultType="com.vol.solunote.model.vo.train.TrainServerDataVo">
@@ -32,14 +32,14 @@
         	, use_yn as useYn
         	, duration
         	, train_text as trainText
-        from TB_CS_TRAIN_SERVER
+        from tb_cs_train_server
         where test_yn = #{testYn}
         order by data_id
     </select>
     
     
    <select id="getAllTranscriptionList" resultType="transcriptionVo">
-         select SEQ
+         select seq
 				, start
 				, end
 				, reliability
@@ -47,34 +47,34 @@
 				, train_text	as trainText
 				, data_id   AS dataId
 				, use_yn    as useYn
-      	from TB_CS_TRANSCRIPTION
+      	from tb_cs_transcription
       	where data_id is not null and data_id != ''
       	order by data_id
     </select>
         
     
    <select id="getAllTestTransList" resultType="transcriptionVo">
-         select SEQ
+         select seq
 				, start
 				, end
 				, reliability
 				, trim(IF(train_text IS NULL or train_text = '', stt_text, train_text))    as trainText
 				, data_id   AS dataId
 				, use_yn    as useYn
-      	from TB_CS_TEST_TRANS
+      	from tb_cs_test_trans
       	where data_id is not null and data_id != ''
       	order by data_id
     </select>
         
         
     <delete id="deleteTransPair" parameterType="Map" >
-        delete from TB_CS_TRANS_PAIR
+        delete from tb_cs_trans_pair
         where data_id = #{dataId}
     </delete>
     
     
     <delete id="deleteTestPair" parameterType="Map" >
-        delete from TB_CS_TRANS_PAIR
+        delete from tb_cs_trans_pair
         where data_id = #{dataId}
     </delete>
     
@@ -90,14 +90,14 @@
                 , t.train_text as tTrainText
                 , t.sound_seq as tRelSeq
                 , 'E' AS mode
-        from TB_CS_TRAIN_SERVER s
-        join TB_CS_TRANSCRIPTION t on s.data_id = t.data_id
+        from tb_cs_train_server s
+        join tb_cs_transcription t on s.data_id = t.data_id
         where s.test_yn = 'N'
         order by s.data_id
     </select>
     
     <update id="updateTransServerMode" parameterType="com.vol.solunote.model.vo.train.TrainCompareVo">
-    	update TB_CS_TRAIN_SERVER
+    	update tb_cs_train_server
     	set t_use_yn = #{tUseYn}
     		, t_duration = #{tDuration}
     		, t_train_text = #{tTrainText}
@@ -117,7 +117,7 @@
                 , s.t_duration as tDuration
                 , s.t_train_text as tTrainText
                 , 'E' AS mode
-        from TB_CS_TRAIN_SERVER s
+        from tb_cs_train_server s
         where s.rel_seq = -1
         and s.mode = 'E'
         and s.use_yn = 'Y'
@@ -137,8 +137,8 @@
                 , t.use_yn as tUseYn
                 , t.test_seq as tRelSeq
                 , 'E' AS mode
-        from TB_CS_TRAIN_SERVER s
-        join TB_CS_TEST_TRANS t on s.data_id = t.data_id
+        from tb_cs_train_server s
+        join tb_cs_test_trans t on s.data_id = t.data_id
         where s.test_yn = 'Y'
         order by s.data_id
     </select>

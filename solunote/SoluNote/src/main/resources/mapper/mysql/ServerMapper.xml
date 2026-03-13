@@ -6,50 +6,50 @@
 <mapper namespace="com.vol.solunote.mapper.server.ServerMapper">
 
     <resultMap id="ServerInfo" type="serverVo">
-        <result property="seq" column="SEQ" javaType="int" />
-        <result property="svrNick" column="TC_SVRNICK" javaType="java.lang.String" />
-        <result property="svrIp" column="TC_SVRIP" javaType="java.lang.String" />
-        <result property="svrPort" column="TC_SVRPORT" javaType="int" />
-        <result property="svrChannel" column="TC_SVRCHANNEL" javaType="int" />
-        <result property="svrGroup" column="TC_SVRGROUP" javaType="int" />
-        <result property="wavfileDays" column="TC_WAVFILE_DAYS" javaType="int" />
-        <result property="mp3fileDays" column="TC_MP3FILE_DAYS" javaType="int" />
-        <result property="useYn" column="TC_USEYN" javaType="int" />
-        <result property="regDate" column="TC_REGDATE" javaType="java.lang.String" />
+        <result property="seq" column="seq" javaType="int" />
+        <result property="svrNick" column="tc_svrnick" javaType="java.lang.String" />
+        <result property="svrIp" column="tc_svrip" javaType="java.lang.String" />
+        <result property="svrPort" column="tc_svrport" javaType="int" />
+        <result property="svrChannel" column="tc_svrchannel" javaType="int" />
+        <result property="svrGroup" column="tc_svrgroup" javaType="int" />
+        <result property="wavfileDays" column="tc_wavfile_days" javaType="int" />
+        <result property="mp3fileDays" column="tc_mp3file_days" javaType="int" />
+        <result property="useYn" column="tc_useyn" javaType="int" />
+        <result property="regDate" column="tc_regdate" javaType="java.lang.String" />
     </resultMap>
     
     <resultMap id="agentInfo" type="agentVo">
-        <result property="seq" column="SEQ" javaType="int" />
-        <result property="agentId" column="TC_AGENT_ID" javaType="java.lang.String" />
-        <result property="agentName" column="TC_AGENT_NAME" javaType="java.lang.String" />
-        <result property="agentExtno" column="TC_AGENT_EXTNO" javaType="java.lang.String" />
-        <result property="agentIp" column="TC_AGENT_IP" javaType="java.lang.String" />
-        <result property="agentEmail" column="TC_AGENT_EMAIL" javaType="java.lang.String" />
-        <result property="agentPhoneno" column="TC_AGENT_PHONENO" javaType="java.lang.String" />
-        <result property="regDate" column="TC_REGDATE" javaType="java.lang.String" />
-        <result property="upDate" column="TC_UPDATE" javaType="java.lang.String" />
+        <result property="seq" column="seq" javaType="int" />
+        <result property="agentId" column="tc_agent_id" javaType="java.lang.String" />
+        <result property="agentName" column="tc_agent_name" javaType="java.lang.String" />
+        <result property="agentExtno" column="tc_agent_extno" javaType="java.lang.String" />
+        <result property="agentIp" column="tc_agent_ip" javaType="java.lang.String" />
+        <result property="agentEmail" column="tc_agent_email" javaType="java.lang.String" />
+        <result property="agentPhoneno" column="tc_agent_phoneno" javaType="java.lang.String" />
+        <result property="regDate" column="tc_regdate" javaType="java.lang.String" />
+        <result property="upDate" column="tc_update" javaType="java.lang.String" />
     </resultMap>
     
     <resultMap id = "domainInfo" type="serverDomainVo">
-        <result property="seq" column="SEQ" javaType="int" />
-        <result property="domainCode" column="TC_DOMAIN_CODE" javaType="java.lang.String" />
-        <result property="domainName" column="TC_DOMAIN_NAME" javaType="java.lang.String" />
-        <result property="domainExplain" column="TC_DOMAIN_EXPLAIN" javaType="java.lang.String" />
-        <result property="userSeq" column="TC_USER_SEQ" javaType="int" />
-        <result property="userId" column="TC_ID" javaType="String" />
-        <result property="userName" column="TC_USER_NAME" javaType="java.lang.String" />
-        <result property="useYn" column="TC_USEYN" javaType="java.lang.String" />
-        <result property="regDate" column="TC_REGDATE" javaType="java.lang.String" />
+        <result property="seq" column="seq" javaType="int" />
+        <result property="domainCode" column="tc_domain_code" javaType="java.lang.String" />
+        <result property="domainName" column="tc_domain_name" javaType="java.lang.String" />
+        <result property="domainExplain" column="tc_domain_explain" javaType="java.lang.String" />
+        <result property="userSeq" column="tc_user_seq" javaType="int" />
+        <result property="userId" column="tc_id" javaType="String" />
+        <result property="userName" column="tc_user_name" javaType="java.lang.String" />
+        <result property="useYn" column="tc_useyn" javaType="java.lang.String" />
+        <result property="regDate" column="tc_regdate" javaType="java.lang.String" />
     </resultMap>    
     
     <select id="selectServerList" resultMap="ServerInfo">
-        SELECT * FROM TB_CS_INFO_SVR
+        SELECT * FROM tb_cs_info_svr
     </select>    
     
     <update id = "updateServer" parameterType = "Map">
-        UPDATE TB_CS_INFO_SVR
-        SET TC_SVRNICK = #{svrNick}, TC_WAVFILE_DAYS = #{wavfileDays}, TC_MP3FILE_DAYS= #{mp3fileDays}, TC_USEYN = #{useYn} 
-        WHERE SEQ = #{seq}
+        UPDATE tb_cs_info_svr
+        SET tc_svrnick = #{svrNick}, tc_wavfile_days = #{wavfileDays}, tc_mp3file_days= #{mp3fileDays}, tc_useyn = #{useYn} 
+        WHERE seq = #{seq}
     </update>
     
     <select id="checkServerInfo" resultType="int">
@@ -57,34 +57,34 @@
     </select>
     
     <update id="updateAgent" parameterType = "Map">
-        UPDATE TB_CS_INFO_AGENT
-        SET TC_AGENT_NAME = #{agentName}, TC_AGENT_EXTNO = #{agentExtno}, TC_AGENT_EMAIL= #{agentEmail}, TC_AGENT_PHONENO = #{agentPhoneno} 
-        WHERE SEQ = #{seq}
+        UPDATE tb_cs_info_agent
+        SET tc_agent_name = #{agentName}, tc_agent_extno = #{agentExtno}, tc_agent_email= #{agentEmail}, tc_agent_phoneno = #{agentPhoneno} 
+        WHERE seq = #{seq}
     </update>  
     
     <insert id="insertAgent" parameterType = "Map">
-        INSERT INTO TB_CS_INFO_AGENT (TC_AGENT_ID, TC_AGENT_NAME, TC_AGENT_EXTNO, TC_AGENT_PHONENO, TC_AGENT_EMAIL )
+        INSERT INTO tb_cs_info_agent (tc_agent_id, tc_agent_name, tc_agent_extno, tc_agent_phoneno, tc_agent_email )
         VALUES (#{agentId}, #{agentName}, #{agentExtno}, #{agentPhoneno}, #{agentEmail})
     </insert>
     
     <select id = "findAgentInfo" resultMap="agentInfo">
-        SELECT * FROM TB_CS_INFO_AGENT WHERE SEQ = #{seq}
+        SELECT * FROM tb_cs_info_agent WHERE seq = #{seq}
     </select>
     
     <delete id="deleteAgent" parameterType = "int"> 
-        DELETE FROM TB_CS_INFO_AGENT 
-        WHERE SEQ = #{seq} 
+        DELETE FROM tb_cs_info_agent 
+        WHERE seq = #{seq} 
     </delete>
     
     <delete id="deleteDomain" parameterType = "int"> 
         DELETE FROM TB_CS_INFO_DOMAIN 
-        WHERE SEQ = #{seq} 
+        WHERE seq = #{seq} 
     </delete>
     
     <select id="checkDomain" resultType="int">
         SELECT COUNT(*)
         FROM TB_CS_INFO_DOMAIN 
-        WHERE TC_DOMAIN_CODE = #{code} AND SEQ != #{seq}
+        WHERE tc_domain_code = #{code} AND seq != #{seq}
     </select>
     
     <insert id="insertDomain" parameterType = "Map">
@@ -93,8 +93,8 @@
     
     <update id="updateDomain" parameterType = "Map">
         UPDATE TB_CS_INFO_DOMAIN 
-        SET TC_DOMAIN_CODE = #{domainCode}, TC_DOMAIN_NAME = #{domainName}, TC_DOMAIN_EXPLAIN = #{domainExplain}, TC_USEYN = #{useYn}
-        WHERE SEQ = #{seq}    
+        SET tc_domain_code = #{domainCode}, tc_domain_name = #{domainName}, tc_domain_explain = #{domainExplain}, tc_useyn = #{useYn}
+        WHERE seq = #{seq}    
     </update>  
     
     <select id="findDomainInfo" resultMap="domainInfo" >
