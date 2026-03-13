@@ -6,8 +6,11 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vol.solunote.comm.OffsetPageable;
 import com.vol.solunote.mapper.division.DivisionMapper;
 import org.springframework.stereotype.Repository;
+
+
 @Repository
 public class DivisionRepositoryImpl implements DivisionRepository {
 
@@ -43,4 +46,11 @@ public class DivisionRepositoryImpl implements DivisionRepository {
     {
     	mapper.deleteDivisionInfo(division);	
     }
+	
+	@Override
+	public 	List<Map<String, Object>> selectInfoDivision(OffsetPageable offsetPageable,String division , int getlist) throws Exception
+	{	
+		List<Map<String, Object>> list = mapper.selectInfoDivision(offsetPageable,division,getlist);		
+		return list;
+	}
 }

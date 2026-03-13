@@ -36,10 +36,10 @@ import com.vol.solunote.model.vo.transcription.TranscriptionVo;
 import com.vol.solunote.model.vo.comm.DefaultVo;
 import com.vol.solunote.model.vo.sound.SoundVo;
 import com.vol.solunote.model.vo.transcription.TransVo;
-import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
 import com.vol.solunote.comm.service.disk.DiskService;
 import com.vol.solunote.comm.service.ffmpec.FFMpegService;
 import com.vol.solunote.comm.service.stt.SttService;
+import com.vol.solunote.repository.division.DivisionRepository;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -66,8 +66,7 @@ public class Menu25Controller extends DefaultController {
 	private SttService	 sttService;
 	
 	@Autowired
-	//@Resource(name="${service.class.commonService}")
-	private CommonSteelServiceImpl commonService ;
+	private DivisionRepository divisionRepository;
 	
 	public static int processingFileCnt = 0;
 	
@@ -84,7 +83,7 @@ public class Menu25Controller extends DefaultController {
 		
 		setSearchTerm(search);
 
-		List<Map<String, Object>> divisionList = commonService.selectInfoDivision(null,null,0);
+		List<Map<String, Object>> divisionList = divisionRepository.selectInfoDivision(null,null,0);
 		
 		model.addAttribute("divisionList", divisionList);		
 		model.addAttribute("search", search);

@@ -46,28 +46,5 @@
     <select id="selectRatioConfigration" resultType="HashMap">
         CALL fn_get_ref_ratio()
     </select>
-
-    <select id="selectInfoDivision" resultType="Map">
-      SELECT 
-      	SEQ as seq
-		,division
-		,army_name AS armyName
-		,DATE_FORMAT(created_at, '%Y-%m-%d %H:%i') AS createdAt
-		,DATE_FORMAT(updated_at, '%Y-%m-%d %H:%i') AS updatedAt
-		,(
-			SELECT count(tid.division) 
-			FROM TB_CS_INFO_DIVISION tid
-			<if test='division != null and division != "" '>
-			WHERE tid.division =  #{division}
-			</if>
-		) AS hiddenCount		
-		FROM TB_CS_INFO_DIVISION
-		<if test='division != null and division != "" '>
-			WHERE division =  #{division}
-		</if>
-		order by seq 
-		<if test='offsetPageable != null and getlist == 1 ' >
-       		limit #{offsetPageable.offset}, #{offsetPageable.pageSize}
-        </if>
-    </select>      
+   
 </mapper>

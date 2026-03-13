@@ -12,6 +12,6 @@ public interface CommonDataService {
 	public	void trainCopyTestAndTestTrans(int seq, SoundVo trainMap) throws Exception;	
 	public	void copyTestAndTestTrans(int seq, Map<String, Object> meetMap) throws Exception;	
 	public 	void postErrorTxn(TransVo vo, Category category, int seq, boolean reset, String errorMsg) throws Exception;	
-	public void postData( TransVo vo, Category category, boolean reset, boolean fakeFlag) throws Exception;
+	public 	void postData( TransVo vo, Category category, boolean reset, boolean fakeFlag) throws Exception;
 }
 

@@ -472,15 +472,5 @@ public class CommonServiceImpl implements CommonService {
 //			e.printStackTrace();
 //		}
 	}
-	
-
-	@Override
-	public List<Map<String, Object>> selectInfoDivision(OffsetPageable offsetPageable,String division , int getlist) throws Exception {
 		
-		List<Map<String, Object>> list = commonMapper.selectInfoDivision(offsetPageable,division,getlist);
-		
-		return list;
-	}
-
-	
 }

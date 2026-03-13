@@ -54,9 +54,6 @@ public interface CommonService {
 
 	<T,S> S callRestTemplateGen(HttpHeaders httpHeaders, HttpMethod method, String url, T body) throws Exception;
 
-	
-	public List<Map<String, Object>> selectInfoDivision(OffsetPageable offsetPageable,String division , int getlist) throws Exception;
-
 	<T> T restPostStereoFile(String url, TransVo vo, String text, Category category) throws Exception;
 
 //	String convertUploadFile(String subAndName) throws Exception;
