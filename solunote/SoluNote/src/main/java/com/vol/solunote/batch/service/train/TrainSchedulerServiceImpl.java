@@ -17,12 +17,8 @@ import com.vol.solunote.model.vo.train.TrainCompareVo;
 import com.vol.solunote.model.vo.train.TrainServerDataVo;
 import com.vol.solunote.model.vo.train.TrainVo;
 import com.vol.solunote.model.vo.transcription.TransVo;
-import com.vol.solunote.repository.meeting.MeetingRepository;
-import com.vol.solunote.repository.rest.RestRepository;
-import com.vol.solunote.repository.sound.SoundRepository;
 import com.vol.solunote.repository.test.TestRepository;
 import com.vol.solunote.repository.transcription.TranscriptionRepository;
-import com.vol.solunote.repository.upload.UploadDiskRepository;
 import com.vol.solunote.repository.train.TrainRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +27,13 @@ import org.springframework.beans.factory.annotation.Value;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vol.solunote.common.service.CommonDataService;
-import com.vol.solunote.mapper.comm.ReportMapper;
+
 import com.vol.solunote.comm.DefaultController;
 import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
 import com.vol.solunote.comm.service.disk.DiskService;
 import com.vol.solunote.comm.util.DateUtil;
 
 import lombok.extern.slf4j.Slf4j;
-import java.net.URI;
 
 @Service
 @Slf4j

@@ -9,7 +9,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.vol.solunote.comm.OffsetPageable;
 import com.vol.solunote.model.type.Category;
 import com.vol.solunote.model.vo.comm.DomainVo;
 import com.vol.solunote.model.vo.comm.ErrorShelf;

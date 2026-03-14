@@ -2,10 +2,9 @@ package com.vol.solunote.repository.login;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vol.solunote.model.entity.login.LoginLog;
 import com.vol.solunote.model.vo.login.LoginLogProjectionVo;
 
 import com.vol.solunote.mapper.login.LoginLogMapper;

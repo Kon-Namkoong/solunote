@@ -8,7 +8,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -34,7 +33,6 @@ import com.vol.solunote.Exception.TrainCallException;
 import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
 import com.vol.solunote.comm.service.disk.DiskServiceImpl;
 import com.vol.solunote.comm.util.DateUtil;
-import com.vol.solunote.repository.tts.TtsRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,8 +51,6 @@ public class TtsServiceImpl implements TtsService {
 	@Autowired
 	private CommonSteelServiceImpl commonService;
 
-	@Autowired
-	private TtsRepository ttsRepository;
 
 	@Override
 	public Map<String, Object> generateText(String keyword, String speech , String detail) throws Exception {

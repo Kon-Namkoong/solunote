@@ -8,7 +8,7 @@ import com.vol.solunote.model.vo.transcription.TranscriptionVo;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.lang.NonNull;
+
 
 @Mapper
 public interface TranscriptionMapper {

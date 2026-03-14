@@ -1,24 +1,11 @@
 package com.vol.solunote.batch.scheduler.sound;
 
-
-import java.io.IOException;
-import java.nio.file.Path;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
-import com.vol.solunote.comm.service.disk.DiskService;
-import com.vol.solunote.model.type.Category;
-import com.vol.solunote.model.vo.comm.DirPathVo;
-import com.vol.solunote.repository.meeting.MeetingRepository;
-import com.vol.solunote.repository.sound.SoundRepository;
-import com.vol.solunote.repository.test.TestRepository;
-import com.vol.solunote.repository.transcription.TranscriptionRepository;
-import com.vol.solunote.repository.upload.UploadDiskRepository;
 import com.vol.solunote.batch.service.sound.SoundSchedulerService;
 
 import lombok.extern.slf4j.Slf4j;

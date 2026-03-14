@@ -12,15 +12,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vol.solunote.comm.DefaultController;
-import com.vol.solunote.comm.Util;
 import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
 import com.vol.solunote.comm.service.disk.DiskService;
-import com.vol.solunote.model.entity.transcription.Transcription;
 import com.vol.solunote.model.type.Category;
 import com.vol.solunote.model.vo.transcription.TranscriptionVo;
 import com.vol.solunote.model.vo.sound.SoundVo;
 import com.vol.solunote.repository.sound.SoundRepository;
-import com.vol.solunote.repository.test.TestRepository;
 import com.vol.solunote.repository.transcription.TranscriptionRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -40,9 +37,6 @@ public class Menu23SteelServiceImpl implements Menu23Service {
 	@Autowired
 	private DiskService diskService;
 
-	
-	@Autowired
-	private TestRepository		testRepository;
 	
 	@Autowired
 	private TranscriptionRepository 	transcriptionRepository;

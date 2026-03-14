@@ -1,15 +1,8 @@
 package com.vol.solunote.repository.sound;
 
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.lang.NonNull;
-import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.vol.solunote.comm.OffsetPageable;
-import com.vol.solunote.model.entity.sound.Sound;
 import com.vol.solunote.model.vo.comm.SearchVo;
 import com.vol.solunote.model.vo.meeting.MeetingVo;
 import com.vol.solunote.model.vo.sound.SoundVo;

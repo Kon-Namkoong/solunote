@@ -1,8 +1,6 @@
 package com.vol.solunote.model.vo.transcription;
 import com.vol.solunote.model.entity.base.Base;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Lob;
 import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
