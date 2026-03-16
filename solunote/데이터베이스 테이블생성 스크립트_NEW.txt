@@ -1,0 +1,626 @@
+CREATE TABLE `tb_cs_login_log` (
+  `login_log_id` bigint NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `error_message` varchar(255) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `tc_id` varchar(255) DEFAULT NULL,
+  `user_seq` int NOT NULL,
+  PRIMARY KEY (`login_log_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_info_agent` (
+  `seq` int NOT NULL AUTO_INCREMENT COMMENT '아이템 번호',
+  `tc_agent_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '내선번호 ID',
+  `tc_agent_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '이름',
+  `tc_agent_extno` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '내선번호',
+  `tc_agent_ip` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'IP정보',
+  `tc_agent_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '이메일주소',
+  `tc_agent_phoneno` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '전화번호',
+  `tc_regdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
+  `tc_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정일',
+  PRIMARY KEY (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_info_division` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `division` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0' COMMENT '부대코드',
+  `army_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '부대이름',
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`,`division`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_info_domain` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `tc_domain_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `tc_domain_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `tc_domain_explain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `tc_user_seq` int NOT NULL DEFAULT '0',
+  `tc_useyn` smallint NOT NULL DEFAULT '1',
+  `tc_regdate` datetime DEFAULT CURRENT_TIMESTAMP,
+  `tc_rest_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `idx_tb_cs_info_domain_2` (`tc_domain_code`) USING BTREE,
+  KEY `idx_seq_and_domain_user` (`seq`,`tc_domain_code`,`tc_domain_name`,`tc_domain_explain`,`tc_user_seq`,`tc_useyn`,`tc_regdate`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_info_svr` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `tc_svrnick` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `tc_svrip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `tc_svrport` int NOT NULL DEFAULT '0',
+  `tc_svrchannel` int NOT NULL DEFAULT '30',
+  `tc_svrgroup` int NOT NULL DEFAULT '0',
+  `tc_wavfile_days` int DEFAULT '7',
+  `tc_mp3file_days` int DEFAULT '30',
+  `tc_useyn` smallint NOT NULL DEFAULT '1',
+  `tc_regdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `tb_cs_info_user` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `tc_email` varchar(255) DEFAULT NULL,
+  `tc_group` int NOT NULL DEFAULT '0',
+  `tc_id` varchar(50) NOT NULL,
+  `tc_level` int NOT NULL DEFAULT '0',
+  `tc_login` int NOT NULL DEFAULT '0',
+  `tc_name` varchar(255) NOT NULL,
+  `tc_nick` varchar(255) DEFAULT NULL,
+  `tc_phone` varchar(30) DEFAULT NULL,
+  `tc_pw` varchar(255) NOT NULL,
+  `tc_pw_update` datetime(6) DEFAULT NULL,
+  `tc_type` int NOT NULL DEFAULT '0',
+  `tc_update` datetime(6) DEFAULT NULL,
+  `tc_useyn` int NOT NULL DEFAULT '1',
+  `tc_regdate` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`),
+  UNIQUE KEY `idx_tc_id` (`tc_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `tb_cs_last_read` (
+  `category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'category : testdata / traindata',
+  `dir` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'directory 이름',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`category`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_meeting` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `subject` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `trashed_at` timestamp NULL DEFAULT NULL,
+  `removed_at` timestamp NULL DEFAULT NULL COMMENT '삭제일시',
+  `time_duration_ms` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '밀리초 단위',
+  `file_org_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `file_new_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `file_conv_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '학습용 converted file',
+  `remark` bit(1) NOT NULL DEFAULT b'0',
+  `file_size_bytes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `tc_user_seq` int NOT NULL DEFAULT '1' COMMENT '등록 유저 번호',
+  `summary` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '내용 요약',
+  `summary2` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '내용 요약약2',
+  `error_message` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `lang` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `reliability` smallint NOT NULL DEFAULT '0',
+  `summary3` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `summary_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `summary_id2` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `summary_id3` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `summary_status` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `summary_status2` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `summary_status3` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `upload_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  PRIMARY KEY (`seq`),
+  KEY `idx_meeting_createc_at` (`created_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=360 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_meeting_api` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `subject` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `trashed_at` timestamp NULL DEFAULT NULL,
+  `time_duration_ms` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '밀리초 단위',
+  `lang` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT 'ko' COMMENT 'lang',
+  `file_org_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `file_new_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `file_conv_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '학습용 converted file',
+  `remark` bit(1) NOT NULL DEFAULT b'0',
+  `file_size_bytes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `tc_user_seq` int NOT NULL DEFAULT '1' COMMENT '등록 유저 번호',
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '10' COMMENT '학습상태',
+  `meeting_seq` int DEFAULT NULL COMMENT 'tb_cs_MEETING.seq',
+  `stt_started_at` timestamp NULL DEFAULT NULL COMMENT 'stt 시작 시간',
+  `stt_duration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'STT 소요시간 HH:MM:SS',
+  `error_message` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '에러 메세지',
+  PRIMARY KEY (`seq`) USING BTREE,
+  KEY `idx_meeting_api_status` (`status`) USING BTREE,
+  KEY `idx_meeting_api_meeting_seq` (`meeting_seq`),
+  KEY `idx_meeting_api_created_at` (`created_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `tb_cs_meeting_config` (
+  `config_name` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '설정 이름, MEETING_DELETE_TERM',
+  `config_value` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '설정 이름, 12 개월',
+  `use_yn` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Y' COMMENT '사용여부',
+  `detail` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '내용 설명',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`config_name`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_meeting_speaker` (
+  `meeting_speaker_id` bigint NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `name` varchar(255) NOT NULL,
+  `seq` int DEFAULT NULL,
+  PRIMARY KEY (`meeting_speaker_id`),
+  UNIQUE KEY `idx_name_and_seq` (`name`,`seq`) /*!80000 INVISIBLE */,
+  KEY `fk_meeting` (`seq`),
+  CONSTRAINT `fk_meeting_seq_in_meeting_speaker` FOREIGN KEY (`seq`) REFERENCES `tb_cs_meeting` (`seq`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_meeting_result` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `start` double NOT NULL,
+  `end` double NOT NULL,
+  `text` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `speaker` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '?',
+  `meeting_seq` int NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `meeting_speaker_id` bigint DEFAULT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`),
+  KEY `meeting_speaker_key` (`meeting_speaker_id`),
+  KEY `meeting_seq_key` (`meeting_seq`),
+  CONSTRAINT `fk_meeting_seq_in_meeting_result` FOREIGN KEY (`meeting_seq`) REFERENCES `tb_cs_meeting` (`seq`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_meeting_speaker_meeting_speaker_id` FOREIGN KEY (`meeting_speaker_id`) REFERENCES `tb_cs_meeting_speaker` (`meeting_speaker_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+
+CREATE TABLE `tb_cs_menu` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `menu_code` int NOT NULL DEFAULT '0',
+  `menu_main` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+  `menu_sub` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
+  `menu_count` int NOT NULL DEFAULT '0',
+  `menu_level` int NOT NULL DEFAULT '0' COMMENT '0=user, 100=admin',
+  `url` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_menu_auth` (
+  `auth_seq` int NOT NULL DEFAULT '0' COMMENT '권한순번',
+  `auth_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '권한명',
+  `auth_type` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'U0' COMMENT '권한 타입 AS : 슈퍼 관리자 A0 : 관리자 U0: 사용자',
+  `regdate` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
+  `use_yn` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`auth_seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_menu_base` (
+  `auth_seq` int NOT NULL DEFAULT '0' COMMENT '권한 seq',
+  `menu_seq` int NOT NULL DEFAULT '0' COMMENT '메뉴 seq',
+  `menu_rights` int NOT NULL DEFAULT '0' COMMENT '메뉴 편집 가능 여부 1: 가능 0 : 불가능',
+  `down_rights` int NOT NULL DEFAULT '0' COMMENT '다운로드 가능 여부 1: 가능 0 : 불가능',
+  `regdate` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
+  PRIMARY KEY (`auth_seq`,`menu_seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_menu_main` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `menu_lang` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `menu_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `menu_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `menu_parent_seq` int NOT NULL DEFAULT '0',
+  `menu_no` int NOT NULL DEFAULT '0',
+  `menu_useyn` smallint NOT NULL DEFAULT '1',
+  `menu_del` smallint NOT NULL DEFAULT '0',
+  `regdate` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`),
+  KEY `idx_tb_cs_menu_main_1` (`seq`,`menu_lang`,`menu_code`,`menu_name`,`menu_parent_seq`,`menu_no`,`menu_useyn`,`menu_del`,`regdate`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_menu_user` (
+  `user_seq` int NOT NULL DEFAULT '0',
+  `menu_seq` int NOT NULL DEFAULT '0',
+  `menu_rights` int NOT NULL DEFAULT '0',
+  `down_rights` int NOT NULL DEFAULT '0',
+  `regdate` datetime DEFAULT CURRENT_TIMESTAMP,
+  `base_menu_seq` int NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_seq`,`menu_seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `tb_cs_sound` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `subject` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `trashed_at` timestamp NULL DEFAULT NULL,
+  `time_duration_ms` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '밀리초 단위',
+  `file_org_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `file_new_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `file_conv_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '학습용 converted file',
+  `remark` bit(1) NOT NULL DEFAULT b'0',
+  `file_size_bytes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `tc_user_seq` int NOT NULL COMMENT '등록 유저 번호',
+  `meeting_seq` int DEFAULT NULL COMMENT 'copy 한 tb_cs_meeting.seq',
+  `stt_started_at` timestamp NULL DEFAULT NULL COMMENT 'stt 시작 시간',
+  `stt_duration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'STT 소요시간 HH:MM:SS',
+  `click_least_once` int NOT NULL DEFAULT '0' COMMENT 'read count',
+  `error_message` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '에러 메세지',
+  `channel_count` int NOT NULL DEFAULT '1',
+  `division` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `file_stereo_prefix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `reliability` int NOT NULL DEFAULT '0',
+  `staprivatetus` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '10',
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '10',
+  PRIMARY KEY (`seq`) USING BTREE,
+  KEY `idx_sound_createc_at` (`created_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_test` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `division` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `subject` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `train_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `trashed_at` timestamp NULL DEFAULT NULL,
+  `time_duration_ms` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '밀리초 단위',
+  `channel_count` smallint NOT NULL DEFAULT '1' COMMENT 'channel count',
+  `file_org_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `file_new_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `file_conv_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '학습용 converted file',
+  `file_stereo_prefix` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'stereo file prefix',
+  `remark` bit(1) NOT NULL DEFAULT b'0',
+  `file_size_bytes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `tc_user_seq` int NOT NULL DEFAULT '1' COMMENT '등록 유저 번호',
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '10' COMMENT '10:upload 20:stt',
+  `stt_started_at` timestamp NULL DEFAULT NULL COMMENT 'stt 시작 시간',
+  `stt_duration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'STT 소요시간 HH:MM:SS',
+  `reliability` smallint NOT NULL DEFAULT '0' COMMENT '신뢰도',
+  `click_least_once` int NOT NULL DEFAULT '0' COMMENT 'read count',
+  `error_message` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '에러 메세지',
+  PRIMARY KEY (`seq`)
+) ENGINE=InnoDB AUTO_INCREMENT=353 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_test_trans` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `start` double NOT NULL,
+  `end` double NOT NULL,
+  `reliability` smallint NOT NULL DEFAULT '0' COMMENT '신뢰도',
+  `channel_id` smallint NOT NULL DEFAULT '0' COMMENT 'channel count',
+  `stt_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `meet_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `train_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `test_seq` int DEFAULT NULL,
+  `use_yn` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Y' COMMENT '사용여부',
+  `data_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT 'data id',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `error_msg` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'error message',
+  PRIMARY KEY (`seq`),
+  KEY `idx_test_trans_test` (`test_seq`),
+  KEY `idx_test_trans_data_id` (`data_id`),
+  CONSTRAINT `fk_test_seq` FOREIGN KEY (`test_seq`) REFERENCES `tb_cs_test` (`seq`)
+) ENGINE=InnoDB AUTO_INCREMENT=165 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_test_trans_pair` (
+  `data_id` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT 'data id',
+  `seq` int NOT NULL DEFAULT '0' COMMENT 'tb_cs_TEST_TRANS table 의 seq',
+  `train_text` text CHARACTER SET utf8mb4  COLLATE utf8mb4_bin ,
+  `use_yn` varchar(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Y' COMMENT '사용여부',
+  `model_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'model id',
+  `start` double NOT NULL,
+  `end` double NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`data_id`),
+  KEY `idx_test_trans_pair_seq` (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_train` (
+  `seq` int NOT NULL AUTO_INCREMENT COMMENT '일련번호',
+  `schedule_seq` int NOT NULL DEFAULT '0' COMMENT 'tb_cs_TRAIN_SCHEUDLE 일련번호',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT '이름',
+  `model_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '모델 ID',
+  `data_cnt` int NOT NULL DEFAULT '0' COMMENT '요청파일수량',
+  `requested_at` timestamp NULL DEFAULT NULL COMMENT '요청일시',
+  `started_at` timestamp NULL DEFAULT NULL COMMENT '학습시작일시',
+  `ended_at` timestamp NULL DEFAULT NULL COMMENT '학습종료일시',
+  `duration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '학습소요시간',
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0' COMMENT '학습상태',
+  `is_success` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '성공여부',
+  `cer` float NOT NULL DEFAULT '0' COMMENT 'char error rate',
+  `wer` float NOT NULL DEFAULT '0' COMMENT 'word error rate',
+  `detail` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '에러 메세지',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`),
+  KEY `idx_train_createc_at` (`created_at`),
+  KEY `idx_train_schedule_seq` (`schedule_seq`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_transcription` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `start` double NOT NULL,
+  `end` double NOT NULL,
+  `reliability` smallint NOT NULL DEFAULT '0' COMMENT '신뢰도',
+  `stt_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `meet_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `train_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `meeting_seq` int DEFAULT NULL,
+  `sound_seq` int DEFAULT NULL,
+  `tts_seq` int NOT NULL DEFAULT '-1' COMMENT 'tb_cs_TTS.seq',
+  `use_yn` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'N',
+  `data_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'data id',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `error_msg` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'error message',
+  `channel_id` int NOT NULL DEFAULT '0',
+  `speaker` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `api_update` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'statement_study 여부 : S 일때는 api update',
+  PRIMARY KEY (`seq`) USING BTREE,
+  KEY `idx_transcription_updated_at` (`updated_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=63931 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_train_data` (
+  `seq` int NOT NULL AUTO_INCREMENT COMMENT '일련번호',
+  `train_seq` int NOT NULL COMMENT 'tb_cs_TRAIN 일련번호',
+  `trans_seq` int NOT NULL COMMENT 'tb_cs_TRANSCRIPTION 일련번호',
+  `data_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '데이타 ID',
+  PRIMARY KEY (`seq`),
+  KEY `fk_train_seq` (`train_seq`),
+  KEY `fk_trans_seq` (`trans_seq`),
+  CONSTRAINT `fk_train_seq` FOREIGN KEY (`train_seq`) REFERENCES `tb_cs_train` (`seq`) ON DELETE CASCADE,
+  CONSTRAINT `fk_trans_seq` FOREIGN KEY (`trans_seq`) REFERENCES `tb_cs_transcription` (`seq`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_train_result` (
+  `model_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '모델 ID',
+  `data_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT 'data id',
+  `cer` float NOT NULL DEFAULT '0' COMMENT 'char error rate',
+  `wer` float NOT NULL DEFAULT '0' COMMENT 'word error rate',
+  `entire_char` smallint NOT NULL DEFAULT '0' COMMENT '전체문자갯수',
+  `entire_word` smallint NOT NULL DEFAULT '0' COMMENT '전체문장갯수',
+  `error_char` smallint NOT NULL DEFAULT '0' COMMENT '오류문자갯수',
+  `error_word` smallint NOT NULL DEFAULT '0' COMMENT '오류문장갯수',
+  `train_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `stt_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`model_id`,`data_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `tb_cs_train_result_full` (
+  `seq` int NOT NULL AUTO_INCREMENT COMMENT '일련번호',
+  `model_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '모델 ID',
+  `data_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT 'data id',
+  `cer` float NOT NULL DEFAULT '0' COMMENT 'char error rate',
+  `wer` float NOT NULL DEFAULT '0' COMMENT 'word error rate',
+  `entire_char` smallint NOT NULL DEFAULT '0' COMMENT '전체문자갯수',
+  `entire_word` smallint NOT NULL DEFAULT '0' COMMENT '전체문장갯수',
+  `error_char` smallint NOT NULL DEFAULT '0' COMMENT '오류문자갯수',
+  `error_word` smallint NOT NULL DEFAULT '0' COMMENT '오류문장갯수',
+  `train_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `stt_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  PRIMARY KEY (`seq`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_train_schedule` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `start_time` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '시작시간 YYYY-MM-DD HH:MM:SS format',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`) USING BTREE,
+  KEY `idx_train_schedule_createc_at` (`created_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_trans_pair` (
+  `data_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT 'data id',
+  `seq` int NOT NULL DEFAULT '0' COMMENT 'tb_cs_TRANSCRIPTION table 의 seq',
+  `train_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `use_yn` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Y' COMMENT '사용여부',
+  `model_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'model id',
+  `start` double NOT NULL DEFAULT '0',
+  `end` double NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`data_id`) USING BTREE,
+  KEY `idx_trans_pair_seq` (`seq`) USING BTREE,
+  CONSTRAINT `fk_transcription_seq` FOREIGN KEY (`seq`) REFERENCES `tb_cs_transcription` (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+
+CREATE TABLE `tb_cs_tts` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `subject` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `trashed_at` timestamp NULL DEFAULT NULL,
+  `tc_user_seq` int NOT NULL COMMENT '등록 유저 번호',
+  `click_least_once` int NOT NULL DEFAULT '0' COMMENT 'read count',
+  PRIMARY KEY (`seq`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+
+CREATE TABLE `tb_cs_tts_keyword` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `tts_seq` int NOT NULL DEFAULT '-1' COMMENT 'tb_cs_TTS.seq',
+  `keyword_text` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `keyword_sound` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `keyword_detail` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '키워드 상세설명',
+  `tts_text` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '키워드 문장',
+  `tts_pronounce` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '발음 문장',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `trashed_at` timestamp NULL DEFAULT NULL,
+  `time_duration_ms` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '밀리초 단위',
+  `file_org_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `file_new_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `file_conv_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '학습용 converted file',
+  `remark` bit(1) NOT NULL DEFAULT b'0',
+  `file_size_bytes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `tc_user_seq` int NOT NULL COMMENT '등록 유저 번호',
+  `status` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '10' COMMENT '10:upload 20:stt',
+  `reliability` smallint NOT NULL DEFAULT '0' COMMENT '신뢰도',
+  `stt_started_at` timestamp NULL DEFAULT NULL COMMENT 'stt 시작 시간',
+  `stt_duration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'STT 소요시간 HH:MM:SS',
+  `error_message` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '에러 메세지',
+  PRIMARY KEY (`seq`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=232 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+
+CREATE TABLE `tb_cs_tts_keyword_api` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `tts_seq` int NOT NULL DEFAULT '-1' COMMENT 'tb_cs_TTS.seq',
+  `keyword` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `tc_user_seq` int NOT NULL COMMENT '등록 유저 번호',
+  PRIMARY KEY (`seq`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_tts_trans` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `trans_seq` int DEFAULT NULL,
+  `use_yn` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Y' COMMENT '사용여부',
+  `voice_type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'woman' COMMENT '목소리 유형- M:man W:woman yM:youngMan yW:youngWoman',
+  `file_new_nm` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `data_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'data id',
+  `model_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'model id',
+  `time_duration_ms` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '밀리초 단위',
+  `file_size_bytes` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `reliability` smallint NOT NULL DEFAULT '0' COMMENT '신뢰도',
+  `stt_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `train_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `error_msg` varchar(4000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'error message',
+  PRIMARY KEY (`seq`) USING BTREE,
+  UNIQUE KEY `idx_trans_seq_and_voice_type` (`trans_seq`,`voice_type`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=193 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_tts_trans_pair` (
+  `data_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '' COMMENT 'data id',
+  `seq` int NOT NULL DEFAULT '0' COMMENT 'tb_cs_TRANSCRIPTION table 의 seq',
+  `train_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin,
+  `use_yn` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Y' COMMENT '사용여부',
+  `model_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'model id',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`data_id`) USING BTREE,
+  KEY `idx_tts_trans_pair_seq` (`seq`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_cs_upload_dir` (
+  `seq` int NOT NULL AUTO_INCREMENT,
+  `category` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'train/test category',
+  `dir` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT 'upload directory',
+  `use_yn` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Y' COMMENT '현재 사용여부',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_queue_conn` (
+  `seq` int NOT NULL,
+  `tc_workstatus` smallint DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+CREATE TABLE `tb_stt_csconn` (
+  `seq` int NOT NULL DEFAULT '0',
+  `tc_workdate` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0000:00:00',
+  `tc_worktime` char(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '00:00:00.000',
+  `tc_workstatus` smallint DEFAULT '0',
+  `tc_workmedia` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `tc_mediatype` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `tc_duration` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `tc_starttime` char(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `tc_enddate` char(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `tc_gaptime` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `tc_ra_ratio` double NOT NULL DEFAULT '0',
+  `tc_ra_yn` smallint NOT NULL DEFAULT '0',
+  `tc_server_seq` int DEFAULT '0',
+  `tc_domain_seq` int DEFAULT '0',
+  `tc_image_seq` int DEFAULT '0',
+  `tc_rest_status` int DEFAULT '0',
+  `tc_regdate` datetime DEFAULT CURRENT_TIMESTAMP,
+  `tc_update` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`seq`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
+
+CREATE TABLE `tb_stt_info_record` (
+  `seq` int NOT NULL DEFAULT '0' COMMENT '순번',
+  `tc_call_id` char(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '콜 ID',
+  `tc_call_startdate` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '콜 시작일',
+  `tc_call_starttime` char(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '콜 시작시간',
+  `tc_call_enddate` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '콜 종료일',
+  `tc_call_endtime` char(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '콜 종료시간',
+  `tc_agent_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '상담사 ID',
+  `tc_agent_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '상담사 이름',
+  `tc_agent_extno` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '상담사 내선번호',
+  `tc_agent_phoneno` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '상담사 전화번호',
+  `tc_customer_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '고객 ID',
+  `tc_customer_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '고객 이름',
+  `tc_customer_phoneno` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '고객 전화번호',
+  `tc_file_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '녹취 파일 ID',
+  `tc_file_org_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '녹취파일 경로',
+  `tc_file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '녹취파일명',
+  `tc_file_wav_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'wav 파일 경로',
+  `tc_file_wav_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'wav 파일명',
+  `tc_domain_code` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '도메인 코드',
+  `tc_domain_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '도메인 명',
+  `tc_server_seq` int DEFAULT '0' COMMENT '서버 seq',
+  `tc_regdate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '등록일',
+  `tc_update` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '수정일',
+  `tc_domain_seq` int NOT NULL DEFAULT '0' COMMENT '도메인 순번',
+  `tc_file_deleted` smallint NOT NULL DEFAULT '0' COMMENT '원본파일 삭제 여부',
+  PRIMARY KEY (`seq`),
+  KEY `idx_startdate_and_starttime` (`tc_call_startdate`,`tc_call_starttime`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+
