@@ -9,7 +9,6 @@ import com.vol.solunote.model.entity.base.BaseTimeEntity;
 import jakarta.persistence.*;
 
 @Getter
-@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class LoginLog extends BaseTimeEntity {
 
@@ -20,7 +19,6 @@ public class LoginLog extends BaseTimeEntity {
 
     private String ip;
 
-//    @JoinColumn(referencedColumnName = "\"SEQ\"", table = "`TB_CS_INFO_USER`")
     private int userSeq;
     
     private String tcId;

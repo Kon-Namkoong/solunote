@@ -8,8 +8,6 @@ import com.vol.solunote.model.entity.base.Base;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "\"TB_CS_MEETING_RESULT\"")
 @Getter
 @Setter
 @Audited

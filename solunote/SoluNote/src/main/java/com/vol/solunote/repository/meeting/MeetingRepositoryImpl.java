@@ -82,7 +82,7 @@ public class MeetingRepositoryImpl implements MeetingRepository {
 	}
 
 	@Override
-	public	Map<String, Object> getMeetBySEQ(@Param("seq") int meetSeq)
+	public	Map<String, Object> getMeetBySEQ(int meetSeq)
 	{
 		return	mapper.getMeetBySEQ(meetSeq);
 	}
@@ -221,7 +221,7 @@ public class MeetingRepositoryImpl implements MeetingRepository {
 	}
 
 	@Override
-    public	List <Map <String, Object>> fileCountGroupDate(@Param("startDate") String startDate, @Param("endDate") String endDate)
+    public	List <Map <String, Object>> fileCountGroupDate(String startDate, String endDate)
     {
 		return	mapper.fileCountGroupDate(startDate, endDate);
     }

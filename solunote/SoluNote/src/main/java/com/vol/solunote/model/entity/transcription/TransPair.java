@@ -7,8 +7,6 @@ import com.vol.solunote.model.entity.base.BaseTimeEntity;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "\"TB_CS_TRANS_PAIR\"")
 @Getter
 @Setter
 @Audited

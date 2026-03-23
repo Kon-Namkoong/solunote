@@ -47,7 +47,7 @@ public interface TestRepository {
 	public	void insertTestTransPair(String dataId, int seq, String trainText, String useYn, double start, double end)  throws Exception;
 	
 	public	List<TransVo> selectTestTransPair(String dataId)  throws Exception;
-	public	Map<String, Object> getMeetBySEQ(@Param("meetSeq") int meetSeq);
+	public	Map<String, Object> getMeetBySEQ( int meetSeq);
 	public	void updateTrainTextBySeq(int seq, String trainText);
 	public	void clickLeastOnce(Integer seq);
 	public	List<Map<String, Object>> getTranscription(int seq) throws Exception;	

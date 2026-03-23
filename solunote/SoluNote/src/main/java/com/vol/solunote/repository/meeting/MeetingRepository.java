@@ -77,7 +77,7 @@ public interface MeetingRepository
 	
 	public	List<SoundBean> getMeetingList(String startDate, String endDate, int from, int to) throws Exception;	
 
-    public	List <Map <String, Object>> fileCountGroupDate(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    public	List <Map <String, Object>> fileCountGroupDate( String startDate,  String endDate);
     
     public	Map<String, Object> analyticsAvgMeeting(String startDate, String endDate);
     

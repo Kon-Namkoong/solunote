@@ -20,7 +20,7 @@ public interface RestRepository {
 	
 	public List<STTResultVo> getSTTQList() throws Exception;
 
-	public List<STTResultVo> getSTTResult(@Param("sttSeq") int sttSeq) throws Exception;
+	public List<STTResultVo> getSTTResult( int sttSeq) throws Exception;
 
 	public int setUpdateSTT(int sttSeq) throws Exception;
 

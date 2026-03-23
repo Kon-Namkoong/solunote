@@ -9,11 +9,6 @@ import com.vol.solunote.model.entity.base.BaseTimeEntity;
 
 import jakarta.persistence.*;
 
-@Entity
-@Table( name="`TB_CS_MEETING_SPEAKER`",
-		uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"name", "seq"})
-})
 @Getter
 @Audited
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

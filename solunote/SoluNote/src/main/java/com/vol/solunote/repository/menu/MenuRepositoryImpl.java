@@ -17,12 +17,12 @@ public class MenuRepositoryImpl implements MenuRepository {
 	
 
 	@Override
-	public 	int updateMenu(@Param("userInfo") Map<String,String> userInfo, @Param("menuList") List<Map<String,Object>> menuList) throws Exception
+	public 	int updateMenu(Map<String,String> userInfo, List<Map<String,Object>> menuList) throws Exception
 	{
 		return	mapper.updateMenu(userInfo, menuList);
 	}
 	@Override
-	public 	int updateAuthBase(@Param("menuInfo") Map<String,String> menuInfo, @Param("menuList") List<Map<String,Object>> menuList) throws Exception
+	public 	int updateAuthBase(Map<String,String> menuInfo,  List<Map<String,Object>> menuList) throws Exception
 	{
 		return	mapper.updateAuthBase(menuInfo, menuList);
 	}

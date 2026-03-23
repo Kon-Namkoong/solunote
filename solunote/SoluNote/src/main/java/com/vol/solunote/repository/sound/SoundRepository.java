@@ -23,7 +23,7 @@ public interface SoundRepository {
     int updateRemarkAndUpdatedAtBySeq(boolean updateRemark, LocalDateTime updatedAt, int meetSeq) throws Exception;
 
 	public	List<SoundVo> getListDataWithMap(Map<String, Object> param) throws Exception;
-	public	List<SoundVo> getListData(OffsetPageable offsetPageable, String keyword, String startDate, String endDate, @Param("activeMenu") int activeMenu) throws Exception;
+	public	List<SoundVo> getListData(OffsetPageable offsetPageable, String keyword, String startDate, String endDate,  int activeMenu) throws Exception;
 	
 	public	List<Map<String, Object>> steelGetSoundData(int seq) throws Exception;
 	public	void createSound(Map<String,Object> param) throws Exception;
@@ -39,9 +39,9 @@ public interface SoundRepository {
 	
 	
 	public	Map<String, Object> readSoundBySeq(int seq) throws Exception;
-	public	Map<String, Object> getMeetBySEQ(@Param("meetSeq") int meetSeq);
+	public	Map<String, Object> getMeetBySEQ( int meetSeq);
 	public	List<Map<String, Object>> getFailList(SearchVo search, OffsetPageable offsetPageable,String keyword)  throws Exception;
-	public	Map<String, Object> getMeetBySEQ(@Param("meetSeq") int meetSeq, @Param("origin") String origin);
+	public	Map<String, Object> getMeetBySEQ( int meetSeq,  String origin);
 	public	void clickLeastOnce(Integer seq);
 	public	List<Map<String, Object>> getMeettingRemoveCandiate(int term)  throws Exception;
 	public	void updateDeletedAtBySeq(int seq) throws Exception;

@@ -32,7 +32,7 @@ public class SoundRepositoryImpl implements SoundRepository {
 	}
 	
 	@Override
-	public	List<SoundVo> getListData(OffsetPageable offsetPageable, String keyword, String startDate, String endDate, @Param("activeMenu") int activeMenu) throws Exception 
+	public	List<SoundVo> getListData(OffsetPageable offsetPageable, String keyword, String startDate, String endDate,int activeMenu) throws Exception 
 	{
 		return	mapper.getListData(offsetPageable, keyword, startDate, endDate, activeMenu);
 	}
@@ -87,7 +87,7 @@ public class SoundRepositoryImpl implements SoundRepository {
 	}
 	
 	@Override
-	public	Map<String, Object> getMeetBySEQ(@Param("meetSeq") int meetSeq) 
+	public	Map<String, Object> getMeetBySEQ(int meetSeq) 
 	{
 		return	mapper.getMeetBySEQ(meetSeq);
 	}
@@ -99,7 +99,7 @@ public class SoundRepositoryImpl implements SoundRepository {
 	}
 	
 	@Override
-	public	Map<String, Object> getMeetBySEQ(@Param("meetSeq") int meetSeq, @Param("origin") String origin) 
+	public	Map<String, Object> getMeetBySEQ(int meetSeq, String origin) 
 	{
 		return	mapper.getMeetBySEQ(meetSeq, origin);
 	}

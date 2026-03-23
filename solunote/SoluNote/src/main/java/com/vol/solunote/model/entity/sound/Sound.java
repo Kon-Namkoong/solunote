@@ -11,9 +11,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Audited
-@Entity
 @Getter
-@Table(name = "`TB_CS_SOUND`")
 @NoArgsConstructor
 public class Sound extends Base {
 
