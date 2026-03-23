@@ -11,5 +11,5 @@ public interface MeetingSpeakerRepository
     boolean existsByMeeting_SeqAndName( int seq,  String name);
     List <MeetingSpeakerVo> findSpeakerByMeeting_Seq( int seq);
     MeetingSpeakerVo findByNameAndMeeting_Seq( String name,  int seq);
-    void	saveMeetingSpeaker(MeetingSpeakerVo speaker);
+    int	saveMeetingSpeaker(MeetingSpeakerVo speaker);
 }

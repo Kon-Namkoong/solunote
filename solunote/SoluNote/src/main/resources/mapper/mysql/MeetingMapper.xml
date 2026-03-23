@@ -196,7 +196,7 @@
 
     <insert id="createMeetResult">
         insert tb_cs_meeting_result (start, end, text, meeting_speaker_id, meeting_seq)
-        value(#{startDouble}, #{endDouble}, #{text}, #{meetingSpeakerId}, #{meeting_seq});
+        value(#{start}, #{end}, #{text}, #{meetingSpeakerId}, #{meeting_seq});
     </insert>
 
     <select id="getListForTrash" resultType="meetingVo">
@@ -732,21 +732,21 @@
 
 	<update id="updateUpdatedAtBySeq">
 		update tb_cs_meeting 
-			set update_at = #{updateAt} 
+			set updated_at = #{updateAt} 
 		where seq = #{seq}
 	</update>
              
 	<update id="updateDeletedAtBySeq">
 		update tb_cs_meeting 
 			set deleted_at = current_timestamp, 
-				update_at = current_timestamp
+				updated_at = current_timestamp
 		where seq = #{seq}
 	</update>   
 	
 	<update id="updateDeletedRemovedAtBySeq">
 		update tb_cs_meeting 
 			set deleted_at = current_timestamp,
-				update_at = current_timestamp,
+				updated_at = current_timestamp,
 				removed_at = current_timestamp
 		where seq = #{seq}
 	</update>   
@@ -754,21 +754,21 @@
 	<update id="updateTrashedAtBySeq">
 		update tb_cs_meeting 
 			set trashed_at = #{trashedAt},
-				update_at = current_timestamp
+				updated_at = current_timestamp
 		where seq = #{seq}
 	</update>   	 
 	
 	<update id="updateSubjectAndUpdatedAtBySeq">
 		update tb_cs_meeting 
 			set subject = #{subject},
-				update_at = #{updatedAt}
+				updated_at = #{updatedAt}
 		where seq = #{seq}
 	</update>            
 
 	<update id="updateRemarkAndUpdatedAtBySeq">
 		update tb_cs_meeting 
 			set remark = #{updateRemark},
-				update_at = #{updatedAt}
+				updated_at = #{updatedAt}
 		where seq = #{meetSeq}
 	</update>
 	  

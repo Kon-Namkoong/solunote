@@ -20,7 +20,7 @@ public interface MeetingMapper {
 
 	public	void createMeet(Map<String,Object> param);
 
-	public	void createMeetResult(@Param("startDouble") String startDouble, @Param("endDouble") String endDouble, @Param("text") String text, @Param("meetingSpeakerId") long meetingSpeakerId, @Param("MEETING_SEQ") int MEETING_SEQ);
+	public	void createMeetResult(@Param("start") String start, @Param("end") String end, @Param("text") String text, @Param("meetingSpeakerId") long meetingSpeakerId, @Param("meeting_seq") int meeting_seq);
 
 	public	List<MeetingVo> getList(@Param("keyword") String keyword, String category,@Param("securityMember") SecurityMember securityMember, @Param("activeMenu") int activeMenu,String searchStartDate ,String searchEndDate, OffsetPageable offsetPageable) throws Exception;
 	public	List<MeetingVo> getListForTrash(@Param("keyword") String keyword, String category,@Param("securityMember") SecurityMember securityMember,String searchStartDate ,String searchEndDate, OffsetPageable offsetPageable) throws Exception;
@@ -117,7 +117,7 @@ public interface MeetingMapper {
     public	List <MeetingSpeakerVo> findByMeeting_Seq( int seq);
     public	MeetingSpeakerVo findByNameAndMeeting_Seq( String name,  int seq);
     
-    public	void	saveMeetingSpeaker(MeetingSpeakerVo speaker);
+    public	int	saveMeetingSpeaker(MeetingSpeakerVo speaker);
     
     public	List <MeetingSpeakerVo> findSpeakerByMeeting_Seq(int seq);
 }

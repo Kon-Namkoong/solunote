@@ -1195,6 +1195,6 @@
 	<update	id="updateTrainTextAndUseYnBySeq">
 		UPDATE	tb_cs_transcription	
 		SET train_text = #{trainText}, use_yn = #{useYn}
-		FROM	seq = #{seq}
+		WHERE	seq = #{seq}
 	</update>		    
 </mapper>

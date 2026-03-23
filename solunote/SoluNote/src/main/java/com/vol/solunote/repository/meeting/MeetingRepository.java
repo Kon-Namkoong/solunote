@@ -27,12 +27,12 @@ public interface MeetingRepository
 
 	public	void createMeet(Map<String,Object> param);
 
-	public	void createMeetResult(@Param("startDouble") String startDouble, @Param("endDouble") String endDouble, @Param("text") String text, @Param("meetingSpeakerId") long meetingSpeakerId, @Param("MEETING_SEQ") int MEETING_SEQ);
+	public	void createMeetResult(String start, String end, String text, long meetingSpeakerId,int meeting_seq);
 
-	public	List<MeetingVo> getList(@Param("keyword") String keyword, String category,@Param("securityMember") SecurityMember securityMember, @Param("activeMenu") int activeMenu,String searchStartDate ,String searchEndDate, OffsetPageable offsetPageable) throws Exception;
-	public	List<MeetingVo> getListForTrash(@Param("keyword") String keyword, String category,@Param("securityMember") SecurityMember securityMember,String searchStartDate ,String searchEndDate, OffsetPageable offsetPageable) throws Exception;
+	public	List<MeetingVo> getList(String keyword, String category,SecurityMember securityMember, int activeMenu,String searchStartDate ,String searchEndDate, OffsetPageable offsetPageable) throws Exception;
+	public	List<MeetingVo> getListForTrash(String keyword, String category,SecurityMember securityMember,String searchStartDate ,String searchEndDate, OffsetPageable offsetPageable) throws Exception;
 
-	public	Map<String, Object> getMeetBySEQ(@Param("seq") int meetSeq);
+	public	Map<String, Object> getMeetBySEQ(int meetSeq);
 
 	public	void updateMeeting(String mode, int seq) throws Exception;
 

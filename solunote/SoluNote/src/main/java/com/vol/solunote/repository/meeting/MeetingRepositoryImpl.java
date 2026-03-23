@@ -64,19 +64,19 @@ public class MeetingRepositoryImpl implements MeetingRepository {
 	}
 
 	@Override
-	public	void createMeetResult(@Param("startDouble") String startDouble, @Param("endDouble") String endDouble, @Param("text") String text, @Param("meetingSpeakerId") long meetingSpeakerId, @Param("MEETING_SEQ") int MEETING_SEQ)
+	public	void createMeetResult(String start, String end, String text,  long meetingSpeakerId, int meeting_seq)
 	{
-		mapper.createMeetResult(startDouble, endDouble, text, meetingSpeakerId, MEETING_SEQ);
+		mapper.createMeetResult(start, end, text, meetingSpeakerId, meeting_seq);
 	}
 
 	@Override
-	public	List<MeetingVo> getList(@Param("keyword") String keyword, String category,@Param("securityMember") SecurityMember securityMember, @Param("activeMenu") int activeMenu,String searchStartDate ,String searchEndDate, OffsetPageable offsetPageable) throws Exception
+	public	List<MeetingVo> getList( String keyword, String category, SecurityMember securityMember, int activeMenu,String searchStartDate ,String searchEndDate, OffsetPageable offsetPageable) throws Exception
 	{
 		return	mapper.getList(keyword, category, securityMember, activeMenu, searchStartDate, searchEndDate, offsetPageable);
 	}
 	
 	@Override
-	public	List<MeetingVo> getListForTrash(@Param("keyword") String keyword, String category,@Param("securityMember") SecurityMember securityMember,String searchStartDate ,String searchEndDate, OffsetPageable offsetPageable) throws Exception
+	public	List<MeetingVo> getListForTrash( String keyword, String category,SecurityMember securityMember,String searchStartDate ,String searchEndDate, OffsetPageable offsetPageable) throws Exception
 	{
 		return	mapper.getListForTrash(keyword, category, securityMember, searchStartDate, searchEndDate, offsetPageable);
 	}

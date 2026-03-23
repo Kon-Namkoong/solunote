@@ -326,6 +326,7 @@ public class SttServiceImpl implements SttService {
 			for (MeetingSpeakerVo speaker : meetingSpeakerList) {
 				if (speaker.getName().equals(stringObjectMap.get("speaker").toString())) {
 					meetingSpeakerId = speaker.getMeetingSpeakerId();
+					log.debug("Speaker Id = {}", meetingSpeakerId);
 				}
 			}
 
@@ -337,16 +338,22 @@ public class SttServiceImpl implements SttService {
 				meetingSpeaker.setName(stringObjectMap.get("speaker").toString());
 				meetingSpeaker.setSeq(meetSeq);
 				
-				meetingSpeakerRepository.saveMeetingSpeaker(meetingSpeaker);
-
-				meetingSpeakerList.add(meetingSpeaker);
-				meetingSpeakerId = meetingSpeaker.getMeetingSpeakerId();
+				int	result = meetingSpeakerRepository.saveMeetingSpeaker(meetingSpeaker);
+				
+				if (result > 0)
+				{
+					meetingSpeaker = meetingSpeakerRepository.findByNameAndMeeting_Seq(meetingSpeaker.getName(), meetingSpeaker.getSeq());
+					meetingSpeakerList.add(meetingSpeaker);
+					meetingSpeakerId = meetingSpeaker.getMeetingSpeakerId();					
+				}
+				else
+				{
+					return;
+				}				
 			}
-
 			// 4. TB_CS_MEETING_RESULT
 			meetingRepository.createMeetResult(stringObjectMap.get("start").toString(), stringObjectMap.get("end").toString(),
-					stringObjectMap.get("text").toString(), meetingSpeakerId, meetSeq);	
-			
+					stringObjectMap.get("text").toString(), meetingSpeakerId, meetSeq);				
 		}
 	}
 	

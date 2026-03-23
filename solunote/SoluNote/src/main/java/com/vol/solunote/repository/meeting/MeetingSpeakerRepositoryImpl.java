@@ -38,8 +38,8 @@ public class MeetingSpeakerRepositoryImpl implements MeetingSpeakerRepository
 	}
 	
 	@Override
-    public	void	saveMeetingSpeaker(MeetingSpeakerVo speaker)
+    public	int	saveMeetingSpeaker(MeetingSpeakerVo speaker)
     {
-		mapper.saveMeetingSpeaker(speaker);
+		return	mapper.saveMeetingSpeaker(speaker);
     }
 }
