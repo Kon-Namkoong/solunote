@@ -5,7 +5,6 @@ package com.vol.solunote.batch.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.vol.solunote.menu21.service.Menu21Service;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,13 +18,6 @@ public class MeetingLauncher {
 	public static final String API_STATUS_STT = "20";
 	public static final String API_STATUS_SUMMARY = "30";
 
-	@Autowired
-	//@Resource(name="${service.class.menu21Service}")
-    Menu21Service menu21Service;
-    
-	@Autowired
-	//@Resource(name="${service.class.menu21Service}")
-    Menu21Service menu21Service_1;
     
 	@Value("${task.stt.max}")
     private int sttMax;

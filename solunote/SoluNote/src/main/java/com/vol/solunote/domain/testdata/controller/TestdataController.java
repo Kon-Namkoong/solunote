@@ -58,11 +58,9 @@ public class TestdataController extends DefaultController {
 	private DiskService diskService;
 	
 	@Autowired
-	//@Resource(name="${service.class.testdataService}")
 	private TestdataService testdataService;
 	
 	@Autowired
-	//@Resource(name="${service.class.menu21Service}")
 	private SttService	 sttService;
 	
 	@Autowired

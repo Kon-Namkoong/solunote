@@ -34,7 +34,7 @@ public class MainController {
 			if (role.equals("ROLE_ADMIN")) {
 				return "redirect:"+REDIRECT_URL;
 			}else {
-				return "redirect:/menu21/cont/?activeMenu=1";
+				return "redirect:/minutes/cont/?activeMenu=1";
 			}
 		} else {
 			return "redirect:/user/login";

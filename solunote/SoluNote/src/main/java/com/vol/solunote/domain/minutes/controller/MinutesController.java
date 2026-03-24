@@ -77,7 +77,7 @@ public class MinutesController extends DefaultController {
 		log.debug("minutesService : {}", minutesService );
 	}
 	
-	@RequestMapping(value= {"/cont", "/cont/1"})
+	@RequestMapping(value= {"/cont", "/cont/1","/cont/"})
 	public String cont(HttpServletRequest request,
 			Model model, 
 			@RequestParam(required = false) Integer activeMenu, 
