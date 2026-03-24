@@ -1,0 +1,7 @@
+					<tr th:each="item, stat : ${pages}" class="page-data-row " th:attr="data-userId=${item.tcId}">
+					   <td class="align-middle"  id="userIdForuser"  th:text="${item.tcId}"></td>
+					   <td class="align-middle"  th:text="${item.tcName}"></td>
+					   <td class="align-middle"  th:text="${item.tcLevel == 100 ? '관리자':'사용자' }"></td>
+					   <td class="align-middle"  th:text="${item.tcPhone}"></td>
+					   <td class="align-middle"  th:text="${item.tcEmail}"></td> 
+					</tr>	

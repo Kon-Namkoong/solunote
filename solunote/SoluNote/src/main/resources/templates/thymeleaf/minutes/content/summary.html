@@ -1,0 +1,39 @@
+<div id="summary1">
+	 <ul>
+	     <h3 class="sum_subject">주제</h3>
+	     <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+	     	<li class="more-than-one" th:each="item : ${summary.subject}" th:text="${item}"></li>
+	     <div>	
+	 </ul>						
+	 <ul>
+	     <h3 class="sum_agenda">안건</h3>
+	     <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+	     	<li class="more-than-one" th:each="item : ${summary.agenda}" th:text="${item}"></li>
+	     </div> 	
+	 </ul>						
+	 <ul>
+	     <h3 class="sum_detailed">세부요약</h3>
+	     <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+	     	<li class="more-than-one" th:each="item : ${summary.detailed}" th:text="${item}"></li>
+	     </div> 							        
+	 </ul>						   					    						    						
+	 <ul>
+	     <h3 class="sum_major">주요결정사항</h3>
+	     <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+			<li class="more-than-one" th:each="item : ${summary.majorDecision}" th:text="${item}"></li>
+	     </div>						        
+	 </ul>						
+	 <ul>
+	     <h3 class="sum_plan">향후일정 및 계획</h3>
+	     <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+	     	<li class="more-than-one" th:each="item : ${summary.plan}" th:text="${item}"></li>
+	     </div>						        
+	 </ul>						
+	 <ul>
+	     <h3 class="sum_keyword">키워드</h3>
+	     <div class="btm_grp_summary editable" contenteditable="true" spellcheck="false">
+	     	<li class="more-than-one" th:each="item : ${summary.keyword}" th:text="${item}"></li>
+	     </div>						        
+	 </ul>
+</div>
+ 

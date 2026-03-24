@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+      layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8" />
+    <title>키워드 학습</title>
+    <th:block layout:fragment="script">
+        <script type="text/javascript" th:src="@{/js/keywordtrain/keywordtrain.js}"></script>
+        <script type="text/javascript" th:src="@{/js/keywordtrain/keywordtrain-upload.js}"></script>     
+        <script type="text/javascript" th:src="@{/js/keywordtrain/keywordtrain-detail.js}"></script>              
+        <script type="text/javascript" th:src="@{/js/audio/queue.js}"></script>
+        <script type="text/javascript" th:src="@{/js/audio/audio-player.js}"></script>   
+        <script type="text/javascript" th:src="@{/js/comm/popup-in-popup.js}"></script>
+        <script type="text/javascript" th:src="@{/js/diffText/diff_match_patch.js}"></script>
+        <script type="text/javascript" th:src="@{/js/diffText/diff_match_patch_add.js}"></script>
+    </th:block>
+</head>
+<body>
+    <div layout:fragment="content" class="common_content">
+		<th:block th:if="${liveMenu == 1 or liveMenu == 4}">
+		    <div th:replace="~{thymeleaf/keywordtrain/content/table-content1}"></div>
+		</th:block>
+
+		<th:block th:if="${liveMenu == 2}">
+		    <div th:replace="~{thymeleaf/keywordtrain/content/table-content2}"></div>
+		</th:block>
+
+		<th:block th:if="${liveMenu == 3}">
+		    <div th:replace="~{thymeleaf/keywordtrain/content/table-content3}"></div>
+		</th:block>	
+    </div>
+</body>
+</html>

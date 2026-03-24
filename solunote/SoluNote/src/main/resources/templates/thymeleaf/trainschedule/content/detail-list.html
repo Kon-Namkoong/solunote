@@ -1,0 +1,31 @@
+<tbody>
+	<tr class="page-data-row" th:each="item, stat : ${cPages.content}" th:attr="data-seq=${item.seq}, data-start-second=${item.start}, data-end-second=${item.end}, data-data-id=${item.dataId}">
+		<td style="width: 4%;" th:text="${stat.count + (cPages.number - 1) * cPages.size}"></td>
+		<td style="width: 5%;" th:utext="${item.reliability  + ' %'}"></td>
+		<td style="width: 5%;" th:utext="${item.pct + ' %'}"></td>
+		<td style="width: 20%;"><p class="trainingData_text" th:utext="${item.trainText}"></p></td>
+		<td style="width: 20%;"><p class="trainingData_text" th:utext="${item.sttText}"></p></td>
+		<td style="width: 12%;">
+			<div class="player_noflex">
+				<div class="play_grid">
+					<audio th:id="'sound-'+${stat.index}" controls controlsList="nodownload"  class="sound" data-status="on">
+						<source th:src='@{/traindata/downloadPart(fileNm=${item.fileNewNm},start=${item.start},end=${item.end},category=test)}'>
+					</audio>
+				</div>
+			</div>
+		</td>
+		<td style="width: 5%;" th:utext="${item.entireChar}"></td>
+		<td style="width: 5%;" th:utext="${item.errorChar}"></td>
+		<td class="align_left" style="width: 20%;" th:utext="${item.subject}"></td>
+	</tr>
+	<tr th:if="${cPages.isEmpty() == true}">
+		<td colspan="11" style="text-align: center; line-height: 2.5">데이터가 없습니다.</td>	
+	</tr>
+</tbody>
+
+<input type="hidden" id="hiddenFail" th:value="${hiddenFail}"></input>
+<input type="hidden" id="hiddenModelId" th:value="${hiddenModelId}"></input>
+<input type="hidden" id="hiddenSeq" th:value="${hiddenSeq}"></input>
+<input type="hidden" id="popupPageSize" th:value="${cPages.pageable.pageSize}"></input>		
+<input type="hidden" id="popupCount" th:value="${hiddenCount}"></input>
+

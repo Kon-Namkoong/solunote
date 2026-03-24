@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+	  layout:decorate="~{layout/default}">
+<head>
+    <meta charset="UTF-8" />
+    <title>학습일정</title>
+	<!-- 사용자 스크립트 추가 -->
+	<th:block layout:fragment="script">
+		<script type="text/javascript" th:src="@{/js/trainschedule/trainschedule.js}"></script>
+		<script type="text/javascript" th:src="@{/js/trainschedule/trainschedule-detail.js}"></script>
+		<script type="text/javascript" th:src="@{/js/audio/queue.js}"></script>
+		<script type="text/javascript" th:src="@{/js/audio/audio-player.js}"></script>  
+	    <script type="text/javascript" th:src="@{/js/audio/wave-spectrum.js}"></script>
+	    <script type="text/javascript" th:src="@{/js/comm/popup-in-popup.js}"></script>  	
+		<script type="text/javascript" th:src="@{/js/diffText/diff_match_patch.js}"></script>
+	    <script type="text/javascript" th:src="@{/js/diffText/diff_match_patch_add.js}"></script>
+	</th:block>
+</head>
+<body>
+  <!-- content -->
+    <div layout:fragment="content" class="common_content">
+    	<div th:if="${liveMenu == 1}" th:include="thymeleaf/trainschedule/content/table-content1"></div>
+		<div th:if="${liveMenu == 5}" th:include="thymeleaf/trainschedule/content/table-content5"></div>
+    </div>
+</body>
+</html>

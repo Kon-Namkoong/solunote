@@ -1,0 +1,42 @@
+<!-- 공통 고정 타이틀 및 검색 -->
+<div id = "tablePage">
+	<div class="content_tit fullMeeting_tit" th:switch="${liveMenu}">
+	    <div class="title">
+        	<h2>학습결과</h2>
+        </div>
+    	<div th:replace="thymeleaf/trainschedule/head_search :: headSearchFragment"></div>  
+	</div>
+	<!-- //공통 고정 타이틀 및 검색 -->
+	
+	<!-- 전체 회의록 -->
+	<div class="content_desc content_fullMeeting">
+	
+	    <div th:replace="thymeleaf/trainschedule/page_button :: pageButtonFragment"></div> 
+
+	    <div class="table_content">
+	        <table class="table_title">
+				<thead>
+					<tr style="height: 40px; background-color: #F2F4F7;">		
+						<th class="align-middle" style="width: 5%" th:text="${#messages.msg('trainschedule.content2.th1')}">번호</th>
+						<th class="align-middle" style="width: 18%" th:text="${#messages.msg('trainschedule.content2.th2')}">이름</th>
+						<th class="align-middle" style="width: 15%" th:text="${#messages.msg('trainschedule.content2.th3')}">시작</th>
+						<th class="align-middle" style="width: 15%" th:text="${#messages.msg('trainschedule.content2.th4')}">종료</th>
+						<th class="align-middle" style="width: 13%" th:text="${#messages.msg('trainschedule.content2.th5')}">학습자료분량 (시간)</th>
+						<th class="align-middle" style="width: 7%" th:text="${#messages.msg('trainschedule.content2.th6')}">상태</th>
+						<th class="align-middle" style="width: 7%" th:text="${#messages.msg('trainschedule.content2.th7')}">성공</th>
+						<th class="align-middle" style="width: 7%" th:text="${#messages.msg('trainschedule.content2.th8')}">인식률</th>
+					</tr>
+				</thead>
+			</table>
+	        <div class="tbl_scroll">
+		        <table>
+		            <tbody id="tableRow">
+		            </tbody>
+		        </table>
+	            <div th:replace="fragments/page_indicator :: pageIndicatorFragment"></div>
+	        </div>
+	    </div>
+	    <div th:replace="thymeleaf/trainschedule/content/schedule :: scheduleFragment"></div>
+	</div>
+</div>
+<!-- //전체 회의록 -->

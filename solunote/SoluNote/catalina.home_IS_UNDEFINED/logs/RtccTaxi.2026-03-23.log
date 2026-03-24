@@ -1,0 +1,2 @@
+13:58:50.007 INFO  o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.vol.solunote.SoluNoteApplicationTests]: SoluNoteApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:58:50.402 INFO  o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.vol.solunote.SoluNoteApplication for test class com.vol.solunote.SoluNoteApplicationTests

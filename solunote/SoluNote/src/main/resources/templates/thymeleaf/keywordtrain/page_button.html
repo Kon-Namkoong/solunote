@@ -1,0 +1,29 @@
+<div  class="tbl_btns" th:fragment="pageButtonFragment">
+	<div class="left_btns">
+		<button th:if="${liveMenu} == '1'" id="trash-btn" class="choice_btn" th:text="${#messages.msg('minutes.page_button.btn2')}">선택삭제</button>
+		<button th:if="${liveMenu} == '2'"  id="ex-btn" class="choice_btn" th:text="${#messages.msg('traindata_2.page_button.btn1')}">학습제외</button>
+		<button th:if="${liveMenu} == '2'"  id="inc-btn" class="choice_btn" th:text="${#messages.msg('traindata_2.page_button.btn2')}">학습포함</button>
+		<button th:if="${liveMenu} == '4'" id="rollback-trash-btn" class="test_btn" th:text="${#messages.msg('minutes.page_button.btn3')}">선택복원</button>
+		<button th:if="${liveMenu} == '4'" id="delete-btn" class="test_btn" th:text="${#messages.msg('minutes.page_button.btn4')}">영구삭제</button>
+	</div>
+	<div class="tbl_right">
+		<div class="table_total">[[${#messages.msg('minutes.page_button.page.span1')}]]  <span id="spanHiddenCount"></span>[[${#messages.msg('minutes.page_button.page.span2')}]] </div>
+		<div th:if="${liveMenu == 1 or liveMenu == 4}"  class="select-container">
+			<select name="page_count" class="custom-select" id="page_count">
+				<option value="10" th:text="${#messages.msg('minutes.page_button.page1')}">10개씩</option>
+				<option value="30" th:text="${#messages.msg('minutes.page_button.page2')}">30개씩</option>
+				<option value="50" th:text="${#messages.msg('minutes.page_button.page3')}">50개씩</option>
+				<option value="100" th:text="${#messages.msg('minutes.page_button.page4')}">100개씩</option>
+			</select>
+		</div>
+		<div th:if="${liveMenu == 2 or liveMenu == 3}"  class="select-container">
+			<select name="page_count_list" class="custom-select" id="page_count_list">
+				<option value="10" th:text="${#messages.msg('minutes.page_button.page1')}">10개씩</option>
+				<option value="30" th:text="${#messages.msg('minutes.page_button.page2')}">30개씩</option>
+				<option value="50" th:text="${#messages.msg('minutes.page_button.page3')}">50개씩</option>
+				<option value="100" th:text="${#messages.msg('minutes.page_button.page4')}">100개씩</option>
+			</select>
+		</div>		
+		<button th:if="${liveMenu} == '1'" id="create-btn" class="upload_btn" th:text="${#messages.msg('keywordtrain.page_button.btn1')}">등록</button>
+	</div>
+</div>

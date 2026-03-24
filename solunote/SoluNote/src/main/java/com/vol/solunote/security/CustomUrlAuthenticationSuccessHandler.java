@@ -22,9 +22,10 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.vol.solunote.login.service.LoginService;
+import com.vol.solunote.domain.login.service.LoginService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
 @Component

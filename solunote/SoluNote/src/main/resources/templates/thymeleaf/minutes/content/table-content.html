@@ -1,0 +1,55 @@
+<!-- 공통 고정 타이틀 및 검색 -->
+<div id = "tablePage">
+	<div class="content_tit fullMeeting_tit" th:switch="${liveMenu}" >
+	    <div th:case="1" class="title">
+	        <h2 th:text="${#messages.msg('sideMenu.soluNote.subMenu1')}">전체 회의록</h2>
+	    </div>
+	    <div th:case="2" class="title">
+	        <h2 th:text="${#messages.msg('sideMenu.soluNote.subMenu2')}">중요 회의록</h2>
+	    </div>
+	    <div th:case="3" class="title">
+	        <h2 th:text="${#messages.msg('sideMenu.soluNote.subMenu3')}">휴지통</h2>
+	    </div>	              
+    	<div th:replace="thymeleaf/minutes/head_search :: headSearchFragment"></div>
+    	
+	</div>
+	<!-- //공통 고정 타이틀 및 검색 -->
+	
+	<!-- 전체 회의록 -->
+	<div class="content_desc content_fullMeeting">
+	
+		<div th:replace="thymeleaf/minutes/page_button :: pageButtonFragment"></div> 
+	    
+	    <div class="table_content">
+	        <table class="table_title">
+	            <thead>
+	                <tr style="height: 40px; background-color: #F2F4F7;">
+	                    <th style="width: 2%;">
+	                        <span class="all check-box">
+	                            <img class="unchecked" th:src="@{/images/checck.svg}"/>
+	                            <img class="checked" th:src="@{/images/checck_on.svg}"/>
+	                        </span>
+	                    </th>
+	                    <th style="width: 2%"></th>
+	                    <th style="width: 3%;" th:text="${#messages.msg('minutes.content.th1')}">출처</th>
+	                    <th class="th_ascending" style="width: 32%;" th:text="${#messages.msg('minutes.content.th2')}"></th>
+	                    <th class="th_ascending" style="width: 8%;" th:text="${#messages.msg('minutes.content.th5')}">파일길이</th>	                    
+	                    <th class="th_ascending" style="width: 8%;" th:text="${#messages.msg('minutes.content.th7')}">언어</th>	                    
+	                    <th class="th_ascending" style="width: 10%;" th:text="${#messages.msg('minutes.content.th3')}">등록일</th>
+	                    <th class="th_ascending" style="width: 10%;" th:text="${#messages.msg('minutes.content.th4')}">최종변경</th>
+	                    <th class="th_ascending" style="width: 8%;" th:text="${#messages.msg('minutes.content.th6')}">등록자</th>
+	                </tr>
+	            </thead>
+	        </table>
+	        <div class="tbl_scroll">
+	            <table>
+	                <tbody id="tableRow">                
+	                </tbody>
+	            </table>	           
+	            <div th:replace="fragments/page_indicator :: pageIndicatorFragment"></div>
+	        </div> 	        
+	    </div>
+	</div>	
+</div>
+
+ <!-- //전체 회의록 -->

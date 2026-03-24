@@ -1,6 +1,6 @@
 base:
   redirect:
-    url: /menu22/cont/
+    url: /dashboard/cont/
   lang: ko
 db:
   type: mysql
@@ -166,5 +166,5 @@ batch:
 service:
   class:
     commonService: commonService
-    menu21Service: Menu21Service
-    menu23Service: Menu23Service
+    minutesService: MinutesService
+    trainService: TrainService

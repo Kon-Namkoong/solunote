@@ -1,0 +1,124 @@
+<div id="detailPage">
+    <div class="common_content">
+        <div class="content_tit trainingDetail_tit content_detail_tit">
+            <div class="title">
+                <a class="back_btn"><img th:src="@{/images/back_btn.svg}" alt="뒤로가기"></a>
+                <h2 th:utext="${vo.subject}"></h2>
+            </div>
+            <div class="search">
+                <div class="info_grid">
+                    <div class="info">
+                        <span class="tlt" th:text="${#messages.msg('testdata.detail.content.info1')}">출처</span>
+                        <span class="desc" th:text="${#messages.msg('testdata.detail.content.info2')}">영상파일</span>
+                    </div>
+                    <div class="info">
+                        <span class="tlt" th:text="${#messages.msg('testdata.detail.content.info3')}">신뢰도</span>
+                        <span class="desc" th:utext="${vo.reliability}"></span>
+                    </div>
+                    <div class="info">
+                        <span class="tlt" th:text="${#messages.msg('testdata.detail.content.info4')}">수정문장수</span>
+                        <span class="desc" th:utext="${vo.trainTextCount}"></span>
+                    </div>
+                    <div class="info">
+                        <span class="tlt" th:text="${#messages.msg('testdata.detail.content.info5')}">파일 길이</span>
+                        <span class="desc" th:text="${vo.timeDurationFormatted}"></span>
+                    </div>
+                    <div class="info">
+                        <span class="tlt" th:text="${#messages.msg('testdata.detail.content.info6')}">등록일</span>
+                        <span class="desc" th:utext="${#temporals.format(vo.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content_desc content_fullMeeting">
+            <div class="table_info">
+                <div class="table_info_left">
+                    <div class="search_txt" style="margin-left : 0px;">
+                        <div class="search_box">
+                            <div class="custom-number-input">
+                                <input id="reliability" type="number" th:placeholder="${#messages.msg('testdata.detail.content.placeholder')}" style="width : 125px;">
+                                <div class="custom-spin-buttons">
+                                    <div class="spin-up"></div>
+                                    <div class="spin-down"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="search_btn" id="select-btn" th:text="${#messages.msg('search.search')}">검색</button>
+                    </div>
+                    <span id="changeText" class="check-box-detail">
+                        <img class="unchecked" th:src="@{/images/checck.svg}">
+                        <img class="checked" th:src="@{/images/checck_on.svg}">
+                        <label for="changeText" th:text="${#messages.msg('testdata.detail.content.info8')}">수정된 문장만 보기</label>
+                    </span>
+                    <span id="wave" class="check-box-detail">
+                        <img class="unchecked" th:src="@{/images/checck.svg}">
+                        <img class="checked" th:src="@{/images/checck_on.svg}">
+                        <label for="wave">chart</label>
+                    </span>                        
+                </div>
+
+                <div class="table_info_right">
+                    <div class="table_total">
+                        <span th:text="${#messages.msg('minutes.page_button.page.span1')}">총</span> 
+                        <span id="spanPopupCount"></span>
+                        <span th:text="${#messages.msg('minutes.page_button.page.span2')}">건</span>
+                    </div>
+                    <div class="select-container">
+                        <select name="pop_page_count" class="custom-select" id="pop_page_count">
+                            <option value="10" th:text="${#messages.msg('minutes.page_button.page1')}">10개씩</option>
+                            <option value="30" th:text="${#messages.msg('minutes.page_button.page2')}">30개씩</option>
+                            <option value="50" th:text="${#messages.msg('minutes.page_button.page3')}">50개씩</option>
+                            <option value="100" th:text="${#messages.msg('minutes.page_button.page4')}">100개씩</option>
+                        </select>
+                    </div>
+                    <div class="all_play" id="resume-btn">
+                        <span th:text="${#messages.msg('testdata.detail.content.info9')}">전체재생</span>
+                        <button class="allPlay_btn"></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table_content">
+                <table class="table_title">
+                    <thead>
+                        <tr style="height: 40px; background-color: #F2F4F7;">
+                            <th style="width: 4%;" th:text="${#messages.msg('testdata.detail.content.th1')}">번호</th>
+                            <th style="width: 6%;" th:text="${#messages.msg('testdata.detail.content.th2')}">문장신뢰도</th>
+                            <th style="width: 26%;">STT Text</th>
+                            <th style="width: 26%;" th:text="${#messages.msg('testdata.detail.content.th4')}">정답문장</th>
+                            <th style="width: 3%;" th:text="${#messages.msg('testdata.detail.content.th5')}">확인</th>
+                            <th style="width: 7%;" th:text="${#messages.msg('testdata.detail.content.th7')}">시작</th>
+                            <th style="width: 14%;">Player</th>
+                            <th style="width: 7%;" th:text="${#messages.msg('testdata.detail.content.th8')}">종료</th>
+                            <th style="width: 7%;" th:text="${#messages.msg('testdata.detail.content.th9')}">길이</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div class="tbl_scroll">
+                    <table class="tbl_detail" id="div_content_list">
+                        <tbody th:replace="~{thymeleaf/testdata/content/detail-list}"></tbody>
+                    </table>                                            
+                    <div class="tbl_pagination_detail">
+                        <ul>
+                            <li><a class="arrow first" style="display:none"><img th:src="@{/images/pagi_first.svg}" alt=""></a></li>
+                            <li><a class="arrow prev" style="display:none"><img th:src="@{/images/pagi_prev.svg}" alt=""></a></li>
+                            <li><a class="arrow next" style="display:none"><img th:src="@{/images/pagi_next.svg}" alt=""></a></li>
+                            <li><a class="arrow last" style="display:none"><img th:src="@{/images/pagi_last.svg}" alt=""></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tool_popup">
+    <button class="plus_btn tooltip">
+        <img th:src="@{/images/plus.svg}" alt=""> 
+        <span class="tooltiptext" style="width: 50px; bottom: -160%;" th:text="${#messages.msg('testdata.detail.content.popup1')}">합치기</span>
+    </button>
+    <button class="divide_btn tooltip">
+        <img th:src="@{/images/divide.svg}" alt=""> 
+        <span class="tooltiptext" style="width: 50px; bottom: -160%;" th:text="${#messages.msg('testdata.detail.content.popup2')}">나누기</span>
+    </button>
+</div>

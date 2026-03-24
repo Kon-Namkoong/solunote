@@ -1,0 +1,48 @@
+<!-- 공통 고정 타이틀 및 검색 -->
+<div id = "tablePage">
+	<div class="content_tit fullMeeting_tit" th:switch="${liveMenu}">
+	    <div class="title">
+        	<h2>테스트 Data 예약</h2>
+        </div>
+    	<div th:replace="thymeleaf/testdata/head_search :: headSearchFragment"></div>  
+	</div>
+	<!-- //공통 고정 타이틀 및 검색 -->
+	
+	<!-- 전체 회의록 -->
+	<div class="content_desc content_fullMeeting">
+	
+	    <div th:replace="thymeleaf/testdata/page_button :: pageButtonFragment"></div> 
+
+	    <div class="table_content">
+	        <table class="table_title">
+				<thead>
+					<tr style="height: 40px; background-color: #F2F4F7;">
+						<th style="width: 5%;">
+			                <span class="all check-box">
+								<img class="unchecked" th:src="@{/images/checck.svg}"/>
+	                            <img class="checked" th:src="@{/images/checck_on.svg}"/>
+			                </span>
+		                </th>					
+						<th  style="width: 5%;" th:text="${#messages.msg('testdata.content2.th1')}">번호</th>
+						<th  style="width: 15%;" th:text="${#messages.msg('testdata.content2.th2')}">제목</th>
+						<th  style="width: 35%;" th:text="${#messages.msg('testdata.content2.th3')}">정답문장</th>
+						<th  style="width: 5%;" th:text="${#messages.msg('testdata.content2.th9')}">사용여부</th>
+						<th  style="width: 15%;">Data ID</th>
+						<th  style="width: 5%;" th:text="${#messages.msg('testdata.content2.th6')}">시작</th>
+						<th  style="width: 5%;" th:text="${#messages.msg('testdata.content2.th7')}">종료</th>
+						<th  style="width: 10%;" th:text="${#messages.msg('searchDate.date')}">등록일</th>
+					</tr>
+				</thead>
+	        </table>
+	        <div class="tbl_scroll">
+	            <table>
+	                <tbody id="tableRow">
+	                </tbody>
+	            </table>
+	
+	            <div th:replace="fragments/page_indicator :: pageIndicatorFragment"></div>
+	        </div>
+	    </div>
+	</div>
+</div>
+<!-- //전체 회의록 -->

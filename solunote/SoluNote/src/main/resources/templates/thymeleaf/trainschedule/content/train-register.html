@@ -1,0 +1,42 @@
+<!DOCTYPE html> 
+<html xmlns:th="http://www.thymeleaf.org"> 
+
+<div th:fragment="menuDetailFragment">
+<!-- 학습자료 등록 팝업 -->
+    <div id="file_register" class="layerwrap type2">
+        <h3>학습일정 관리 <span>추가일정을 등록합니다</span></h3>
+        <div class="layer_cont">
+            <table class="tbl_list">
+                <caption>일정 추가</caption>
+                <colgroup>                  
+                    <col style="width:360px">
+                    <col style="width:360px">
+                    <col>
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th scope="col">날짜</th>
+                        <th scope="col">시간</th>
+                    </tr>
+					<tr class="data-row">
+                       <td class="align-middle">
+                       		<input type="text" class="date" id="trainDay" name="trainDay" placeholder="날짜" title="날짜설정" th:value="${search.searchEndDate}">
+                       </td>
+                       <td class="align-middle">
+                            <input id ="traintime" class="form_file">
+                       </td>					  
+					</tr>                   
+                </thead>                
+            </table>
+            <ul class="desc_list">
+                <li class="txt">- 날짜와 시간을 설정후 '등록' 버튼을 눌러주세요.</li>
+            </ul>
+        </div>
+        <div class="btn_center">
+            <a id="act_button" class="btn_blue">등록</a>
+            <a class="btn_black b-close">닫기</a>
+        </div>
+        <a class="btn_close b-close">닫기</a>
+    </div>    
+</div>
+</html>

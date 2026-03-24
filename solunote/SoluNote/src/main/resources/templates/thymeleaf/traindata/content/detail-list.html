@@ -1,0 +1,148 @@
+<tbody>
+	<tr th:if="${cPages.isEmpty() == true}">
+		<td colspan="11" style="text-align: center; line-height: 2.5">데이터가 없습니다.</td>	
+	</tr>
+	
+	<tr th:if="${indexFirst != 0 and !cPages.isEmpty() }" 
+	    class="page-data-row"  style="display: none;" th:attr="data-seq=${listR[0].seq}, data-start-second=${listR[0].start}, data-end-second=${listR[0].end}, data-data-id=${listR[0].dataId}">
+		<td style="width: 4%;"></td>
+		<td style="width: 6%;" th:utext="${listR[0].reliability}"></td>
+		<td style="width: 26%;" class="stt_txt padding_0">
+			<p class="trainingData_text" th:text="${listR[0].sttText}"></p>
+		</td>
+		<td class="transText padding_0" style="width: 26%;">
+			<div class="transDivDB editable" contenteditable="true" spellcheck="false" th:text="${listR[0].trainText}" style="display: none"></div>
+		</td>
+		<td class="check-box" style="width: 3%;">
+			<span> 
+				<img class="unchecked" th:src="@{/images/checck.svg}"> 
+				<img class="checked" th:src="@{/images/checck_on.svg}">
+			</span>
+		</td>
+		<td style="display: none;" class="channel" th:text="${listR[0].channelChar}"></td>
+		<td style="width: 7%;">
+			<div class="start_play play_btn">
+				<button class="rewind" data-base="start"></button>
+				<button class="forward" data-base="start"></button>
+			</div>
+			<div class="start" th:text="${listR[0].start}"></div>
+		</td>
+		<td style="width: 14%;">
+			<div class="player">
+				<div class="play_grid" th:id="'play-'+${indexFirst}">
+					<audio th:id="'sound-'+${indexFirst}" controls controlsList="nodownload" class="sound" data-status="on">
+						<source th:src='@{/traindata/downloadPart(fileNm=${vo.fileNewNm},start=${listR[0].start},end=${listR[0].end},category=train)}'>
+					</audio>
+				</div>
+			</div>
+		</td>
+		<td style="width: 7%;">
+			<div class="end_play play_btn">
+				<button class="rewind" data-base="end"></button>
+				<button class="forward" data-base="end"></button>
+			</div>
+			<div class="end" th:text="${listR[0].end}"></div>
+		</td>
+		<td style="width: 7%;" class="timeLength" th:text="${#numbers.formatDecimal(listR[0].end-listR[0].start,0,2)}"></td>
+	</tr>
+
+	<tr th:if="${!cPages.isEmpty()}"	
+	    class="page-data-row" th:each="item, stat : ${cPages.content}" th:attr="data-seq=${item.seq}, data-start-second=${item.start}, data-end-second=${item.end}, data-data-id=${item.dataId}">
+		<td style="width: 4%;" th:text="${stat.count + (cPages.number - 1) * cPages.size}"></td>
+		<td style="width: 6%;" th:utext="${item.reliability}"></td>
+		<td style="width: 26%;" class="stt_txt padding_0">
+			<p class="trainingData_text" th:text="${item.sttText}"></p>
+		</td>
+		<td class="transText padding_0" style="width: 26%;">
+			<div class="transDivDB editable" contenteditable="true" spellcheck="false" th:text="${item.trainText}" style="display: none"></div>
+		</td>
+		<td class="check-box" style="width: 3%;">
+			<span> 
+				<img class="unchecked" th:src="@{/images/checck.svg}"> 
+				<img class="checked" th:src="@{/images/checck_on.svg}">
+			</span>
+		</td>
+		<td style="display: none;" class="channel" th:text="${item.channelChar}"></td>
+		<td style="width: 7%;">
+			<div class="start_play play_btn">
+				<button class="rewind" data-base="start"></button>
+				<button class="forward" data-base="start"></button>
+			</div>
+			<div class="start" th:text="${item.start}"></div>
+		</td>
+		<td style="width: 14%;">
+			<div class="player">
+				<div class="play_grid" th:id="'play-'+${stat.index}">
+					<audio th:id="'sound-'+${stat.index}" controls controlsList="nodownload" class="sound" data-status="on">
+						<source th:src='@{/traindata/downloadPart(fileNm=${vo.fileNewNm},start=${item.start},end=${item.end},category=train)}'>
+					</audio>
+					<div th:if="${waveValue} == 1" th:attr="id='img-'+${item.seq}, class='wave'">
+						<img th:src="@{/images/blank_wave.png}"> 
+					</div>
+				</div>
+			</div>
+		</td>
+		<td style="width: 7%;">
+			<div class="end_play play_btn">
+				<button class="rewind" data-base="end"></button>
+				<button class="forward" data-base="end"></button>
+			</div>
+			<div class="end" th:text="${item.end}"></div>
+		</td>
+		<td style="width: 7%;" class="timeLength" th:text="${#numbers.formatDecimal(item.end-item.start,0,2)}"></td>
+	</tr>
+
+	<tr th:if="${!cPages.isEmpty()}"		
+	    style="display: none;"  class="page-data-row" th:attr="data-seq=${listF[0].seq}, data-start-second=${listF[0].start}, data-end-second=${listF[0].end}, data-data-id=${listF[0].dataId}">
+		<td style="width: 4%;"></td>
+		<td style="width: 6%;" th:utext="${listF[0].reliability}"></td>
+		<td style="width: 26%;" class="stt_txt padding_0">
+			<p class="trainingData_text" th:text="${listF[0].sttText}"></p>
+		</td>
+		<td class="transText padding_0" style="width: 26%;">
+			<div class="transDivDB editable" contenteditable="true" spellcheck="false" th:text="${listF[0].trainText}" style="display: none"></div>
+		</td>
+		<td class="check-box" style="width: 3%;">
+			<span> 
+				<img class="unchecked" th:src="@{/images/checck.svg}"> 
+				<img class="checked" th:src="@{/images/checck_on.svg}">
+			</span>
+		</td>
+		<td style="display: none;" class="channel" th:text="${listF[0].channelChar}"></td>
+		<td style="width: 7%;">
+			<div class="start_play play_btn">
+				<button class="rewind" data-base="start"></button>
+				<button class="forward" data-base="start"></button>
+			</div>
+			<div class="start" th:text="${listF[0].start}"></div>
+		</td>
+		<td style="width: 14%;">
+			<div class="player">
+				<div class="play_grid" th:id="'play-'+${indexLast}">
+					<audio th:id="'sound-'+${indexLast}" controls controlsList="nodownload" class="sound" data-status="on">
+						<source th:src='@{/traindata/downloadPart(fileNm=${vo.fileNewNm},start=${listF[0].start},end=${listF[0].end},category=train)}'>
+					</audio>
+				</div>
+			</div>
+		</td>
+		<td style="width: 7%;">
+			<div class="end_play play_btn">
+				<button class="rewind" data-base="end"></button>
+				<button class="forward" data-base="end"></button>
+			</div>
+			<div class="end" th:text="${listF[0].end}"></div>
+		</td>
+		<td style="width: 7%;" class="timeLength" th:text="${#numbers.formatDecimal(listF[0].end-listF[0].start,0,2)}"></td>
+	</tr>
+</tbody>
+
+<input type="hidden" id="hiddenTrainTextCount" th:value="${trainTextCount}"></input>	
+<input type="hidden" id="hiddenCategory" th:value="train"></input>				
+<input type="hidden" id="hiddenSeq" th:value="${hiddenSeq}"></input>				
+<input type="hidden" id="hiddenReliability" th:value="${reliability}"></input>		
+<input type="hidden" id="popupCount" th:value="${hiddenCount}"></input>
+<input type="hidden" id="popupPageSize" th:value="${cPages.pageable.pageSize}"></input>		
+<input type="hidden" id="lFirstLimit" th:value="${lFirstLimit}"></input>		
+<input type="hidden" id="lLastLimit" th:value="${lLastLimit}"></input>		
+<input type="hidden" id="rFirstLimit" th:value="${rFirstLimit}"></input>		
+<input type="hidden" id="rLastLimit" th:value="${rLastLimit}"></input>	

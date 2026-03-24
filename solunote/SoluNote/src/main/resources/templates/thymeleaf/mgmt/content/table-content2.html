@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div id="content-root-">
+	<div th:replace="thymeleaf/mgmt/base_search :: baseSearchFragment"></div>
+	<div id="table-content-root-wrapper">
+			<table>
+				<thead>
+					<tr style="height: 40px;">	
+						<th class="align-middle" style="width: 12%">아이디</th>
+						<th class="align-middle" style="width: 12%">이름</th>
+						<th class="align-middle" style="width: 12%">계정 유형</th>
+						<th class="align-middle" style="width: 21%">전화번호</th>
+						<th class="align-middle" style="width: 21%">이메일</th>
+					</tr>
+				</thead>
+			</table>
+	        <div class="tbl_scroll">
+		        <table>
+		            <thead>
+						<tbody id="tableRow">		
+							<tr th:each="item, stat : ${pages}" class="page-data-row" th:attr="data-userId=${item.tcId}">
+							   <td class="align-middle"  id="userIdForuser"  th:text="${item.tcId}"></td>
+							   <td class="align-middle"  th:text="${item.tcName}"></td>
+							   <td class="align-middle"  th:text="${item.tcLevel == 100 ? '관리자':'사용자' }"></td>
+							   <td class="align-middle"  th:text="${item.tcPhone}"></td>
+							   <td class="align-middle"  th:text="${item.tcEmail}"></td> 
+							</tr>						
+						</tbody>
+		            </thead>
+		        </table>
+			</div> 			
+		</div>
+	    <div id="content-footer">
+	        <div class="pagination-ui-wrapper">
+	
+	            <div class="page-num-wrapper first-page">
+	                <div class="page-btn">
+	                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="height: 15px;"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160zm352-160l-160 160c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L301.3 256 438.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0z" /></svg>
+	                </div>
+	            </div>
+	            <div class="page-num-wrapper previous-page">
+	                <div class="page-btn">
+	                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="height: 15px;"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" ></path></svg>
+	                </div>
+	            </div>
+	            <div class="page-num-list" style="display: flex">
+	                <div class="page-num-wrapper active" page-no="1">
+	                    <span class="page-num">1</span>
+	                </div>
+	            </div>
+	            <div class="page-num-wrapper next-page">
+	                <div class="page-btn">
+	                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" style="height: 15px;"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z" /></svg>
+	                </div>
+	            </div>
+	            <div class="page-num-wrapper last-page">
+	                <div class="page-btn">
+	                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="height: 15px;"><!--! Font Awesome Pro 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z" /></svg>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+</div>
+</html>

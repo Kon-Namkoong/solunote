@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vol.solunote.login.service.LoginService;
+import com.vol.solunote.domain.login.service.LoginService;
 
 import lombok.extern.slf4j.Slf4j;
 

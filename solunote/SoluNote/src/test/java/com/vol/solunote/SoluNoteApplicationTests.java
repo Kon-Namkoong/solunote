@@ -37,7 +37,7 @@ class SoluNoteApplicationTests {
     	paramMap.put("tcPw", passwordEncoder.encode("solugate1234!"));
     	paramMap.put("tcEmail","nkkon@naver.com");
     	paramMap.put("tcPhone","010-2713-2543");
-    	paramMap.put("tcLevel", "");
+    	paramMap.put("tcLevel", "100");
     	try
     	{
     		siteUserRepository.insertUser(paramMap);

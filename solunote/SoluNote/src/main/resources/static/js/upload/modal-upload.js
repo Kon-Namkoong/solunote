@@ -235,7 +235,7 @@ function uploadFile(fo) {
         data.append('letter', $('#meetinglangtype').val());
     }
 
-    let url = contextPath + "/menu21/cont/";
+    let url = contextPath + "/minutes/cont/";
     if (uploadMenu == 1) {
         url += "uploadDiff";
     } else {

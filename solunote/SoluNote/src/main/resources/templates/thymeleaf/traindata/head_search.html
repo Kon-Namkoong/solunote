@@ -1,0 +1,24 @@
+<div class="search" th:fragment="headSearchFragment">
+	<div class="date">
+	    [[${#messages.msg('searchDate.date')}]] &nbsp;
+	    <div class="date-input-container">
+	        <input type="text" id="searchStartDate" class="custom-date-input start-date" th:placeholder="${#messages.msg('searchDate.placeholder1')}" required aria-required="true" th:value="${search.searchStartDate}">
+	    </div>
+	    <span>~</span>
+	    <div class="date-input-container">
+	        <input type="text" id="searchEndDate" class="custom-date-input end-date" th:placeholder="${#messages.msg('searchDate.placeholder2')}" required aria-required="true" th:value="${search.searchEndDate}">
+	    </div>
+	</div>
+	<div class="date_button">
+		<button id="searchDateNow" class="day" th:text="${#messages.msg('searchDate.day2')}">당일</button>
+		<button id="searchDateMonth" class="week" th:text="${#messages.msg('searchDate.month2')}">1개월</button>
+		<button id="searchDateyear" class="month" th:text="${#messages.msg('searchDate.year')}">1년</button>
+	</div>
+	<div class="search_txt">
+	    <div class="search_box">
+	        <input id="search-keyword" type="text" th:placeholder="${#messages.msg('traindata.head_search.search.placeholder')}">
+	    </div>
+	</div>            
+	<button id="search-btn" class="search_btn" th:text="${#messages.msg('search.search')}">검색</button>
+</div>
+

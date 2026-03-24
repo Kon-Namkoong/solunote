@@ -21,25 +21,25 @@
         </ul> 
         <ul class="main_menu user_menu" sec:authorize="hasAnyRole('ROLE_USER')">
             <li class="first_menu">
-                <a th:href="@{/menu21/cont/1?activeMenu=1}">
+                <a th:href="@{/minutes/cont/1?activeMenu=1}">
                     <img th:src="@{/images/sidemenu_user01.svg}"alt="">
                     <span th:text="${#messages.msg('sideMenu.soluNote.subMenu1')}">전체 회의록</span>
                 </a>
             </li>
             <li class="first_menu">
-                <a th:href="@{/menu21/cont/1?activeMenu=2}">
+                <a th:href="@{/minutes/cont/1?activeMenu=2}">
                     <img th:src="@{/images/sidemenu_user02.svg}" alt="">
                     <span th:text="${#messages.msg('sideMenu.soluNote.subMenu2')}">중요 회의록</span>
                 </a>
             </li>
             <li class="first_menu">
-                <a th:href="@{/menu21/cont/1?activeMenu=3}">
+                <a th:href="@{/menutes/cont/1?activeMenu=3}">
                     <img th:src="@{/images/sidemenu_user03.svg}" alt="">
                     <span th:text="${#messages.msg('sideMenu.soluNote.subMenu3')}">휴지통</span>
                 </a>
             </li>
             <li class="first_menu">
-                <a th:href="@{/menu27/cont/1?activeMenu=3}">
+                <a th:href="@{/mgmt/cont/1?activeMenu=3}">
                     <img th:src="@{/images/sidemenu_user04.svg}" alt="">
                     <span th:text="${#messages.msg('sideMenu.confing.subMenu3')}">계정관리</span>
                 </a>
@@ -53,7 +53,7 @@
         </ul>           	
 	    <ul class="main_menu" sec:authorize="hasAnyRole('ROLE_ADMIN')">
 	        <li class="first_menu">
-	            <a id="side_dashbord" th:href="@{/menu22/cont/}">
+	            <a id="side_dashbord" th:href="@{/dashboard/cont/}">
 	                <img  th:src="@{/images/menu_icon_dashboard.svg}" alt="">
 	                <span th:text="${#messages.msg('sideMenu.dashbord')}"></span>
 	            </a>
@@ -64,9 +64,9 @@
 	                <span th:text="${#messages.msg('sideMenu.soluNote')}"></span>
 	            </a>
 	            <ul class="sub_menu">
-	                <li><a th:href="@{/menu21/cont/1?activeMenu=1}" th:text="${#messages.msg('sideMenu.soluNote.subMenu1')}"></a></li>
-	                <li><a th:href="@{/menu21/cont/1?activeMenu=2}" th:text="${#messages.msg('sideMenu.soluNote.subMenu2')}"></a></li>
-	                <li><a th:href="@{/menu21/cont/1?activeMenu=3}" th:text="${#messages.msg('sideMenu.soluNote.subMenu3')}"></a></li>
+	                <li><a th:href="@{/minutes/cont/1?activeMenu=1}" th:text="${#messages.msg('sideMenu.soluNote.subMenu1')}"></a></li>
+	                <li><a th:href="@{/minutes/cont/1?activeMenu=2}" th:text="${#messages.msg('sideMenu.soluNote.subMenu2')}"></a></li>
+	                <li><a th:href="@{/minutes/cont/1?activeMenu=3}" th:text="${#messages.msg('sideMenu.soluNote.subMenu3')}"></a></li>
 	            </ul>
 	        </li>        
 	        <li class="first_menu">
@@ -75,9 +75,9 @@
 	                <span th:text="${#messages.msg('sideMenu.confing')}"></span>
 	            </a>
 	            <ul class="sub_menu">
-					<li><a th:href="@{/menu27/cont/1?activeMenu=1}" th:text="${#messages.msg('sideMenu.confing.subMenu1')}">계정관리</a></li>
-					<li><a th:href="@{/menu27/cont/1?activeMenu=2}" th:text="${#messages.msg('sideMenu.confing.subMenu2')}">계정휴지통</a></li>
-					<li><a th:href="@{/menu27/cont/1?activeMenu=4}" th:text="${#messages.msg('sideMenu.confing.subMenu4')}">파일관리</a></li>
+					<li><a th:href="@{/mgmt/cont/1?activeMenu=1}" th:text="${#messages.msg('sideMenu.confing.subMenu1')}">계정관리</a></li>
+					<li><a th:href="@{/mgmt/cont/1?activeMenu=2}" th:text="${#messages.msg('sideMenu.confing.subMenu2')}">계정휴지통</a></li>
+					<li><a th:href="@{/mgmt/cont/1?activeMenu=4}" th:text="${#messages.msg('sideMenu.confing.subMenu4')}">파일관리</a></li>
 	            </ul>
 	        </li>
             <li class="first_menu" style="display:none">

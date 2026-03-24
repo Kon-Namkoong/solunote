@@ -621,3 +621,5 @@ CREATE TABLE `tb_stt_info_record` (
   KEY `idx_startdate_and_starttime` (`tc_call_startdate`,`tc_call_starttime`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 
+
+
