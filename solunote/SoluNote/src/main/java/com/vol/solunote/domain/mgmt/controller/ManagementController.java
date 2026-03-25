@@ -39,7 +39,7 @@ import com.vol.solunote.model.type.Category;
 import com.vol.solunote.model.vo.comm.DefaultVo;
 import com.vol.solunote.model.vo.menu.MenuListVo;
 import com.vol.solunote.model.vo.siteuser.UserRegisterVo;
-import com.vol.solunote.security.SecurityMember;
+import com.vol.solunote.security.vo.SecurityMember;
 
 import lombok.extern.slf4j.Slf4j;
 

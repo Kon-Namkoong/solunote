@@ -1,4 +1,4 @@
-package com.vol.solunote.security;
+package com.vol.solunote.security.service;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;

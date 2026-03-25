@@ -1,4 +1,4 @@
-package com.vol.solunote.security;
+package com.vol.solunote.security.handler;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.vol.solunote.domain.login.service.LoginService;
+import com.vol.solunote.security.vo.SecurityMember;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

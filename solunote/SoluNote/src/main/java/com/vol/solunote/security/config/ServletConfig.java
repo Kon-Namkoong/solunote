@@ -1,4 +1,4 @@
-package com.vol.solunote.security;
+package com.vol.solunote.security.config;
 
 import org.apache.catalina.connector.Connector;
 import org.springframework.beans.factory.annotation.Value;

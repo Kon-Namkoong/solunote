@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.vol.solunote.security.SecurityMember;
+import com.vol.solunote.security.vo.SecurityMember;
 
 import lombok.extern.slf4j.Slf4j;
 

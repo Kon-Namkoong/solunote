@@ -1,4 +1,4 @@
-package com.vol.solunote.security;
+package com.vol.solunote.security.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +18,11 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.firewall.StrictHttpFirewall;
+
+import com.vol.solunote.security.AuthorizationChecker;
+import com.vol.solunote.security.handler.CustomAppEntryPointHandler;
+import com.vol.solunote.security.handler.CustomLoginFailureHandler;
+import com.vol.solunote.security.service.CustomUserDetailsService;
 
 @Slf4j
 @Configuration

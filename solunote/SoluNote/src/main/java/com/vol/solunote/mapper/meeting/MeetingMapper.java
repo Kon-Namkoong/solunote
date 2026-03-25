@@ -5,7 +5,7 @@ import com.vol.solunote.model.vo.meeting.MeetingResultVo;
 import com.vol.solunote.model.vo.meeting.MeetingSpeakerVo;
 import com.vol.solunote.model.vo.meeting.MeetingVo;
 import com.vol.solunote.model.vo.sound.SoundBean;
-import com.vol.solunote.security.SecurityMember;
+import com.vol.solunote.security.vo.SecurityMember;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.lang.NonNull;

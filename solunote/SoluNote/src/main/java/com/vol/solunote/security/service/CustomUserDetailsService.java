@@ -1,4 +1,4 @@
-package com.vol.solunote.security;
+package com.vol.solunote.security.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.vol.solunote.model.entity.siteuser.SiteUser;
 import com.vol.solunote.repository.siteuser.SiteUserRepository;
+import com.vol.solunote.security.vo.SecurityMember;
 
 import lombok.extern.slf4j.Slf4j;
 

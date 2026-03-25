@@ -5,7 +5,7 @@ import org.springframework.data.repository.query.Param;
 import com.vol.solunote.comm.OffsetPageable;
 import com.vol.solunote.model.vo.meeting.MeetingVo;
 import com.vol.solunote.model.vo.sound.SoundBean;
-import com.vol.solunote.security.SecurityMember;
+import com.vol.solunote.security.vo.SecurityMember;
 
 import java.time.LocalDateTime;
 import java.util.List;

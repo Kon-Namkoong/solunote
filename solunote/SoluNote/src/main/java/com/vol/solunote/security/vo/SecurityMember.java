@@ -1,4 +1,4 @@
-package com.vol.solunote.security;
+package com.vol.solunote.security.vo;
 
 import java.util.ArrayList;
 

@@ -11,7 +11,8 @@ import com.vol.solunote.comm.OffsetPageable;
 import com.vol.solunote.mapper.meeting.MeetingMapper;
 import com.vol.solunote.model.vo.meeting.MeetingVo;
 import com.vol.solunote.model.vo.sound.SoundBean;
-import com.vol.solunote.security.SecurityMember;
+import com.vol.solunote.security.vo.SecurityMember;
+
 import org.springframework.stereotype.Repository;
 @Repository
 public class MeetingRepositoryImpl implements MeetingRepository {
