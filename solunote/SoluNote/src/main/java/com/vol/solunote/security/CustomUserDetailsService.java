@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.vol.solunote.model.vo.siteuser.SiteUser;
+import com.vol.solunote.model.entity.siteuser.SiteUser;
 import com.vol.solunote.repository.siteuser.SiteUserRepository;
 
 import lombok.extern.slf4j.Slf4j;

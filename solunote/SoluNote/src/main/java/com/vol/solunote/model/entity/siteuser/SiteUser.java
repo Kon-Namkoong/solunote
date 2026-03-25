@@ -1,4 +1,4 @@
-package com.vol.solunote.model.vo.siteuser;
+package com.vol.solunote.model.entity.siteuser;
 
 import java.util.Collection;
 

@@ -19,7 +19,7 @@
         <result property="tcRegDate" column="tc_regdate" javaType="java.lang.String" />
     </resultMap>
 
-	<select id="readUser" parameterType="String" resultType="com.vol.solunote.model.vo.siteuser.SiteUser">
+	<select id="readUser" parameterType="String" resultType="com.vol.solunote.model.entity.siteuser.SiteUser">
 		SELECT 
 		    seq as username, tc_id as userId, tc_pw as password, tc_name as name, tc_email as email, tc_level as userLevel
 		    , 1 as isAccountNonExpired, 1 as isAccountNonLocked, 1 as isCredentialsNonExpired, 1 as isEnabled

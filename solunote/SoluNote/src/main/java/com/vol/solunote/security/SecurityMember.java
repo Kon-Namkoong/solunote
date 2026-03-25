@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import com.vol.solunote.model.vo.siteuser.SiteUser;
+import com.vol.solunote.model.entity.siteuser.SiteUser;
 
 public class SecurityMember extends User{
 

@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.vol.solunote.comm.OffsetPageable;
-import com.vol.solunote.model.vo.siteuser.SiteUser;
+import com.vol.solunote.model.entity.siteuser.SiteUser;
 import com.vol.solunote.model.vo.siteuser.SiteUserVo;
 import com.vol.solunote.model.vo.siteuser.UserRegisterVo;
 
