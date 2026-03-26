@@ -443,7 +443,7 @@ public class MinutesController extends DefaultController {
 		int tcUserSeq = Integer.parseInt(principal.getName());
 		param.put("tcUserSeq", tcUserSeq);
 		
-		log.debug("Call parseDiarizeAndStt in ResponseEntity....Menu21Controller ");
+		log.debug("Call parseDiarizeAndStt in ResponseEntity.... ");
 		Map<String, String> map = sttService.parseDiarizeAndSttForMenu(param, resultMap);
 
 		return ResponseEntity.ok(map);

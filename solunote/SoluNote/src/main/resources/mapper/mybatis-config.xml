@@ -15,7 +15,7 @@
         <typeAlias alias="agentVo" type="com.vol.solunote.model.vo.server.AgentVo"/>
         <typeAlias alias="serverDomainVo" type="com.vol.solunote.model.vo.server.DomainVo"/>
         <typeAlias alias="serverVo" type="com.vol.solunote.model.vo.server.ServerVo"/>
-        <typeAlias alias="siteUser" type="com.vol.solunote.model.vo.siteuser.SiteUser"/>
+        <typeAlias alias="siteUser" type="com.vol.solunote.model.entity.siteuser.SiteUser"/>
         <typeAlias alias="siteUserVo" type="com.vol.solunote.model.vo.siteuser.SiteUserVo"/>
         <typeAlias alias="userRegisterVo" type="com.vol.solunote.model.vo.siteuser.UserRegisterVo"/>
         <typeAlias alias="soundVo" type="com.vol.solunote.model.vo.sound.SoundVo"/>		        

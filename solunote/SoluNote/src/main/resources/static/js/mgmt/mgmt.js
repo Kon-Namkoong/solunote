@@ -464,7 +464,10 @@ $(function () {
     
     
     //삭제일정 설정 등록 
-    $("#btn_regSetting").click( function(){    _settingDetailRegister()    ;});    
+    $("#btn_regSetting").click( function()
+	{    
+		_settingDetailRegister();
+	});    
     
     
     // 파일관리 기간입력시 숫자만 + 마지막에 일추가
@@ -481,8 +484,6 @@ $(function () {
         $(this).val(onlyNumbers);
     });
     
- 
-
     $(document).on("input", "#settingValueChange", function () {
         const inputVal = $(this).val();
 
@@ -496,41 +497,37 @@ $(function () {
         const onlyNumbers = inputVal.replace(/\D/g, '');
         $(this).val(onlyNumbers);
     });
-    
-
-    
-            
+                
     //삭제일정 설정 등록
     _settingDetailRegister = function() {
             
     	const settingTitle =$("#settingTitle").val()
         const settingValue =$("#settingValue").val()
-
+		
         if(settingTitle == null || settingTitle == ""){
             $("#settingTitle").focus();
     		$("#checkTitle").text("파일관리 제목을 입력해주세요.").show()                  	
             return false;
         }
+		else {
+			$("#checkTitle").hide()                  	
+		}
                 
         if(settingValue == null || settingValue == ""){
             $("#settingValue").focus();
     		$("#checkValue").text("시간을 입력해주세요").show() 
             return false;
         }
-        
+		
         _checkSettingTitle(settingTitle)
         
     }    
-         
-
-    
+           
     //삭제일정 설정 등록 중복체크    
     _checkSettingTitle = function(settingTitle) {
-        
         var formData = new FormData();
-        formData.append("settingTitle", settingTitle);
-        _callAjax(formData, _resultCheckTitle, "/mgmt/cont/checkSetting", "POST", _error);
-        
+		formData.append("settingTitle", settingTitle);
+        _callAjax(formData, _resultCheckTitle, "mgmt/cont/checkSetting", "POST", _error);       
     };
     
     //삭제일정 설정 등록
@@ -544,13 +541,11 @@ $(function () {
         	const settingTitle =$("#settingTitle").val()
             const settingValue =$("#settingValue").val()
             const settingUseYn =$("#settingUseYn").val()
-            const settingDetail =$("#settingDetail").val()
-            
-            
+            const settingDetail =$("#settingDetail").val() 
             
             const {activeMenu} = queryParams
             const queryParam = "activeMenu="+activeMenu
-            
+
             let params = "settingTitle="+settingTitle+"&settingValue="+settingValue+"&settingUseYn="+settingUseYn+"&settingDetail="+settingDetail;
                         
                 fetch("settingRes?"+encodeURI(queryParam), {

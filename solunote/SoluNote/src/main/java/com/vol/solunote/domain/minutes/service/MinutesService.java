@@ -66,18 +66,9 @@ public interface MinutesService {
     
     void createFileDownload(HttpServletResponse response,Map <String, Object> meetMap) throws Exception;
     
-    
-    
-    
-    
 	String saveDiarizeAndStt(Map<String, Object> param, MultipartFile file) throws Exception;
 	public List<MeetingVo> getMeetApi(MeetingVo vo) throws Exception;
-	/*public void backendStt(MeetingVo vo, String letter) throws Exception;
-	*/
-	/*
-	Map<String, String> parseDiarizeAndStt(Map<String, Object> param, Map<String, Object> resultMap) throws Exception;
-	String parseDiarizeAndSttOnly(MeetingVo vo, Map<String, Object> resultMap, boolean apiFlag) throws Exception;
-	*/
+
 	byte[] getTxt(List<MeetingResultVo> pages, Map<String, Object> meetMap) throws Exception;
 	Map<String, Object> getMeetBySEQAndDuration(int meetSeq);
 	
