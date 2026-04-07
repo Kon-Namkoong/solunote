@@ -175,6 +175,8 @@ public class TestDataTask {
                 	Thread.sleep( SLEEP_ERROR * 1000);
 					errorList.add(vo);
 					log.debug("errorList add : {}", vo);
+    			} catch ( NullPointerException e ) {
+    				log.error("NullPointerException Occured", e);
     			} catch ( Exception e ) {
     				log.error("Exception Occured", e);
     			} finally {

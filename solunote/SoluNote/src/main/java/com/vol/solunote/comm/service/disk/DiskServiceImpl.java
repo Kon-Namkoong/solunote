@@ -100,12 +100,8 @@ public class DiskServiceImpl implements DiskService {
 	
 	@Override
 	public Path getUploadFilePath(Category category, String fileName) throws Exception {
-		String path = null;
 
-		if ( hasDirectoryScanChar(fileName) ) {
-		    throw new Exception("Invalid filename");
-		}	
-	    
+		String path = null;
 		switch( category ) {
 		case TRAIN :
 			path = this.TRAIN_PATH;
@@ -128,7 +124,15 @@ public class DiskServiceImpl implements DiskService {
 		default:
 			throw new Exception("unknown root path for : " + category);
 		}		
-		return Paths.get( path + File.separator + fileName);
+
+		if ( hasDirectoryScanChar(fileName) ) {
+		    throw new Exception("Invalid filename");
+		}
+		else
+		{
+			String fileFullName = path + File.separator + fileName;
+			return Paths.get( fileFullName );			
+		}
 	}		
 	
 	
@@ -182,16 +186,27 @@ public class DiskServiceImpl implements DiskService {
 		
 		Path realPath = null;
 		File realFile = null;	
+		
 	    // 경로조작 패턴 차단
 	    if ( hasDirectoryScanChar(path) )
 	    {
 		    throw new Exception("Invalid filename");
 	    }
-		
+	    
+	    if ( hasDirectoryScanChar(channelCount) )
+	    {
+		    throw new Exception("Invalid filename");
+	    }
+
+	    if ( hasDirectoryScanChar(channelId) )
+	    {
+		    throw new Exception("Invalid filename");
+	    }
+	
 		if ( "2".equals(channelCount) == true ) {
 			realPath = Paths.get(this.STEREO_PATH, path + "_" + channelId + ".wav");
 		} else {
-			String root = getUploadPath(category);
+			String root = getUploadPath(category);			
 			realPath = Paths.get(root, path);
 		}
 		
@@ -358,26 +373,35 @@ public class DiskServiceImpl implements DiskService {
 		 }
 		 
 		 if ( lastRead == null ) {
-			 
-			 List<Path> collect = Files.list(Paths.get(separationT)).filter(Files::isDirectory).collect(Collectors.toList());
-			 for( Path p : collect ) {
-				 log.debug(" P = {}", p.toString());
-				 List<Path> dirs = Files.list(p).filter(Files::isDirectory).collect(Collectors.toList());
-				 for( Path d : dirs ) {
-					 String lastDir = d.getName(pathCount).toString() + "/" +  d.getName(pathCount+1).toString();
-					 LocalDate date = LocalDate.parse(lastDir, formatter);
-					 if ( date.isBefore(eDate)) {
-						 subdirs.add(lastDir );
-						 
-						 						 
-					 } else {
-						 log.debug("skip : {}", date);
-					 }
-					 
-				 }
-				 dirs.clear();
-			 }
-			 collect.clear();
+			 List<Path> collect = null;
+			 List<Path> dirs = null;
+			 try 
+			 {
+				collect	= Files.list(Paths.get(separationT)).filter(Files::isDirectory).collect(Collectors.toList());				
+				for( Path p : collect ) {
+					log.debug(" P = {}", p.toString());
+					dirs = Files.list(p).filter(Files::isDirectory).collect(Collectors.toList());
+					for( Path d : dirs ) {
+						String lastDir = d.getName(pathCount).toString() + "/" +  d.getName(pathCount+1).toString();
+						LocalDate date = LocalDate.parse(lastDir, formatter);
+						if ( date.isBefore(eDate)) {
+							subdirs.add(lastDir );
+						} else {
+							log.debug("skip : {}", date);
+						}
+					}
+				}	 
+			}
+			catch (Exception e)
+			{
+				log.debug("Exception", e);
+			}
+			finally {
+				if (null != collect)
+					collect.clear();
+				if (null != dirs)
+					dirs.clear();
+			}
 		 } else {
 			 Path lastPath = Paths.get(lastRead);
 			 String lastDir = lastPath.getName(0).toString() + "/" +  lastPath.getName(1).toString();

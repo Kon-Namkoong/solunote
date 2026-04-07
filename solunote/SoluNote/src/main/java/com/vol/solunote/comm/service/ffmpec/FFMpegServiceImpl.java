@@ -217,17 +217,17 @@ public class FFMpegServiceImpl implements FFMpegService {
 		{
 			throw new Exception("File Name has directory scan character");
 		}
+		else
+		{
+			String root = diskService.getUploadPath(category);		
+			File file = Paths.get(root, path).toFile();
 		
-		String root = diskService.getUploadPath(category);		
-		File file = Paths.get(root, path).toFile();
-		
-		byte[] bytes = null;
-		String ext = FilenameUtils.getExtension(file.getName());
+			byte[] bytes = null;
+			String ext = FilenameUtils.getExtension(file.getName());
 
-		Path temp = Files.createTempFile("ffmpeg", "." + ext);
-//		log.debug("temporary file : " + temp.toString());
+			Path temp = Files.createTempFile("ffmpeg", "." + ext);
 
-		FFmpegBuilder builder = new FFmpegBuilder()
+			FFmpegBuilder builder = new FFmpegBuilder()
 				.overrideOutputFiles(true)
 				.addInput(file.getAbsolutePath()) // 입력 영상 경로의
 				.addExtraArgs("-ss", Double.toString(startSecond)) // 영상의 i초 위치 부
@@ -236,22 +236,22 @@ public class FFMpegServiceImpl implements FFMpegService {
 //                   .addExtraArgs("-an") //영상의 소리를 제거하고
 				.done(); // 저장
 
-		try {
-			FFmpegExecutor excutor = new FFmpegExecutor(ffmpeg, ffprobe);
-			excutor.createJob(builder).run();
-		} catch ( Exception e ) {
-			log.error("ffmpeg run error : {}", e.getMessage());
-			log.error("cmd : ffmpeg -i {} -ss {} -to {} {}", file.getAbsolutePath(), Double.toString(startSecond), Double.toString(endSecond), temp.toString());
-			FFMpegCallException fce = new FFMpegCallException(file.toString(), e.getMessage());
-			throw fce;
-		}
+			try {
+				FFmpegExecutor excutor = new FFmpegExecutor(ffmpeg, ffprobe);
+				excutor.createJob(builder).run();
+			} catch ( Exception e ) {
+				log.error("ffmpeg run error : {}", e.getMessage());
+				log.error("cmd : ffmpeg -i {} -ss {} -to {} {}", file.getAbsolutePath(), Double.toString(startSecond), Double.toString(endSecond), temp.toString());
+				FFMpegCallException fce = new FFMpegCallException(file.toString(), e.getMessage());
+				throw fce;
+			}
 
-		bytes = Files.readAllBytes(Paths.get(temp.toString()));
+			bytes = Files.readAllBytes(Paths.get(temp.toString()));
 		
-		Files.delete(temp);
-//		log.debug("temp file : {}", temp.toString());
+			Files.delete(temp);
 		
-		return bytes;
+			return bytes;
+		}
     }
 	
 	@Override
@@ -646,12 +646,18 @@ public class FFMpegServiceImpl implements FFMpegService {
 	public void writeWave(OutputStream outputStream, Category category, String fileNm, float start, float end, float prevEnd, float nextStart)	throws Exception {
 
 		String root = diskService.getUploadPath(category);
-		File file = Paths.get(root, fileNm).toFile();
+		if (diskService.hasDirectoryScanChar(fileNm))
+		{
+			throw new Exception("FileName is not valid format");
+		}
+		else
+		{
+			File file = Paths.get(root, fileNm).toFile();
 		
-		SoundFile soundFile = new SoundFile(file);
-		SoundSpectrum spectrum = new SoundSpectrum(soundFile);
-		spectrum.writeWave(outputStream, prevEnd, start, end, nextStart);
-		
+			SoundFile soundFile = new SoundFile(file);
+			SoundSpectrum spectrum = new SoundSpectrum(soundFile);
+			spectrum.writeWave(outputStream, prevEnd, start, end, nextStart);
+		}
 	}
 
 

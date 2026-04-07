@@ -46,14 +46,14 @@ public class DocFileHandler {
 			fis = new FileInputStream(fileName);
 			// if docx
 			if (fileName.toLowerCase().endsWith(".docx")) {
-				XWPFDocument doc = new XWPFDocument(fis);
-				extractor = new XWPFWordExtractor(doc);
-				doc.close();
+				try ( XWPFDocument doc = new XWPFDocument(fis) ) {
+					extractor = new XWPFWordExtractor(doc);
+				}
 			} else {
 				// if doc
-				POIFSFileSystem fileSystem = new POIFSFileSystem(fis);
-				extractor = ExtractorFactory.createExtractor(fileSystem);
-				fileSystem.close();
+				try ( POIFSFileSystem fileSystem = new POIFSFileSystem(fis) ) {
+					extractor = ExtractorFactory.createExtractor(fileSystem);					
+				}
 			}
 			extractedText = extractor.getText();
 		} catch (FileNotFoundException e) {
