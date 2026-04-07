@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.io.IOException;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,14 +90,24 @@ public class DiskServiceImpl implements DiskService {
 	@Override
 	public	boolean	hasDirectoryScanChar(String fileName) 
 	{
-		boolean	hasDirScanChar = false;
+		boolean	hasDirScanChar = true;
 	    // 경로조작 패턴 차단
-	    if (!fileName.matches("^[a-zA-Z0-9._-]+$"))
+	    if (fileName.matches("^[a-zA-Z0-9._-]+$"))
 	    {
-	    	hasDirScanChar = true;
+	    	hasDirScanChar = false;
 	    }	    
 		return	hasDirScanChar;
 	}
+	
+	@Override
+	public	String	removeDirScanChar(String fileName) 
+	{
+		String	newFileName = fileName.replaceAll("..","");
+		newFileName = newFileName.replaceAll("\\", "");
+		newFileName = newFileName.replaceAll("/", "");
+		newFileName = newFileName.replaceAll("&", "");				
+		return	newFileName;
+	}	
 	
 	@Override
 	public Path getUploadFilePath(Category category, String fileName) throws Exception {
@@ -130,6 +141,7 @@ public class DiskServiceImpl implements DiskService {
 		}
 		else
 		{
+			fileName = removeDirScanChar(fileName);
 			String fileFullName = path + File.separator + fileName;
 			return Paths.get( fileFullName );			
 		}
@@ -203,6 +215,8 @@ public class DiskServiceImpl implements DiskService {
 		    throw new Exception("Invalid filename");
 	    }
 	
+	    path = removeDirScanChar(path);
+	    
 		if ( "2".equals(channelCount) == true ) {
 			realPath = Paths.get(this.STEREO_PATH, path + "_" + channelId + ".wav");
 		} else {
@@ -391,6 +405,10 @@ public class DiskServiceImpl implements DiskService {
 						}
 					}
 				}	 
+			}
+			catch (IOException e)
+			{
+				log.debug("IOException", e);
 			}
 			catch (Exception e)
 			{

@@ -108,7 +108,8 @@ public class ManagementServiceImpl implements ManagementService {
 			String tcPassword = paramMap.get("tcPw");
 			
 			if(tcPassword != null && !"".equals(tcPassword)) {
-				paramMap.put("tcPw", passwordEncoder.encode(tcPassword));
+				String securedPasswd = passwordEncoder.encode(tcPassword);
+				paramMap.put("tcPw", securedPasswd );
 			}
 				
 			userRepository.insertUser(paramMap);

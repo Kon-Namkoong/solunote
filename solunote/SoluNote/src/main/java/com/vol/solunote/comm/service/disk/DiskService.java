@@ -27,5 +27,7 @@ public interface DiskService {
 	public List<DirPathVo> listDirectory(String category) throws Exception;
 	
 	public	boolean	hasDirectoryScanChar(String fileName);
+	
+	public	String	removeDirScanChar(String fileName);
 		
 }

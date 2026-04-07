@@ -220,7 +220,9 @@ public class FFMpegServiceImpl implements FFMpegService {
 		else
 		{
 			String root = diskService.getUploadPath(category);		
-			File file = Paths.get(root, path).toFile();
+			String	newPath = diskService.removeDirScanChar(path);
+			
+			File file = Paths.get(root, newPath).toFile();
 		
 			byte[] bytes = null;
 			String ext = FilenameUtils.getExtension(file.getName());
@@ -260,7 +262,7 @@ public class FFMpegServiceImpl implements FFMpegService {
 		if (diskService.hasDirectoryScanChar(path))
 		{
 			throw new Exception("File Name has directory scan character");
-		}
+		}		
 		
 		File file = diskService.getUploadedFile(category, path, channelCount, channelId);
 		log.debug("file file : " + file.toString());
@@ -652,7 +654,8 @@ public class FFMpegServiceImpl implements FFMpegService {
 		}
 		else
 		{
-			File file = Paths.get(root, fileNm).toFile();
+			String	newFileNm = diskService.removeDirScanChar(fileNm);
+			File file = Paths.get(root, newFileNm).toFile();
 		
 			SoundFile soundFile = new SoundFile(file);
 			SoundSpectrum spectrum = new SoundSpectrum(soundFile);

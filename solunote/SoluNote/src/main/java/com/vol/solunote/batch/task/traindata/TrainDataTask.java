@@ -103,12 +103,14 @@ public class TrainDataTask {
 				
 				if ( gap > 0) {
 					for( int g = 0; g < gap; g++ ) {
-						int x = readIndex.getAndIncrement();
 						
-						if ( (Integer.MAX_VALUE-1) == x)
+						if ( readIndex.get() == ( Integer.MAX_VALUE - 1 ) )
 						{
 							throw	new ArithmeticException("Integer overflow");
 						}
+						
+						int x = readIndex.getAndIncrement();
+						
 						if ( x < apiList.size() ) {
 							MeetingVo vo = apiList.get(x);
 							if ( conmap.values().contains( vo.getSeq() ) ) {
