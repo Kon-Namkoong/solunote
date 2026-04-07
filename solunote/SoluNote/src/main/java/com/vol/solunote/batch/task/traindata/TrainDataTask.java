@@ -104,12 +104,12 @@ public class TrainDataTask {
 				if ( gap > 0) {
 					for( int g = 0; g < gap; g++ ) {
 						
-						if ( readIndex.get() == ( Integer.MAX_VALUE - 1 ) )
-						{
-							throw	new ArithmeticException("Integer overflow");
-						}
-						
-						int x = readIndex.getAndIncrement();
+						int x = readIndex.getAndUpdate(v -> {
+						    if (v == Integer.MAX_VALUE) {
+						        throw new ArithmeticException("overflow");
+						    }
+						    return v + 1;
+						});
 						
 						if ( x < apiList.size() ) {
 							MeetingVo vo = apiList.get(x);

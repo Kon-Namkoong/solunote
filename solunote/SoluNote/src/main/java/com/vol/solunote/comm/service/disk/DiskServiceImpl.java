@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.io.IOException;
+import java.util.stream.Stream;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -387,39 +388,37 @@ public class DiskServiceImpl implements DiskService {
 		 }
 		 
 		 if ( lastRead == null ) {
-			 List<Path> collect = null;
-			 List<Path> dirs = null;
-			 try 
-			 {
-				collect	= Files.list(Paths.get(separationT)).filter(Files::isDirectory).collect(Collectors.toList());				
-				for( Path p : collect ) {
-					log.debug(" P = {}", p.toString());
-					dirs = Files.list(p).filter(Files::isDirectory).collect(Collectors.toList());
-					for( Path d : dirs ) {
-						String lastDir = d.getName(pathCount).toString() + "/" +  d.getName(pathCount+1).toString();
-						LocalDate date = LocalDate.parse(lastDir, formatter);
-						if ( date.isBefore(eDate)) {
-							subdirs.add(lastDir );
-						} else {
-							log.debug("skip : {}", date);
-						}
-					}
-				}	 
-			}
-			catch (IOException e)
-			{
-				log.debug("IOException", e);
-			}
-			catch (Exception e)
-			{
-				log.debug("Exception", e);
-			}
-			finally {
-				if (null != collect)
-					collect.clear();
-				if (null != dirs)
-					dirs.clear();
-			}
+
+			 try (Stream<Path> stream = Files.list(Paths.get(separationT))) {
+				 List<Path> collect = stream
+				            .filter(Files::isDirectory)
+				            .collect(Collectors.toList());
+
+				 for (Path p : collect) {
+					 log.debug(" P = {}", p.toString());
+
+					 try (Stream<Path> innerStream = Files.list(p)) {
+
+						 List<Path> dirs = innerStream
+				                    .filter(Files::isDirectory)
+				                    .collect(Collectors.toList());
+
+						 for (Path d : dirs) {
+							 String lastDir = d.getName(pathCount).toString()
+				                            + "/" + d.getName(pathCount + 1).toString();
+
+							 LocalDate date = LocalDate.parse(lastDir, formatter);
+
+				             if (date.isBefore(eDate)) {
+				                 subdirs.add(lastDir);
+				             } else {
+				                 log.debug("skip : {}", date);
+				             }
+				         }
+				     }
+				 }			 
+			 }
+
 		 } else {
 			 Path lastPath = Paths.get(lastRead);
 			 String lastDir = lastPath.getName(0).toString() + "/" +  lastPath.getName(1).toString();
@@ -440,25 +439,23 @@ public class DiskServiceImpl implements DiskService {
 			 
 			 Path path = Paths.get(separationT + "/" + dir);
 			 
-			 
-			 if ( Files.exists(path) && Files.isDirectory(path)) {
-				 List<Path> col = Files.list(path).filter(Files::isRegularFile).filter(f -> f.toString().toLowerCase().endsWith(".wav") 
-							 ||  f.toString().toLowerCase().endsWith(".mp3")
-//							 ||  f.toString().toLowerCase().endsWith(".json")
-						 ).collect(Collectors.toList());
-				 
-				 DirPathVo vo = new DirPathVo();
-				 vo.setDir(dir);
-				 vo.setFiles(col);
-				 
-				 if ( col.size() > 0 ) {
-					 files.add(vo);
-				 }
-				 col.clear();
-			 }
-			 
-		 }
-		 
+			 try ( Stream <Path> stream = Files.list(path)) {
+
+				List<Path> col = stream
+				        .filter(Files::isRegularFile)
+				        .filter(f -> f.toString().toLowerCase().endsWith(".wav") 
+				                  || f.toString().toLowerCase().endsWith(".mp3"))
+				        .collect(Collectors.toList());
+
+				DirPathVo vo = new DirPathVo();
+				vo.setDir(dir);
+				vo.setFiles(col);
+
+				if (col.size() > 0) {
+				    files.add(vo);
+				}
+			}		 		 
+		}		 
 		return files;
 	}
 	

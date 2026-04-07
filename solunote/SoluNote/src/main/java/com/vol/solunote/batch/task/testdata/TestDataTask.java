@@ -103,14 +103,14 @@ public class TestDataTask {
 				
 				if ( gap > 0) {
 					for( int g = 0; g < gap; g++ ) 
-					{						
-						int x = readIndex.getAndIncrement();
-						
-						if ( (Integer.MAX_VALUE - 1) == x)
-						{
-							throw	new ArithmeticException("Integer overflow");
-						}
-						
+					{	
+						int x = readIndex.getAndUpdate(v -> {
+						    if (v == Integer.MAX_VALUE) {
+						        throw new ArithmeticException("overflow");
+						    }
+						    return v + 1;
+						});
+												
 						if ( x < apiList.size() ) {
 							MeetingVo vo = apiList.get(x);
 							if ( conmap.values().contains( vo.getSeq() ) ) {
