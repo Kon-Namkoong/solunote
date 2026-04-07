@@ -39,7 +39,13 @@ public class SttFrameManager {
 
 	public List<SttFrame> getFrameList() {
 		sortList();
-		return this.list;
+		
+		List<SttFrame> copied = new ArrayList<>(this.list.size());
+
+		for (SttFrame frame : this.list) {
+			copied.add(frame);
+		}		
+		return copied;
 	}
 	
 }

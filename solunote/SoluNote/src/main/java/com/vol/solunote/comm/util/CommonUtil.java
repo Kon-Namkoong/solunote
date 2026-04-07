@@ -257,75 +257,98 @@ public class CommonUtil {
 		returnValue = !isEmpty(arg2);
 		return returnValue;
 	}
+	
 	//(vary)
 	public static int nvl(Object arg, int i){
-		if(arg == null) return i;
+
+		if(arg == null) return i;		
+		int rtVal = i;
 		String tempS = "";
 		try{
 			tempS = nvl(arg);
-			if("".equals(tempS)){
-				return i;
-			}else{
-				return Integer.valueOf(tempS);
+			if(!"".equals(tempS)){
+				rtVal = Integer.valueOf(tempS);
 			}
-		}catch(Exception e){
-			return i;
+		} catch (NumberFormatException e) {
+			log.error("String is not numeric");
+		} catch(Exception e){
+			log.error("Exception during converting numeric string to integer");
 		}
+		return	rtVal;
 	}
+	
 	//(vary)
 	public static boolean nvl(Object arg, boolean i){
 		if(arg == null) return i;
+		
+		boolean rtVal = i;
 		String tempS = "";
 		try{
 			tempS = nvl(arg);
-			if("".equals(tempS)){
-				return i;
-			}else{
-				return Boolean.valueOf(tempS);
+			if(!"".equals(tempS)){
+				rtVal = Boolean.valueOf(tempS);
 			}
-		}catch(Exception e){
-			return i;
+		} catch (IllegalArgumentException e) {
+			log.error("String is not numeric");
+		} catch(Exception e){
+			log.error("Exception during converting numeric string to integer");
 		}
+		return	rtVal;
 	}
+	
 	//(vary)
 	public static long nvl(Object arg, long i){
 		if(arg == null) return i;
+		
 		String tempS = "";
+		long	rtVal = i;
 		try{
 			tempS = nvl(arg);
-			if("".equals(tempS)){
-				return i;
-			}else{
-				return Long.valueOf(tempS);
+			if(!"".equals(tempS)){
+				rtVal = Long.valueOf(tempS);
 			}
-		}catch(Exception e){
-			return i;
+		} catch (NumberFormatException e) {
+			log.error("String is not numeric");
+		} catch(Exception e){
+			log.error("Exception during converting numeric string to long");
 		}
+		return	rtVal;
 	}
 	//(vary)
 	public static float nvlFloat(Object arg, float i){
+
 		if(arg == null) return i;
-		float returnValue;
+
+		float returnValue = i;
 		try{
 			returnValue = Float.valueOf(nvl(arg, "0"));
-		}catch(Exception e){
-			return i;
 		}
-		if(returnValue == 0) returnValue = i;
+		catch(NumberFormatException e){
+			log.error("String is not float format");
+		}		
+		catch(Exception e){
+			log.error("Exception during converting float string to float");
+		}
 		return returnValue;
 	}
+
 	//(vary)
 	public static Double nvlDouble(Object arg, Double i){
 		if(arg == null) return i;
-		Double returnValue;
+		
+		Double returnValue = i;
 		try{
 			returnValue = Double.valueOf(nvl(arg, "0"));
-		}catch(Exception e){
-			return i;
 		}
-		if(returnValue == 0) returnValue = i;
+		catch(NumberFormatException e){
+			log.error("String is not double format");
+		}		
+		catch(Exception e){
+			log.error("Exception during converting double string to double");
+		}		
 		return returnValue;
 	}
+	
 	//(vary)
 	public static int nvlInt(Object arg){
 		return nvl(arg, 0);
@@ -344,7 +367,6 @@ public class CommonUtil {
 			d_return = format.parse(s_date);
 		
 		} catch (ParseException ex) {
-			ex.printStackTrace();
 			d_return = null;
 		}		
 		return d_return;
@@ -364,9 +386,10 @@ public class CommonUtil {
 			
 			long diff = day2.getTime() - day1.getTime();
 			n_days = (int)TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-			
+		} catch (ParseException e) {
+			log.info("Parse Exception in fnGetStringDateToCompare");			
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.info("Exception Occured in fnGetStringDateToCompare");
 		}
 
 		return Math.abs(n_days);
@@ -387,8 +410,10 @@ public class CommonUtil {
 			long diff = day2.getTime() - day1.getTime();
 			n_days = (int)TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 			
+		} catch (ParseException	e) {
+			log.info("Parse Exception in fnGetStringDateToCompareN");	
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.info("Exception Occured in fnGetStringDateToCompareN");
 		}
 
 		return n_days;

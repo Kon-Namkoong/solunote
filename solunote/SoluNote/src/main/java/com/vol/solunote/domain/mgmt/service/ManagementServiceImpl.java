@@ -407,7 +407,6 @@ public class ManagementServiceImpl implements ManagementService {
                 pages.add(list);
 	        }
 	    } catch (IOException e) {
-	        e.printStackTrace();
 	        throw new Exception("Excel 파일 읽기 실패", e);
 	    }
 	    

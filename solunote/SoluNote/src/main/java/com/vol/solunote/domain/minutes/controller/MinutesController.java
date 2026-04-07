@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.owasp.encoder.Encode;
+import java.util.HashMap;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
@@ -42,6 +44,7 @@ import com.vol.solunote.model.vo.meeting.MeetingSpeakerVo;
 import com.vol.solunote.model.vo.meeting.MeetingVo;
 import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
 import com.vol.solunote.comm.service.stt.SttService;
+import com.vol.solunote.comm.service.disk.DiskService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,6 +63,10 @@ public class MinutesController extends DefaultController {
 	
 	@Autowired
 	CommonSteelServiceImpl commonService;
+
+	@Autowired
+	DiskService diskService;
+
 	
 	@Autowired
 	SttService	 sttService;	
@@ -94,7 +101,7 @@ public class MinutesController extends DefaultController {
 		return "thymeleaf/"+menuId+"/cont.html";
 	}
 	
-	@RequestMapping(value= {"/cont/view"})
+	@PostMapping(value= {"/cont/view"})
 	public String view(HttpServletRequest request,
 			Model model, 
 			@RequestParam(required = false) Integer activeMenu, 
@@ -418,7 +425,7 @@ public class MinutesController extends DefaultController {
 		
 		Map<String, Object> param = commonService.saveUploadFileConvert(Category.MEET, file);
 		
-		param.put("type",type);
+		param.put("type",Encode.forHtml(type));
 		
 		org.springframework.core.io.Resource resource = (org.springframework.core.io.Resource) param.get("resource");
 		
@@ -429,7 +436,7 @@ public class MinutesController extends DefaultController {
 			BigDecimal bigDecimal = new BigDecimal(resultMap.get("duration").toString());
 			BigDecimal durationMs = bigDecimal.multiply(new BigDecimal(1000));
 			param.put("timeDurationStr", durationMs.toString());
-			param.put("lang", letter);
+			param.put("lang", Encode.forHtml(letter));
 		} catch ( TrainCallException tce ) {
 			param.put("timeDurationStr", "0");
 			String message = tce.getDetail();
@@ -445,15 +452,22 @@ public class MinutesController extends DefaultController {
 		
 		log.debug("Call parseDiarizeAndStt in ResponseEntity.... ");
 		Map<String, String> map = sttService.parseDiarizeAndSttForMenu(param, resultMap);
+		
+		Map<String, String> safeMap = new HashMap<>();
 
-		return ResponseEntity.ok(map);
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+		    safeMap.put(entry.getKey(), Encode.forHtml(entry.getValue()));
+		}
+		
+		
+		return ResponseEntity.ok(safeMap);
 	}
 
 	@RequestMapping(value= {"/cont/download", "/download"})
 	public void download(Model model, @RequestParam(value="fileNm") String fileNm
 			, HttpServletRequest request, HttpServletResponse response ) throws Exception {
 					
-		byte []all = Files.readAllBytes(commonService.getUploadPath(fileNm));
+		byte []all = Files.readAllBytes(diskService.getUploadFilePath( Category.MEET, fileNm));
 
 		response.setContentLength(all.length);
 		// forces download
@@ -479,7 +493,7 @@ public class MinutesController extends DefaultController {
 		return ResponseEntity.ok(summaryId);
 	}
 	
-	@GetMapping(value = {"/cont/view/statusSummary"})
+	@PostMapping(value = {"/cont/view/statusSummary"})
 	@ResponseBody  
 	public String summary(
 	        @RequestParam("summaryId") String summaryId, 

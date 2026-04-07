@@ -20,7 +20,9 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ExcelReader {
     /**
      * XLS 파일을 분석하여 List<WordDic13Vo> 객체로 반환
@@ -91,21 +93,20 @@ public class ExcelReader {
 			
 		} catch (FileNotFoundException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
+			log.info("FileNotFoundException in xlsToVoList");
 			return null;
-		} catch (IOException e) {
+		} catch (IOException e) {			
 			// Auto-generated catch block
-			e.printStackTrace();
+			log.info("IOException in xlsToVoList");
 			return null;
 		} finally {
 			try {
                 // 사용한 자원은 finally에서 해제
                 if( workbook!= null) workbook.close();
-                if( fis!= null) fis.close();
-                
+                if( fis!= null) fis.close();                
             } catch (IOException e) {
-                // Auto-generated catch block
-                e.printStackTrace();
+                // Auto-generated catch block            	
+    			log.info("IOException in xlsToVoList");
             }
 		}
 		return list;
@@ -176,11 +177,11 @@ public class ExcelReader {
 			
 		} catch (FileNotFoundException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
+			log.info("FileNotFoundException in xlsToVoList");
 			return null;
 		} catch (IOException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
+			log.info("IOException in xlsToVoList");
 			return null;
 		} finally {
 			try {
@@ -190,11 +191,9 @@ public class ExcelReader {
                 
             } catch (IOException e) {
                 // Auto-generated catch block
-                e.printStackTrace();
+    			log.info("IOException in xlsToVoList");
             }
-
 		}
-
         return list;
     }
 

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
+import java.io.IOException;
 
 import com.vol.solunote.model.type.Category;
 import com.vol.solunote.model.vo.comm.DefaultVo;
@@ -119,7 +120,7 @@ public class TrainSchedulerServiceImpl implements TrainSchedulerService {
 		try {
 			detail = mapper.writeValueAsString(map.get("stepLog"));
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+			log.info("JsonProcessingException in convertTrainData");
 		}		
 		vo.setDetail( detail );		
 		return vo;
@@ -238,14 +239,16 @@ public class TrainSchedulerServiceImpl implements TrainSchedulerService {
 			
 			log.debug("post data : " + vo.toString());
 		
-		try {
+			try {
 				if ( send == true ) {
 					commonDataService.postData(vo, Category.TRAIN, reset, false);
 				} else {
 					transcriptionRepository.updateTrainTextNull(vo.getSeq());
 				}
+			} catch( IOException e) {
+				log.error("IOException in sendDataTrans",e);
 			} catch ( Exception e ) {
-				e.printStackTrace();
+				log.error("Exception in sendDataTrans",e);
 			}
 		}
 	}
@@ -278,8 +281,10 @@ public class TrainSchedulerServiceImpl implements TrainSchedulerService {
 				} else {
 					transcriptionRepository.updateTrainTextNull(vo.getSeq());
 				}
+			} catch( IOException e) {
+				log.error("IOException in sendDataTrans",e);
 			} catch ( Exception e ) {
-				e.printStackTrace();
+				log.error("Exception in sendDataTrans",e);
 			}
 		}
 		
@@ -369,9 +374,11 @@ public class TrainSchedulerServiceImpl implements TrainSchedulerService {
 		
 		try {
 			resultMap = commonService.restPutData(url, vo.getDataId(), text, diskService.strToCategory(category), "N");
+		} catch (IOException e) {
+			log.error("sendUpdateServerData SEND ERROR - continue-4 : IOException",e);
+			return;	
 		} catch ( Exception e ) {
-			e.printStackTrace();
-			log.error("sendUpdateServerData SEND ERROR - continue-4 : Exception");
+			log.error("sendUpdateServerData SEND ERROR - continue-4 : Exception",e);
 			return;
 		} 
 		

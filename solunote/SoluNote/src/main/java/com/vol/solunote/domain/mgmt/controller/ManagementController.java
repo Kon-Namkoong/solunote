@@ -6,6 +6,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
+import java.util.HashMap;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -40,6 +41,7 @@ import com.vol.solunote.model.vo.comm.DefaultVo;
 import com.vol.solunote.model.vo.menu.MenuListVo;
 import com.vol.solunote.model.vo.siteuser.UserRegisterVo;
 import com.vol.solunote.security.vo.SecurityMember;
+import org.owasp.encoder.Encode;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -183,7 +185,7 @@ public class ManagementController extends DefaultController {
 		return String.valueOf(managementService.checkCode(code));
 	}
 	
-	@RequestMapping(value = {"/cont/insert"})
+	@PostMapping(value = {"/cont/insert"})
 	@ResponseBody
 	public String insert(Model model, @RequestParam Map<String,String> paramMap) throws Exception {
 		
@@ -344,7 +346,7 @@ public class ManagementController extends DefaultController {
 		// 1. save uploaded file or convert file
 		Map<String, Object> param = commonService.saveUploadFileConvert(Category.MEET, file);
 		
-		param.put("type",type);
+		param.put("type",Encode.forHtml(type));
 		
 //		Resource resource = (Resource) param.get("resource");
 		org.springframework.core.io.Resource resource = (org.springframework.core.io.Resource) param.get("resource");
@@ -358,7 +360,7 @@ public class ManagementController extends DefaultController {
 			BigDecimal bigDecimal = new BigDecimal(resultMap.get("duration").toString());
 			BigDecimal durationMs = bigDecimal.multiply(new BigDecimal(1000));
 			param.put("timeDurationStr", durationMs.toString());
-			param.put("lang", letter);			
+			param.put("lang", Encode.forHtml(letter));			
 		} catch ( TrainCallException tce ) {
 			param.put("timeDurationStr", "0");
 			param.put("errorMessage", tce.getDetail());
@@ -373,7 +375,13 @@ public class ManagementController extends DefaultController {
 		// 2. call summary
 		Map<String, String> map = sttService.parseDiarizeAndSttForMenu(param, resultMap);
 
-		return ResponseEntity.ok(map);
+		Map<String, String> safeMap = new HashMap<>();
+
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+		    safeMap.put(entry.getKey(), Encode.forHtml(entry.getValue()));
+		}
+
+		return ResponseEntity.ok(safeMap);
 	}	
 	
 	

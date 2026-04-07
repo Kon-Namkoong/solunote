@@ -123,13 +123,13 @@ public class DemoSchedulerServiceImpl implements DemoSchedulerService, ResultRes
 			}
 			con.disconnect();
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			log.info("MalformedURLException in restPostSendResultSTT");
 		} catch (ProtocolException e) {
-			e.printStackTrace();
+			log.info("ProtocolException in restPostSendResultSTT");
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			log.info("UnsupportedEncodingException in restPostSendResultSTT");
 		} catch (IOException e) {
-			e.printStackTrace();
+			log.info("IOException in restPostSendResultSTT");
 		} finally  {
 			rsMap.put(rsStrKeyNm, respon);
 			try {
@@ -205,10 +205,12 @@ public class DemoSchedulerServiceImpl implements DemoSchedulerService, ResultRes
 			socket = new Socket();
 			socket.connect( new InetSocketAddress(STT_MANAGER_IP, STT_MANAGER_PORT));
 						
-			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
-			pw.print(sendData);
-			pw.flush();
-			
+			try ( PrintWriter pw = 
+					new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true) ) {
+				pw.print(sendData);
+				pw.flush();
+			}
+						
 			InputStream in =  socket.getInputStream();
 			
 			byte[] bytes = new byte[4096];
@@ -252,8 +254,10 @@ public class DemoSchedulerServiceImpl implements DemoSchedulerService, ResultRes
 			reportMapper.insertStatus(map);
 				
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			log.info("IOException in getServerStatus");
+		} catch (Exception e) {
+			log.info("Exception in getServerStatus");			
+		}		
 		finally {
 			if (!socket.isClosed())
 			{
@@ -269,8 +273,6 @@ public class DemoSchedulerServiceImpl implements DemoSchedulerService, ResultRes
     		return null;
     	}
     	
-//    	String lengcontent = String.format("%8d", sendData.getBytes().length);
-//    	String restSendId = "1002";
 		return restSendId+String.format("%8d", sendData.getBytes("UTF-8").length)+sendData;
 	}
 

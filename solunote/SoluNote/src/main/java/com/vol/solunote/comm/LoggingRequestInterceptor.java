@@ -47,6 +47,7 @@ public class LoggingRequestInterceptor implements ClientHttpRequestInterceptor {
         log.debug("Headers      : {}", response.getHeaders());
 //        log.debug("Response body: {}", inputStringBuilder.toString());
         log.info("=======================response end=================================================");
+        bufferedReader.close();
     }
 
 }

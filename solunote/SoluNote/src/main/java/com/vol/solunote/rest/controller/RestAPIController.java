@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
@@ -140,8 +141,11 @@ public class RestAPIController extends DefaultController {
             while ((line = reader.readLine()) != null) {
                 jb.append(line);
             }
-        } catch (Exception e) {
-        	e.printStackTrace();
+        } catch (IOException e) { 
+        	log.info("IOException in sampleResultSTT");
+		}
+        catch (Exception e) {
+            log.info("Exception in sampleResultSTT");
         }
         
         log.info("receive STT Result {}", jb.toString());

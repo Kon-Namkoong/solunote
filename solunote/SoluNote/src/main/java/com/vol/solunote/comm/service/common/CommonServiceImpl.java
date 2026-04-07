@@ -17,6 +17,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
+import org.apache.tika.Tika;
 
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -325,15 +326,19 @@ public class CommonServiceImpl implements CommonService {
 				ErrorShelf es = new ErrorShelf(status);
 				threadLocal.set(es);
 			}
+		} catch (IllegalArgumentException e) {
+			log.error("error : " + e.getMessage());
+			ErrorShelf es = new ErrorShelf(-1, e.getMessage());
+			threadLocal.set(es);
+			resultMap = null;
 			
 		} catch (Exception e) {
 			log.error("error : " + e.getMessage());
-			e.printStackTrace();
-//			throw new Exception(e);
 			ErrorShelf es = new ErrorShelf(-1, e.getMessage());
 			threadLocal.set(es);
 			resultMap = null;
 		} finally {
+			
 		}
 		
 		return resultMap;
@@ -367,8 +372,6 @@ public class CommonServiceImpl implements CommonService {
 			
 		} catch (Exception e) {
 			log.error("error : " + e.getMessage());
-			e.printStackTrace();
-			
 			TrainCallException tce = new TrainCallException(e, url);
 			if ( ! tce.getStatus().startsWith("4") ) {
 				throw new Exception(e.getMessage());
@@ -393,10 +396,6 @@ public class CommonServiceImpl implements CommonService {
 		threadLocal.remove();
 	}
 	
-	@Override
-	public Path getUploadPath(String fileName) throws Exception {
-		return Paths.get(UPLOAD_PATH + File.separator  + fileName);
-	}
 	
 	@Override
 	public Map<String, Object> saveUploadFileConvert(Category category, MultipartFile file) throws Exception {
@@ -448,13 +447,23 @@ public class CommonServiceImpl implements CommonService {
 	public String saveUploadFile(MultipartFile file, String saveFileName) throws IOException {
 		
 		String subdir = DateUtil.getFormatString(DiskServiceImpl.subdirPattern);
+	
+		Tika tika = new Tika();
+		String type = tika.detect(file.getInputStream());
 		
-		Path path = Paths.get(UPLOAD_PATH + File.separator  + subdir);
-		if ( Files.exists(path) == false ) {
-			Files.createDirectories(path);
+		if (type.startsWith("audio/")) 
+		{
+			Path path = Paths.get(UPLOAD_PATH + File.separator  + subdir);
+			if ( Files.exists(path) == false ) {
+				Files.createDirectories(path);
+			}
+			file.transferTo(Paths.get(path.toString(), saveFileName));
 		}
-		
-		file.transferTo(Paths.get(path.toString(), saveFileName));
+		else
+		{
+			log.error("지원되지 않는 파일입니다.");
+			return	null;
+		}
 		
 		return subdir +  "/"  + saveFileName;   // db 에 저장하는 path 이므로 File.separator 대신에 "/" 를 사용함
 	}
@@ -465,12 +474,8 @@ public class CommonServiceImpl implements CommonService {
 		String root = diskService.getUploadPath(category);
 		Path path = Paths.get(root, subPath);
 		
-//		try {
-			boolean flag = Files.deleteIfExists(path);
-			log.info("delete file : {} = {}", flag, path.toString());
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		boolean flag = Files.deleteIfExists(path);
+		log.info("delete file : {} = {}", flag, path.toString());
 	}
 		
 }

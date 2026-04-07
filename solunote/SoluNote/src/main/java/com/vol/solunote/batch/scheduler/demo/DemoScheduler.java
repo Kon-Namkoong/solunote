@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.io.IOException;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,12 @@ import org.springframework.scheduling.TriggerContext;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+import com.vol.solunote.batch.scheduler.sound.SoundScheduler;
 import com.vol.solunote.batch.service.demo.DemoSchedulerService;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Configuration
 public class DemoScheduler implements SchedulingConfigurer {
 	@Autowired
@@ -43,9 +47,11 @@ public class DemoScheduler implements SchedulingConfigurer {
 				// Do not put @Scheduled annotation above this method, we don't need it anymore.
 				try {
 					schedulerService.getServerStatus();
+				} catch (IOException e) {
+					log.debug("IOException Catched in run");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					log.debug("Exception Catched in run");
 				}
 			}
 		}, new Trigger() {
@@ -76,9 +82,11 @@ public class DemoScheduler implements SchedulingConfigurer {
 				// Do not put @Scheduled annotation above this method, we don't need it anymore.
 				try {
 					schedulerService.setReport();
+				} catch (IOException e) {
+					log.debug("IOException Catched in run");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					log.debug("Exception Catched in run");
 				}
 			}
 		}, new Trigger() {
@@ -110,9 +118,11 @@ public class DemoScheduler implements SchedulingConfigurer {
 				// Do not put @Scheduled annotation above this method, we don't need it anymore.
 				try {
 					schedulerService.sendPOSTResultSTT();
+				} catch (IOException e) {
+					log.debug("IOException Catched in run");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					log.debug("Exception Catched in run");
 				}
 			}
 		}, new Trigger() {

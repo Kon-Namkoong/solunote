@@ -104,10 +104,12 @@ public class STTManagerHandler implements STTManagerRsSerivce {
 				log.debug("SOCKET IS not CONNECTED");
 			}
 			
-			
-			PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
-			pw.print(sendData);
-			pw.flush();
+			try ( PrintWriter pw = 
+					new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true) ) 
+			{
+				pw.print(sendData);
+				pw.flush();
+			}
 			
 			InputStream in =  socket.getInputStream();
 			
@@ -122,7 +124,6 @@ public class STTManagerHandler implements STTManagerRsSerivce {
 	
 			log.debug("[Service Manager 메시지]: {}", message);
 			
-			socket.close();
 			if(message == null || "".equals(message) || message.length() < 12)  {
 				json =new JSONObject();
 				json.put("fileName", fileName);
@@ -159,7 +160,6 @@ public class STTManagerHandler implements STTManagerRsSerivce {
 			}
 			
 		} catch (IOException e) {
-			e.printStackTrace();
 			json =new JSONObject();
 			json.put("fileName", fileName);
 			json.put("saveFileName", saveFileName);
@@ -167,6 +167,12 @@ public class STTManagerHandler implements STTManagerRsSerivce {
 			json.put("result", false);
 			json.put("errMsg", "noSendSTTServiceData 1");
 			return json;
+		}
+		finally {
+			if (null != socket)
+			{
+				socket.close();
+			}
 		}
 	}
 

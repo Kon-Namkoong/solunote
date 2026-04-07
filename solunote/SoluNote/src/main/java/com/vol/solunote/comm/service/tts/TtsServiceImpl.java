@@ -122,7 +122,6 @@ public class TtsServiceImpl implements TtsService {
 			}
 		} catch (Exception e) {
 			log.error("error : " + e.getMessage());
-			e.printStackTrace();
 			
 			TrainCallException tce = new TrainCallException(e, url);
 			if ( ! tce.getStatus().startsWith("4") ) {
@@ -169,8 +168,9 @@ public class TtsServiceImpl implements TtsService {
 	        AudioFormat format = audioInputStream.getFormat();
 	        long frames = audioInputStream.getFrameLength();
 	        return (long) ((frames / format.getFrameRate()) * 1000);  // ms 단위로 변환
+	    } catch (IOException e) {
+	    	return	0;
 	    } catch (Exception e) {
-	        e.printStackTrace();
 	        return 0;
 	    }
 	}	

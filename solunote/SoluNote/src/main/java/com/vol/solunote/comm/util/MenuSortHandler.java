@@ -10,7 +10,9 @@ import java.util.Map;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MenuSortHandler {
 	
 	public JSONObject setMenuJson(List<Map<String, Object>> list, String parentkey, String selfKey) throws JSONException {
@@ -66,21 +68,21 @@ public class MenuSortHandler {
 	
 }
 
+
+@Slf4j
 class MyJSONComparator implements Comparator<JSONObject> {
 
-@Override
-public int compare(JSONObject o1, JSONObject o2) {
-    String v1 = null;
-    String v3 = null;
-    try {
-		v1 = (int) o1.get("pMenuOrder")+"";
-		v3 = (int) o2.get("pMenuOrder")+"";
-	} catch (JSONException e) {
-		// Auto-generated catch block
-		e.printStackTrace();
-	}
+	@Override
+	public int compare(JSONObject o1, JSONObject o2) {
+		String v1 = null;
+		String v3 = null;
+		try {
+			v1 = (int) o1.get("pMenuOrder")+"";
+			v3 = (int) o2.get("pMenuOrder")+"";
+		} catch (JSONException e) {
+			log.info("JSONException in compare");
+		}
     
-    return v1.compareTo(v3);
-}
-
+		return v1.compareTo(v3);
+	}
 }

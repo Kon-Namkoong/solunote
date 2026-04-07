@@ -253,7 +253,6 @@ public class CommonDataServiceImpl implements CommonDataService{
 			postErrorTxn(vo, category, seq, reset, fce.getMessage());
 			return;
 		} catch ( Exception e ) {
-			e.printStackTrace();
 			log.error("STT SEND ERROR - continue-3 : Exception");
 			return;
 		} 

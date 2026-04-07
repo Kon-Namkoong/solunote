@@ -103,6 +103,10 @@ public class TrainDataTask {
 				if ( gap > 0) {
 					for( int g = 0; g < gap; g++ ) {
 						int x = readIndex.getAndIncrement();
+						if (Integer.MAX_VALUE == x)
+						{
+							throw	new ArithmeticException("Integer overflow");
+						}
 						if ( x < apiList.size() ) {
 							MeetingVo vo = apiList.get(x);
 							if ( conmap.values().contains( vo.getSeq() ) ) {
@@ -125,7 +129,10 @@ public class TrainDataTask {
 				}
 			}
 			
-        } finally {
+        } catch (ArithmeticException e) {
+        	log.error("Integer Overflow, Exit Loop");
+        }
+        finally {
             lock.unlock();
         }
         

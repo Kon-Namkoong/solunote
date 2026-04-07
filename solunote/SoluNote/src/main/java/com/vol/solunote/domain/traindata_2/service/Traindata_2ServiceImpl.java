@@ -62,7 +62,7 @@ public class Traindata_2ServiceImpl implements Traindata_2Service {
 	@Override
 	public List<TranscriptionVo> getTranscriptionList(int meetSeq, String origin, int reliability) {
 		
-		List<TranscriptionVo> list = getTranscriptionList(meetSeq, origin, reliability);
+		List<TranscriptionVo> list = transcriptionRepository.getTranscriptionList(meetSeq, reliability, null, 0);
 		
 		for( TranscriptionVo tr : list ) {
 			if ( tr.getTrainText() == null ) {

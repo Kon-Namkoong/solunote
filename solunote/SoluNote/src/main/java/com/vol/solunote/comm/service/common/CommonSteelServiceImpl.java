@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import org.apache.tika.Tika;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +42,19 @@ public class CommonSteelServiceImpl extends CommonServiceImpl {
 	@Override
 	public Map<String, Object> saveUploadFileConvert(Category category, MultipartFile file) throws Exception {
 		
+		Tika tika = new Tika();
+		String type = tika.detect(file.getInputStream());
+		
+		if ( !type.startsWith("audio/"))
+		{
+			log.error("지원하지 않는 파일입니다");
+			return	null;			
+		}
 		String originalfileName = file.getOriginalFilename();
 		String extension = FilenameUtils.getExtension(originalfileName);
 		String saveFileName = UUID.randomUUID().toString() + "." + extension;
 		
-//		String uploadFileName = commonService.saveUploadFileConvert(file);
+		//		String uploadFileName = commonService.saveUploadFileConvert(file);
 		String subdir = DateUtil.getFormatString(DiskServiceImpl.subdirPattern);
 		
 		String uploadPath = diskService.getUploadPath(category);
@@ -54,17 +63,16 @@ public class CommonSteelServiceImpl extends CommonServiceImpl {
 			Files.createDirectories(path);
 		}
 
+		
 		// 1. save file AS-IS
 		Path savePath = Paths.get(path.toString(), saveFileName);
 		file.transferTo(savePath);
 		String uploadFileName = subdir +  "/"  + saveFileName;   // db 에 저장하는 path 이므로 File.separator 대신에 "/" 를 사용함
 		
-		
 		long size = 0;
 		Resource resource = null;
 		// wav, mp3 가 아니면, ffmpeg 으로 convert 함
 		String convnm = null;
-		
 		boolean convFlag = false;
 		
 		if ( extension.equalsIgnoreCase("wav") ) {
@@ -84,7 +92,8 @@ public class CommonSteelServiceImpl extends CommonServiceImpl {
 			resource = new FileSystemResource(convPath);
 			size = convPath.toFile().length();
 			log.debug("CONV : yes");
-		} else {
+		}
+		else {
 //			resource = file.getResource();
 			resource = new FileSystemResource(savePath);
 			size = file.getSize();
@@ -97,17 +106,17 @@ public class CommonSteelServiceImpl extends CommonServiceImpl {
 		Map<String, Object> param = new HashMap <>();
 		param.put("subject", subject);
 		// timeDurationStr 은 callStt()  이후 set 해야 함
-//		param.put("timeDurationStr", durationMs);
+		//		param.put("timeDurationStr", durationMs);
 		param.put("orgnm", originalfileName);
 		param.put("newnm", uploadFileName);
 		param.put("convnm", convnm);
 		param.put("fileSizeBytes", size);
 		// tcUserSeq 은 별도로 set 해야 함
-//		param.put("tcUserSeq", tcUserSeq);
+		//		param.put("tcUserSeq", tcUserSeq);
 		
 		param.put("resource", resource);
 		
-		return param;		
+		return param;
 	}
 	
 //	@Override

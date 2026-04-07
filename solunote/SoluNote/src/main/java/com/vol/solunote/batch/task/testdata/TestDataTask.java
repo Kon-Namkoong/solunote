@@ -1,5 +1,6 @@
 package com.vol.solunote.batch.task.testdata;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -101,8 +102,15 @@ public class TestDataTask {
 				int gap = maxQueueSize - queue.size();
 				
 				if ( gap > 0) {
-					for( int g = 0; g < gap; g++ ) {
+					for( int g = 0; g < gap; g++ ) 
+					{						
 						int x = readIndex.getAndIncrement();
+						
+						if (Integer.MAX_VALUE == x)
+						{
+							throw	new ArithmeticException("Integer overflow");
+						}
+						
 						if ( x < apiList.size() ) {
 							MeetingVo vo = apiList.get(x);
 							if ( conmap.values().contains( vo.getSeq() ) ) {
@@ -125,7 +133,11 @@ public class TestDataTask {
 				}
 			}
 			
-        } finally {
+        } catch	(ArithmeticException	e) {
+        	log.error("Integer Overflow, Exit Loop");      
+        } catch	(Exception	e) {
+        	log.error("Exception in putMessage", e);           	
+    	}	finally {
             lock.unlock();
         }
         
@@ -148,6 +160,10 @@ public class TestDataTask {
     		
     		log.debug("1. sttService.backendStt(vo); {} ", vo);
     		flag = sttService.backendStt(Category.TEST, vo, url);
+        } catch	(IOException	e) {
+        	log.error("IOException in updateMessage", e);      
+        } catch	(Exception	e) {
+        	log.error("Exception in updateMessage", e);           	    		
     	} finally {
     		log.debug( "conmap.remove(Thread.currentThread().getName()) = {}, {} : {}", Thread.currentThread().getName(), vo.getSeq(), flag);
     		

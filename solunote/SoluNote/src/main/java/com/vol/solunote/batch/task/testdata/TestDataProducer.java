@@ -27,7 +27,7 @@ public class TestDataProducer implements Runnable {
 	        } catch (InterruptedException ie) {
 	        	Thread.currentThread().interrupt();
 	        } catch (Exception ex) {
-	        	ex.printStackTrace();
+	        	log.info("Exception in run of TestDataProducer" );
 	        }
     	}
     }

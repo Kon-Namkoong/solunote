@@ -174,6 +174,9 @@ public class SoundFile {
 		  map.forEach((key, value) -> {
 			  System.out.println(key + " : " + value);
 		  });
+		  
+		  if (null != bis)
+			  bis.close();
 	}
 	
 

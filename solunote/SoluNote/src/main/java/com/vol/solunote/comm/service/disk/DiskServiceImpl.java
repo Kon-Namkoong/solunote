@@ -87,6 +87,58 @@ public class DiskServiceImpl implements DiskService {
 	}
 	
 	@Override
+	public	boolean	hasDirectoryScanChar(String fileName) 
+	{
+		boolean	hasDirScanChar = false;
+	    // 경로조작 패턴 차단
+	    if (fileName.contains("..") ||
+	        fileName.contains("/") ||
+	        fileName.contains("\\") ||
+	        fileName.contains("%2e") ||
+	        fileName.contains("%2f")) {
+	    	hasDirScanChar = true;	
+	    }	    		
+		return	hasDirScanChar;
+	}
+	
+	@Override
+	public Path getUploadFilePath(Category category, String fileName) throws Exception {
+		String path = null;
+
+		
+	    // 경로조작 패턴 차단
+	    if ( hasDirectoryScanChar(fileName) )
+	    {
+	        throw new Exception("File Name has directory scan character");
+	    }
+	    
+		switch( category ) {
+		case TRAIN :
+			path = this.TRAIN_PATH;
+			break;
+		case TTS :
+			path = this.TTS_PATH;
+			break;
+		case STEREO :
+			path = this.STEREO_PATH;
+			break;
+		case TEST :
+			path = this.TEST_PATH;
+			break;
+		case MEET :
+			path = this.MEET_PATH;
+			break;
+		case TEMP :
+			path = this.TEMP_PATH;
+			break;
+		default:
+			throw new Exception("unknown root path for : " + category);
+		}		
+		return Paths.get( path + File.separator + fileName);
+	}		
+	
+	
+	@Override
 	public void copyFile(String orgNm) throws Exception {
 		
 		 // 1. yyyy/mmdd 의 list 생성하기
@@ -135,6 +187,12 @@ public class DiskServiceImpl implements DiskService {
 	public File getUploadedFile(Category category, String path, String channelCount, String channelId) throws Exception {
 		
 		Path realPath = null;
+		
+	    // 경로조작 패턴 차단
+	    if ( hasDirectoryScanChar(path) )
+	    {
+	        throw new Exception("File Name has directory scan character");
+	    }
 		
 		if ( "2".equals(channelCount) == true ) {
 			realPath = Paths.get(this.STEREO_PATH, path + "_" + channelId + ".wav");
@@ -321,8 +379,11 @@ public class DiskServiceImpl implements DiskService {
 					 } else {
 						 log.debug("skip : {}", date);
 					 }
+					 
 				 }
+				 dirs.clear();
 			 }
+			 collect.clear();
 		 } else {
 			 Path lastPath = Paths.get(lastRead);
 			 String lastDir = lastPath.getName(0).toString() + "/" +  lastPath.getName(1).toString();
@@ -357,6 +418,7 @@ public class DiskServiceImpl implements DiskService {
 				 if ( col.size() > 0 ) {
 					 files.add(vo);
 				 }
+				 col.clear();
 			 }
 			 
 		 }

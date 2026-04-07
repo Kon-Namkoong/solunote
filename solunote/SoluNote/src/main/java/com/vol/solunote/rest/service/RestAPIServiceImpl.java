@@ -88,11 +88,12 @@ public class RestAPIServiceImpl extends STTManagerHandler implements RestAPIServ
 				json.put("result", false);
 				json.put("errMsg", "invalidUserinfo");
 			}
-		} catch (JSONException e)
+		} 
+		catch (JSONException e)
 		{
-			
+			log.info("Json Exception Occured");
 		} finally {
-			
+			log.debug("get tocken succeed");
 		}
 			
 		return json.toString();
@@ -282,7 +283,6 @@ public class RestAPIServiceImpl extends STTManagerHandler implements RestAPIServ
 			return rsMap;
 			
 		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
 			rsMap.put("errMsg", "업로드 실패");
 			rsMap.put("result", false);
 			return rsMap;
@@ -422,47 +422,50 @@ public class RestAPIServiceImpl extends STTManagerHandler implements RestAPIServ
 	private URL url;
     public String callAPI(String sttRes) throws JsonProcessingException {
     	// chatbot REST API 
+    	
     	StringBuffer content=null;
+    	HttpURLConnection con = null;
     	
     	try {
-    	HttpURLConnection con = (HttpURLConnection) url.openConnection();
-    	con.setRequestMethod("GET");
+    		con = (HttpURLConnection) url.openConnection();
+    		con.setRequestMethod("GET");
     	
+    		con.setRequestProperty("Content-Type", "application/json; utf-8");
+    		con.setDoOutput(true);
+    		con.setConnectTimeout(5000);
+    		con.setReadTimeout(5000);
+    		con.setInstanceFollowRedirects(false);
     	
-    	//set conn
-    	con.setRequestProperty("Content-Type", "application/json; utf-8");
-    	con.setDoOutput(true);
-    	con.setConnectTimeout(5000);
-    	con.setReadTimeout(5000);
-    	con.setInstanceFollowRedirects(false);
+    		try(OutputStream os = con.getOutputStream())
+    		{
+    			byte[] input = sttRes.getBytes("utf-8");
+    			os.write(input,0,input.length);
+    		}
+
     	
-    	
-		try(OutputStream os = con.getOutputStream()){
-			byte[] input = sttRes.getBytes("utf-8");
-			os.write(input,0,input.length);
-		}
-    		
-    	
-    	//get result
-    	BufferedReader in = new BufferedReader(
-		new InputStreamReader(con.getInputStream(),"UTF-8"));
-		String inputLine;
-		content = new StringBuffer();
-		while ((inputLine = in.readLine()) != null) {
-		    content.append(inputLine);
-		}
-		in.close();
-		con.disconnect();
+    		//get result
+    		try ( BufferedReader in = new BufferedReader(
+    				new InputStreamReader(con.getInputStream(),"UTF-8"))) {
+    			String inputLine;
+    			content = new StringBuffer();
+    			while ((inputLine = in.readLine()) != null) {
+    				content.append(inputLine);
+    			}
+    		}    		
+    	}
+    	catch (IOException e) {
+			log.error("IOException in try",e);
     	}
     	catch (Exception e) {
-    		System.out.println("kk :"+e);
+			log.error("IOException in inner try",e);
     	}
-    	
-		
-		
+    	finally
+    	{    		
+    		if (null != con )
+    		{
+    			con.disconnect();
+    		}    		
+    	}	    	
         return content.toString();
- 
-    }
-
-	
+    }	
 }

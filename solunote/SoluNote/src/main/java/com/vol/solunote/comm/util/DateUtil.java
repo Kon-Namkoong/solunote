@@ -12,7 +12,9 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import com.vol.solunote.model.vo.comm.SearchVo;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class DateUtil {
 	/**
 	 * <b>날짜 관련 유틸 클래스</b>
@@ -100,7 +102,7 @@ public class DateUtil {
 			DateFormat dateFormat = new SimpleDateFormat(pattern);
 			date = dateFormat.parse(str);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			log.info("Parse Exception in toDate");
 		}
 		return date;
 	}
@@ -347,8 +349,11 @@ public class DateUtil {
 					n_return = Integer.parseInt(s_temp);
 				}
 			}
+		} catch (NumberFormatException e) {
+			log.info("Number Format Exception in getYear");
+			n_return = 0;
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.info("Exception in getYear");
 			n_return = 0;
 		}
 		
@@ -373,8 +378,11 @@ public class DateUtil {
 					n_return = Integer.parseInt(s_temp);
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} 
+		catch (NumberFormatException e) {
+			n_return = 0;
+		}
+		catch (Exception e) {
 			n_return = 0;
 		}
 		
@@ -399,8 +407,10 @@ public class DateUtil {
 					n_return = Integer.parseInt(s_temp);
 				}
 			}
+		}
+		catch (NumberFormatException e) {
+			n_return = 0;
 		} catch (Exception e) {
-			e.printStackTrace();
 			n_return = 0;
 		}
 		
@@ -1117,7 +1127,7 @@ public class DateUtil {
 		try {
 		    date = fromFormat.parse(fromDate);
 		} catch (ParseException e) {
-		    e.printStackTrace();
+			log.info("ParseException in gmtToKst");
 		}
 
 		SimpleDateFormat toFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -1143,7 +1153,7 @@ public class DateUtil {
 		try {
 			date = fromFormat.parse(fromDate);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			log.info("ParseException in gmtToKstLdt");
 		}
 		
 		return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();

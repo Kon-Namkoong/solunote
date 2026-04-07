@@ -663,7 +663,6 @@ public class SttServiceImpl implements SttService {
 				throw sce;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			SttCallException sce = new SttCallException("curl", e.getMessage());
 			throw sce;
 		}
@@ -700,7 +699,6 @@ public class SttServiceImpl implements SttService {
 		try {
 			result = restTemplate.postForObject(sttUrl, httpEntity, String.class);
 		} catch ( Exception rce ) {
-//			rce.printStackTrace();
 			String message = rce.getMessage();
 			if ( message.length() > ERROR_MESSAGE_LEN ) {
 				message = message.substring(0,  ERROR_MESSAGE_LEN);

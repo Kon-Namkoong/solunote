@@ -50,7 +50,6 @@ public interface CommonService {
 
 	void removeDiskFile(Category category, String subPath) throws Exception;
 
-	Path getUploadPath(String fileName) throws Exception;
 
 	<T,S> S callRestTemplateGen(HttpHeaders httpHeaders, HttpMethod method, String url, T body) throws Exception;
 

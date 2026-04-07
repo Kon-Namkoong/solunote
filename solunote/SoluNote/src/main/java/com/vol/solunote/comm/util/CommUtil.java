@@ -28,8 +28,9 @@ public class CommUtil {
 		    } else {
 		        hrSize = dec.format(b).concat(" Byte");
 		    }
+	    } catch (IllegalArgumentException e) {
+	    	hrSize = "0.0 Byte";
 	    } catch (Exception e) {
-	//		e.printStackTrace();
 	    	hrSize = "0.0 Byte";
 		}
 	
@@ -68,14 +69,13 @@ public class CommUtil {
 				sizeStr[1] = sizeGubun[0];
 		    }
 
-			return sizeStr;
+	    } catch (IllegalArgumentException e) {
+			 sizeStr[0] = "0.0";
+			 sizeStr[1] = "Byte";
 		} catch (Exception e) {
 			 sizeStr[0] = "0.0";
 			 sizeStr[1] = "Byte";
-			 
-			return sizeStr;
-				
 		}
-				
+		return sizeStr;				
 	}
 }

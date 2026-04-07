@@ -223,6 +223,10 @@ public class SoundSpectrum {
 		try {
 			byteStream.flush();
 			byteArray = byteStream.toByteArray();
+		} catch (IOException e) {
+			log.error("IOException in writeWaveSvg", e);
+		} catch (Exception e) {
+			log.error("Exception in writeWaveSvg", e);			
 		} finally {
 			if (byteStream != null) {
 				byteStream.close();
@@ -292,6 +296,10 @@ public class SoundSpectrum {
 		try {
 			byteStream.flush();
 			byteArray = byteStream.toByteArray();
+		} catch (IOException e) {
+			log.error("IOException in blankWaveSvg", e);
+		} catch (Exception e) {
+			log.error("Exception in blankWaveSvg", e);		
 		} finally {
 			if (byteStream != null) {
 				byteStream.close();

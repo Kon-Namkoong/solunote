@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.io.IOException;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -41,6 +42,7 @@ import com.vol.solunote.model.vo.comm.DefaultVo;
 import com.vol.solunote.model.vo.comm.SearchVo;
 import com.vol.solunote.model.vo.transcription.TransVo;
 import com.vol.solunote.repository.transcription.TranscriptionRepository;
+import org.owasp.encoder.Encode;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -313,8 +315,9 @@ public class KeywordTrainController extends DefaultController {
 		        keywordTrainService.updateAudio(titleSeq, seq);
 		        keywordTrainService.callStt(titleSeq,seq);
 		    }
+		} catch (IOException e) {
+		    return "에러 발생";
 		} catch (Exception e) {
-		    e.printStackTrace(); // 에러 로그 출력
 		    return "에러 발생";
 		}
                 
@@ -577,7 +580,7 @@ public class KeywordTrainController extends DefaultController {
 		// 1. save uploaded file or convert file
 		Map<String, Object> param = commonService.saveUploadFileConvert(Category.MEET, file);
 		
-		param.put("type",type);
+		param.put("type", Encode.forHtml(type));
 		
 //		Resource resource = (Resource) param.get("resource");
 		org.springframework.core.io.Resource resource = (org.springframework.core.io.Resource) param.get("resource");
@@ -591,7 +594,7 @@ public class KeywordTrainController extends DefaultController {
 			BigDecimal bigDecimal = new BigDecimal(resultMap.get("duration").toString());
 			BigDecimal durationMs = bigDecimal.multiply(new BigDecimal(1000));
 			param.put("timeDurationStr", durationMs.toString());
-			param.put("lang", letter);			
+			param.put("lang", Encode.forHtml(letter));			
 		} catch ( TrainCallException tce ) {
 			param.put("timeDurationStr", "0");
 			param.put("errorMessage", tce.getDetail());
@@ -605,8 +608,14 @@ public class KeywordTrainController extends DefaultController {
 		
 		// 2. call summary
 		Map<String, String> map = sttService.parseDiarizeAndSttForMenu(param, resultMap);
+		
+		Map<String, String> safeMap = new HashMap<>();
 
-		return ResponseEntity.ok(map);
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+		    safeMap.put(entry.getKey(), Encode.forHtml(entry.getValue()));
+		}
+		
+		return ResponseEntity.ok(safeMap);
 	}		
 	
 	

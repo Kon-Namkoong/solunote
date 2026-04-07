@@ -39,11 +39,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.vol.solunote.comm.OffsetPageable;
 import com.vol.solunote.comm.service.common.CommonSteelServiceImpl;
+import com.vol.solunote.comm.service.disk.DiskService;
 import com.vol.solunote.repository.transcription.TranscriptionRepository;
 import com.vol.solunote.repository.tts.TtsRepository;
 import com.vol.solunote.comm.util.HtmlVisitor;
 import com.vol.solunote.model.vo.comm.SearchVo;
 import com.vol.solunote.model.vo.transcription.TransVo;
+import com.vol.solunote.model.type.Category;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,6 +62,9 @@ public class KeywordTrainServiceImpl implements KeywordTrainService {
 	
 	@Autowired
 	private CommonSteelServiceImpl commonService;
+	
+	@Autowired
+	private DiskService diskService;
 	
 	@Autowired
 	private TranscriptionRepository transcriptionRepository;
@@ -190,7 +195,6 @@ public class KeywordTrainServiceImpl implements KeywordTrainService {
 	            }
 	        }
 	    } catch (IOException e) {
-	        e.printStackTrace();
 	        throw new Exception("Excel 파일 읽기 실패", e);
 	    }
 	    
@@ -201,14 +205,11 @@ public class KeywordTrainServiceImpl implements KeywordTrainService {
 	public void saveAudio(Map<String, Object> result) throws Exception {
 		ttsRepository.saveAudio(result);
 	}
-	
-	
-	
+			
 	@Override
 	public Path getUploadPath(String fileName) throws Exception {
-		return Paths.get(UPLOAD_PATH + File.separator  + fileName);
-	}	
-	
+		return	diskService.getUploadFilePath(Category.TTS, fileName );
+	}		
 	
 	@Override
 	public int crateTitle(String title, int tcUserSeq) throws Exception {

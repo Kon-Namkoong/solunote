@@ -26,9 +26,9 @@ server:
   error:
     include-exception: true
     include-stacktrace: always
-  port: 18080  # https port
+  port: 38080  # https port
   http:
-    port: 28080      # http port
+    port: 48080      # http port
   servlet:
     context-path: '/SGSAS' # contextURL 변경시 사용 
   ssl:

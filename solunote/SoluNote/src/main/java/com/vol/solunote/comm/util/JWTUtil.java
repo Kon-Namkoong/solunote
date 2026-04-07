@@ -10,7 +10,9 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class JWTUtil {
 
     // Key를 SecretKey 객체로 변환하는 내부 메서드
@@ -44,7 +46,7 @@ public class JWTUtil {
                     .parseSignedClaims(jwtTokenString) // parseClaimsJws -> parseSignedClaims 변경
                     .getPayload();                     // getBody -> getPayload 변경
         } catch (JwtException | IllegalArgumentException e) {
-            e.printStackTrace();
+        	log.info("JwtException or IllegalArgumentException in getTokenFromJwtString");
             return null;
         }
     }

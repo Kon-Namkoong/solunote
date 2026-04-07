@@ -19,7 +19,9 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import rcc.h2tlib.parser.H2TParser;
 import rcc.h2tlib.parser.HWPMeta;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class DocFileHandler {
 	H2TParser h2TParser;
 
@@ -37,7 +39,7 @@ public class DocFileHandler {
 
 	public String getDocxText(String fileName) {
 
-		POITextExtractor extractor;
+		POITextExtractor extractor = null;
 
 		String extractedText = null;
 		try {
@@ -54,12 +56,24 @@ public class DocFileHandler {
 			extractedText = extractor.getText();
 		} catch (FileNotFoundException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
+			log.info("FileNotFoundException in getDocxText");
 		} catch (IOException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+			log.info("IOException in getDocxText",e);
+		}	
+		finally {
+			
+			if (null != extractor)
+			{
+				try {
+					extractor.close();
+				}
+				catch (IOException e)
+				{
+					log.error("IOException catched in close",e);
+				}
+			}
+		}		
 		return extractedText;
 	}
 
@@ -76,10 +90,11 @@ public class DocFileHandler {
 			parsedText = pdfStripper.getText(pdDoc);
 		} catch (FileNotFoundException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
+			log.info("FileNotFoundException in getPDFText");
+
 		} catch (IOException e) {
 			// Auto-generated catch block
-			e.printStackTrace();
+			log.info("IOException in getPDFText");
 		}
 		return parsedText;
 	}
@@ -89,8 +104,8 @@ public class DocFileHandler {
 		try {
 			encoded = Files.readAllBytes(Paths.get(fileName));
 		} catch (IOException e) {
-			// Auto-generated catch block
-			e.printStackTrace();
+			// Auto-generated catch block			
+			log.info("IOException in getPDFText");
 		}
 		return new String(encoded);
 	}

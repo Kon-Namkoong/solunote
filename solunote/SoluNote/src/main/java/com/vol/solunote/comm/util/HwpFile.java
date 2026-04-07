@@ -20,6 +20,9 @@ import kr.dogfoot.hwplib.object.docinfo.charshape.ShadowSort;
 import kr.dogfoot.hwplib.object.docinfo.charshape.UnderLineSort;
 import kr.dogfoot.hwplib.reader.HWPReader;
 import kr.dogfoot.hwplib.writer.HWPWriter;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 
 public class HwpFile {
     
@@ -128,7 +131,7 @@ public class HwpFile {
         try {
             pt.addString(text);
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        	log.info(" UnsupportedEncodingException in setParaText");
         }
     }
 

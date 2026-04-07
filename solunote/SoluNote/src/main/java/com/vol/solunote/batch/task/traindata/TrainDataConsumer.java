@@ -23,7 +23,7 @@ public class TrainDataConsumer implements Runnable {
 	        } catch (InterruptedException ie) {
 	        	Thread.currentThread().interrupt();
 	        } catch (Exception ex) {
-	        	ex.printStackTrace();
+	        	log.info("Exception in run of TrainDataConsumer");
 	        }
     	}
     }

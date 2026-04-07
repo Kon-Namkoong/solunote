@@ -81,6 +81,8 @@ public class FFMpegServiceImpl implements FFMpegService {
 
 			log.debug("VideoFileUtils init complete.");
 			
+		} catch (IOException e) {
+			log.error("VideoFileUtils init fail.", e);	
 		} catch (Exception e) {
 			log.error("VideoFileUtils init fail.", e);
 		}
@@ -195,7 +197,7 @@ public class FFMpegServiceImpl implements FFMpegService {
 			path = vo.getFileStereoPrefix();
 		} else {
 			path = vo.getFileNewNm();
-		}
+		}	
 		
 		File file = diskService.getUploadedFile(category, path, Integer.toString(channelCount), Integer.toString(vo.getChannelId()));
 		
@@ -211,7 +213,12 @@ public class FFMpegServiceImpl implements FFMpegService {
 	@Override
     public byte[] cutAudio(Category category, String path, double startSecond, double endSecond) throws Exception {
 		
-		String root = diskService.getUploadPath(category);
+		if (diskService.hasDirectoryScanChar(path))
+		{
+			throw new Exception("File Name has directory scan character");
+		}
+		
+		String root = diskService.getUploadPath(category);		
 		File file = Paths.get(root, path).toFile();
 		
 		byte[] bytes = null;
@@ -235,7 +242,6 @@ public class FFMpegServiceImpl implements FFMpegService {
 		} catch ( Exception e ) {
 			log.error("ffmpeg run error : {}", e.getMessage());
 			log.error("cmd : ffmpeg -i {} -ss {} -to {} {}", file.getAbsolutePath(), Double.toString(startSecond), Double.toString(endSecond), temp.toString());
-			e.printStackTrace();
 			FFMpegCallException fce = new FFMpegCallException(file.toString(), e.getMessage());
 			throw fce;
 		}
@@ -250,6 +256,11 @@ public class FFMpegServiceImpl implements FFMpegService {
 	
 	@Override
 	public byte[] cutAudio(Category category, String path, String startSecond, String endSecond, String channelCount, String channelId) throws Exception {
+		
+		if (diskService.hasDirectoryScanChar(path))
+		{
+			throw new Exception("File Name has directory scan character");
+		}
 		
 		File file = diskService.getUploadedFile(category, path, channelCount, channelId);
 		log.debug("file file : " + file.toString());
@@ -273,7 +284,6 @@ public class FFMpegServiceImpl implements FFMpegService {
 			excutor.createJob(builder).run();
 		} catch ( Exception e ) {
 			log.error("ffmpeg run error : {}", e.getMessage());
-			e.printStackTrace();
 			FFMpegCallException fce = new FFMpegCallException(file.toString(), e.getMessage());
 			throw fce;
 		}
@@ -323,7 +333,6 @@ public class FFMpegServiceImpl implements FFMpegService {
 			excutor.createJob(builder).run();
 		} catch ( Exception e ) {
 			log.error("ffmpeg run error : {}", e.getMessage());
-			e.printStackTrace();
 			FFMpegCallException fce = new FFMpegCallException(file.toString(), e.getMessage());
 			throw fce;
 		}
