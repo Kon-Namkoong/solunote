@@ -133,8 +133,11 @@ public class DemoSchedulerServiceImpl implements DemoSchedulerService, ResultRes
 		} finally  {
 			rsMap.put(rsStrKeyNm, respon);
 			try {
-				rsMap.put(rsCodeKeyNm, con.getResponseCode());
-			} catch (IOException e) {}	
+				if (null != con )
+					rsMap.put(rsCodeKeyNm, con.getResponseCode());
+			} catch (IOException e) {
+				log.error("IOException ", e);
+			}	
 		}
 		
 		return rsMap;
@@ -259,7 +262,7 @@ public class DemoSchedulerServiceImpl implements DemoSchedulerService, ResultRes
 			log.info("Exception in getServerStatus");			
 		}		
 		finally {
-			if (!socket.isClosed())
+			if (null != socket)
 			{
 				socket.close();
 			}

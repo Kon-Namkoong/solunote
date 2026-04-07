@@ -91,13 +91,10 @@ public class DiskServiceImpl implements DiskService {
 	{
 		boolean	hasDirScanChar = false;
 	    // 경로조작 패턴 차단
-	    if (fileName.contains("..") ||
-	        fileName.contains("/") ||
-	        fileName.contains("\\") ||
-	        fileName.contains("%2e") ||
-	        fileName.contains("%2f")) {
-	    	hasDirScanChar = true;	
-	    }	    		
+	    if (!fileName.matches("^[a-zA-Z0-9._-]+$"))
+	    {
+	    	hasDirScanChar = true;
+	    }	    
 		return	hasDirScanChar;
 	}
 	
@@ -105,12 +102,9 @@ public class DiskServiceImpl implements DiskService {
 	public Path getUploadFilePath(Category category, String fileName) throws Exception {
 		String path = null;
 
-		
-	    // 경로조작 패턴 차단
-	    if ( hasDirectoryScanChar(fileName) )
-	    {
-	        throw new Exception("File Name has directory scan character");
-	    }
+		if ( hasDirectoryScanChar(fileName) ) {
+		    throw new Exception("Invalid filename");
+		}	
 	    
 		switch( category ) {
 		case TRAIN :
@@ -187,11 +181,11 @@ public class DiskServiceImpl implements DiskService {
 	public File getUploadedFile(Category category, String path, String channelCount, String channelId) throws Exception {
 		
 		Path realPath = null;
-		
+		File realFile = null;	
 	    // 경로조작 패턴 차단
 	    if ( hasDirectoryScanChar(path) )
 	    {
-	        throw new Exception("File Name has directory scan character");
+		    throw new Exception("Invalid filename");
 	    }
 		
 		if ( "2".equals(channelCount) == true ) {

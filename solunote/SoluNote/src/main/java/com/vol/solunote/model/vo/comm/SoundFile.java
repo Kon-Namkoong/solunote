@@ -135,48 +135,61 @@ public class SoundFile {
 	}
 
 	public static void wavfileInfo(String path) throws UnsupportedAudioFileException, IOException {
-		BufferedInputStream bis = new BufferedInputStream(new FileInputStream(path));
-		AudioInputStream in = AudioSystem.getAudioInputStream(bis);
-		 AudioFormat baseFormat = in.getFormat();
+		
+		BufferedInputStream bis = null;
+		try {
+			bis = new BufferedInputStream(new FileInputStream(path));
+			AudioInputStream in = AudioSystem.getAudioInputStream(bis);
+			AudioFormat baseFormat = in.getFormat();
 		 
-		 long frameLength = in.getFrameLength();
-		 int channels = baseFormat.getChannels();
-		 Encoding encoding = baseFormat.getEncoding();
-//		 encoding.ALAW
-		 float frameRate = baseFormat.getFrameRate();
-		 int frameSize = baseFormat.getFrameSize();
-		  float sampleRate = baseFormat.getSampleRate();
-		  int sampleSizeInBits = baseFormat.getSampleSizeInBits();
-		  boolean bigEndian = baseFormat.isBigEndian();
+			long frameLength = in.getFrameLength();
+			int channels = baseFormat.getChannels();
+			Encoding encoding = baseFormat.getEncoding();
+			float frameRate = baseFormat.getFrameRate();
+			int frameSize = baseFormat.getFrameSize();
+			float sampleRate = baseFormat.getSampleRate();
+			int sampleSizeInBits = baseFormat.getSampleSizeInBits();
+			boolean bigEndian = baseFormat.isBigEndian();
 		  
-		  float muteSecond = 0.1F;
-		  int mmuteSize = (int) ( sampleRate * muteSecond );
+			float muteSecond = 0.1F;
+			int mmuteSize = (int) ( sampleRate * muteSecond );
 		  
-		  long duration = (long)(frameLength  * 1000 / sampleRate);
+			long duration = (long)(frameLength  * 1000 / sampleRate);
 		  
 			String formatTime = DurationFormatUtils.formatDuration(duration, "HH:mm:ss.SSS", true);
 		  
 		  
-		  System.out.println("frameLength      : " + frameLength);
-		  System.out.println("formatTime       : " + formatTime);
-		  System.out.println("bigEndian        : " + bigEndian);
-		  System.out.println("channels         : " + channels);
-		  System.out.println("encoding         : " + encoding);
-		  System.out.println("frameRate        : " + frameRate);
-		  System.out.println("frameSize        : " + frameSize);
-		  System.out.println("sampleRate       : " + sampleRate);
-		  System.out.println("sampleSizeInBits : " + sampleSizeInBits);
-		  System.out.println("muteSecond       : " + muteSecond);
-		  System.out.println("mmuteSize        : " + mmuteSize);
-		  System.out.println("channels : " + channels);
+			System.out.println("frameLength      : " + frameLength);
+			System.out.println("formatTime       : " + formatTime);
+			System.out.println("bigEndian        : " + bigEndian);
+			System.out.println("channels         : " + channels);
+			System.out.println("encoding         : " + encoding);
+			System.out.println("frameRate        : " + frameRate);
+			System.out.println("frameSize        : " + frameSize);
+			System.out.println("sampleRate       : " + sampleRate);
+			System.out.println("sampleSizeInBits : " + sampleSizeInBits);
+			System.out.println("muteSecond       : " + muteSecond);
+			System.out.println("mmuteSize        : " + mmuteSize);
+			System.out.println("channels : " + channels);
 		  
-		  Map<String, Object> map = baseFormat.properties();
-		  map.forEach((key, value) -> {
+			Map<String, Object> map = baseFormat.properties();
+			map.forEach((key, value) -> {
 			  System.out.println(key + " : " + value);
-		  });
-		  
+			});
+		}
+		catch (IOException e)
+		{
+			log.error("IOException ",e);
+		}
+		catch (Exception e) 
+		{
+			log.error("Exception ",e);
+		}
+		finally
+		{ 
 		  if (null != bis)
 			  bis.close();
+		}
 	}
 	
 

@@ -149,6 +149,10 @@ public class Traindata_2Controller extends DefaultController {
 			}
 			
 		}
+		else
+		{
+			throw new Exception("Invalid Parameter Entered");
+		}
 		
 		hiddenCount = list.size();
 		if ( hiddenCount > 0 ) {

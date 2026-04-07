@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -103,7 +104,8 @@ public class TrainDataTask {
 				if ( gap > 0) {
 					for( int g = 0; g < gap; g++ ) {
 						int x = readIndex.getAndIncrement();
-						if (Integer.MAX_VALUE == x)
+						
+						if ( (Integer.MAX_VALUE-1) == x)
 						{
 							throw	new ArithmeticException("Integer overflow");
 						}
@@ -155,7 +157,14 @@ public class TrainDataTask {
     		
     		log.debug("2. sttService.backendStt(vo); {} ", vo);
     		flag = sttService.backendStt(Category.TRAIN, vo);
-    	} finally {
+    	}
+    	catch (IOException e) {
+    		log.error("IOException ,", e);
+    	}
+    	catch (Exception e) {
+    		log.error("Exception ,", e);    		
+    	}
+    	finally {
     		log.debug( "conmap.remove(Thread.currentThread().getName()) = {}, {} : {}", Thread.currentThread().getName(), vo.getSeq(), flag);
     		
     		// STT 에러가 발생했으면 해당 vo 를 apiList 에 추가함
@@ -166,6 +175,10 @@ public class TrainDataTask {
                 	Thread.sleep( SLEEP_ERROR * 1000);
 					errorList.add(vo);
 					log.debug("errorList add : {}", vo);
+    			} catch (NullPointerException e) {
+    				log.error("NullPointerException Occured", e);    
+    			} catch (Exception e) {
+					log.error("Exception Occured", e);    				
     			} finally {
     				lock.unlock();
     			}

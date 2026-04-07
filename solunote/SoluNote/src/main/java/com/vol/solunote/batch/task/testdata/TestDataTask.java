@@ -106,7 +106,7 @@ public class TestDataTask {
 					{						
 						int x = readIndex.getAndIncrement();
 						
-						if (Integer.MAX_VALUE == x)
+						if ( (Integer.MAX_VALUE - 1) == x)
 						{
 							throw	new ArithmeticException("Integer overflow");
 						}
@@ -175,6 +175,8 @@ public class TestDataTask {
                 	Thread.sleep( SLEEP_ERROR * 1000);
 					errorList.add(vo);
 					log.debug("errorList add : {}", vo);
+    			} catch ( Exception e ) {
+    				log.error("Exception Occured", e);
     			} finally {
     				lock.unlock();
     			}

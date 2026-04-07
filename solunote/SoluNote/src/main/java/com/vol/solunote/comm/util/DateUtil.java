@@ -21,6 +21,8 @@ public class DateUtil {
 	 * <p>
 	 * 날짜와 시간에 관련된 유틸 클래스
 	 */
+	public	static	String	UNKNOWN_DATE_FORMAT	= "99999999";
+			
 	private static Locale locale = new Locale("KOREA");
 
 	private static DateFormat df = DateFormat.getDateTimeInstance(
@@ -832,6 +834,10 @@ public class DateUtil {
 			sf = new SimpleDateFormat("yy");
 		} else if (DateNum == 15) {
 			sf = new SimpleDateFormat("ss");
+		}
+		else
+		{
+			return	UNKNOWN_DATE_FORMAT;
 		}
 
 		return sf.format(date);

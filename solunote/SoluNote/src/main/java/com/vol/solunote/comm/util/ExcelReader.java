@@ -63,13 +63,13 @@ public class ExcelReader {
 				boolean aFlag = false;
 				while (cells.hasNext()) {
 					cell = (HSSFCell) cells.next();
-					String cellValue = null;
+					String cellValue;
 					if (cell.getCellType() == CellType.STRING) {
 						cellValue = cell.getStringCellValue();
 					} else if (cell.getCellType() == CellType.NUMERIC) {
 						cellValue = String.valueOf(cell.getNumericCellValue());
 					} else {
-						//
+						cellValue = null;
 					}
 					
 					if(cellValue == null || "".equals(cellValue)) 
@@ -77,8 +77,9 @@ public class ExcelReader {
 
 					int colIdx = cell.getColumnIndex();
 					
+					vo =new HashMap<String,String>();
+					
 					if(colIdx == 0) {
-						vo =new HashMap<String,String>();
 						vo.put("word", cellValue);
 					} else if(colIdx == 1)  {
 						vo.put("wordSynonym",cellValue);
@@ -160,9 +161,9 @@ public class ExcelReader {
 						continue;
 
 					int colIdx = cell.getColumnIndex();
+					vo = new HashMap<String,String>();
 					
 					if(colIdx == 0) {
-						vo =new HashMap<String,String>();
 						vo.put("word",cellValue);
 					} else if(colIdx == 1) {
 						vo.put("wordSynonym", cellValue);

@@ -40,18 +40,20 @@ public class DocFileHandler {
 	public String getDocxText(String fileName) {
 
 		POITextExtractor extractor = null;
-
+		InputStream fis = null;
 		String extractedText = null;
 		try {
-			InputStream fis = new FileInputStream(fileName);
+			fis = new FileInputStream(fileName);
 			// if docx
 			if (fileName.toLowerCase().endsWith(".docx")) {
 				XWPFDocument doc = new XWPFDocument(fis);
 				extractor = new XWPFWordExtractor(doc);
+				doc.close();
 			} else {
 				// if doc
 				POIFSFileSystem fileSystem = new POIFSFileSystem(fis);
 				extractor = ExtractorFactory.createExtractor(fileSystem);
+				fileSystem.close();
 			}
 			extractedText = extractor.getText();
 		} catch (FileNotFoundException e) {
@@ -73,6 +75,7 @@ public class DocFileHandler {
 					log.error("IOException catched in close",e);
 				}
 			}
+			
 		}		
 		return extractedText;
 	}

@@ -459,13 +459,6 @@ public class TestdataController extends DefaultController {
 		param.put("division", "00");
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-		System.out.println("2. auth = " + auth);
-		System.out.println("2. principal = " + principal);
-		System.out.println("2. tcUserSeq = " + tcUserSeq);
-		System.out.println("2. isAuthenticated = " + auth.isAuthenticated());
-		System.out.println("2. timeDurationStr = " + durationMs.toString() );
-		
 		
 		String meetSeq = testdataService.successSoundAndStt(param, resultMap);
 		
@@ -517,10 +510,6 @@ public class TestdataController extends DefaultController {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		System.out.println("1. auth = " + auth);
-		System.out.println("1. principal = " + principal);
-		System.out.println("1. tcUserSeq = " + tcUserSeq);
-		System.out.println("1. isAuthenticated = " + auth.isAuthenticated());
 		// 2. call summary
 		Map<String, String> map = sttService.parseDiarizeAndSttForMenu(param, resultMap);
 		

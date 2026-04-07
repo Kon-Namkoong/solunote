@@ -102,6 +102,10 @@ public class TrainScheduleController extends DefaultController {
 			pages = trainScheduleService.requestList(param);
 			
 		}
+		else
+		{
+			throw new RuntimeException("Invalid Parameter Entered");			
+		}
 		
 		int hiddenCount = pages.size();
 		if ( hiddenCount > 0 ) {
