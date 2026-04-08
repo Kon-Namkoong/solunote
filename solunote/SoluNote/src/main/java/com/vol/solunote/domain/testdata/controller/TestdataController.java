@@ -159,7 +159,7 @@ public class TestdataController extends DefaultController {
 
 		for (int i : seq) {
 			testdataService.excludeTest(i);
-			log.info("Excluded Seg = {}", i );		
+			log.debug("Excluded Seg = {}", i );		
 		}
 		return "1";
 	}

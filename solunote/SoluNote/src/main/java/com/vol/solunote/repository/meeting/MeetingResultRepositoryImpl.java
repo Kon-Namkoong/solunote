@@ -31,9 +31,9 @@ public class MeetingResultRepositoryImpl implements MeetingResultRepository {
 	}
 
 	@Override
-	public void updateSpeakerBySeqArr(Long meetingSpeakerId, int[] SEQ) 
+	public void updateSpeakerBySeqArr(Long meetingSpeakerId, int[] seq) 
 	{
-		mapper.updateSpeakerBySeqArr(meetingSpeakerId, SEQ);
+		mapper.updateSpeakerBySeqArr(meetingSpeakerId, seq);
 	}
 
 }

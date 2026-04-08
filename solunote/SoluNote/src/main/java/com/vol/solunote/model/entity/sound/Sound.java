@@ -51,7 +51,7 @@ public class Sound extends Base {
     @Column(nullable=false,columnDefinition = "int default 1")
     private	int	channelCount;
     
-    @Column(name="TC_USER_SEQ", nullable=false)
+    @Column(name="tc_user_seq", nullable=false)
     private int	tcUserSeq;
     
     @Column(nullable=false)

@@ -109,7 +109,7 @@ public interface MeetingMapper {
     
     public	List <MeetingResultVo> findByMeeting_SeqOrderByStartAsc( int seq);
 
-    public	void updateSpeakerBySeqArr( Long meetingSpeakerId,  int []SEQ);
+    public	void updateSpeakerBySeqArr( Long meetingSpeakerId,  int []seq);
     public	void updateTextBySeq( String text,  int seq);
     
     public	void deleteByMeeting_SeqAndName( int seq,  String name);

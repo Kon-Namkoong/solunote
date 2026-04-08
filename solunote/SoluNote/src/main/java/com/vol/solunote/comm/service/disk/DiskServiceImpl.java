@@ -92,6 +92,7 @@ public class DiskServiceImpl implements DiskService {
 	public	boolean	hasDirectoryScanChar(String fileName) 
 	{
 		boolean	hasDirScanChar = true;
+		
 	    // 경로조작 패턴 차단
 	    if (fileName.matches("^[a-zA-Z0-9._-]+$"))
 	    {
@@ -103,11 +104,8 @@ public class DiskServiceImpl implements DiskService {
 	@Override
 	public	String	removeDirScanChar(String fileName) 
 	{
-		String	newFileName = fileName.replaceAll("..","");
-		newFileName = newFileName.replaceAll("\\", "");
-		newFileName = newFileName.replaceAll("/", "");
-		newFileName = newFileName.replaceAll("&", "");				
-		return	newFileName;
+		String safeFileName = Paths.get(fileName).normalize().toString();
+		return	safeFileName;
 	}	
 	
 	@Override
@@ -135,17 +133,12 @@ public class DiskServiceImpl implements DiskService {
 			break;
 		default:
 			throw new Exception("unknown root path for : " + category);
-		}		
-
-		if ( hasDirectoryScanChar(fileName) ) {
-		    throw new Exception("Invalid filename");
 		}
-		else
-		{
-			fileName = removeDirScanChar(fileName);
-			String fileFullName = path + File.separator + fileName;
-			return Paths.get( fileFullName );			
-		}
+		
+		fileName = removeDirScanChar(fileName);		
+		String fileFullName = path + File.separator + fileName;
+		return Paths.get( fileFullName );
+		
 	}		
 	
 	
@@ -199,23 +192,7 @@ public class DiskServiceImpl implements DiskService {
 		
 		Path realPath = null;
 		File realFile = null;	
-		
-	    // 경로조작 패턴 차단
-	    if ( hasDirectoryScanChar(path) )
-	    {
-		    throw new Exception("Invalid filename");
-	    }
-	    
-	    if ( hasDirectoryScanChar(channelCount) )
-	    {
-		    throw new Exception("Invalid filename");
-	    }
-
-	    if ( hasDirectoryScanChar(channelId) )
-	    {
-		    throw new Exception("Invalid filename");
-	    }
-	
+			
 	    path = removeDirScanChar(path);
 	    
 		if ( "2".equals(channelCount) == true ) {

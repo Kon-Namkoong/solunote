@@ -93,9 +93,9 @@ public class CustomUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticati
             String username = request.getParameter("username");
             if (ip == null)
                 ip = request.getRemoteAddr();
-            int SEQ = Integer.parseInt(securityUser.getMember().getUsername());
+            int seq = Integer.parseInt(securityUser.getMember().getUsername());
 
-            loginLogService.createLoginLog(ip, SEQ, username);
+            loginLogService.createLoginLog(ip, seq, username);
         }
 
         // application/json(ajax) 요청일 경우 아래의 처리!

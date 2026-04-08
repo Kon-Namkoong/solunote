@@ -214,12 +214,7 @@ public class FFMpegServiceImpl implements FFMpegService {
 	@Override
     public byte[] cutAudio(Category category, String path, double startSecond, double endSecond) throws Exception {
 		
-		if (diskService.hasDirectoryScanChar(path))
-		{
-			throw new Exception("File Name has directory scan character");
-		}
-		else
-		{
+
 			String root = diskService.getUploadPath(category);		
 			String	newPath = diskService.removeDirScanChar(path);
 			
@@ -254,16 +249,11 @@ public class FFMpegServiceImpl implements FFMpegService {
 			Files.delete(temp);
 		
 			return bytes;
-		}
     }
 	
 	@Override
 	public byte[] cutAudio(Category category, String path, String startSecond, String endSecond, String channelCount, String channelId) throws Exception {
-		
-		if (diskService.hasDirectoryScanChar(path))
-		{
-			throw new Exception("File Name has directory scan character");
-		}		
+			
 		
 		File file = diskService.getUploadedFile(category, path, channelCount, channelId);
 		log.debug("file file : " + file.toString());
@@ -649,19 +639,13 @@ public class FFMpegServiceImpl implements FFMpegService {
 	public void writeWave(OutputStream outputStream, Category category, String fileNm, float start, float end, float prevEnd, float nextStart)	throws Exception {
 
 		String root = diskService.getUploadPath(category);
-		if (diskService.hasDirectoryScanChar(fileNm))
-		{
-			throw new Exception("FileName is not valid format");
-		}
-		else
-		{
-			String	newFileNm = diskService.removeDirScanChar(fileNm);
-			File file = Paths.get(root, newFileNm).toFile();
+
+		String	newFileNm = diskService.removeDirScanChar(fileNm);
+		File file = Paths.get(root, newFileNm).toFile();
 		
-			SoundFile soundFile = new SoundFile(file);
-			SoundSpectrum spectrum = new SoundSpectrum(soundFile);
-			spectrum.writeWave(outputStream, prevEnd, start, end, nextStart);
-		}
+		SoundFile soundFile = new SoundFile(file);
+		SoundSpectrum spectrum = new SoundSpectrum(soundFile);
+		spectrum.writeWave(outputStream, prevEnd, start, end, nextStart);
 	}
 
 

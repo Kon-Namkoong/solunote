@@ -106,7 +106,7 @@ public class SoundSchedulerServiceImpl implements SoundSchedulerService {
 		List<Map<String, Object>> list = soundRepository.getMeettingRemoveCandiate(term);
 		
 		for( Map<String, Object> meetMap : list ) {
-			int seq = (int) meetMap.get("SEQ");
+			int seq = (int) meetMap.get("seq");
 			String name = (String) meetMap.get("file_org_nm");
 			String createdAt = (String) meetMap.get("created_at");
 			String file = (String) meetMap.get("file_new_nm");
@@ -147,7 +147,7 @@ public class SoundSchedulerServiceImpl implements SoundSchedulerService {
 				 Map<String, Object> param = new HashMap <>();
 				 param.put("subject", "subject");
 				 param.put("time_duration_ms", "0");
-				 param.put("TC_USER_SEQ", 0);
+				 param.put("tc_user_seq", 0);
 				 
 				 
 				 param.put("category", category);

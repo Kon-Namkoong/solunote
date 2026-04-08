@@ -220,7 +220,7 @@ public class KeywordTrainServiceImpl implements KeywordTrainService {
 		
 	    ttsRepository.crateTitle(params);
 	    
-	    BigInteger seq = (BigInteger) params.get("SEQ");
+	    BigInteger seq = (BigInteger) params.get("seq");
 				
 		return	seq.intValue();
 	}	

@@ -311,14 +311,17 @@ public class KeywordTrainController extends DefaultController {
 		    int titleSeq = keywordTrainService.crateTitle(title, tcUserSeq);
 		    
 		    for (Map<String, String> item : data) {
-		        int seq = Integer.parseInt(item.get("seq"));
+		       
+		    	int seq = Integer.parseInt(item.get("seq"));
+		    	log.debug("=======> seq is {}", seq);
 		        keywordTrainService.updateAudio(titleSeq, seq);
 		        keywordTrainService.callStt(titleSeq,seq);
 		    }
 		} catch (IOException e) {
-		    return "에러 발생";
+		    return "IOException Occured";
 		} catch (Exception e) {
-		    return "에러 발생";
+
+		    e.printStackTrace();
 		}
                 
         return "1";
