@@ -122,18 +122,17 @@ public class TestdataServiceImpl implements TestdataService {
 	@Override
 	@Transactional
 	public void excludeTest(int seq) throws Exception {
+		
 		testRepository.excludeTest(seq);
 		testRepository.excludeTestTrans(seq);
 		
 		List<Integer> list = testRepository.getDataIdFromTestTrans(seq);
+		
 		if ( list.size() > 0 ) {
 			Map<String, Object> map = new HashMap<>();
 			map.put("seq", list);
 			testRepository.excludeTestTransPair(map);
 		}
-		
-		testRepository.updateTestUseYesFromTrans();
-		testRepository.updateTestUseNoFromTrans();
 	}
 
 	

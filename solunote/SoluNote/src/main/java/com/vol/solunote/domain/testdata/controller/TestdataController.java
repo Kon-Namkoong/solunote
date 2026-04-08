@@ -156,11 +156,11 @@ public class TestdataController extends DefaultController {
 	@PostMapping(value= {"/cont/excludeTest", "/cont/1/excludeTest"})
 	@ResponseBody
 	public String excludeTest(Model model, @RequestParam("seq[]") int[] seq) throws Exception {
+
 		for (int i : seq) {
 			testdataService.excludeTest(i);
+			log.info("Excluded Seg = {}", i );		
 		}
-
-
 		return "1";
 	}
 
