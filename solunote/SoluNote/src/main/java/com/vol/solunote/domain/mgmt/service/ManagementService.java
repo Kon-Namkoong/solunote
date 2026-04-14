@@ -37,7 +37,7 @@ public interface ManagementService extends DefaultService {
 	
 	public UserRegisterVo getUser(String userId) throws Exception;
 	
-	public void changeUserinfo(String userId, String userPw, String userName, String userPhone, String userEmail, String userLevel,String url ) throws IOException;
+	public boolean changeUserinfo(String userId, String userPw, String userName, String userPhone, String userEmail, String userLevel,String url ) throws IOException;
 	
     public List<Map<String, Object>> getUploadDirList(OffsetPageable offsetPageable) throws Exception;
     

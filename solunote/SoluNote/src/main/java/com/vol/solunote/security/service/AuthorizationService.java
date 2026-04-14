@@ -1,15 +1,18 @@
 package com.vol.solunote.security.service;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import jakarta.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.vol.solunote.repository.menu.MenuRepository;
 
@@ -26,7 +29,25 @@ public class AuthorizationService {
 	
 	public Map<String, Set<String>> foundMap = new HashMap<>();
 	
-	
+    private static	BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    // 비밀번호 정규식
+    // 최소 8자, 대문자, 소문자, 숫자, 특수문자 포함
+    private static final String PASSWORD_REGEX =
+            "^(?=.*[a-z])" +      // 소문자
+            "(?=.*[A-Z])" +       // 대문자
+            "(?=.*\\d)" +         // 숫자
+            "(?=.*[@$!%*?&])" +  // 특수문자
+            "[A-Za-z\\d@$!%*?&]{8,}$";
+    
+    public static boolean isValidPassword(String password) {
+        return Pattern.matches(PASSWORD_REGEX, password);
+    }
+    
+    public static boolean isSameAsOldPassword(String newPassword, String oldPasswordHashed) {
+        return passwordEncoder.matches(newPassword, oldPasswordHashed);
+    }
+    	
 	@PostConstruct
 	public void init() throws Exception {
 		
@@ -43,6 +64,7 @@ public class AuthorizationService {
 			}
 		}
 	}
+
 	
 	private void addMenuMap(String role, String url) {
 		

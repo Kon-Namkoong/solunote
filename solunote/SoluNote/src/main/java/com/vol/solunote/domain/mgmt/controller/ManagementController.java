@@ -262,10 +262,15 @@ public class ManagementController extends DefaultController {
 			@Param("tcEmail") String tcEmail,
 			@Param("tcLevel") String tcLevel
 			) throws Exception {
-				
-		managementService.changeUserinfo(tcId,tcPw,tcName,tcPhone,tcEmail,tcLevel,"changeUserInfo");
-		
+
+		boolean resultOk = managementService.changeUserinfo(tcId,tcPw,tcName,tcPhone,tcEmail,tcLevel,"changeUserInfo");
+
+		if (!resultOk) {
+			throw new RuntimeException();						
+		}
+	
 		return "1";
+	
 	}
 	
 
@@ -422,12 +427,8 @@ public class ManagementController extends DefaultController {
         pages = managementService.getExcelList(file);
                 
         Page<Map<String, Object>> cPages = new PageImpl<>(pages);         
-        model.addAttribute("cPages", cPages);
-
-
-        
+        model.addAttribute("cPages", cPages);   
         return "thymeleaf/"+menuId+"/content/user-register-several-list.html";
-		
 		
 	}	
 	

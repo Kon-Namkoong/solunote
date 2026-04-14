@@ -141,15 +141,8 @@ public class TtsServiceImpl implements TtsService {
 		String saveFileName = UUID.randomUUID().toString() + ".wav";
 		
 		String subdir = DateUtil.getFormatString(DiskServiceImpl.subdirPattern);
-		Path path = Paths.get(TTS_PATH + File.separator  + subdir);
-		if ( Files.exists(path) == false ) {
-			Files.createDirectories(path);
-		}
-		
-		String fileNewName = Paths.get(subdir, saveFileName).toString();
-		Path fullPath = Paths.get(path.toString(), saveFileName);
-		
-		Files.write(fullPath, result);
+			
+		String fileNewName = subdir + "/" + saveFileName;
 		
 		long durationMs = getWavFileDuration(result); 
 
@@ -157,10 +150,20 @@ public class TtsServiceImpl implements TtsService {
 		resultMap.put("timeDurationStr", durationMs);
 		resultMap.put("orgnm", resultMap.get("subject"));
 		resultMap.put("newnm", fileNewName);		
+				
+		Path path = Paths.get(TTS_PATH + File.separator  + subdir);	
+		
+		if ( Files.exists(path) == false ) {
+			Files.createDirectories(path);
+		}
+		
+		Path fullPath = Paths.get(path.toString(), saveFileName);
+	
+		Files.write(fullPath, result);	
+		
 		resultMap.put("fileSizeBytes", Files.size(fullPath));
 		
-		return resultMap;
-		
+		return resultMap;		
 	}
 		
 	private long getWavFileDuration(byte[] audioData) {

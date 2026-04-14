@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.io.IOException;
+import java.nio.file.Path;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -284,9 +285,15 @@ public class KeywordTrainController extends DefaultController {
 			@RequestParam(value="fileNm") String fileNm,
 			HttpServletRequest request,
 			HttpServletResponse response ) throws Exception {
-					
-		byte []all = Files.readAllBytes(keywordTrainService.getUploadPath(fileNm));
-
+		
+		Path filePath = keywordTrainService.getUploadPath(fileNm);
+		if ( null == filePath )
+		{
+	        throw new RuntimeException("File name has not allowed character");
+		}
+		
+		byte []all = Files.readAllBytes(filePath);
+				
 		response.setContentLength(all.length);
 		// forces download
 		response.setHeader("Content-Type", "audio/mpeg");
@@ -313,20 +320,15 @@ public class KeywordTrainController extends DefaultController {
 		    for (Map<String, String> item : data) {
 		       
 		    	int seq = Integer.parseInt(item.get("seq"));
-		    	log.debug("=======> seq is {}", seq);
 		        keywordTrainService.updateAudio(titleSeq, seq);
 		        keywordTrainService.callStt(titleSeq,seq);
 		    }
 		} catch (IOException e) {
 		    return "IOException Occured";
 		} catch (Exception e) {
-
-		    e.printStackTrace();
-		}
-                
-        return "1";
-		
-		
+		    return "Exception Occured";
+		}                
+        return "1";				
 	}	
 	
 	@GetMapping(value= {"/cont/excelForm"})

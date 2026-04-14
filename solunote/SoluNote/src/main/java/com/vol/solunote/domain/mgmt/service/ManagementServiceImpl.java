@@ -1,6 +1,9 @@
 package com.vol.solunote.domain.mgmt.service;
 
 import java.io.ByteArrayOutputStream;
+
+import java.util.Scanner;
+import java.util.regex.Pattern;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -36,6 +39,7 @@ import com.vol.solunote.model.vo.siteuser.UserRegisterVo;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.vol.solunote.security.service.AuthorizationService;
 
 @Slf4j
 @Service
@@ -59,6 +63,7 @@ public class ManagementServiceImpl implements ManagementService {
 	
 	@Autowired
 	DivisionRepository	divisionRepository;
+	   
 	
 	@Override
 	public List<UserRegisterVo> getList(int activeMenu ,OffsetPageable offsetPageable,int userType,String tcId ,String tcName ,String tcPhone,String searchStartDate, String searchEndDate) throws Exception {
@@ -106,16 +111,26 @@ public class ManagementServiceImpl implements ManagementService {
 		
 		if (checkuserId == 0) {
 			String tcPassword = paramMap.get("tcPw");
-			
+			/*
+			 *  패스워드 정책에 맞게 설정되어 있는지 검증을 수행하여야 한다.
+			 */				
 			if(tcPassword != null && !"".equals(tcPassword)) {
-				String securedPasswd = passwordEncoder.encode(tcPassword);
-				paramMap.put("tcPw", securedPasswd );
+				if (AuthorizationService.isValidPassword(tcPassword))
+				{
+					String securedPasswd = passwordEncoder.encode(tcPassword);
+					paramMap.put("tcPw", securedPasswd );					
+
+					userRepository.insertUser(paramMap);					
+					json.put("result", true);
+					json.put("errorCode", "");			
+				}
+				else
+				{
+					json.put("result", false);
+					json.put("errorCode", "비밀번호 설정 규칙 위반");								
+				}				
 			}
 				
-			userRepository.insertUser(paramMap);
-			
-			json.put("result", true);
-			json.put("errorCode", "");			
 		}else {
 			json.put("result",false );
 			json.put("errorCode", "중복");			
@@ -160,8 +175,7 @@ public class ManagementServiceImpl implements ManagementService {
 	public List<Map<String, Object>> userinfo(String userId) throws Exception {
 		
 		List<Map<String, Object>> list = userRepository.userinfo(userId);
-		
-			
+					
 		return list;
 	}
 	
@@ -171,21 +185,56 @@ public class ManagementServiceImpl implements ManagementService {
 	}
 	
 	@Override
-	public void changeUserinfo(String userId, String userPw, String userName, String userPhone, String userEmail, String userLevel,String url ) throws IOException {
-			
-		if(userPw != null && !"".equals(userPw)) {
-			if (!url.equals("api")) {
-				userPw = passwordEncoder.encode(userPw);
+	public boolean changeUserinfo(String userId, String userPw, String userName, String userPhone, String userEmail, String userLevel,String url ) throws IOException {
+		UserRegisterVo user = null;
+		String	securedPw = null;
+		boolean	result = true;
+		if(userPw != null && !"".equals(userPw)) {	
+			try {
+				user = getUser(userId);
+				if (null != user)
+				{
+					if (AuthorizationService.isSameAsOldPassword(userPw, user.getTcPw()))
+					{
+						result = false;		
+					}
+					else
+					{
+						if (AuthorizationService.isValidPassword(userPw))
+						{
+							if (!url.equals("api")) {
+								securedPw = passwordEncoder.encode(userPw);
+								userRepository.changeUserinfo(userId,securedPw,userName,userPhone,userEmail,userLevel);
+							}
+							else
+							{
+								result = false;
+							}
+						}
+						else
+						{
+							result = false;
+						}
+					}
+				}
+				else
+				{
+					result = false;
+				}
 			}
-			userRepository.changeUserinfo(userId,userPw,userName,userPhone,userEmail,userLevel);
+			catch ( IOException e ) {
+				result = false;
+			}			
+			catch ( Exception e )
+			{
+				result = false;
+			}
 		}else {
 			userRepository.changeUserinfoNotPw(userId,userName,userPhone,userEmail,userLevel);
 		}
-		
-			
+		return	result; 
 	}
 	
-    
     @Override
     public List<Map<String, Object>> getUploadDirList(OffsetPageable offsetPageable) throws Exception {
         List<Map<String, Object>> list = uploadDiskRepository.getUploadDirList(offsetPageable, null);            
@@ -264,7 +313,7 @@ public class ManagementServiceImpl implements ManagementService {
     @Override
     public void settingRes(String settingTitle, String settingValue, String settingUseYn,String settingDetail) throws IOException {
             
-    	meetingRepository.settingRes( settingTitle, settingValue,  settingUseYn, settingDetail);    
+    	meetingRepository.settingRes( settingTitle, settingValue,  settingUseYn, settingDetail);
             
     }
     
