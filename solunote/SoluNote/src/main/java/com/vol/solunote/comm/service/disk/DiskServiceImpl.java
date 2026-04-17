@@ -94,7 +94,7 @@ public class DiskServiceImpl implements DiskService {
 		boolean	hasDirScanChar = true;
 		
 	    // 경로조작 패턴 차단
-	    if (fileName.matches("^[a-zA-Z0-9._-]+$"))
+	    if (fileName.matches("^[a-zA-Z0-9._/-]+$"))
 	    {
 	    	hasDirScanChar = false;
 	    }	    

@@ -296,14 +296,12 @@ public class CommonServiceImpl implements CommonService {
 		
 		try {
 			httpEntity = new HttpEntity<>(body, httpHeaders);
-
-//			RestTemplate restTemplate = new RestTemplate();			
+	
 			RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
 			List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
 			interceptors.add(new LoggingRequestInterceptor());
 			restTemplate.setInterceptors(interceptors);
-			
-			
+				
 			ResponseEntity<String> response = restTemplate.exchange(url, method, httpEntity, String.class);		
 
 			System.out.println(response);
@@ -314,7 +312,6 @@ public class CommonServiceImpl implements CommonService {
 				log.debug(response.toString());
 				ObjectMapper objectMapper = new ObjectMapper();
 				resultMap = objectMapper.readValue(result, new TypeReference<S>() {});
-//				System.out.println("objectMapper.readValue():" + resultMap);
 			} else {
 				int status = statusCode.value();
 				log.error("http error : statusCodeValue = " + status);
@@ -338,9 +335,8 @@ public class CommonServiceImpl implements CommonService {
 			threadLocal.set(es);
 			resultMap = null;
 		} finally {
-			
-		}
-		
+			log.info("Log Finally ");			
+		}		
 		return resultMap;
 	}
 	

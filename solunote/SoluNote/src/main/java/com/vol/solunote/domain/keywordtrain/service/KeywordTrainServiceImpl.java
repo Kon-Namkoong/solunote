@@ -208,10 +208,12 @@ public class KeywordTrainServiceImpl implements KeywordTrainService {
 			
 	@Override
 	public Path getUploadPath(String fileName) throws Exception {
+		/*
 		if ( diskService.hasDirectoryScanChar(fileName) )
 		{
 			return	null;
 		}
+		*/
 		return	diskService.getUploadFilePath(Category.TTS, fileName );
 	}		
 	

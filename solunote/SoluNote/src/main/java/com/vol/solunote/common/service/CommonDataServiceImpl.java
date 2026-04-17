@@ -126,6 +126,8 @@ public class CommonDataServiceImpl implements CommonDataService{
 
 	private void postDataTxn(TransVo vo, Category category, int seq, String dataId, boolean reset, String errorMsg) throws Exception {
 		
+		log.debug("postDataTxn Category = {}, dataId = {}, seq = {}", category, dataId,  seq);
+		
 		switch( category ) {
 		case TEST :
 			testRepository.updateTestDataId(seq, dataId, errorMsg, vo.getUseYn());
@@ -138,8 +140,7 @@ public class CommonDataServiceImpl implements CommonDataService{
 			break;
 		default:
 			throw new RuntimeException("unknown category for : " + category);
-		}
-		
+		}		
 	}
 	
 	@Transactional
@@ -202,34 +203,25 @@ public class CommonDataServiceImpl implements CommonDataService{
 		String url = this.trainUrl + "/data/";
 		Map<String, Object> resultMap = null;
 		
-		try {
-			
+		try {			
 			if ( vo.getDataId() != null && vo.getDataId().length() > 0 ) {
 				// 1. 동일한 data id 가 있으면 :  put request 
 				// 다음에 생성하므로 무조건 useYn = False 로 전달함
 				
-					if (  vo.getPrDataId() != null && ( vo.getStart() != vo.getPrStart() || vo.getEnd() != vo.getPrEnd() ) ) {
-						// 첨부파일을 첨부하여 수정함
-	//				resultMap = commonService.restPutData(url, vo.getDataId(), text, testFlag, vo.getUseYn());
-						resultMap = putWaveFile(vo, category, text, url);
-					} else {
-						// 첨부파일 없이 변경함
-						resultMap = commonService.restPutData(url, vo.getDataId(), text, category, vo.getUseYn());
-					}
-				
-				log.debug("resutlmap : ", resultMap);
+				if (  vo.getPrDataId() != null && ( vo.getStart() != vo.getPrStart() || vo.getEnd() != vo.getPrEnd() ) ) {
+					resultMap = putWaveFile(vo, category, text, url);
+				} else {
+					// 첨부파일 없이 변경함
+					resultMap = commonService.restPutData(url, vo.getDataId(), text, category, vo.getUseYn());
+				}				
 			}  else {
 				// 2. 음성 파일 등록   : post 
 				// POST 는 use_yn = 'N' 은 하지 않고, 'Y'만 한다.
 				if ( vo.getUseYn().equals("N")) {
-					log.debug("use_yn = N 은 POST 하지 않음 : testFlag = {}, seq = {}", category, vo.getSeq());
 					return;
-				}
-				
-				resultMap = postWaveFile(vo, category, text, url);
-								
-			}
-		
+				}				
+				resultMap = postWaveFile(vo, category, text, url);								
+			}		
 		} catch ( TrainCallException tce ) {
 			String status = tce.getStatus();
 			

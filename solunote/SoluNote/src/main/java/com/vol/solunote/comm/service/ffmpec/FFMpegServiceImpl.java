@@ -343,8 +343,6 @@ public class FFMpegServiceImpl implements FFMpegService {
 		
 		
 		String ext = FilenameUtils.getExtension(file.getName());
-		file.getName();
-		
 
 		
 		Path temp = Files.createTempFile(Paths.get(dir), no + "_", "." + ext);

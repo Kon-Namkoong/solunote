@@ -236,11 +236,9 @@ public class TrainSchedulerServiceImpl implements TrainSchedulerService {
 					send = false;
 				}
 			}
-			
-			log.debug("post data : " + vo.toString());
-		
 			try {
 				if ( send == true ) {
+					log.debug("postData in sendDataTrans : {}", vo);
 					commonDataService.postData(vo, Category.TRAIN, reset, false);
 				} else {
 					transcriptionRepository.updateTrainTextNull(vo.getSeq());
@@ -273,10 +271,9 @@ public class TrainSchedulerServiceImpl implements TrainSchedulerService {
 				}
 			}
 			
-			log.debug("post data : " + vo.toString());
-			
 			try {
 				if ( send == true ) {
+					log.debug("postData in sendTtsTrans : {}", vo);
 					commonDataService.postData(vo, Category.TTS, reset, false);
 				} else {
 					transcriptionRepository.updateTrainTextNull(vo.getSeq());
@@ -287,9 +284,6 @@ public class TrainSchedulerServiceImpl implements TrainSchedulerService {
 				log.error("Exception in sendDataTrans",e);
 			}
 		}
-		
-
-
 	}
 
 	private void insertTrainServerDataOne(TrainServerDataVo vo) throws Exception {
@@ -424,14 +418,8 @@ public class TrainSchedulerServiceImpl implements TrainSchedulerService {
 		List<TransVo> transList = testRepository.getTestTransListBatch("", null, search);    // search 가  null 이면 에러 발생
 		
 		for( TransVo vo : transList ) {
-			
-			
-			int seq = vo.getSeq();
-			log.debug("post test seq : " + seq);
-			
 			commonDataService.postData(vo, Category.TEST, false, true);
-			
-		}		
+		}
 	}
 	
 	@Override
@@ -443,11 +431,14 @@ public class TrainSchedulerServiceImpl implements TrainSchedulerService {
 		log.debug("Resuested URL is {}", url);
 		
 		List<Map<String, Object>> list = commonService.restGetData(url);
+		
 		if ( list == null ) {
+			log.debug("List is Null");
 			return null;
 		}
 		
 		List<TrainVo> converted = new ArrayList<>();
+		
 		
 		for( Map<String, Object> map : list ) {
 			TrainVo vo = convertTrainData(map);

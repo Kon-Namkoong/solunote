@@ -10,10 +10,10 @@ import com.vol.solunote.batch.scheduler.train.TrainScheduler;
 @EnableScheduling
 public class ScheduledJobs {
 
-    @Bean
-    TrainScheduler scheduledTrainJob() {
-		return new TrainScheduler();
-	}
+    // @Bean
+    //TrainScheduler scheduledTrainJob() {
+	//	return new TrainScheduler();
+	//}
 	
 ////	@Profile({ "pc"})
 //	@Profile({ "devel", "dev", "prod", "demo"})

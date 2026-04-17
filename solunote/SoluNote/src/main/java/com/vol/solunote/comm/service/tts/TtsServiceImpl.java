@@ -144,6 +144,10 @@ public class TtsServiceImpl implements TtsService {
 			
 		String fileNewName = subdir + "/" + saveFileName;
 		
+		//String fileNewName = Paths.get(subdir, saveFileName).toString();
+		
+		log.debug("===> fileName = {}", fileNewName);
+				
 		long durationMs = getWavFileDuration(result); 
 
 		resultMap.put("subject", sentence);

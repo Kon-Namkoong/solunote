@@ -286,7 +286,9 @@ public class KeywordTrainController extends DefaultController {
 			HttpServletRequest request,
 			HttpServletResponse response ) throws Exception {
 		
+		log.debug("====> File Name = {}",fileNm);
 		Path filePath = keywordTrainService.getUploadPath(fileNm);
+		
 		if ( null == filePath )
 		{
 	        throw new RuntimeException("File name has not allowed character");
